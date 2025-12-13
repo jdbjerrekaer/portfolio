@@ -53,7 +53,7 @@ export default async function HomePage() {
         <LogoGrid
           logos={clientLogos}
           title="Selected Partners"
-          description="I've had the privilege of working with innovative teams and brands across various industries."
+          description="From large international brands to local Danish, Swedish, Norwegian, and Finnish companies, collaborating with innovative teams across the Nordic region and beyond."
           maxVisible={12}
         />
       </section>

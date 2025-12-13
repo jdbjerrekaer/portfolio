@@ -23,13 +23,19 @@
   line-height: 1.6;
 }
 
+.logoContainerWrapper {
+  overflow: hidden;
+  transition: height 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: var(--space-xl);
+  will-change: height;
+}
+
 .logoContainer {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: var(--space-xl);
   align-items: center;
   justify-items: center;
-  margin-bottom: var(--space-xl);
 }
 
 .logoLink {
