@@ -7,7 +7,6 @@ import { ProjectCoverImage } from "@/components/ProjectCoverImage";
 import { ProjectImageGrid } from "@/components/ProjectImageGrid";
 import { Chip } from "@/components/ui";
 import { SFSymbol } from "@/components/ui/SFSymbol";
-import { withBasePath } from "@/lib/utils/paths";
 import styles from "./page.module.scss";
 
 interface ProjectPageProps {
@@ -121,19 +120,19 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <ProjectImageGrid
           images={[
             {
-              src: withBasePath("/projects/iriz/home.png"),
+              src: "/projects/iriz/home.png",
               alt: "Iriz home page",
             },
             {
-              src: withBasePath("/projects/iriz/brand-link-share.png"),
+              src: "/projects/iriz/brand-link-share.png",
               alt: "Iriz brand link share interface",
             },
             {
-              src: withBasePath("/projects/iriz/product-link-1.png"),
+              src: "/projects/iriz/product-link-1.png",
               alt: "Iriz product link interface 1",
             },
             {
-              src: withBasePath("/projects/iriz/product-link-2.png"),
+              src: "/projects/iriz/product-link-2.png",
               alt: "Iriz product link interface 2",
             },
           ]}
