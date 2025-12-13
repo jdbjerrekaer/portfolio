@@ -300,7 +300,7 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
 
   // Generate placeholder SVG data URLs
   const getPlaceholderImage = (kind: "desktop" | "iphone", index: number): string => {
-    const width = kind === "desktop" ? 420 : 180;
+    const width = kind === "desktop" ? 420 : 140;
     const height = 260;
     const bgColor = kind === "desktop" ? "#f5f5f7" : "#e5e5e7";
     const textColor = "#86868b";
