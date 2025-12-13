@@ -1,14 +1,14 @@
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-auto-rows: min-content;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, minmax(300px, auto));
   gap: var(--space-lg);
   margin-top: var(--space-3xl);
   margin-bottom: var(--space-3xl);
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    grid-auto-rows: min-content;
+    grid-template-rows: auto;
     gap: var(--space-md);
   }
 }
@@ -29,12 +29,11 @@
     }
   }
 
-  // Mosaic pattern: home page spans full width, brand link share spans full width, product images side by side
+  // Mosaic pattern: varied sizes for portrait images creating visual interest
   &.item1 {
-    grid-column: 1 / -1; // Full width
-    grid-row: 1;
-    aspect-ratio: 9 / 16; // Mobile portrait aspect ratio
-    min-height: 0; // Ensure grid item can shrink
+    grid-column: 1 / 3; // Spans 2 columns (left side)
+    grid-row: 1 / 3; // Spans 2 rows (large portrait)
+    // Height determined by grid rows, maintains portrait naturally
 
     .image {
       object-fit: contain; // Show full UI screenshot without cropping
@@ -43,15 +42,15 @@
     @media (max-width: 768px) {
       grid-column: 1;
       grid-row: 1;
+      grid-row-end: auto;
       aspect-ratio: 9 / 16;
     }
   }
 
   &.item2 {
-    grid-column: 1 / -1; // Full width
-    grid-row: 2;
-    aspect-ratio: 9 / 16; // Mobile portrait aspect ratio
-    min-height: 0; // Ensure grid item can shrink
+    grid-column: 3; // Single column (right side)
+    grid-row: 1;
+    aspect-ratio: 9 / 16; // Portrait
 
     .image {
       object-fit: contain; // Show full UI screenshot without cropping
@@ -64,37 +63,42 @@
     }
   }
 
-  // Product images side by side
   &.item3 {
-    grid-column: 1;
-    grid-row: 3;
-    aspect-ratio: 16 / 11; // Landscape
-    min-height: 0; // Ensure grid item can shrink
+    grid-column: 3; // Single column (right side)
+    grid-row: 2;
+    aspect-ratio: 9 / 16; // Portrait
+
+    .image {
+      object-fit: contain; // Show full UI screenshot without cropping
+    }
 
     @media (max-width: 768px) {
       grid-column: 1;
       grid-row: 3;
-      aspect-ratio: 16 / 10;
+      aspect-ratio: 9 / 16;
     }
   }
 
   &.item4 {
-    grid-column: 2;
+    grid-column: 1 / -1; // Full width
     grid-row: 3;
-    aspect-ratio: 16 / 11; // Landscape
-    min-height: 0; // Ensure grid item can shrink
+    aspect-ratio: 9 / 16; // Portrait
+
+    .image {
+      object-fit: contain; // Show full UI screenshot without cropping
+    }
 
     @media (max-width: 768px) {
       grid-column: 1;
       grid-row: 4;
-      aspect-ratio: 16 / 10;
+      aspect-ratio: 9 / 16;
     }
   }
 
   &.item5 {
-    grid-column: 2;
-    grid-row: 3;
-    aspect-ratio: 4 / 5;
+    grid-column: 1 / -1; // Full width
+    grid-row: 4;
+    aspect-ratio: 16 / 6;
 
     @media (max-width: 768px) {
       grid-column: 1;
