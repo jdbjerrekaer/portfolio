@@ -57,5 +57,12 @@ export const designCarouselItems: CarouselItem[] = [
     image: "/projects/iriz/product-link-2.png",
     description: "Product detail page showing brand information, product details, and options to generate affiliate links for sharing on social media platforms."
   },
+  { 
+    kind: "desktop", 
+    label: "Platform Design UI Tokens", 
+    tooltip: "Figma Component Library: Platform Design UI Tokens 'n Components", 
+    image: "/projects/figma-component-library/cover.png",
+    description: "Comprehensive design system and component library featuring UI tokens, reusable components, and consistent design patterns for scalable product development."
+  },
 ];
 
