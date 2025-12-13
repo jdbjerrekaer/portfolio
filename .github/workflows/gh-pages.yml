@@ -32,7 +32,9 @@ jobs:
 
       - name: Build static site for Pages
         env:
-          BASE_PATH: "/${{ github.event.repository.name }}"
+          # Leave BASE_PATH empty for user/org sites (e.g. jdbjerrekaer.github.io).
+          # If you publish under a repo subpath, set to "/<repo-name>".
+          BASE_PATH: ""
         run: |
           npm run build
           touch out/.nojekyll
