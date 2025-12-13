@@ -28,11 +28,17 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
           border border-[var(--color-border)]
           rounded-[var(--radius-lg)]
           overflow-hidden
-          transition-[box-shadow,transform,border-color] duration-[var(--transition-base)] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]
+          !transition-[box-shadow,transform,border-color] !duration-[250ms] !ease-[cubic-bezier(0.25,0.46,0.45,0.94)]
           ${isInteractive ? "cursor-pointer" : ""}
           ${isHoverable ? "hover:shadow-[var(--shadow-md)] hover:-translate-y-0.5 hover:border-[var(--color-border-strong)]" : ""}
           ${className}
         `}
+        style={{
+          transition: 'box-shadow 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          transitionProperty: 'box-shadow, transform, border-color',
+          transitionDuration: '250ms',
+          transitionTimingFunction: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        } as React.CSSProperties}
         {...props}
       >
         {children}
