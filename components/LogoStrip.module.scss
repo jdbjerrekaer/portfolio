@@ -13,6 +13,10 @@
   margin-bottom: var(--space-lg);
   letter-spacing: 0.05em;
   text-transform: uppercase;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .container {
