@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui";
+import { SFSymbol } from "@/components/ui/SFSymbol";
 import { ProjectCard } from "@/components/ProjectCard";
 import { DesignCarousel } from "@/components/DesignCarousel";
 import { LogoStrip } from "@/components/LogoStrip";
@@ -64,7 +65,7 @@ export default async function HomePage() {
           <div className={styles.sectionHeader}>
             <h2>Featured Projects</h2>
             <Link href="/projects/" className={styles.viewAll}>
-              View all projects →
+              View all projects <SFSymbol name="folder" size={18} weight="medium" className={styles.folderIcon} />
             </Link>
           </div>
           <div className={styles.projectGrid}>

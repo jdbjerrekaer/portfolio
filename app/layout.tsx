@@ -21,9 +21,6 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Providers>
-          <a href="#main-content" className="skip-link">
-            Skip to main content
-          </a>
           <SiteHeader />
           <main id="main-content">
             {children}

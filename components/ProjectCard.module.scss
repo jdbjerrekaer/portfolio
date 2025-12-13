@@ -33,19 +33,22 @@
 
 .image {
   object-fit: cover;
-  transition: transform var(--transition-base) cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
   border-radius: var(--radius-lg);
+  transform: scale(1);
+  transform-origin: center;
+  will-change: transform;
 
   .link:hover &,
   .linkWrapper:hover & {
-    transform: scale(1.02);
+    transform: scale(1.05);
   }
 }
 
 // Smooth card hover lift on the wrapper
 .link:hover .card,
 .linkWrapper:hover .card {
-  transform: scale(1.02);
+  transform: translateY(-4px);
   box-shadow: var(--shadow-md);
   border-color: var(--color-border);
 }
