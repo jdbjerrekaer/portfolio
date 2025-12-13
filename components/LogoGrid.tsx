@@ -23,11 +23,14 @@ export function LogoGrid({
   className,
 }: LogoGridProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isAnimatingLogos, setIsAnimatingLogos] = useState(false);
+  const [isCollapsing, setIsCollapsing] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const isAnimatingRef = useRef(false);
   const pendingHeightRef = useRef<number | null>(null);
-  const visibleLogos = isExpanded ? logos : logos.slice(0, maxVisible);
+  // When collapsing, show all logos during fade-out animation
+  const visibleLogos = (isExpanded || isCollapsing) ? logos : logos.slice(0, maxVisible);
   const hasMore = logos.length > maxVisible;
 
   // Handle expand/collapse with smooth animation
@@ -36,23 +39,93 @@ export function LogoGrid({
     
     isAnimatingRef.current = true;
     
-    // Phase 1: Capture current height BEFORE state change
-    const currentHeight = wrapperRef.current.scrollHeight;
-    
-    // Set explicit height to current value (lock it)
-    wrapperRef.current.style.height = `${currentHeight}px`;
-    
-    // Phase 2: Use requestAnimationFrame to ensure browser has applied the height
-    requestAnimationFrame(() => {
-      // Phase 3: Now update the state (this will trigger content change)
-      setIsExpanded((prev) => !prev);
-    });
+    if (isExpanded) {
+      // Collapsing: measure collapsed height BEFORE starting fade-out
+      const currentExpandedHeight = wrapperRef.current.scrollHeight;
+      
+      // Temporarily hide logos beyond maxVisible to measure collapsed height
+      const logoElements = containerRef.current.children;
+      const hiddenElements: HTMLElement[] = [];
+      
+      // Hide elements beyond maxVisible
+      for (let i = maxVisible; i < logoElements.length; i++) {
+        const element = logoElements[i] as HTMLElement;
+        if (element.style.display !== 'none') {
+          element.style.display = 'none';
+          hiddenElements.push(element);
+        }
+      }
+      
+      // Measure collapsed height
+      wrapperRef.current.style.height = "auto";
+      const collapsedHeight = containerRef.current.scrollHeight;
+      
+      // Restore hidden elements
+      hiddenElements.forEach(element => {
+        element.style.display = '';
+      });
+      
+      // Lock current expanded height
+      wrapperRef.current.style.height = `${currentExpandedHeight}px`;
+      
+      // Now start fade-out animation
+      setIsCollapsing(true);
+      setIsAnimatingLogos(false);
+      
+      // After fade-out animation completes, animate height down
+      const fadeOutDuration = 300; // Quick fade-out
+      
+      setTimeout(() => {
+        // Update state to collapse
+        setIsExpanded(false);
+        
+        // Animate height down using pre-measured collapsed height
+        requestAnimationFrame(() => {
+          if (!wrapperRef.current) {
+            setIsCollapsing(false);
+            isAnimatingRef.current = false;
+            return;
+          }
+          
+          // Force a reflow to ensure the browser has applied the current height
+          void wrapperRef.current.offsetHeight;
+          
+          // Animate to collapsed height
+          requestAnimationFrame(() => {
+            if (wrapperRef.current) {
+              wrapperRef.current.style.height = `${collapsedHeight}px`;
+              
+              setTimeout(() => {
+                setIsCollapsing(false);
+                isAnimatingRef.current = false;
+              }, 400);
+            }
+          });
+        });
+      }, fadeOutDuration);
+    } else {
+      // Expanding: set animation state immediately so logos start hidden
+      setIsAnimatingLogos(true);
+      
+      // Phase 1: Capture current height BEFORE state change
+      const currentHeight = wrapperRef.current.scrollHeight;
+      
+      // Set explicit height to current value (lock it)
+      wrapperRef.current.style.height = `${currentHeight}px`;
+      
+      // Phase 2: Use requestAnimationFrame to ensure browser has applied the height
+      requestAnimationFrame(() => {
+        // Phase 3: Now update the state (this will trigger content change)
+        setIsExpanded(true);
+      });
+    }
   };
 
-  // Measure and animate when content changes
+  // Measure and animate when content changes (only when expanding)
   useEffect(() => {
     if (!wrapperRef.current || !containerRef.current || !isAnimatingRef.current) return;
-
+    if (isCollapsing) return; // Don't animate height when collapsing, handleToggle does it
+    
     // Phase 4: After content has updated, measure new height and animate
     requestAnimationFrame(() => {
       if (!wrapperRef.current || !containerRef.current) {
@@ -81,11 +154,20 @@ export function LogoGrid({
           // Reset animation flag after transition completes
           setTimeout(() => {
             isAnimatingRef.current = false;
+            // Reset logo animation flag after all logos have animated (only when expanded)
+            if (isExpanded && !isCollapsing) {
+              const newlyVisibleCount = logos.length - maxVisible;
+              const totalAnimationTime = newlyVisibleCount * 30 + 600; // stagger delay + animation duration
+              setTimeout(() => {
+                setIsAnimatingLogos(false);
+              }, totalAnimationTime);
+            }
           }, 400); // Match CSS transition duration
         }
       });
     });
-  }, [isExpanded, visibleLogos.length]);
+  }, [isExpanded, visibleLogos.length, isCollapsing]);
+
 
   // Measure initial height on mount
   useEffect(() => {
@@ -112,8 +194,25 @@ export function LogoGrid({
       >
         <div ref={containerRef} className={styles.logoContainer}>
         {visibleLogos.map((logo, index) => {
+          // Determine if this logo is newly visible (only when expanding)
+          const isNewlyVisible = isExpanded && !isCollapsing && index >= maxVisible && isAnimatingLogos;
+          // Determine if this logo should fade out (when collapsing)
+          const shouldFadeOut = isCollapsing && index >= maxVisible;
+          const animationDelay = isNewlyVisible ? (index - maxVisible) * 30 : 0; // 30ms stagger
+          
           const LogoContent = (
-            <div className={styles.logoItem}>
+            <div 
+              className={`${styles.logoItem} ${
+                isNewlyVisible ? styles.logoItemAnimate : ""
+              } ${
+                shouldFadeOut ? styles.logoItemFadeOut : ""
+              }`}
+              style={
+                isNewlyVisible 
+                  ? { animationDelay: `${animationDelay}ms` }
+                  : undefined
+              }
+            >
               <Image
                 src={logo.src}
                 alt={logo.alt}
