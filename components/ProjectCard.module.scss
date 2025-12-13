@@ -45,7 +45,7 @@
 // Smooth card hover lift on the wrapper
 .link:hover .card,
 .linkWrapper:hover .card {
-  transform: translateY(-4px);
+  transform: scale(1.02);
   box-shadow: var(--shadow-md);
   border-color: var(--color-border);
 }

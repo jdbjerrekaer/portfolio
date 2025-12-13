@@ -10,13 +10,13 @@
     box-shadow 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
 
   &:hover {
-    transform: scale(1.02) translateY(-1px);
+    transform: scale(1.02);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 
   // Active state - slight press down
   &:active {
-    transform: scale(0.98) translateY(0);
+    transform: scale(0.98);
     transition: transform 150ms cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   }
@@ -67,39 +67,29 @@
 .iconOutline,
 .iconFilled {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  inset: 0;
+  margin: auto;
   transition: opacity 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
     transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .iconOutline {
   opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
+  transform: scale(1);
 }
 
 .iconFilled {
   opacity: 0;
-  transform: translate(-50%, -50%) scale(0.9);
+  transform: scale(0.9);
 }
 
 // Hover state - transition from outline to filled
 .button:hover .iconOutline {
   opacity: 0;
-  transform: translate(-50%, -50%) scale(0.9);
+  transform: scale(0.9);
 }
 
 .button:hover .iconFilled {
   opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-}
-
-// Smooth icon slide animation on hover
-.button:hover .iconRight .iconFilled {
-  transform: translate(-50%, -50%) scale(1);
-}
-
-.button:hover .iconLeft .iconFilled {
-  transform: translate(-50%, -50%) scale(1);
+  transform: scale(1);
 }
