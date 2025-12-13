@@ -19,7 +19,7 @@ export function SiteFooter() {
             LinkedIn
           </a>
           <a
-            href="https://github.com/jonatanbjerrekaer"
+            href="https://github.com/jdbjerrekaer"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.link}
