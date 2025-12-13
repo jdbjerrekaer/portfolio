@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroui/react": "^2.8.5",
+    "@tippyjs/react": "^4.2.6",
     "framer-motion": "^12.23.26",
     "gray-matter": "^4.0.3",
     "next": "16.0.10",
@@ -17,6 +18,7 @@
     "react": "19.2.1",
     "react-dom": "19.2.1",
     "sass": "^1.96.0",
+    "tippy.js": "^6.3.7",
     "zod": "^4.1.13"
   },
   "devDependencies": {
