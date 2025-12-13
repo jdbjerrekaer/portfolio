@@ -22,6 +22,7 @@ export interface CarouselItem {
   kind: "desktop" | "iphone";
   label: string;
   tooltip?: string;
+  image?: string; // Optional image path to use instead of placeholder
 }
 
 interface DesignCarouselProps {
@@ -316,6 +317,14 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
     return `data:image/svg+xml,${encodeURIComponent(svg)}`;
   };
 
+  // Get image source - use provided image or fallback to placeholder
+  const getImageSrc = (item: CarouselItem, index: number): string => {
+    if (item.image) {
+      return item.image;
+    }
+    return getPlaceholderImage(item.kind, index % items.length);
+  };
+
   // Calculate tooltip placement based on mouse position relative to image
   const handleImageMouseMove = (
     event: React.MouseEvent<HTMLImageElement>,
@@ -376,7 +385,7 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
     
     const actualIndex = index % items.length;
     const item = items[actualIndex];
-    const imageSrc = getPlaceholderImage(kind, actualIndex);
+    const imageSrc = getImageSrc(item, actualIndex);
     const imageAlt = `${item.label} - ${kind === "desktop" ? "Desktop" : "iPhone"} design ${actualIndex + 1}`;
     
     setSelectedImage({ src: imageSrc, alt: imageAlt });
@@ -427,7 +436,7 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
                     followCursor
                   >
                     <img
-                      src={getPlaceholderImage(item.kind, index % items.length)}
+                      src={getImageSrc(item, index)}
                       alt={`${item.label} - ${item.kind === "desktop" ? "Desktop" : "iPhone"} design ${(index % items.length) + 1}`}
                       className={styles.image}
                       draggable={false}
