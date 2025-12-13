@@ -1,0 +1,41 @@
+.page {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--space-4xl) var(--space-lg);
+}
+
+.hero {
+  margin-bottom: var(--space-3xl);
+
+  h1 {
+    margin-bottom: var(--space-lg);
+  }
+}
+
+.intro {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  max-width: 600px;
+}
+
+.projects {
+  // Full-width background effect
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-xl);
+}
+
+.empty {
+  text-align: center;
+  padding: var(--space-4xl) var(--space-lg);
+
+  p {
+    font-size: 1.125rem;
+    color: var(--color-text-tertiary);
+  }
+}
+

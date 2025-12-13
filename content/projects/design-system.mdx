@@ -1,0 +1,65 @@
+---
+title: "Design System Architecture"
+summary: "Built a comprehensive design system from scratch, establishing a shared language between design and development teams."
+date: "2024-06-15"
+role: "Design Engineer"
+tags:
+  - Design Systems
+  - React
+  - Figma
+  - TypeScript
+links:
+  Documentation: "https://example.com/docs"
+  Storybook: "https://example.com/storybook"
+featured: true
+---
+
+## Overview
+
+This project involved creating a scalable design system that could serve multiple products while maintaining consistency and accessibility standards.
+
+## The Challenge
+
+The organization had multiple products, each with their own styling and component implementations. This led to:
+
+- Inconsistent user experiences across products
+- Duplicated development effort
+- Difficulty maintaining accessibility standards
+- Slow design-to-development handoff
+
+## Approach
+
+### Research & Discovery
+
+Started by auditing existing components across all products, identifying patterns, and documenting inconsistencies. Conducted interviews with designers and developers to understand pain points.
+
+### Token Architecture
+
+Established a token-based foundation:
+
+- **Color tokens**: Semantic naming (e.g., `color-text-primary` instead of `gray-900`)
+- **Spacing scale**: Consistent 4px-based scale
+- **Typography**: Modular scale with clear hierarchy
+
+### Component Design
+
+Built components following these principles:
+
+1. **Composability**: Small, focused components that combine well
+2. **Accessibility**: WCAG 2.1 AA compliance baked in
+3. **Flexibility**: Props for common variations, slots for customization
+4. **Documentation**: Live examples, guidelines, and do's/don'ts
+
+## Results
+
+After rolling out the design system:
+
+- **40% faster** design-to-development time
+- **Consistent** experience across 5 products
+- **100%** WCAG 2.1 AA compliance
+- **Reduced** CSS bundle size by 35%
+
+## Key Learnings
+
+Building a design system is as much about people and processes as it is about components. Success required ongoing communication, training, and iteration based on team feedback.
+

@@ -1,0 +1,324 @@
+@use "tailwindcss";
+
+// =============================================================================
+// Design Tokens - Apple-like light/modern aesthetic
+// =============================================================================
+
+:root {
+  // Colors - Apple-inspired palette
+  --color-background: #ffffff;
+  --color-background-secondary: #f5f5f7;
+  --color-foreground: #1d1d1f;
+  --color-text-primary: #1d1d1f;
+  --color-text-secondary: #6e6e73;
+  --color-text-tertiary: #86868b;
+  
+  // Borders - Apple's subtle, refined borders
+  --color-border: #e5e5e7;
+  --color-border-subtle: #f2f2f7;
+  --color-border-strong: #d2d2d7;
+  
+  // Accent colors
+  --color-accent: #a1cb84;
+  --color-accent-hover: #8fbc6f;
+  --color-accent-light: rgba(161, 203, 132, 0.1);
+  
+  // Premium black for premium buttons
+  --color-premium: #1d1d1f;
+  --color-premium-hover: #2d2d2f;
+  --color-premium-light: rgba(29, 29, 31, 0.05);
+
+  // Typography - Apple's SF Pro font stack
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: "SF Mono", SFMono-Regular, ui-monospace, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+
+  // Spacing scale - Apple's refined spacing
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  --space-4xl: 6rem;
+
+  // Layout
+  --max-width: 1200px;
+  --header-height: 64px;
+
+  // Border radius - Apple's refined, larger radius
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  // Shadows - Apple's minimal, soft shadows
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 12px 48px rgba(0, 0, 0, 0.1), 0 6px 12px rgba(0, 0, 0, 0.06);
+
+  // Transitions - Apple's smooth, refined transitions
+  // Using Apple-like ease-out curves for smoother feel
+  --transition-fast: 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-base: 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-slow: 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-ambient: 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  
+  // Property-specific transition strings
+  --transition-colors: background-color var(--transition-base), border-color var(--transition-base), color var(--transition-base);
+  --transition-transform: transform var(--transition-base);
+  --transition-shadow: box-shadow var(--transition-base);
+  --transition-all-smooth: background-color var(--transition-base), border-color var(--transition-base), color var(--transition-base), transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+// Tailwind v4 theme integration
+@theme inline {
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+  --color-accent: var(--color-accent);
+  --color-accent-hover: var(--color-accent-hover);
+  --color-premium: var(--color-premium);
+  --color-premium-hover: var(--color-premium-hover);
+  --color-border: var(--color-border);
+  --color-border-subtle: var(--color-border-subtle);
+  --color-border-strong: var(--color-border-strong);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+// =============================================================================
+// Base Styles
+// =============================================================================
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+  font-feature-settings: "kern" 1, "liga" 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// =============================================================================
+// Typography
+// =============================================================================
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.022em;
+  color: var(--color-text-primary);
+  font-feature-settings: "kern" 1;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  letter-spacing: -0.025em;
+}
+
+h3 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  letter-spacing: -0.02em;
+}
+
+h4 {
+  font-size: 1.25rem;
+  letter-spacing: -0.015em;
+}
+
+p {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--color-accent-hover);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+// Global cursor styles for interactive elements
+button,
+[role="button"],
+[tabindex]:not([tabindex="-1"]) {
+  cursor: pointer;
+}
+
+// Disable cursor for disabled buttons
+button:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+// Override HeroUI button transitions for smooth Apple-like feel
+button[data-react-aria-pressable="true"] {
+  transition: background-color 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              border-color 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+
+// Ensure transitions work even with motion-reduce
+@media (prefers-reduced-motion: no-preference) {
+  button[data-react-aria-pressable="true"] {
+    transition: background-color 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                border-color 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                box-shadow 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  }
+}
+
+// =============================================================================
+// Utilities
+// =============================================================================
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Skip link for accessibility
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-accent);
+  color: white;
+  border-radius: var(--radius-md);
+  z-index: 9999;
+  transition: top var(--transition-fast);
+
+  &:focus {
+    top: var(--space-md);
+  }
+}
+
+// =============================================================================
+// Prose (for MDX content)
+// =============================================================================
+
+.prose {
+  max-width: 65ch;
+
+  > * + * {
+    margin-top: var(--space-lg);
+  }
+
+  h2,
+  h3,
+  h4 {
+    margin-top: var(--space-2xl);
+  }
+
+  p {
+    line-height: 1.75;
+  }
+
+  ul,
+  ol {
+    padding-left: var(--space-lg);
+    color: var(--color-text-secondary);
+  }
+
+  li + li {
+    margin-top: var(--space-sm);
+  }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    padding: 0.2em 0.4em;
+    background: var(--color-background-secondary);
+    border-radius: var(--radius-sm);
+  }
+
+  pre {
+    padding: var(--space-lg);
+    background: var(--color-background-secondary);
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+
+    code {
+      padding: 0;
+      background: none;
+    }
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+  }
+
+  blockquote {
+    margin: 0;
+    padding-left: var(--space-lg);
+    border-left: 3px solid var(--color-accent);
+    color: var(--color-text-secondary);
+    font-style: italic;
+  }
+}
