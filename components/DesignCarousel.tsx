@@ -1,9 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Tippy from "@tippyjs/react";
-import { followCursor } from "tippy.js";
-import "tippy.js/dist/tippy.css";
+import { Tooltip } from "@/components/ui";
 import styles from "./DesignCarousel.module.scss";
 
 type TippyPlacement = 
@@ -33,9 +31,9 @@ interface DesignCarouselProps {
 export function DesignCarousel({ items }: DesignCarouselProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const animationFrameRef = useRef<number>();
+  const animationFrameRef = useRef<number | null>(null);
   const offsetRef = useRef<number>(0);
-  const lastTimeRef = useRef<number>(performance.now());
+  const lastTimeRef = useRef<number>(0);
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [tooltipPlacements, setTooltipPlacements] = useState<Record<number, TippyPlacement>>({});
@@ -81,6 +79,8 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
       // Stop auto-scroll if user prefers reduced motion
       return;
     }
+
+    lastTimeRef.current = performance.now();
 
     const animate = (currentTime: number) => {
       const deltaTime = (currentTime - lastTimeRef.current) / 1000; // Convert to seconds
@@ -208,17 +208,12 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
                   setIsHovered(false);
                 }}
               >
-                <Tippy
+                <Tooltip
                   content={item.tooltip || item.label}
-                  delay={[750, 500]}
-                  className={styles.tooltip}
-                  theme="apple"
-                  arrow={false}
-                  animation="shift-away-subtle"
+                  delay={750}
+                  className="tooltip-glass"
                   placement={tooltipPlacements[index] || "top"}
-                  followCursor="initial"
-                  plugins={[followCursor]}
-                  moveTransition="transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+                  followCursor
                 >
                   <img
                     src={getPlaceholderImage(item.kind, index % items.length)}
@@ -227,7 +222,7 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
                     draggable={false}
                     onMouseMove={(e) => handleImageMouseMove(e, index)}
                   />
-                </Tippy>
+                </Tooltip>
               </div>
             );
           })}
@@ -236,3 +231,4 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
     </section>
   );
 }
+

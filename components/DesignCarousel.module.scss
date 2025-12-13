@@ -48,7 +48,7 @@
   flex-shrink: 0;
   height: 260px;
   overflow: hidden;
-  border-radius: var(--radius-iphone);
+  border-radius: var(--radius-lg);
   background: var(--color-background-secondary);
   
   // Smooth transitions for any hover effects
@@ -76,7 +76,8 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  border-radius: var(--radius-iphone);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
   cursor: pointer;
   user-select: none;
   -webkit-user-drag: none;
@@ -127,3 +128,22 @@
 :global(.tippy-box[data-theme~="apple"][data-placement^="right"] > .tippy-arrow::before) {
   border-right-color: rgba(29, 29, 31, 0.9);
 }
+
+// Glass morphism tooltip styling (theme: glass)
+:global(.tippy-box[data-theme~="glass"]) {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  color: #0f0f10;
+  border-radius: 12px;
+  padding: 10px 14px;
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.25),
+    0 2px 8px rgba(0, 0, 0, 0.15);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+}
+

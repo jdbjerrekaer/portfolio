@@ -1,13 +1,15 @@
 import Link from "next/link";
 import { Button } from "@/components/ui";
-import { getAllProjects } from "@/lib/content/projects";
 import { ProjectCard } from "@/components/ProjectCard";
 import { DesignCarousel } from "@/components/DesignCarousel";
+import { LogoStrip } from "@/components/LogoStrip";
+import { LogoGrid } from "@/components/LogoGrid";
+import { featuredProjects } from "@/lib/content/featuredProjects";
+import { designCarouselItems } from "@/lib/content/designCarouselItems";
+import { clientLogos } from "@/lib/content/clientLogos";
 import styles from "./page.module.scss";
 
 export default async function HomePage() {
-  const projects = await getAllProjects();
-  const featuredProjects = projects.slice(0, 3);
 
   return (
     <div className={styles.page}>
@@ -23,12 +25,12 @@ export default async function HomePage() {
           </p>
           <div className={styles.heroCta}>
             <Link href="/projects/">
-              <Button variant="premium" size="lg">
+              <Button variant="premium" size="lg" icon="folder" iconPosition="right">
                 View Projects
               </Button>
             </Link>
             <Link href="/about/">
-              <Button variant="secondary" size="lg">
+              <Button variant="secondary" size="lg" icon="person" iconPosition="right">
                 About Me
               </Button>
             </Link>
@@ -36,21 +38,23 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Logo Strip Section */}
+      <section className={styles.logoStrip}>
+        <LogoStrip logos={clientLogos} title="Trusted by" />
+      </section>
+
       {/* Design Carousel Section */}
       <section className={styles.carousel}>
-        <DesignCarousel
-          items={[
-            { kind: "desktop", label: "Desktop Design 1", tooltip: "Design System Components" },
-            { kind: "iphone", label: "iPhone Design 1", tooltip: "Mobile App Interface" },
-            { kind: "desktop", label: "Desktop Design 2", tooltip: "Dashboard Layout" },
-            { kind: "iphone", label: "iPhone Design 2", tooltip: "User Profile Screen" },
-            { kind: "desktop", label: "Desktop Design 3", tooltip: "Data Visualization" },
-            { kind: "iphone", label: "iPhone Design 3", tooltip: "Onboarding Flow" },
-            { kind: "desktop", label: "Desktop Design 4", tooltip: "Settings Panel" },
-            { kind: "iphone", label: "iPhone Design 4", tooltip: "Navigation Design" },
-            { kind: "desktop", label: "Desktop Design 5", tooltip: "Form Components" },
-            { kind: "iphone", label: "iPhone Design 5", tooltip: "Detail View" },
-          ]}
+        <DesignCarousel items={designCarouselItems} />
+      </section>
+
+      {/* Client Logos Grid Section */}
+      <section className={styles.logos}>
+        <LogoGrid
+          logos={clientLogos}
+          title="Selected Partners"
+          description="I've had the privilege of working with innovative teams and brands across various industries."
+          maxVisible={12}
         />
       </section>
 
@@ -73,6 +77,7 @@ export default async function HomePage() {
                 role={project.role}
                 tags={project.tags}
                 coverImage={project.coverImage}
+                hasCaseStudy={false}
               />
             ))}
           </div>

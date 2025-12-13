@@ -2,6 +2,7 @@ export { Button } from "./Button";
 export type { ButtonProps } from "./Button";
 
 export { Card, CardBody, CardFooter, CardHeader } from "./Card";
+export { Tooltip } from "./Tooltip";
 export type { CardProps } from "./Card";
 
 export { Chip } from "./Chip";

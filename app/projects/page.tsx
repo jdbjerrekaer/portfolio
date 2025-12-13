@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { getAllProjects } from "@/lib/content/projects";
+import { DesignCarousel } from "@/components/DesignCarousel";
+import { LogoGrid } from "@/components/LogoGrid";
+import { designCarouselItems } from "@/lib/content/designCarouselItems";
+import { clientLogos } from "@/lib/content/clientLogos";
 import { ProjectCard } from "@/components/ProjectCard";
 import styles from "./page.module.scss";
 
@@ -19,6 +23,18 @@ export default async function ProjectsPage() {
           A collection of projects where design meets engineering. Each project
           represents a unique challenge and solution.
         </p>
+      </section>
+
+      <section className={styles.carousel}>
+        <DesignCarousel items={designCarouselItems} />
+      </section>
+
+      <section className={styles.logos}>
+        <LogoGrid
+          logos={clientLogos}
+          title="Clients & Collaborators"
+          maxVisible={12}
+        />
       </section>
 
       {projects.length > 0 ? (

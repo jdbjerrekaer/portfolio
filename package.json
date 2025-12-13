@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@floating-ui/react": "^0.27.16",
     "@heroui/react": "^2.8.5",
     "@tippyjs/react": "^4.2.6",
     "framer-motion": "^12.23.26",
@@ -18,6 +19,7 @@
     "react": "19.2.1",
     "react-dom": "19.2.1",
     "sass": "^1.96.0",
+    "sweet-sfsymbols": "^0.7.2",
     "tippy.js": "^6.3.7",
     "zod": "^4.1.13"
   },

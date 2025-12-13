@@ -91,6 +91,20 @@ export async function getAllProjects(): Promise<Project[]> {
  */
 export async function getFeaturedProjects(): Promise<Project[]> {
   const projects = await getAllProjects();
-  return projects.filter((project) => project.featured);
+  const featured = projects.filter((project) => project.featured);
+  
+  // Sort featured projects by date (newest first)
+  return featured.sort((a, b) => {
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  });
+}
+
+/**
+ * Check if a project has a case study (has meaningful content)
+ */
+export function hasCaseStudy(project: Project): boolean {
+  const trimmedContent = project.content.trim();
+  // Consider it a case study if content exists and is more than just whitespace/newlines
+  return trimmedContent.length > 0 && trimmedContent.length > 50;
 }
 

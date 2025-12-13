@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { SFSymbol } from "@/components/ui/SFSymbol";
 import styles from "./SiteHeader.module.scss";
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about/", label: "About" },
-  { href: "/projects/", label: "Projects" },
+  { href: "/", label: "Home", icon: "house" },
+  { href: "/about/", label: "About", icon: "person" },
+  { href: "/projects/", label: "Projects", icon: "folder" },
 ];
 
 export function SiteHeader() {
@@ -34,6 +35,10 @@ export function SiteHeader() {
                 className={`${styles.navLink} ${isActive(link.href) ? styles.active : ""}`}
                 aria-current={isActive(link.href) ? "page" : undefined}
               >
+                <span className={styles.navIcon}>
+                  <SFSymbol name={link.icon} size={16} weight="medium" filled={false} className={styles.iconOutline} />
+                  <SFSymbol name={link.icon} size={16} weight="medium" filled={true} className={styles.iconFilled} />
+                </span>
                 {link.label}
               </Link>
             </li>

@@ -1,0 +1,15 @@
+import type { CarouselItem } from "@/components/DesignCarousel";
+
+export const designCarouselItems: CarouselItem[] = [
+  { kind: "desktop", label: "Desktop Design 1", tooltip: "Design System Components" },
+  { kind: "iphone", label: "iPhone Design 1", tooltip: "Mobile App Interface" },
+  { kind: "desktop", label: "Desktop Design 2", tooltip: "Dashboard Layout" },
+  { kind: "iphone", label: "iPhone Design 2", tooltip: "User Profile Screen" },
+  { kind: "desktop", label: "Desktop Design 3", tooltip: "Data Visualization" },
+  { kind: "iphone", label: "iPhone Design 3", tooltip: "Onboarding Flow" },
+  { kind: "desktop", label: "Desktop Design 4", tooltip: "Settings Panel" },
+  { kind: "iphone", label: "iPhone Design 4", tooltip: "Navigation Design" },
+  { kind: "desktop", label: "Desktop Design 5", tooltip: "Form Components" },
+  { kind: "iphone", label: "iPhone Design 5", tooltip: "Detail View" },
+];
+
