@@ -6,135 +6,140 @@ export interface ClientLogo {
   invert?: boolean; // For dark mode exceptions
 }
 
+// Prefix public asset paths so they work both locally (no base path)
+// and on GitHub Pages (/portfolio base path).
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || process.env.BASE_PATH || "";
+const withBasePath = (path: string) => `${basePath}${path}`;
+
 export const clientLogos: ClientLogo[] = [
   {
     name: "Brand 1",
-    src: "/brand-01.png",
+    src: withBasePath("/brand-01.png"),
     alt: "Brand 1 logo",
   },
   {
     name: "Brand 2",
-    src: "/brand-02.png",
+    src: withBasePath("/brand-02.png"),
     alt: "Brand 2 logo",
   },
   {
     name: "Brand 3",
-    src: "/brand-03.png",
+    src: withBasePath("/brand-03.png"),
     alt: "Brand 3 logo",
   },
   {
     name: "Brand 4",
-    src: "/brand-04.png",
+    src: withBasePath("/brand-04.png"),
     alt: "Brand 4 logo",
   },
   {
     name: "Brand 5",
-    src: "/brand-05.png",
+    src: withBasePath("/brand-05.png"),
     alt: "Brand 5 logo",
   },
   {
     name: "Brand 6",
-    src: "/brand-06.png",
+    src: withBasePath("/brand-06.png"),
     alt: "Brand 6 logo",
   },
   {
     name: "Brand 7",
-    src: "/brand-07.png",
+    src: withBasePath("/brand-07.png"),
     alt: "Brand 7 logo",
   },
   {
     name: "Brand 8",
-    src: "/brand-08.png",
+    src: withBasePath("/brand-08.png"),
     alt: "Brand 8 logo",
   },
   {
     name: "Brand 9",
-    src: "/brand-09.png",
+    src: withBasePath("/brand-09.png"),
     alt: "Brand 9 logo",
   },
   {
     name: "Brand 10",
-    src: "/brand-010.png",
+    src: withBasePath("/brand-010.png"),
     alt: "Brand 10 logo",
   },
   {
     name: "Brand 11",
-    src: "/brand-011.png",
+    src: withBasePath("/brand-011.png"),
     alt: "Brand 11 logo",
   },
   {
     name: "Brand 12",
-    src: "/brand-012.png",
+    src: withBasePath("/brand-012.png"),
     alt: "Brand 12 logo",
   },
   {
     name: "Brand 13",
-    src: "/brand-013.png",
+    src: withBasePath("/brand-013.png"),
     alt: "Brand 13 logo",
   },
   {
     name: "Brand 14",
-    src: "/brand-014.png",
+    src: withBasePath("/brand-014.png"),
     alt: "Brand 14 logo",
   },
   {
     name: "Brand 15",
-    src: "/brand-015.png",
+    src: withBasePath("/brand-015.png"),
     alt: "Brand 15 logo",
   },
   {
     name: "Brand 16",
-    src: "/brand-016.png",
+    src: withBasePath("/brand-016.png"),
     alt: "Brand 16 logo",
   },
   {
     name: "Brand 17",
-    src: "/brand-017.png",
+    src: withBasePath("/brand-017.png"),
     alt: "Brand 17 logo",
   },
   {
     name: "Brand 18",
-    src: "/brand-018.png",
+    src: withBasePath("/brand-018.png"),
     alt: "Brand 18 logo",
   },
   {
     name: "Brand 19",
-    src: "/brand-019.png",
+    src: withBasePath("/brand-019.png"),
     alt: "Brand 19 logo",
   },
   {
     name: "Brand 20",
-    src: "/brand-020.png",
+    src: withBasePath("/brand-020.png"),
     alt: "Brand 20 logo",
   },
   {
     name: "Brand 21",
-    src: "/brand-021.png",
+    src: withBasePath("/brand-021.png"),
     alt: "Brand 21 logo",
   },
   {
     name: "Brand 22",
-    src: "/brand-022.png",
+    src: withBasePath("/brand-022.png"),
     alt: "Brand 22 logo",
   },
   {
     name: "Brand 23",
-    src: "/brand-023.png",
+    src: withBasePath("/brand-023.png"),
     alt: "Brand 23 logo",
   },
   {
     name: "Brand 24",
-    src: "/brand-024.png",
+    src: withBasePath("/brand-024.png"),
     alt: "Brand 24 logo",
   },
   {
     name: "Brand 25",
-    src: "/brand-025.png",
+    src: withBasePath("/brand-025.png"),
     alt: "Brand 25 logo",
   },
   {
     name: "Brand 26",
-    src: "/brand-026.png",
+    src: withBasePath("/brand-026.png"),
     alt: "Brand 26 logo",
   },
 ];
