@@ -12,7 +12,7 @@ const navLinks = [
   { href: "/projects/", label: "Projects", icon: "folder" },
 ];
 
-const SCROLL_THRESHOLD = 1000; // pixels to scroll before background appears
+const SCROLL_THRESHOLD = 500; // pixels to scroll before background appears
 
 export function SiteHeader() {
   const pathname = usePathname();

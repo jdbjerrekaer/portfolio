@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Tooltip } from "@/components/ui";
+import { Tooltip, ImageModal } from "@/components/ui";
 import styles from "./DesignCarousel.module.scss";
 
 type TippyPlacement = 
@@ -40,6 +40,8 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
   const [halfWidth, setHalfWidth] = useState(0);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [isManuallyScrolling, setIsManuallyScrolling] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null);
   const currentSpeedRef = useRef<number>(30); // pixels per second
   const baseSpeed = 30; // pixels per second
   const crawlSpeed = baseSpeed * 0.08; // 8% of base speed
@@ -51,6 +53,7 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
   const isDraggingRef = useRef<boolean>(false);
   const dragThresholdRef = useRef<number>(5); // Minimum pixels to move before considering it a drag
   const hasMovedRef = useRef<boolean>(false);
+  const lastDragEndTimeRef = useRef<number>(0);
 
   // Check for reduced motion preference (reactive)
   useEffect(() => {
@@ -175,6 +178,7 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
         // If we moved beyond threshold, prevent default to stop link clicks
         if (hasMovedRef.current) {
           e.preventDefault();
+          lastDragEndTimeRef.current = Date.now();
         }
         
         isDraggingRef.current = false;
@@ -251,7 +255,7 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
   }, [halfWidth]);
 
   useEffect(() => {
-    if (prefersReducedMotion || isManuallyScrolling) {
+    if (prefersReducedMotion || isManuallyScrolling || isModalOpen) {
       return;
     }
 
@@ -291,7 +295,7 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
         clearTimeout(manualScrollTimeoutRef.current);
       }
     };
-  }, [halfWidth, isHovered, prefersReducedMotion, isManuallyScrolling, baseSpeed, crawlSpeed]);
+  }, [halfWidth, isHovered, prefersReducedMotion, isManuallyScrolling, isModalOpen, baseSpeed, crawlSpeed]);
 
   // Generate placeholder SVG data URLs
   const getPlaceholderImage = (kind: "desktop" | "iphone", index: number): string => {
@@ -359,56 +363,93 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
     }));
   };
 
+  // Handle image click to open modal
+  const handleImageClick = (e: React.MouseEvent<HTMLImageElement>, kind: "desktop" | "iphone", index: number) => {
+    // Don't open modal if user was dragging (check if drag ended recently)
+    const timeSinceDragEnd = Date.now() - lastDragEndTimeRef.current;
+    if (hasMovedRef.current || timeSinceDragEnd < 100) {
+      return;
+    }
+    
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const actualIndex = index % items.length;
+    const item = items[actualIndex];
+    const imageSrc = getPlaceholderImage(kind, actualIndex);
+    const imageAlt = `${item.label} - ${kind === "desktop" ? "Desktop" : "iPhone"} design ${actualIndex + 1}`;
+    
+    setSelectedImage({ src: imageSrc, alt: imageAlt });
+    setIsModalOpen(true);
+  };
+
+  // Handle modal close
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setSelectedImage(null);
+  };
+
   // Duplicate items for seamless loop
   const duplicatedItems = [...items, ...items];
 
   return (
-    <section className={styles.carouselSection} aria-label="Design carousel">
-      <div
-        ref={containerRef}
-        className={styles.container}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <div ref={trackRef} className={styles.track}>
-          {duplicatedItems.map((item, index) => {
-            const isItemHovered = hoveredIndex === index;
-            const hasAnyHover = hoveredIndex !== null;
-            
-            return (
-              <div
-                key={`${item.kind}-${index}`}
-                className={`${styles.item} ${styles[item.kind]} ${isItemHovered ? styles.hovered : ""} ${hasAnyHover && !isItemHovered ? styles.scaledDown : ""}`}
-                onMouseEnter={() => {
-                  setHoveredIndex(index);
-                  setIsHovered(true);
-                }}
-                onMouseLeave={() => {
-                  setHoveredIndex(null);
-                  setIsHovered(false);
-                }}
-              >
-                <Tooltip
-                  content={item.tooltip || item.label}
-                  delay={750}
-                  className="tooltip-glass"
-                  placement={tooltipPlacements[index] || "top"}
-                  followCursor
+    <>
+      <section className={styles.carouselSection} aria-label="Design carousel">
+        <div
+          ref={containerRef}
+          className={styles.container}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          <div ref={trackRef} className={styles.track}>
+            {duplicatedItems.map((item, index) => {
+              const isItemHovered = hoveredIndex === index;
+              const hasAnyHover = hoveredIndex !== null;
+              
+              return (
+                <div
+                  key={`${item.kind}-${index}`}
+                  className={`${styles.item} ${styles[item.kind]} ${isItemHovered ? styles.hovered : ""} ${hasAnyHover && !isItemHovered ? styles.scaledDown : ""}`}
+                  onMouseEnter={() => {
+                    setHoveredIndex(index);
+                    setIsHovered(true);
+                  }}
+                  onMouseLeave={() => {
+                    setHoveredIndex(null);
+                    setIsHovered(false);
+                  }}
                 >
-                  <img
-                    src={getPlaceholderImage(item.kind, index % items.length)}
-                    alt={`${item.label} - ${item.kind === "desktop" ? "Desktop" : "iPhone"} design ${(index % items.length) + 1}`}
-                    className={styles.image}
-                    draggable={false}
-                    onMouseMove={(e) => handleImageMouseMove(e, index)}
-                  />
-                </Tooltip>
-              </div>
-            );
-          })}
+                  <Tooltip
+                    content={item.tooltip || item.label}
+                    delay={750}
+                    className="tooltip-glass"
+                    placement={tooltipPlacements[index] || "top"}
+                    followCursor
+                  >
+                    <img
+                      src={getPlaceholderImage(item.kind, index % items.length)}
+                      alt={`${item.label} - ${item.kind === "desktop" ? "Desktop" : "iPhone"} design ${(index % items.length) + 1}`}
+                      className={styles.image}
+                      draggable={false}
+                      onMouseMove={(e) => handleImageMouseMove(e, index)}
+                      onClick={(e) => handleImageClick(e, item.kind, index)}
+                    />
+                  </Tooltip>
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+      {selectedImage && (
+        <ImageModal
+          isOpen={isModalOpen}
+          onClose={handleModalClose}
+          imageSrc={selectedImage.src}
+          imageAlt={selectedImage.alt}
+        />
+      )}
+    </>
   );
 }
 
