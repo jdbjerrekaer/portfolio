@@ -2,6 +2,7 @@ import type { CarouselItem } from "@/components/DesignCarousel";
 
 export const designCarouselItems: CarouselItem[] = [
   { kind: "desktop", label: "Tools Features", tooltip: "ADTRACTION Tools Overview", image: "/projects/tools/tools-cover.png" },
+  { kind: "desktop", label: "Affiliate Dashboard", tooltip: "Affiliate Marketing Dashboard", image: "/projects/affiliate-marketing-web/cover.png" },
   { kind: "desktop", label: "Desktop Design 1", tooltip: "Design System Components" },
   { kind: "iphone", label: "iPhone Design 1", tooltip: "Mobile App Interface" },
   { kind: "desktop", label: "Desktop Design 2", tooltip: "Dashboard Layout" },
