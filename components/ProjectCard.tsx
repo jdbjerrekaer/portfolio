@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Card, Chip, Tooltip } from "@/components/ui";
+import { withBasePath } from "@/lib/utils/paths";
 import styles from "./ProjectCard.module.scss";
 
 export interface ProjectCardProps {
@@ -27,7 +28,12 @@ export function ProjectCard({
   comingSoon = false,
 }: ProjectCardProps) {
   // Generate placeholder image if no coverImage provided
-  const imageSrc = coverImage || `data:image/svg+xml,${encodeURIComponent(`
+  // Prefix coverImage with base path if it's a regular path (not a data URI)
+  const imageSrc = coverImage 
+    ? (coverImage.startsWith("data:") || coverImage.startsWith("http") 
+        ? coverImage 
+        : withBasePath(coverImage))
+    : `data:image/svg+xml,${encodeURIComponent(`
     <svg width="800" height="500" xmlns="http://www.w3.org/2000/svg">
       <rect width="800" height="500" fill="#f5f5f7"/>
       <text x="50%" y="50%" font-family="system-ui, -apple-system" font-size="24" fill="#86868b" text-anchor="middle" dominant-baseline="middle">${title}</text>

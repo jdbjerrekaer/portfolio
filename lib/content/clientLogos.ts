@@ -6,10 +6,7 @@ export interface ClientLogo {
   invert?: boolean; // For dark mode exceptions
 }
 
-// Prefix public asset paths so they work both locally (no base path)
-// and on GitHub Pages (/portfolio base path).
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || process.env.BASE_PATH || "";
-const withBasePath = (path: string) => `${basePath}${path}`;
+import { withBasePath } from "@/lib/utils/paths";
 
 export const clientLogos: ClientLogo[] = [
   {

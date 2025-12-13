@@ -35,6 +35,8 @@ jobs:
           # Use the repo name so the site works at https://<user>.github.io/<repo>/
           # For user/org root sites, change to BASE_PATH="".
           BASE_PATH: "/${{ github.event.repository.name }}"
+          # NEXT_PUBLIC_BASE_PATH is needed for client-side code to access base path
+          NEXT_PUBLIC_BASE_PATH: "/${{ github.event.repository.name }}"
           # Microsoft Clarity project ID (set as GitHub Secret)
           NEXT_PUBLIC_CLARITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_CLARITY_PROJECT_ID }}
         run: |

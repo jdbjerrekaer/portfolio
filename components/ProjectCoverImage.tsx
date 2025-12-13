@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { ImageModal } from "@/components/ui";
+import { withBasePath } from "@/lib/utils/paths";
 import styles from "./ProjectCoverImage.module.scss";
 
 interface ProjectCoverImageProps {
@@ -22,11 +23,16 @@ export function ProjectCoverImage({ src, alt, title }: ProjectCoverImageProps) {
     setIsModalOpen(false);
   };
 
+  // Prefix src with base path if it's a regular path (not a data URI or external URL)
+  const imageSrc = src.startsWith("data:") || src.startsWith("http") 
+    ? src 
+    : withBasePath(src);
+
   return (
     <>
       <div className={styles.coverImage} onClick={handleImageClick}>
         <Image
-          src={src}
+          src={imageSrc}
           alt={alt}
           fill
           priority
@@ -57,7 +63,7 @@ export function ProjectCoverImage({ src, alt, title }: ProjectCoverImageProps) {
         <ImageModal
           isOpen={isModalOpen}
           onClose={handleModalClose}
-          imageSrc={src}
+          imageSrc={imageSrc}
           imageAlt={alt}
         />
       )}

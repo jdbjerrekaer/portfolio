@@ -1,6 +1,7 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { ComponentProps } from "react";
 import Image from "next/image";
+import { withBasePath } from "@/lib/utils/paths";
 
 // Custom components for MDX
 const components = {
@@ -20,7 +21,7 @@ const components = {
       return (
         <div className="my-8 rounded-lg overflow-hidden">
           <Image
-            src={props.src}
+            src={withBasePath(props.src)}
             alt={props.alt || ""}
             width={1200}
             height={675}

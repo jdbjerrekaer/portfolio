@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { ImageModal } from "@/components/ui";
+import { withBasePath } from "@/lib/utils/paths";
 import styles from "./ProjectImageGrid.module.scss";
 
 interface ProjectImageGridProps {
@@ -30,19 +31,25 @@ export function ProjectImageGrid({ images }: ProjectImageGridProps) {
   return (
     <>
       <div className={styles.grid}>
-        {images.map((image, index) => (
-          <div
-            key={index}
-            className={`${styles.gridItem} ${styles[`item${index + 1}`]}`}
-            onClick={() => handleImageClick(image.src, image.alt)}
-          >
-            <Image
-              src={image.src}
-              alt={image.alt}
-              fill
-              className={styles.image}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-            />
+        {images.map((image, index) => {
+          // Prefix src with base path if it's a regular path (not a data URI or external URL)
+          const imageSrc = image.src.startsWith("data:") || image.src.startsWith("http") 
+            ? image.src 
+            : withBasePath(image.src);
+          
+          return (
+            <div
+              key={index}
+              className={`${styles.gridItem} ${styles[`item${index + 1}`]}`}
+              onClick={() => handleImageClick(imageSrc, image.alt)}
+            >
+              <Image
+                src={imageSrc}
+                alt={image.alt}
+                fill
+                className={styles.image}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
+              />
             <div className={styles.overlay}>
               <div className={styles.icon}>
                 <svg
@@ -63,7 +70,8 @@ export function ProjectImageGrid({ images }: ProjectImageGridProps) {
               </div>
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
       {selectedImage && (
         <ImageModal
