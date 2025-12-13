@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { SFSymbol } from "@/components/ui/SFSymbol";
 import styles from "./SiteHeader.module.scss";
 
@@ -11,8 +12,29 @@ const navLinks = [
   { href: "/projects/", label: "Projects", icon: "folder" },
 ];
 
+const SCROLL_THRESHOLD = 1000; // pixels to scroll before background appears
+
 export function SiteHeader() {
   const pathname = usePathname();
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      // Background appears after threshold, but disappears immediately at top
+      if (scrollY > SCROLL_THRESHOLD) {
+        setIsScrolled(true);
+      } else if (scrollY === 0) {
+        setIsScrolled(false);
+      }
+    };
+
+    // Check initial scroll position
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const isActive = (href: string) => {
     if (href === "/") {
@@ -22,10 +44,10 @@ export function SiteHeader() {
   };
 
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} ${isScrolled ? styles.scrolled : ""}`}>
       <nav className={styles.nav} aria-label="Main navigation">
         <Link href="/" className={styles.logo}>
-          Portfolio
+          JonatanDB
         </Link>
         <ul className={styles.navList}>
           {navLinks.map((link) => (
