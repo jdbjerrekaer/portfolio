@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { ApproachList } from "./ApproachList";
 import { BackgroundCards } from "./BackgroundCards";
 import { RolesCards } from "./RolesCards";
@@ -14,13 +15,33 @@ export default function AboutPage() {
   return (
     <div className={styles.page}>
       <section className={styles.hero}>
-        <h1>About Me</h1>
-        <p className={styles.intro}>
-          I’m Jonatan Bjerrekær, a UX/UI designer with 3+ years crafting B2B
-          software. I blend user research, interaction design, and systems
-          thinking to simplify complex problems and deliver intuitive
-          experiences.
-        </p>
+        <div className={styles.heroContent}>
+          <div className={styles.heroImage}>
+            <Image
+              src={`data:image/svg+xml,${encodeURIComponent(`
+                <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="400" height="400" fill="#f5f5f7"/>
+                  <circle cx="200" cy="180" r="80" fill="#d2d2d7"/>
+                  <rect x="120" y="280" width="160" height="80" rx="40" fill="#d2d2d7"/>
+                </svg>
+              `.trim())}`}
+              alt="Jonatan Bjerrekær"
+              width={400}
+              height={400}
+              className={styles.profileImage}
+              priority
+            />
+          </div>
+          <div className={styles.heroText}>
+            <h1>About Me</h1>
+            <p className={styles.intro}>
+              I'm Jonatan Bjerrekær, a UX/UI designer with 3+ years crafting B2B
+              software. I blend user research, interaction design, and systems
+              thinking to simplify complex problems and deliver intuitive
+              experiences.
+            </p>
+          </div>
+        </div>
       </section>
 
       <section className={styles.content}>
@@ -73,9 +94,9 @@ export default function AboutPage() {
         </div>
 
         <div className={styles.section}>
-          <h2>Let’s connect</h2>
+          <h2>Let's connect</h2>
           <p>
-            I’m open to new opportunities and collaborations. Feel free to reach
+            I'm open to new opportunities and collaborations. Feel free to reach
             out to talk about design systems, product UX, or tough interaction
             challenges.
           </p>
@@ -94,4 +115,3 @@ export default function AboutPage() {
     </div>
   );
 }
-

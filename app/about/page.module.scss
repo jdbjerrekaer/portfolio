@@ -6,6 +6,39 @@
 
 .hero {
   margin-bottom: var(--space-4xl);
+}
+
+.heroContent {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3xl);
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xl);
+  }
+}
+
+.heroImage {
+  flex-shrink: 0;
+}
+
+.profileImage {
+  width: 200px;
+  height: 200px;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+  background: var(--color-background-secondary);
+
+  @media (max-width: 768px) {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+.heroText {
+  flex: 1;
 
   h1 {
     margin-bottom: var(--space-lg);
@@ -91,12 +124,31 @@
   margin-top: var(--space-md);
 
   a {
+    position: relative;
+    display: inline-block;
     font-weight: 600;
     color: var(--color-accent);
     text-decoration: none;
+    transition: color 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background-color: var(--color-accent);
+      transition: width 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
 
     &:hover {
-      text-decoration: underline;
+      color: var(--color-accent-hover);
+
+      &::after {
+        width: 100%;
+        background-color: var(--color-accent-hover);
+      }
     }
   }
 }
