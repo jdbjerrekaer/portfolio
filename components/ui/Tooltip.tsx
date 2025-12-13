@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import {
   autoUpdate,
   FloatingPortal,
@@ -36,27 +36,16 @@ export function Tooltip({
   followCursor = true,
   portal = true,
 }: TooltipProps): React.ReactElement | null {
-  const referenceRef = useRef<HTMLSpanElement | null>(null);
-  const floatingRef = useRef<HTMLDivElement | null>(null);
   const [open, setOpen] = useState(false);
   const { refs, floatingStyles, context } = useFloating({
     placement,
     middleware: [offset(10), flip(), shift({ padding: 8 })],
     whileElementsMounted: autoUpdate,
     open,
-    onOpenChange: (next) => {
-      setOpen(next);
-    },
+    onOpenChange: setOpen,
   });
 
-  // Avoid accessing refs during render; bind DOM nodes after mount.
-  useEffect(() => {
-    refs.setReference(referenceRef.current);
-    refs.setFloating(floatingRef.current);
-  }, [refs]);
-
-  useClientPoint(context, { enabled: followCursor });
-
+  const clientPoint = useClientPoint(context, { enabled: followCursor });
   const hover = useHover(context, { delay: { open: delay, close: 0 } });
   const focus = useFocus(context);
   const dismiss = useDismiss(context);
@@ -67,6 +56,7 @@ export function Tooltip({
     focus,
     dismiss,
     role,
+    clientPoint,
   ]);
 
   const mergedClassName = useMemo(
@@ -74,35 +64,47 @@ export function Tooltip({
     [className]
   );
 
+  // Wrap ref setters to avoid ESLint false positive about accessing refs during render
+  const setReferenceRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      refs.setReference(node);
+    },
+    [refs]
+  );
+
+  const setFloatingRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      refs.setFloating(node);
+    },
+    [refs]
+  );
+
+  const floatingContent = (
+    <div
+      ref={setFloatingRef}
+      style={{
+        ...floatingStyles,
+        pointerEvents: followCursor ? "none" : "auto",
+        zIndex: 1000,
+      }}
+      {...getFloatingProps({
+        className: mergedClassName,
+      })}
+    >
+      {content}
+    </div>
+  );
+
   return (
     <>
-      <span ref={referenceRef} {...getReferenceProps()}>
+      <div 
+        ref={setReferenceRef}
+        {...getReferenceProps()}
+        style={{ display: "block", width: "100%", height: "100%" }}
+      >
         {children}
-      </span>
-      {open &&
-        (portal ? (
-          <FloatingPortal>
-            <div
-              ref={floatingRef}
-              style={floatingStyles}
-              {...getFloatingProps({
-                className: mergedClassName,
-              })}
-            >
-              {content}
-            </div>
-          </FloatingPortal>
-        ) : (
-          <div
-            ref={floatingRef}
-            style={floatingStyles}
-            {...getFloatingProps({
-              className: mergedClassName,
-            })}
-          >
-            {content}
-          </div>
-        ))}
+      </div>
+      {open && (portal ? <FloatingPortal>{floatingContent}</FloatingPortal> : floatingContent)}
     </>
   );
 }
