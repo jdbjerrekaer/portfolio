@@ -10,8 +10,13 @@
   width: 100%;
   overflow-x: hidden;
   overflow-y: visible;
+  cursor: grab;
   // Add vertical padding to accommodate scaled images (1.02 scale = 2% extra space)
   padding: calc(260px * 0.02) 0;
+  
+  &:active {
+    cursor: grabbing;
+  }
   
   // Gradient fade masks on edges for premium feel
   &::before,
@@ -42,6 +47,10 @@
   will-change: transform;
   // Prevent layout shifts
   min-width: fit-content;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .item {

@@ -39,9 +39,18 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
   const [tooltipPlacements, setTooltipPlacements] = useState<Record<number, TippyPlacement>>({});
   const [halfWidth, setHalfWidth] = useState(0);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [isManuallyScrolling, setIsManuallyScrolling] = useState(false);
   const currentSpeedRef = useRef<number>(30); // pixels per second
   const baseSpeed = 30; // pixels per second
   const crawlSpeed = baseSpeed * 0.08; // 8% of base speed
+  const manualScrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const touchStartXRef = useRef<number>(0);
+  const touchStartOffsetRef = useRef<number>(0);
+  const mouseStartXRef = useRef<number>(0);
+  const mouseStartOffsetRef = useRef<number>(0);
+  const isDraggingRef = useRef<boolean>(false);
+  const dragThresholdRef = useRef<number>(5); // Minimum pixels to move before considering it a drag
+  const hasMovedRef = useRef<boolean>(false);
 
   // Check for reduced motion preference (reactive)
   useEffect(() => {
@@ -74,9 +83,175 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
     return () => window.removeEventListener("resize", measureWidth);
   }, [items]);
 
+  // Handle manual scroll timeout - resume auto-scroll after user stops
+  const handleManualScrollEnd = () => {
+    if (manualScrollTimeoutRef.current) {
+      clearTimeout(manualScrollTimeoutRef.current);
+    }
+    setIsManuallyScrolling(true);
+    manualScrollTimeoutRef.current = setTimeout(() => {
+      setIsManuallyScrolling(false);
+    }, 1500); // Resume auto-scroll after 1.5 seconds of inactivity
+  };
+
+  // Mouse wheel scroll handler
   useEffect(() => {
-    if (prefersReducedMotion) {
-      // Stop auto-scroll if user prefers reduced motion
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      // Only handle horizontal scrolling
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+        e.preventDefault();
+        handleManualScrollEnd();
+        
+        const scrollAmount = e.deltaX * 0.5; // Adjust sensitivity
+        offsetRef.current -= scrollAmount;
+        
+        // Wrap around for seamless loop
+        if (offsetRef.current <= -halfWidth && halfWidth > 0) {
+          offsetRef.current += halfWidth;
+        } else if (offsetRef.current > 0) {
+          offsetRef.current -= halfWidth;
+        }
+        
+        if (trackRef.current) {
+          trackRef.current.style.transform = `translate3d(${offsetRef.current}px, 0, 0)`;
+        }
+      }
+    };
+
+    container.addEventListener("wheel", handleWheel, { passive: false });
+    return () => container.removeEventListener("wheel", handleWheel);
+  }, [halfWidth]);
+
+  // Mouse drag handlers
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleMouseDown = (e: MouseEvent) => {
+      // Only start drag on left mouse button
+      if (e.button !== 0) return;
+      
+      isDraggingRef.current = true;
+      hasMovedRef.current = false;
+      mouseStartXRef.current = e.clientX;
+      mouseStartOffsetRef.current = offsetRef.current;
+      setIsManuallyScrolling(true);
+      
+      // Change cursor to grabbing
+      container.style.cursor = "grabbing";
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDraggingRef.current) return;
+      
+      const deltaX = Math.abs(mouseStartXRef.current - e.clientX);
+      
+      // Only start dragging if moved beyond threshold
+      if (deltaX > dragThresholdRef.current) {
+        hasMovedRef.current = true;
+        e.preventDefault();
+        
+        const scrollDeltaX = mouseStartXRef.current - e.clientX;
+        offsetRef.current = mouseStartOffsetRef.current - scrollDeltaX;
+        
+        // Wrap around for seamless loop
+        if (offsetRef.current <= -halfWidth && halfWidth > 0) {
+          offsetRef.current += halfWidth;
+        } else if (offsetRef.current > 0) {
+          offsetRef.current -= halfWidth;
+        }
+        
+        if (trackRef.current) {
+          trackRef.current.style.transform = `translate3d(${offsetRef.current}px, 0, 0)`;
+        }
+      }
+    };
+
+    const handleMouseUp = (e: MouseEvent) => {
+      if (isDraggingRef.current) {
+        // If we moved beyond threshold, prevent default to stop link clicks
+        if (hasMovedRef.current) {
+          e.preventDefault();
+        }
+        
+        isDraggingRef.current = false;
+        hasMovedRef.current = false;
+        container.style.cursor = "grab";
+        handleManualScrollEnd();
+      }
+    };
+
+    const handleMouseLeave = () => {
+      if (isDraggingRef.current) {
+        isDraggingRef.current = false;
+        container.style.cursor = "grab";
+        handleManualScrollEnd();
+      }
+    };
+
+    container.addEventListener("mousedown", handleMouseDown);
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+    container.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      container.removeEventListener("mousedown", handleMouseDown);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+      container.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, [halfWidth]);
+
+  // Touch scroll handlers
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartXRef.current = e.touches[0].clientX;
+      touchStartOffsetRef.current = offsetRef.current;
+      setIsManuallyScrolling(true);
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!touchStartXRef.current) return;
+      
+      const deltaX = touchStartXRef.current - e.touches[0].clientX;
+      offsetRef.current = touchStartOffsetRef.current - deltaX;
+      
+      // Wrap around for seamless loop
+      if (offsetRef.current <= -halfWidth && halfWidth > 0) {
+        offsetRef.current += halfWidth;
+      } else if (offsetRef.current > 0) {
+        offsetRef.current -= halfWidth;
+      }
+      
+      if (trackRef.current) {
+        trackRef.current.style.transform = `translate3d(${offsetRef.current}px, 0, 0)`;
+      }
+    };
+
+    const handleTouchEnd = () => {
+      touchStartXRef.current = 0;
+      handleManualScrollEnd();
+    };
+
+    container.addEventListener("touchstart", handleTouchStart, { passive: true });
+    container.addEventListener("touchmove", handleTouchMove, { passive: true });
+    container.addEventListener("touchend", handleTouchEnd, { passive: true });
+
+    return () => {
+      container.removeEventListener("touchstart", handleTouchStart);
+      container.removeEventListener("touchmove", handleTouchMove);
+      container.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [halfWidth]);
+
+  useEffect(() => {
+    if (prefersReducedMotion || isManuallyScrolling) {
       return;
     }
 
@@ -112,8 +287,11 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
+      if (manualScrollTimeoutRef.current) {
+        clearTimeout(manualScrollTimeoutRef.current);
+      }
     };
-  }, [halfWidth, isHovered, prefersReducedMotion, baseSpeed, crawlSpeed]);
+  }, [halfWidth, isHovered, prefersReducedMotion, isManuallyScrolling, baseSpeed, crawlSpeed]);
 
   // Generate placeholder SVG data URLs
   const getPlaceholderImage = (kind: "desktop" | "iphone", index: number): string => {
@@ -189,6 +367,8 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
       <div
         ref={containerRef}
         className={styles.container}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
         <div ref={trackRef} className={styles.track}>
           {duplicatedItems.map((item, index) => {
