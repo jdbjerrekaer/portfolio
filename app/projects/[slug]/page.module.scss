@@ -130,20 +130,6 @@
   will-change: transform;
 }
 
-.coverImage {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  margin-bottom: var(--space-3xl);
-  background: var(--color-background-secondary);
-}
-
-.image {
-  object-fit: cover;
-}
-
 .content {
   // Prose styles are applied via the .prose class in globals.scss
 }

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import { getProjectBySlug, getProjectSlugs } from "@/lib/content/projects";
 import { MdxContent } from "@/components/MdxContent";
+import { ProjectCoverImage } from "@/components/ProjectCoverImage";
 import { Chip } from "@/components/ui";
 import { SFSymbol } from "@/components/ui/SFSymbol";
 import styles from "./page.module.scss";
@@ -14,7 +14,17 @@ interface ProjectPageProps {
 
 export async function generateStaticParams() {
   const slugs = await getProjectSlugs();
-  return slugs.map((slug) => ({ slug }));
+  const params = [];
+  
+  for (const slug of slugs) {
+    const project = await getProjectBySlug(slug);
+    // Only generate static params for projects that are not coming soon
+    if (project && !project.comingSoon) {
+      params.push({ slug });
+    }
+  }
+  
+  return params;
 }
 
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
@@ -38,6 +48,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const project = await getProjectBySlug(slug);
 
   if (!project) {
+    notFound();
+  }
+
+  // Redirect coming soon projects
+  if (project.comingSoon) {
     notFound();
   }
 
@@ -89,16 +104,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       </header>
 
       {project.coverImage && (
-        <div className={styles.coverImage}>
-          <Image
-            src={project.coverImage}
-            alt={`${project.title} project cover`}
-            fill
-            priority
-            className={styles.image}
-            sizes="(max-width: 1200px) 100vw, 1200px"
-          />
-        </div>
+        <ProjectCoverImage
+          src={project.coverImage}
+          alt={`${project.title} project cover`}
+          title={project.title}
+        />
       )}
 
       <div className={styles.content}>

@@ -2,13 +2,6 @@ import type { CarouselItem } from "@/components/DesignCarousel";
 
 export const designCarouselItems: CarouselItem[] = [
   { 
-    kind: "desktop", 
-    label: "Features Overview", 
-    tooltip: "ADTRACTION: Features Overview", 
-    image: "/projects/tools/tools-cover.png",
-    description: "A comprehensive overview of ADTRACTION's internal tools and features, including Google Ads integration, API access, webhooks, mobile app, Chrome extension, and more."
-  },
-  { 
     kind: "iphone", 
     label: "Mobile Dashboard", 
     tooltip: "ADTRACTION: Mobile Dashboard", 

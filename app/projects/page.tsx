@@ -50,6 +50,7 @@ export default async function ProjectsPage() {
                 tags={project.tags}
                 coverImage={project.coverImage}
                 hasCaseStudy={hasCaseStudy(project)}
+                comingSoon={project.comingSoon}
               />
             ))}
           </div>

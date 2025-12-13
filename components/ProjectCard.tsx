@@ -13,6 +13,7 @@ export interface ProjectCardProps {
   tags: string[];
   coverImage?: string;
   hasCaseStudy?: boolean;
+  comingSoon?: boolean;
 }
 
 export function ProjectCard({
@@ -23,6 +24,7 @@ export function ProjectCard({
   tags,
   coverImage,
   hasCaseStudy = false,
+  comingSoon = false,
 }: ProjectCardProps) {
   // Generate placeholder image if no coverImage provided
   const imageSrc = coverImage || `data:image/svg+xml,${encodeURIComponent(`
@@ -56,8 +58,8 @@ export function ProjectCard({
     </Card>
   );
 
-  // Wrap with tooltip if no case study yet
-  if (!hasCaseStudy) {
+  // Wrap with tooltip if coming soon or no case study yet
+  if (comingSoon || !hasCaseStudy) {
     return (
       <Tooltip
         content="Coming soon"

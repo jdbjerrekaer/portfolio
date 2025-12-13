@@ -13,6 +13,7 @@ const projectSchema = z.object({
   links: z.record(z.string(), z.string()).optional(),
   coverImage: z.string().optional(),
   featured: z.boolean().optional().default(false),
+  comingSoon: z.boolean().optional().default(false),
 });
 
 export type ProjectFrontmatter = z.infer<typeof projectSchema>;
@@ -68,6 +69,7 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
 
 /**
  * Get all projects, sorted by date (newest first)
+ * Includes all projects, including those marked as comingSoon
  */
 export async function getAllProjects(): Promise<Project[]> {
   const slugs = await getProjectSlugs();
@@ -88,6 +90,7 @@ export async function getAllProjects(): Promise<Project[]> {
 
 /**
  * Get featured projects
+ * Includes all projects marked as featured (may include comingSoon projects)
  */
 export async function getFeaturedProjects(): Promise<Project[]> {
   const projects = await getAllProjects();
