@@ -12,28 +12,44 @@ const navLinks = [
   { href: "/projects/", label: "Projects", icon: "folder" },
 ];
 
-const SCROLL_THRESHOLD = 500; // pixels to scroll before background appears
+const SCROLL_THRESHOLD_DESKTOP = 500; // pixels to scroll before background appears on desktop
+const SCROLL_THRESHOLD_MOBILE = 50; // pixels to scroll before background appears on mobile
 
 export function SiteHeader() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
+    const getScrollThreshold = () => {
+      // Check if mobile (viewport width <= 900px, matching the media query breakpoint)
+      return window.innerWidth <= 900 ? SCROLL_THRESHOLD_MOBILE : SCROLL_THRESHOLD_DESKTOP;
+    };
+
     const handleScroll = () => {
       const scrollY = window.scrollY;
+      const threshold = getScrollThreshold();
       // Background appears after threshold, but disappears immediately at top
-      if (scrollY > SCROLL_THRESHOLD) {
+      if (scrollY > threshold) {
         setIsScrolled(true);
       } else if (scrollY === 0) {
         setIsScrolled(false);
       }
     };
 
+    const handleResize = () => {
+      // Re-check scroll position when window resizes to apply correct threshold
+      handleScroll();
+    };
+
     // Check initial scroll position
     handleScroll();
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   const isActive = (href: string) => {

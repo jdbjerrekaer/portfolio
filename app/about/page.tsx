@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ApproachList } from "./ApproachList";
 import { BackgroundCards } from "./BackgroundCards";
 import { RolesCards } from "./RolesCards";
+import { SkillsCards } from "./SkillsCards";
 import styles from "./page.module.scss";
 
 export const metadata: Metadata = {
@@ -57,35 +58,7 @@ export default function AboutPage() {
 
         <div className={styles.section}>
           <h2>Skills</h2>
-          <div className={styles.skills}>
-            <div className={styles.skillGroup}>
-              <h3>Design</h3>
-              <ul>
-                <li>UX/UI Design & Interaction Design</li>
-                <li>Design Systems & Component Libraries</li>
-                <li>Prototyping & Usability Testing</li>
-                <li>User Research & Journey Mapping</li>
-              </ul>
-            </div>
-            <div className={styles.skillGroup}>
-              <h3>Development</h3>
-              <ul>
-                <li>React / Next.js, TypeScript</li>
-                <li>SCSS, Tailwind, Design Tokens</li>
-                <li>Accessibility (WCAG), QA with dev teams</li>
-                <li>Storybook & component documentation</li>
-              </ul>
-            </div>
-            <div className={styles.skillGroup}>
-              <h3>Tools</h3>
-              <ul>
-                <li>Figma, FigJam</li>
-                <li>Git & collaboration workflows</li>
-                <li>Storybook</li>
-                <li>Analytics & usability tooling</li>
-              </ul>
-            </div>
-          </div>
+          <SkillsCards />
         </div>
 
         <div className={styles.section}>
