@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getProjectBySlug, getProjectSlugs } from "@/lib/content/projects";
 import { MdxContent } from "@/components/MdxContent";
 import { ProjectCoverImage } from "@/components/ProjectCoverImage";
+import { ProjectImageGrid } from "@/components/ProjectImageGrid";
 import { Chip } from "@/components/ui";
 import { SFSymbol } from "@/components/ui/SFSymbol";
 import styles from "./page.module.scss";
@@ -114,6 +115,29 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       <div className={styles.content}>
         <MdxContent source={project.content} />
       </div>
+
+      {slug === "iriz" && (
+        <ProjectImageGrid
+          images={[
+            {
+              src: "/projects/iriz/home.png",
+              alt: "Iriz home page",
+            },
+            {
+              src: "/projects/iriz/brand-link-share.png",
+              alt: "Iriz brand link share interface",
+            },
+            {
+              src: "/projects/iriz/product-link-1.png",
+              alt: "Iriz product link interface 1",
+            },
+            {
+              src: "/projects/iriz/product-link-2.png",
+              alt: "Iriz product link interface 2",
+            },
+          ]}
+        />
+      )}
     </article>
   );
 }
