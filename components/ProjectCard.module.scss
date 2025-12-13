@@ -38,6 +38,10 @@
   transform: scale(1);
   transform-origin: center;
   will-change: transform;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 
   .link:hover &,
   .linkWrapper:hover & {
