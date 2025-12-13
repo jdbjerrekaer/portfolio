@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import type { ClientLogo } from "@/lib/content/clientLogos";
+import { Button } from "@/components/ui/Button";
 import styles from "./LogoGrid.module.scss";
 
 interface LogoGridProps {
@@ -243,14 +244,20 @@ export function LogoGrid({
         </div>
       </div>
       {showExpand && hasMore && (
-        <button
-          className={styles.expandButton}
-          onClick={handleToggle}
-          aria-expanded={isExpanded}
-          aria-label={isExpanded ? "Show fewer logos" : "Show all logos"}
-        >
-          {isExpanded ? "Show fewer" : `View all ${logos.length} logos`}
-        </button>
+        <div className={styles.buttonWrapper}>
+          <Button
+            variant="secondary"
+            size="md"
+            icon={isExpanded ? "eye.slash" : "eye"}
+            iconPosition="right"
+            onClick={handleToggle}
+            aria-expanded={isExpanded}
+            aria-label={isExpanded ? "Show fewer logos" : "Show all logos"}
+            className={isExpanded ? styles.buttonExpanded : styles.buttonCollapsed}
+          >
+            {isExpanded ? "Show fewer" : `View all ${logos.length} logos`}
+          </Button>
+        </div>
       )}
     </section>
   );

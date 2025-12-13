@@ -11,7 +11,8 @@ export interface SFSymbolProps {
 }
 
 // SF Symbols-inspired SVG icons (using SF Symbols-style paths)
-const symbolPaths: Record<string, { outline: string; filled: string }> = {
+// For icons with multiple paths, use an array of path strings
+const symbolPaths: Record<string, { outline: string | string[]; filled: string | string[] }> = {
   "folder": {
     outline: "M4 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-7l-2-2H4z",
     filled: "M4 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-7l-2-2H4z",
@@ -76,6 +77,29 @@ const symbolPaths: Record<string, { outline: string; filled: string }> = {
     outline: "M7 17L17 7M7 7h10v10",
     filled: "M7 17L17 7M7 7h10v10",
   },
+  "chevron.down": {
+    outline: "M6 9l6 6 6-6",
+    filled: "M6 9l6 6 6-6",
+  },
+  "chevron.up": {
+    outline: "M18 15l-6-6-6 6",
+    filled: "M18 15l-6-6-6 6",
+  },
+  "eye": {
+    outline: "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z",
+    filled: "M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z",
+  },
+  "eye.slash": {
+    outline: [
+      "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z",
+      "M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z",
+      "M3 3l18 18"
+    ],
+    filled: [
+      "M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z",
+      "M3 3l18 18"
+    ],
+  },
 };
 
 const strokeWidths: Record<string, number> = {
@@ -96,6 +120,8 @@ export const SFSymbol = forwardRef<SVGSVGElement, SFSymbolProps>(
     }
 
     const path = filled ? symbol.filled : symbol.outline;
+    const paths = Array.isArray(path) ? path : [path];
+    const isEyeSlash = name === "eye.slash";
 
     return (
       <svg
@@ -103,9 +129,9 @@ export const SFSymbol = forwardRef<SVGSVGElement, SFSymbolProps>(
         width={size}
         height={size}
         viewBox="0 0 24 24"
-        fill={filled ? "currentColor" : "none"}
-        stroke={filled ? "none" : "currentColor"}
-        strokeWidth={filled ? 0 : strokeWidth}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={strokeWidth}
         strokeLinecap="round"
         strokeLinejoin="round"
         className={className}
@@ -114,7 +140,22 @@ export const SFSymbol = forwardRef<SVGSVGElement, SFSymbolProps>(
           verticalAlign: "middle",
         }}
       >
-        <path d={path} />
+        {paths.map((p, index) => {
+          // For eye.slash, the slash line (last path) should always be a stroke
+          // The eye shape should be filled when filled=true, stroke when filled=false
+          const isSlashLine = isEyeSlash && index === paths.length - 1;
+          const shouldFill = filled && !isSlashLine;
+          
+          return (
+            <path
+              key={index}
+              d={p}
+              fill={shouldFill ? "currentColor" : "none"}
+              stroke={isSlashLine || !filled ? "currentColor" : "none"}
+              strokeWidth={isSlashLine || !filled ? strokeWidth : 0}
+            />
+          );
+        })}
       </svg>
     );
   }
