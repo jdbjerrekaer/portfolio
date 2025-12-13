@@ -1,19 +1,13 @@
 import type { CarouselItem } from "@/components/DesignCarousel";
 
 export const designCarouselItems: CarouselItem[] = [
-  { kind: "desktop", label: "Adtraction - Features overview", tooltip: "ADTRACTION: Features Overview", image: "/projects/tools/tools-cover.png" },
-  { kind: "iphone", label: "Adtraction mobile - Dashboard", tooltip: "ADTRACTION: Mobile Dashboard", image: "/projects/affiliate-marketing-mobile/cover.png" },
-  { kind: "desktop", label: "Brand Page Desktop", tooltip: "ADTRACTION Brand Page", image: "/projects/adtraction/brand-page-desktop.png" },
-  { kind: "desktop", label: "Brands Page Desktop", tooltip: "ADTRACTION Brands Directory", image: "/projects/adtraction/brands-page-desktop.png" },
-  { kind: "iphone", label: "Iriz Brand Page", tooltip: "Iriz: Influencer Affiliate Marketing", image: "/projects/iriz/cover.png" },
-  { kind: "desktop", label: "Affiliate Dashboard", tooltip: "Affiliate Marketing Dashboard", image: "/projects/affiliate-marketing-web/cover.png" },
-  { kind: "iphone", label: "Iriz Product Link", tooltip: "Iriz: Link Generation", image: "/projects/iriz/product-link-1.png" },
-  { kind: "desktop", label: "Desktop Design 1", tooltip: "Design System Components" },
-  { kind: "iphone", label: "Iriz Product Detail", tooltip: "Iriz: Product Page", image: "/projects/iriz/product-link-2.png" },
-  { kind: "desktop", label: "Desktop Design 2", tooltip: "Dashboard Layout" },
-  { kind: "iphone", label: "iPhone Design 1", tooltip: "Mobile App Interface" },
-  { kind: "desktop", label: "Desktop Design 3", tooltip: "Data Visualization" },
-  { kind: "iphone", label: "iPhone Design 2", tooltip: "User Profile Screen" },
-  { kind: "desktop", label: "Desktop Design 4", tooltip: "Settings Panel" },
+  { kind: "desktop", label: "Features Overview", tooltip: "ADTRACTION: Features Overview", image: "/projects/tools/tools-cover.png" },
+  { kind: "iphone", label: "Mobile Dashboard", tooltip: "ADTRACTION: Mobile Dashboard", image: "/projects/affiliate-marketing-mobile/cover.png" },
+  { kind: "desktop", label: "Brand Page", tooltip: "ADTRACTION: Brand Page", image: "/projects/adtraction/brand-page-desktop.png" },
+  { kind: "desktop", label: "Brands Directory", tooltip: "ADTRACTION: Brands Directory", image: "/projects/adtraction/brands-page-desktop.png" },
+  { kind: "iphone", label: "Brand Page", tooltip: "IRIZ: Brand Page", image: "/projects/iriz/cover.png" },
+  { kind: "desktop", label: "Affiliate Dashboard", tooltip: "ADTRACTION: Affiliate Dashboard", image: "/projects/affiliate-marketing-web/cover.png" },
+  { kind: "iphone", label: "Product Link", tooltip: "IRIZ: Link Generation", image: "/projects/iriz/product-link-1.png" },
+  { kind: "iphone", label: "Product Detail", tooltip: "IRIZ: Product Page", image: "/projects/iriz/product-link-2.png" },
 ];
 
