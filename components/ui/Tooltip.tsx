@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   autoUpdate,
   FloatingPortal,
@@ -35,7 +35,9 @@ export function Tooltip({
   className = "",
   followCursor = true,
   portal = true,
-}: TooltipProps): JSX.Element {
+}: TooltipProps): React.ReactElement | null {
+  const referenceRef = useRef<HTMLSpanElement | null>(null);
+  const floatingRef = useRef<HTMLDivElement | null>(null);
   const [open, setOpen] = useState(false);
   const { refs, floatingStyles, context } = useFloating({
     placement,
@@ -46,6 +48,12 @@ export function Tooltip({
       setOpen(next);
     },
   });
+
+  // Avoid accessing refs during render; bind DOM nodes after mount.
+  useEffect(() => {
+    refs.setReference(referenceRef.current);
+    refs.setFloating(floatingRef.current);
+  }, [refs]);
 
   useClientPoint(context, { enabled: followCursor });
 
@@ -68,14 +76,14 @@ export function Tooltip({
 
   return (
     <>
-      <span ref={refs.setReference} {...getReferenceProps()}>
+      <span ref={referenceRef} {...getReferenceProps()}>
         {children}
       </span>
       {open &&
         (portal ? (
           <FloatingPortal>
             <div
-              ref={refs.setFloating}
+              ref={floatingRef}
               style={floatingStyles}
               {...getFloatingProps({
                 className: mergedClassName,
@@ -86,7 +94,7 @@ export function Tooltip({
           </FloatingPortal>
         ) : (
           <div
-            ref={refs.setFloating}
+            ref={floatingRef}
             style={floatingStyles}
             {...getFloatingProps({
               className: mergedClassName,
