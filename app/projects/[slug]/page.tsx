@@ -5,6 +5,7 @@ import Image from "next/image";
 import { getProjectBySlug, getProjectSlugs } from "@/lib/content/projects";
 import { MdxContent } from "@/components/MdxContent";
 import { Chip } from "@/components/ui";
+import { SFSymbol } from "@/components/ui/SFSymbol";
 import styles from "./page.module.scss";
 
 interface ProjectPageProps {
@@ -49,7 +50,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     <article className={styles.page}>
       <header className={styles.header}>
         <Link href="/projects/" className={styles.backLink}>
-          ← Back to Projects
+          <SFSymbol name="arrow.left" size={16} weight="medium" className={styles.backIcon} />
+          <span>Back to Projects</span>
         </Link>
 
         <div className={styles.meta}>
@@ -78,7 +80,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 rel="noopener noreferrer"
                 className={styles.link}
               >
-                {label} →
+                {label}
+                <SFSymbol name="arrow.up.right" size={14} weight="medium" className={styles.externalIcon} />
               </a>
             ))}
           </div>

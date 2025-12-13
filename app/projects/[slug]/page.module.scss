@@ -9,16 +9,33 @@
 }
 
 .backLink {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   font-size: 0.9375rem;
   color: var(--color-text-secondary);
   text-decoration: none;
   margin-bottom: var(--space-xl);
-  transition: color var(--transition-fast);
+  transition: color 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateX(0);
+  will-change: transform;
 
   &:hover {
     color: var(--color-accent);
+    transform: translateX(-4px);
+
+    .backIcon {
+      transform: translateX(-2px);
+    }
   }
+}
+
+.backIcon {
+  flex-shrink: 0;
+  transition: transform 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateX(0);
+  will-change: transform;
 }
 
 .meta {
@@ -66,14 +83,51 @@
 }
 
 .link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
   font-size: 0.9375rem;
   font-weight: 500;
   color: var(--color-accent);
   text-decoration: none;
+  transition: color var(--transition-base) cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  padding-bottom: 2px;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                background-color 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+  }
 
   &:hover {
-    text-decoration: underline;
+    color: var(--color-accent-hover);
+
+    &::after {
+      transform: scaleX(1);
+      background-color: var(--color-accent-hover);
+    }
+
+    .externalIcon {
+      transform: translate(2px, -2px);
+    }
   }
+}
+
+.externalIcon {
+  flex-shrink: 0;
+  transition: transform 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translate(0, 0);
+  will-change: transform;
 }
 
 .coverImage {

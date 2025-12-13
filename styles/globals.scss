@@ -300,4 +300,11 @@ a {
     color: var(--color-text-secondary);
     font-style: italic;
   }
+
+  video {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+    background: var(--color-background-secondary);
+  }
 }

@@ -8,9 +8,20 @@ import { LogoGrid } from "@/components/LogoGrid";
 import { featuredProjects } from "@/lib/content/featuredProjects";
 import { designCarouselItems } from "@/lib/content/designCarouselItems";
 import { clientLogos } from "@/lib/content/clientLogos";
+import { getProjectBySlug, hasCaseStudy } from "@/lib/content/projects";
 import styles from "./page.module.scss";
 
 export default async function HomePage() {
+  // Fetch actual project data for featured projects to check if they have case studies
+  const featuredProjectsWithCaseStudy = await Promise.all(
+    featuredProjects.map(async (project) => {
+      const fullProject = await getProjectBySlug(project.slug);
+      return {
+        ...project,
+        hasCaseStudy: fullProject ? hasCaseStudy(fullProject) : false,
+      };
+    })
+  );
 
   return (
     <div className={styles.page}>
@@ -69,7 +80,7 @@ export default async function HomePage() {
             </Link>
           </div>
           <div className={styles.projectGrid}>
-            {featuredProjects.map((project) => (
+            {featuredProjectsWithCaseStudy.map((project) => (
               <ProjectCard
                 key={project.slug}
                 slug={project.slug}
@@ -78,7 +89,7 @@ export default async function HomePage() {
                 role={project.role}
                 tags={project.tags}
                 coverImage={project.coverImage}
-                hasCaseStudy={false}
+                hasCaseStudy={project.hasCaseStudy}
               />
             ))}
           </div>

@@ -25,6 +25,7 @@ export const Chip = forwardRef<HTMLDivElement, ChipProps>(
           whitespace-nowrap
           px-3
           py-1
+          select-none
           ${className}
         `}
         {...props}

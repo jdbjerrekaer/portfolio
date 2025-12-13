@@ -22,12 +22,12 @@ export const featuredProjects: FeaturedProject[] = [
   },
   {
     slug: "yadl",
-    title: "YADL",
-    summary: "A Figma plugin that streamlines design workflow automation and enhances UI system consistency.",
+    title: "YADL: Yet Another Design Linter",
+    summary: "A free Figma plugin that automates design system compliance checks and helps maintain design consistency across teams. Created to solve real-world design cleanup challenges and ensure adherence to design systems.",
     role: "Design Engineer",
-    tags: ["Figma Plugin", "Workflow Automation", "UI Systems", "Design Tools"],
-    coverImage: undefined, // Placeholder will be used
-    date: "2024-01-01",
+    tags: ["Figma Plugin", "Design System", "Workflow Automation", "Design Tools", "Open Source"],
+    coverImage: "/projects/yadl/yadl-cover.png",
+    date: "2024-01-15",
     featured: true,
   },
   {
