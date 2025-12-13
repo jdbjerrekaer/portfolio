@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getAllProjects } from "@/lib/content/projects";
+import { getAllProjects, hasCaseStudy } from "@/lib/content/projects";
 import { DesignCarousel } from "@/components/DesignCarousel";
 import { LogoGrid } from "@/components/LogoGrid";
 import { designCarouselItems } from "@/lib/content/designCarouselItems";
@@ -49,6 +49,7 @@ export default async function ProjectsPage() {
                 role={project.role}
                 tags={project.tags}
                 coverImage={project.coverImage}
+                hasCaseStudy={hasCaseStudy(project)}
               />
             ))}
           </div>
