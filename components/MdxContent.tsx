@@ -16,7 +16,7 @@ const components = {
   ),
   img: (props: ComponentProps<"img">) => {
     // Handle Next.js Image component for local images
-    if (props.src?.startsWith("/")) {
+    if (typeof props.src === "string" && props.src.startsWith("/")) {
       return (
         <div className="my-8 rounded-lg overflow-hidden">
           <Image
