@@ -23,6 +23,7 @@ export interface CarouselItem {
   label: string;
   tooltip?: string;
   image?: string; // Optional image path to use instead of placeholder
+  description?: string; // Optional description/caption shown in fullscreen modal
 }
 
 interface DesignCarouselProps {
@@ -42,7 +43,7 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [isManuallyScrolling, setIsManuallyScrolling] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null);
+  const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string; description?: string } | null>(null);
   const currentSpeedRef = useRef<number>(30); // pixels per second
   const baseSpeed = 30; // pixels per second
   const crawlSpeed = baseSpeed * 0.08; // 8% of base speed
@@ -300,8 +301,8 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
 
   // Generate placeholder SVG data URLs
   const getPlaceholderImage = (kind: "desktop" | "iphone", index: number): string => {
-    const width = kind === "desktop" ? 420 : 120;
-    const height = 260;
+    const width = kind === "desktop" ? 580 : 165;
+    const height = 360;
     const bgColor = kind === "desktop" ? "#f5f5f7" : "#e5e5e7";
     const textColor = "#86868b";
 
@@ -388,7 +389,7 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
     const imageSrc = getImageSrc(item, actualIndex);
     const imageAlt = `${item.label} - ${kind === "desktop" ? "Desktop" : "iPhone"} design ${actualIndex + 1}`;
     
-    setSelectedImage({ src: imageSrc, alt: imageAlt });
+    setSelectedImage({ src: imageSrc, alt: imageAlt, description: item.description });
     setIsModalOpen(true);
   };
 
@@ -456,6 +457,7 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
           onClose={handleModalClose}
           imageSrc={selectedImage.src}
           imageAlt={selectedImage.alt}
+          description={selectedImage.description}
         />
       )}
     </>

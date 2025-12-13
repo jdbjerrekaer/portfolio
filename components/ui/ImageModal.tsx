@@ -9,6 +9,7 @@ export interface ImageModalProps {
   onClose: () => void;
   imageSrc: string;
   imageAlt: string;
+  description?: string;
 }
 
 export function ImageModal({
@@ -16,6 +17,7 @@ export function ImageModal({
   onClose,
   imageSrc,
   imageAlt,
+  description,
 }: ImageModalProps): React.ReactElement | null {
   const [isPortrait, setIsPortrait] = useState<boolean>(false);
   // Handle ESC key press
@@ -108,6 +110,11 @@ export function ImageModal({
               draggable={false}
             />
           </div>
+          {description && (
+            <div className={styles.caption}>
+              {description}
+            </div>
+          )}
         </div>
       </div>
     </FloatingPortal>

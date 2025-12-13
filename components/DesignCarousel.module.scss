@@ -12,7 +12,7 @@
   overflow-y: visible;
   cursor: grab;
   // Add vertical padding to accommodate scaled images (1.02 scale = 2% extra space)
-  padding: calc(260px * 0.02) 0;
+  padding: calc(360px * 0.02) 0;
   
   &:active {
     cursor: grabbing;
@@ -55,7 +55,7 @@
 
 .item {
   flex-shrink: 0;
-  height: 260px;
+  height: 360px;
   overflow: hidden;
   border-radius: var(--radius-lg);
   background: var(--color-background-secondary);
@@ -73,11 +73,22 @@
 }
 
 .desktop {
-  width: 420px;
+  width: 580px;
 }
 
 .iphone {
-  width: 120px;
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  // Ensure any wrapper (like Tooltip) fills the container
+  > * {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .image {
@@ -93,5 +104,13 @@
   -khtml-user-drag: none;
   -moz-user-drag: none;
   -o-user-drag: none;
+}
+
+.iphone .image {
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  border: none;
 }
 
