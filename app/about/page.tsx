@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import { ApproachList } from "./ApproachList";
+import { BackgroundCards } from "./BackgroundCards";
+import { RolesCards } from "./RolesCards";
 import styles from "./page.module.scss";
 
 export const metadata: Metadata = {
@@ -23,24 +26,12 @@ export default function AboutPage() {
       <section className={styles.content}>
         <div className={styles.section}>
           <h2>Background</h2>
-          <p>
-            BSc in Technical Interaction Design (HCI, UX, and interaction
-            design). I’ve led design systems, collaborated tightly with
-            developers, and validated experiences through research and usability
-            testing. I’m energized by building coherent, scalable interfaces that
-            balance user needs with business goals.
-          </p>
+          <BackgroundCards />
         </div>
 
         <div className={styles.section}>
           <h2>Approach</h2>
-          <p>
-            I start with the problem—observing behavior, mapping user journeys,
-            and defining success metrics. From there, I prototype, test, and
-            iterate quickly with cross-functional teams. I prefer data-informed
-            decisions, accessible defaults, and close collaboration with
-            engineering to ship high-quality experiences.
-          </p>
+          <ApproachList />
         </div>
 
         <div className={styles.section}>
@@ -78,24 +69,7 @@ export default function AboutPage() {
 
         <div className={styles.section}>
           <h2>Recent roles</h2>
-          <ul className={styles.timeline}>
-            <li>
-              <strong>UX Engineer, Adtraction</strong> — Lead UX design across
-              user groups, translate requirements into real-world use cases, and
-              collaborate with devs and PMs to ship improvements.
-            </li>
-            <li>
-              <strong>Lead UI/UX Designer, Adservice</strong> — Built and
-              maintained design systems for 4 internal products; designed and
-              coded Angular web experiences; improved email engagement (+22%)
-              and client lead generation.
-            </li>
-            <li>
-              <strong>UI/UX Associate, No Zebra</strong> — Benchmarks, UX
-              reviews, and IT/system support; improved client UX through audits
-              and recommendations.
-            </li>
-          </ul>
+          <RolesCards />
         </div>
 
         <div className={styles.section}>
