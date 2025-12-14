@@ -185,37 +185,24 @@ jobs:
       - name: Verify cookie-policy page exists
         run: |
           # Verify cookie-policy page is generated correctly
-          REPO_NAME="${{ github.event.repository.name }}"
-          if [ ! -f "out/$REPO_NAME/cookie-policy/index.html" ]; then
-            echo "Error: cookie-policy page not found at out/$REPO_NAME/cookie-policy/index.html"
-            echo "Checking alternative locations..."
-            # Check if it exists without basePath (shouldn't happen)
-            if [ -f "out/cookie-policy/index.html" ]; then
-              echo "Found at out/cookie-policy/index.html, but expected with basePath"
-            fi
-            # List what exists in the out directory
-            echo "Contents of out directory:"
-            ls -la out/ || true
-            if [ -d "out/$REPO_NAME" ]; then
-              echo "Contents of out/$REPO_NAME:"
-              ls -la "out/$REPO_NAME/" || true
-            fi
-            exit 1
-          else
-            echo "✓ cookie-policy page found at out/$REPO_NAME/cookie-policy/index.html"
-            # Verify the file has content
-            if [ ! -s "out/$REPO_NAME/cookie-policy/index.html" ]; then
+          if [ -f "out/cookie-policy/index.html" ]; then
+            echo "✓ cookie-policy page found at out/cookie-policy/index.html"
+            if [ ! -s "out/cookie-policy/index.html" ]; then
               echo "Error: cookie-policy/index.html exists but is empty"
               exit 1
             fi
             echo "✓ cookie-policy page is ready for GitHub Pages"
+          else
+            echo "Error: cookie-policy page not found"
+            ls -la out/ || true
+            exit 1
           fi
 
       - name: Create cookie-policy redirect for paths without trailing slash
         run: |
-          # Create a redirect HTML file for /portfolio/cookie-policy (without trailing slash)
+          # Create a redirect HTML file for /cookie-policy (without trailing slash)
+          REDIRECT_FILE="out/cookie-policy.html"
           REPO_NAME="${{ github.event.repository.name }}"
-          REDIRECT_FILE="out/$REPO_NAME/cookie-policy.html"
           TARGET_PATH="/$REPO_NAME/cookie-policy/"
           printf '<!DOCTYPE html>\n<html>\n  <head>\n    <meta http-equiv="refresh" content="0; url=%s">\n    <link rel="canonical" href="%s">\n    <script>window.location.replace("%s");</script>\n  </head>\n  <body>\n    <p>Redirecting to <a href="%s">cookie policy</a>...</p>\n  </body>\n</html>\n' "$TARGET_PATH" "$TARGET_PATH" "$TARGET_PATH" "$TARGET_PATH" > "$REDIRECT_FILE"
           echo "✓ Created redirect file at $REDIRECT_FILE"
