@@ -156,12 +156,26 @@ function initializeCookieBanner(): void {
                 event: "consent_accepted_analytics",
               });
             }
+            if (typeof window !== "undefined") {
+              window.dispatchEvent(
+                new CustomEvent("analyticsConsentGranted", {
+                  detail: { cookieType: "analytics" },
+                })
+              );
+            }
           },
           onReject: function () {
             if (typeof window !== "undefined" && window.gtag) {
               window.gtag("consent", "update", {
                 analytics_storage: "denied",
               });
+            }
+            if (typeof window !== "undefined") {
+              window.dispatchEvent(
+                new CustomEvent("analyticsConsentRejected", {
+                  detail: { cookieType: "analytics" },
+                })
+              );
             }
           },
         },

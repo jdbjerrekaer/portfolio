@@ -3,6 +3,13 @@
 import { useEffect } from "react";
 import clarity from "@microsoft/clarity";
 
+declare global {
+  interface WindowEventMap {
+    analyticsConsentGranted: CustomEvent<{ cookieType: string }>;
+    analyticsConsentRejected: CustomEvent<{ cookieType: string }>;
+  }
+}
+
 /**
  * Constants
  */
@@ -28,6 +35,18 @@ const CONSENT_CONFIG = {
  * This ensures Clarity only initializes once, even if component re-renders
  */
 let isInitialized = false;
+
+const COOKIE_CONSENT_PREFIX = "silktideCookieChoice_";
+const ANALYTICS_COOKIE_ID = "analytics";
+
+function hasAnalyticsConsent(): boolean {
+  if (typeof window === "undefined" || typeof localStorage === "undefined") {
+    return false;
+  }
+
+  const consentKey = `${COOKIE_CONSENT_PREFIX}${ANALYTICS_COOKIE_ID}`;
+  return localStorage.getItem(consentKey) === "true";
+}
 
 /**
  * Validates a Clarity project ID format
@@ -111,116 +130,78 @@ function getValidatedProjectId(): string | null {
   return sanitized;
 }
 
-/**
- * Initializes Microsoft Clarity with security and privacy safeguards
- * 
- * Security features:
- * - Input validation prevents XSS/injection attacks
- * - Initialization guard prevents duplicate initialization
- * - Enhanced DNT support respects user privacy
- * - Graceful error handling prevents app crashes
- * 
- * Privacy features:
- * - Respects Do Not Track headers
- * - Uses GDPR-compliant consent API (consentV2)
- * - Only loads on client-side
- */
 function initializeClarity(): void {
-  // Guard: Prevent multiple initializations
   if (isInitialized) {
-    if (process.env.NODE_ENV === "development") {
-      console.warn("[Clarity] Already initialized, skipping");
-    }
     return;
   }
 
-  // Guard: Only run on client-side
   if (typeof window === "undefined") {
     return;
   }
 
-  // Privacy: Respect Do Not Track
   if (shouldRespectDNT()) {
-    if (process.env.NODE_ENV === "development") {
-      console.info("[Clarity] Do Not Track enabled, skipping initialization");
-    }
     return;
   }
 
-  // Security: Validate project ID
+  if (!hasAnalyticsConsent()) {
+    return;
+  }
+
   const projectId = getValidatedProjectId();
   if (!projectId) {
     return;
   }
 
   try {
-    // Initialize Clarity
     clarity.init(projectId);
-
-    // Set GDPR-compliant consent
-    // Note: For stricter compliance, wait for user consent before calling this
     clarity.consentV2(CONSENT_CONFIG);
-
-    // Mark as initialized after successful setup
     isInitialized = true;
-
-    if (process.env.NODE_ENV === "development") {
-      console.info("[Clarity] Initialized successfully");
-    }
   } catch (error) {
-    // Graceful degradation: Don't break the app if Clarity fails
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    
     if (process.env.NODE_ENV === "development") {
-      console.error("[Clarity] Initialization failed:", {
-        error: errorMessage,
-        projectId: projectId.substring(0, 5) + "...", // Log partial ID for debugging
-        environment: process.env.NODE_ENV,
-      });
+      console.error("[Clarity] Initialization failed:", error);
     }
-    
-    // In production, fail silently to prevent user-facing errors
   }
 }
 
 /**
  * Microsoft Clarity Analytics Component
  * 
- * Privacy-compliant implementation that:
- * - Respects Do Not Track (DNT) headers (enhanced detection)
- * - Uses GDPR-compliant consent API (consentV2)
- * - Only loads on client-side
- * - Validates and sanitizes project ID input
- * - Prevents duplicate initialization
- * - Handles errors gracefully
- * 
- * Security features:
- * - Input validation prevents XSS/injection attacks
- * - Initialization guards prevent race conditions
- * - Defense in depth with multiple validation layers
- * - Requires project ID via environment variable (not hardcoded)
- * 
- * Configuration:
- * - Set NEXT_PUBLIC_CLARITY_PROJECT_ID in your environment variables
- * - Never commit project IDs to version control
- * 
- * For GDPR compliance, you may want to:
- * - Show a cookie consent banner
- * - Call clarity.consentV2() based on user preferences
- * - Only initialize after user consent (if required by your jurisdiction)
+ * Only initializes after user accepts analytics cookies via cookie banner (GDPR compliant).
+ * Requires NEXT_PUBLIC_CLARITY_PROJECT_ID environment variable.
  */
 export function Clarity() {
   useEffect(() => {
     initializeClarity();
 
-    // Cleanup function (though Clarity doesn't provide a cleanup method)
-    // The effect dependency array ensures this only runs once per mount
+    const handleConsentGranted = () => {
+      if (!isInitialized) {
+        initializeClarity();
+      }
+    };
+
+    window.addEventListener("analyticsConsentGranted", handleConsentGranted);
+
+    const handleStorageChange = (e: StorageEvent) => {
+      const consentKey = `${COOKIE_CONSENT_PREFIX}${ANALYTICS_COOKIE_ID}`;
+      if (e.key === consentKey && e.newValue === "true") {
+        initializeClarity();
+      }
+    };
+    window.addEventListener("storage", handleStorageChange);
+
+    const checkConsentInterval = setInterval(() => {
+      if (!isInitialized && hasAnalyticsConsent()) {
+        initializeClarity();
+        clearInterval(checkConsentInterval);
+      }
+    }, 500);
+
     return () => {
-      // Clarity doesn't expose a cleanup method
-      // The isInitialized guard prevents re-initialization on re-renders
+      window.removeEventListener("analyticsConsentGranted", handleConsentGranted);
+      window.removeEventListener("storage", handleStorageChange);
+      clearInterval(checkConsentInterval);
     };
   }, []);
 
-  // This component doesn't render anything
   return null;
 }
