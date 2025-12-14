@@ -1,7 +1,7 @@
 "use client";
 
 import { Button as HeroButton, ButtonProps as HeroButtonProps } from "@heroui/react";
-import { forwardRef, ReactNode } from "react";
+import { forwardRef } from "react";
 import { SFSymbol } from "../SFSymbol";
 import styles from "./Button.module.scss";
 
@@ -11,7 +11,7 @@ export interface ButtonProps extends Omit<HeroButtonProps, "color" | "variant"> 
   iconPosition?: "left" | "right";
 }
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+const ButtonComponent = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ variant = "primary", size = "md", className = "", children, icon, iconPosition = "right", ...props }, ref) => {
     // Size-based padding - Apple-like button sizing
     const sizeStyles = {
@@ -69,5 +69,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   }
 );
 
-Button.displayName = "Button";
+ButtonComponent.displayName = "Button";
+
+export const Button = ButtonComponent;
 
