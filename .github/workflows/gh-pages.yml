@@ -48,26 +48,26 @@ jobs:
           BASE_PATH: "/${{ github.event.repository.name }}"
         run: |
           node - <<'NODE'
-const fs = require('fs');
-const path = require('path');
-const REPO_NAME = process.env.BASE_PATH?.replace(/^\//, '') || process.env.REPO_NAME || 'portfolio';
-const OUT_DIR = path.join(process.cwd(), 'out');
-function readFile(filePath) { try { return fs.readFileSync(filePath, 'utf8'); } catch { return null; } }
-function writeFile(filePath, content) { fs.writeFileSync(filePath, content, 'utf8'); }
-function hasCustomContent(content) { return content && (content.includes('NotFoundContent') || content.includes('Page not found')); }
-const root404Path = path.join(OUT_DIR, '404.html');
-const notFoundPath = path.join(OUT_DIR, '_not-found', 'index.html');
-const pages404Path = path.join(OUT_DIR, '404', 'index.html');
-console.log('Fixing 404.html...');
-const root404 = readFile(root404Path);
-const notFound = readFile(notFoundPath);
-const pages404 = readFile(pages404Path);
-if (root404 && hasCustomContent(root404)) { console.log('✓ 404.html already contains custom content'); process.exit(0); }
-console.log('⚠ 404.html missing custom content; trying fallbacks');
-if (notFound && hasCustomContent(notFound)) { writeFile(root404Path, notFound); console.log('✓ Copied from _not-found/index.html'); process.exit(0); }
-if (pages404 && hasCustomContent(pages404)) { writeFile(root404Path, pages404); console.log('✓ Copied from 404/index.html'); process.exit(0); }
-console.error('❌ No custom NotFoundContent found'); process.exit(1);
-NODE
+          const fs = require('fs');
+          const path = require('path');
+          const REPO_NAME = process.env.BASE_PATH?.replace(/^\//, '') || process.env.REPO_NAME || 'portfolio';
+          const OUT_DIR = path.join(process.cwd(), 'out');
+          function readFile(filePath) { try { return fs.readFileSync(filePath, 'utf8'); } catch { return null; } }
+          function writeFile(filePath, content) { fs.writeFileSync(filePath, 'utf8'); }
+          function hasCustomContent(content) { return content && (content.includes('NotFoundContent') || content.includes('Page not found')); }
+          const root404Path = path.join(OUT_DIR, '404.html');
+          const notFoundPath = path.join(OUT_DIR, '_not-found', 'index.html');
+          const pages404Path = path.join(OUT_DIR, '404', 'index.html');
+          console.log('Fixing 404.html...');
+          const root404 = readFile(root404Path);
+          const notFound = readFile(notFoundPath);
+          const pages404 = readFile(pages404Path);
+          if (root404 && hasCustomContent(root404)) { console.log('✓ 404.html already contains custom content'); process.exit(0); }
+          console.log('⚠ 404.html missing custom content; trying fallbacks');
+          if (notFound && hasCustomContent(notFound)) { writeFile(root404Path, notFound); console.log('✓ Copied from _not-found/index.html'); process.exit(0); }
+          if (pages404 && hasCustomContent(pages404)) { writeFile(root404Path, pages404); console.log('✓ Copied from 404/index.html'); process.exit(0); }
+          console.error('❌ No custom NotFoundContent found'); process.exit(1);
+          NODE
 
       - name: Ensure 404.html exists for GitHub Pages
         run: |
