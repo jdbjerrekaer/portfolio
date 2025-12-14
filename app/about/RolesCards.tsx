@@ -10,7 +10,10 @@ export function RolesCards() {
         <div className={styles.approachItem}>
           <SFSymbol name="briefcase" size={24} weight="medium" filled={false} className={styles.approachIcon} />
           <div className={styles.approachContent}>
-            <strong>UX Engineer, Adtraction</strong>
+            <div>
+              <strong>UX Engineer, Adtraction</strong>
+              <span className={styles.roleYears}>2022 - Present</span>
+            </div>
             <ul className={styles.approachSubList}>
               <li>Lead UX design across user groups</li>
               <li>Translate requirements into real-world use cases</li>
@@ -20,10 +23,19 @@ export function RolesCards() {
         </div>
       </li>
       <li>
-        <div className={styles.approachItem}>
+        <div className={`${styles.approachItem} ${styles.acquiredCompany}`}>
           <SFSymbol name="briefcase" size={24} weight="medium" filled={false} className={styles.approachIcon} />
           <div className={styles.approachContent}>
-            <strong>Lead UI/UX Designer, Adservice</strong>
+            <div>
+              <div className={styles.roleHeader}>
+                <strong>Lead UI/UX Designer, Adservice</strong>
+                <span className={styles.acquisitionBadge}>
+                  <SFSymbol name="arrow.right" size={14} weight="medium" filled={false} />
+                  Merged into Adtraction
+                </span>
+              </div>
+              <span className={styles.roleYears}>2020 - 2022</span>
+            </div>
             <ul className={styles.approachSubList}>
               <li>Built and maintained design systems for 4 products</li>
               <li>Designed and coded Angular web experiences</li>
@@ -36,7 +48,10 @@ export function RolesCards() {
         <div className={styles.approachItem}>
           <SFSymbol name="briefcase" size={24} weight="medium" filled={false} className={styles.approachIcon} />
           <div className={styles.approachContent}>
-            <strong>UI/UX Associate, No Zebra</strong>
+            <div>
+              <strong>UI/UX Associate, No Zebra</strong>
+              <span className={styles.roleYears}>2019 - 2020</span>
+            </div>
             <ul className={styles.approachSubList}>
               <li>Conducted benchmarks and UX reviews</li>
               <li>Provided IT/system support</li>
