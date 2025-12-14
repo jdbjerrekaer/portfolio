@@ -40,8 +40,19 @@ jobs:
           # Microsoft Clarity project ID (set as GitHub Secret)
           NEXT_PUBLIC_CLARITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_CLARITY_PROJECT_ID }}
         run: |
+          # Temporarily rename app/not-found.tsx so pages/404.tsx is used for static export
+          # app/not-found.tsx takes precedence but doesn't generate 404.html correctly
+          if [ -f "app/not-found.tsx" ]; then
+            echo "Temporarily renaming app/not-found.tsx so pages/404.tsx is used..."
+            mv app/not-found.tsx app/not-found.tsx.backup
+          fi
           npm run build
           touch out/.nojekyll
+          # Restore app/not-found.tsx after build
+          if [ -f "app/not-found.tsx.backup" ]; then
+            echo "Restoring app/not-found.tsx..."
+            mv app/not-found.tsx.backup app/not-found.tsx
+          fi
 
       - name: Ensure 404.html exists for GitHub Pages
         run: |
@@ -190,6 +201,31 @@ Sample of file content:"
           TARGET_PATH="/$REPO_NAME/cookie-policy/"
           printf '<!DOCTYPE html>\n<html>\n  <head>\n    <meta http-equiv="refresh" content="0; url=%s">\n    <link rel="canonical" href="%s">\n    <script>window.location.replace("%s");</script>\n  </head>\n  <body>\n    <p>Redirecting to <a href="%s">cookie policy</a>...</p>\n  </body>\n</html>\n' "$TARGET_PATH" "$TARGET_PATH" "$TARGET_PATH" "$TARGET_PATH" > "$REDIRECT_FILE"
           echo "✓ Created redirect file at $REDIRECT_FILE"
+      - name: Final verification - Ensure 404.html is ready for deployment
+        run: |
+          echo "=== Final 404.html Deployment Check ==="
+          if [ ! -f "out/404.html" ]; then
+            echo "✗ CRITICAL: 404.html does not exist at out/404.html"
+            exit 1
+          fi
+          
+          # Verify it has custom content
+          if ! grep -q "NotFoundContent\|Page not found" "out/404.html"; then
+            echo "✗ CRITICAL: 404.html does not contain custom NotFoundContent"
+            echo "This will result in default Next.js 404 being shown"
+            exit 1
+          fi
+          
+          # Verify it does NOT have default content
+          if grep -qi "this page could not be found" "out/404.html"; then
+            echo "✗ CRITICAL: 404.html contains default Next.js 404 message"
+            echo "pages/404.tsx is not being used - build will fail"
+            exit 1
+          fi
+          
+          echo "✓ 404.html verified - contains custom content and ready for deployment"
+          echo "File will be deployed at root of GitHub Pages site"
+          ls -lh out/404.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
