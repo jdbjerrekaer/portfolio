@@ -33,17 +33,22 @@ const components = {
     // Fallback to regular img for external images
     return <img {...props} className="my-8 rounded-lg w-full h-auto" />;
   },
-  video: (props: ComponentProps<"video">) => (
-    <div className="my-8 rounded-lg overflow-hidden bg-[var(--color-background-secondary)] shadow-md">
-      <video
-        {...props}
-        className="w-full h-auto"
-        controls
-        playsInline
-        preload="metadata"
-      />
-    </div>
-  ),
+  video: (props: ComponentProps<"video">) => {
+    const { children, className, ...videoProps } = props;
+    return (
+      <div className="my-8 rounded-lg overflow-hidden bg-[var(--color-background-secondary)] shadow-md">
+        <video
+          {...videoProps}
+          className={`w-full h-auto ${className || ""}`}
+          controls={videoProps.controls ?? true}
+          playsInline={videoProps.playsInline ?? true}
+          preload={videoProps.preload ?? "metadata"}
+        >
+          {children}
+        </video>
+      </div>
+    );
+  },
 };
 
 interface MdxContentProps {
