@@ -1,23 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/compat/router";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SFSymbol } from "@/components/ui/SFSymbol";
 import styles from "./SiteHeader.module.scss";
 
 const navLinks = [
   { href: "/", label: "Home", icon: "house" },
-  { href: "/about/", label: "About", icon: "person" },
-  { href: "/projects/", label: "Projects", icon: "folder" },
+  { href: "/about", label: "About", icon: "person" },
+  { href: "/projects", label: "Projects", icon: "folder" },
 ];
 
 const SCROLL_THRESHOLD_DESKTOP = 500; // pixels to scroll before background appears on desktop
 const SCROLL_THRESHOLD_MOBILE = 50; // pixels to scroll before background appears on mobile
 
 export function SiteHeader() {
-  const router = useRouter();
-  const pathname = router?.asPath ?? "";
+  const pathname = usePathname() ?? "/";
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -53,12 +52,18 @@ export function SiteHeader() {
     };
   }, []);
 
+  const normalizePath = (path: string) => {
+    if (!path) return "/";
+    if (path !== "/" && path.endsWith("/")) return path.slice(0, -1);
+    return path;
+  };
+
+  const activePath = normalizePath(pathname);
+
   const isActive = (href: string) => {
-    if (!pathname) return false;
-    if (href === "/") {
-      return pathname === "/" || pathname === "";
-    }
-    return pathname.startsWith(href);
+    const target = normalizePath(href);
+    if (target === "/") return activePath === "/";
+    return activePath === target || activePath.startsWith(`${target}/`);
   };
 
   return (
