@@ -121,6 +121,10 @@ function initializeCookieBanner(): void {
   }
 
   try {
+    // Get base path for cookie policy link
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH || process.env.BASE_PATH || "";
+    const cookiePolicyUrl = `${basePath}/cookie-policy`;
+
     // Configure the cookie banner
     window.silktideCookieBannerManager.updateCookieBannerConfig({
       background: {
@@ -184,7 +188,7 @@ function initializeCookieBanner(): void {
       text: {
         banner: {
           description:
-            '<p>We use cookies on our site to enhance your user experience, provide personalized content, and analyze our traffic. <a href="/cookie-policy" target="_blank">Cookie Policy.</a></p>',
+            `<p>We use cookies on our site to enhance your user experience, provide personalized content, and analyze our traffic. <a href="${cookiePolicyUrl}" target="_blank">Cookie Policy.</a></p>`,
           acceptAllButtonText: "Accept all",
           acceptAllButtonAccessibleLabel: "Accept all cookies",
           rejectNonEssentialButtonText: "Reject non-essential",
