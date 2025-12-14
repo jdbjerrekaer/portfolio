@@ -1,0 +1,1 @@
+export { ProjectCoverImage } from "./ProjectCoverImage";

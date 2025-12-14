@@ -1,0 +1,1 @@
+export { LogoGrid } from "./LogoGrid";

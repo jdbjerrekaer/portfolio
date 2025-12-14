@@ -2,7 +2,7 @@
 
 import { Button as HeroButton, ButtonProps as HeroButtonProps } from "@heroui/react";
 import { forwardRef, ReactNode } from "react";
-import { SFSymbol } from "./SFSymbol";
+import { SFSymbol } from "../SFSymbol";
 import styles from "./Button.module.scss";
 
 export interface ButtonProps extends Omit<HeroButtonProps, "color" | "variant"> {

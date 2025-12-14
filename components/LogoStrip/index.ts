@@ -1,0 +1,1 @@
+export { LogoStrip } from "./LogoStrip";
