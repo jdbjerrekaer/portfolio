@@ -122,18 +122,33 @@ jobs:
             echo "First 200 chars containing custom content:"
             grep -o "NotFoundContent\|Page not found" "$SOURCE_FILE" | head -3 || true
           else
-            echo "✗ ERROR: Custom content NOT found in 404.html"
-            echo "This means Next.js generated default 404 instead of using pages/404.tsx"
-            echo "Checking for default Next.js markers..."
-            if grep -qi "this page could not be found" "$SOURCE_FILE"; then
-              echo "✗ Found default Next.js 404 message - pages/404.tsx is NOT being used!"
-              echo "Sample of file content:"
-              head -c 500 "$SOURCE_FILE" | cat
-              echo ""
-              echo "This is a critical issue - the custom 404 page is not being generated"
-              exit 1
+            echo "⚠ Custom content NOT found in 404.html. Attempting to patch using app/_not-found output..."
+            if [ -f "out/_not-found/index.html" ]; then
+              cp "out/_not-found/index.html" "out/404.html"
+              SOURCE_FILE="out/404.html"
+              echo "Copied out/_not-found/index.html to out/404.html for fallback."
+            elif [ -f "out/404/index.html" ]; then
+              cp "out/404/index.html" "out/404.html"
+              SOURCE_FILE="out/404.html"
+              echo "Copied out/404/index.html to out/404.html for fallback."
+            fi
+            # Re-check after patch
+            if grep -q "NotFoundContent" "$SOURCE_FILE" || grep -q "Page not found" "$SOURCE_FILE"; then
+              echo "✓ Custom 404 content detected after patch"
+              grep -o "NotFoundContent\|Page not found" "$SOURCE_FILE" | head -3 || true
             else
-              echo "⚠ Warning: No custom content markers found, but also no default message"
+              echo "✗ ERROR: Custom content still NOT found in 404.html after patch"
+              echo "Checking for default Next.js markers..."
+              if grep -qi "this page could not be found" "$SOURCE_FILE"; then
+                echo "✗ Found default Next.js 404 message - pages/404.tsx is NOT being used!"
+                echo "Sample of file content:"
+                head -c 500 "$SOURCE_FILE" | cat
+                echo ""
+                echo "This is a critical issue - the custom 404 page is not being generated"
+                exit 1
+              else
+                echo "⚠ Warning: No custom content markers found, but also no default message"
+              fi
             fi
           fi
           
