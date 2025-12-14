@@ -92,8 +92,6 @@ jobs:
           fi
           
           echo "✓ 404.html is ready for GitHub Pages at out/404.html"
-
-
       - name: Verify cookie-policy page exists
         run: |
           # Verify cookie-policy page is generated correctly

@@ -10,7 +10,7 @@ export function NotFoundContent() {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[70vh] px-4 overflow-hidden">
+    <div className="flex flex-col items-center justify-center min-h-[70vh] px-4 overflow-hidden pt-16 pb-16 mt-8 mb-8">
       <div className="relative flex items-center justify-center text-[clamp(6rem,20vw,12rem)] font-bold leading-none select-none text-[var(--color-text-primary)] mb-8">
         <motion.span
           initial={{ opacity: 0, y: 20 }}
