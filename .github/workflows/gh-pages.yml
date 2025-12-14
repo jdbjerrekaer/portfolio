@@ -40,19 +40,14 @@ jobs:
           # Microsoft Clarity project ID (set as GitHub Secret)
           NEXT_PUBLIC_CLARITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_CLARITY_PROJECT_ID }}
         run: |
-          # Temporarily rename app/not-found.tsx so pages/404.tsx is used for static export
-          # app/not-found.tsx takes precedence but doesn't generate 404.html correctly
-          if [ -f "app/not-found.tsx" ]; then
-            echo "Temporarily renaming app/not-found.tsx so pages/404.tsx is used..."
-            mv app/not-found.tsx app/not-found.tsx.backup
-          fi
           npm run build
           touch out/.nojekyll
-          # Restore app/not-found.tsx after build
-          if [ -f "app/not-found.tsx.backup" ]; then
-            echo "Restoring app/not-found.tsx..."
-            mv app/not-found.tsx.backup app/not-found.tsx
-          fi
+
+      - name: Fix 404.html to use custom NotFoundContent
+        env:
+          BASE_PATH: "/${{ github.event.repository.name }}"
+        run: |
+          node scripts/fix-404.js
 
       - name: Ensure 404.html exists for GitHub Pages
         run: |

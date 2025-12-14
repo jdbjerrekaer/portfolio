@@ -16,6 +16,12 @@ const nextConfig: NextConfig = {
   // Required for static export - disable image optimization
   images: {
     unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "media.licdn.com",
+      },
+    ],
   },
 
   // SCSS support is built-in with sass package installed
