@@ -11,3 +11,6 @@ export type { ChipProps } from "./Chip";
 export { ImageModal } from "./ImageModal";
 export type { ImageModalProps } from "./ImageModal";
 
+export { ImageGalleryModal } from "./ImageGalleryModal";
+export type { ImageGalleryModalProps, GalleryImage } from "./ImageGalleryModal";
+
