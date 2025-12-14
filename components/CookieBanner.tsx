@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { withBasePath } from "@/lib/utils/paths";
 
 /**
  * Global initialization guard to prevent multiple initializations
@@ -245,12 +246,12 @@ export function CookieBanner() {
     const cssLink = document.createElement("link");
     cssLink.rel = "stylesheet";
     cssLink.id = "silktide-consent-manager-css";
-    cssLink.href = "/cookie-banner/silktide-consent-manager.css";
+    cssLink.href = withBasePath("/cookie-banner/silktide-consent-manager.css");
     document.head.appendChild(cssLink);
 
     // Load and initialize script
     const script = document.createElement("script");
-    script.src = "/cookie-banner/silktide-consent-manager.js";
+    script.src = withBasePath("/cookie-banner/silktide-consent-manager.js");
     script.async = true;
 
     script.onload = () => {
@@ -273,8 +274,9 @@ export function CookieBanner() {
     // Cleanup function
     return () => {
       // Remove script and CSS on unmount
+      const scriptPath = withBasePath("/cookie-banner/silktide-consent-manager.js");
       const existingScript = document.querySelector(
-        'script[src="/cookie-banner/silktide-consent-manager.js"]'
+        `script[src="${scriptPath}"]`
       );
       if (existingScript) {
         existingScript.remove();
