@@ -10,6 +10,10 @@ export interface ImageModalProps {
   imageSrc: string;
   imageAlt: string;
   description?: string;
+  onNext?: () => void;
+  onPrev?: () => void;
+  hasNext?: boolean;
+  hasPrev?: boolean;
 }
 
 export function ImageModal({
@@ -18,27 +22,47 @@ export function ImageModal({
   imageSrc,
   imageAlt,
   description,
+  onNext,
+  onPrev,
+  hasNext = false,
+  hasPrev = false,
 }: ImageModalProps): React.ReactElement | null {
   const [isPortrait, setIsPortrait] = useState<boolean>(false);
-  // Handle ESC key press
+  // Handle keyboard interactions (Escape + arrow navigation)
   useEffect(() => {
     if (!isOpen) return;
 
-    const handleEscape = (e: KeyboardEvent) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
+        // Ensure only the image modal handles this Escape press
+        e.stopImmediatePropagation();
         onClose();
+        return;
+      }
+
+      if (e.key === "ArrowRight" && hasNext && onNext) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        onNext();
+        return;
+      }
+
+      if (e.key === "ArrowLeft" && hasPrev && onPrev) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        onPrev();
       }
     };
 
-    document.addEventListener("keydown", handleEscape);
+    document.addEventListener("keydown", handleKeyDown, { capture: true });
     // Prevent body scroll when modal is open
     document.body.style.overflow = "hidden";
 
     return () => {
-      document.removeEventListener("keydown", handleEscape);
+      document.removeEventListener("keydown", handleKeyDown, { capture: true });
       document.body.style.overflow = "";
     };
-  }, [isOpen, onClose]);
+  }, [hasNext, hasPrev, isOpen, onClose, onNext, onPrev]);
 
   // Detect portrait orientation by loading image and checking dimensions
   useEffect(() => {
@@ -102,6 +126,54 @@ export function ImageModal({
               />
             </svg>
           </button>
+          {hasPrev && onPrev && (
+            <button
+              className={`${styles.navButton} ${styles.prevButton}`}
+              onClick={onPrev}
+              aria-label="View previous image"
+              type="button"
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M15 18l-6-6 6-6"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          )}
+          {hasNext && onNext && (
+            <button
+              className={`${styles.navButton} ${styles.nextButton}`}
+              onClick={onNext}
+              aria-label="View next image"
+              type="button"
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9 6l6 6-6 6"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          )}
           <div className={styles.imageWrapper}>
             <img
               src={imageSrc}

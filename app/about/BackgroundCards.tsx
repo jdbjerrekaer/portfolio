@@ -7,100 +7,61 @@ import { ImageModal, ImageGalleryModal, type GalleryImage } from "@/components/u
 import { withBasePath } from "@/lib/utils/paths";
 import styles from "./page.module.scss";
 
-const displayedImages = [
-  {
-    src: "/images/personal/3d-printing-1.jpg",
-    alt: "3D printing project",
-    caption: "3D printing project",
-  },
-  {
-    src: "/images/personal/karate-1.jpg",
-    alt: "Karate training",
-    caption: "Karate training",
-  },
-  {
-    src: "/images/personal/bouldering-1.jpg",
-    alt: "Bouldering session",
-    caption: "Bouldering session",
-  },
-];
-
 const galleryImages: GalleryImage[] = [
   {
-    src: "/images/personal/3d-printing-1.jpg",
-    alt: "3D printing project",
-    caption: "3D printing project",
+    src: "/images/personal/cutting-board-holder.png",
+    alt: "3D printed wall-mounted cutting board holder",
+    caption: "3D printed wall-mounted cutting board holder",
   },
   {
-    src: "/images/personal/karate-1.jpg",
-    alt: "Karate training",
-    caption: "Karate training",
+    src: "/images/personal/water-bottle-drying-stand.png",
+    alt: "3D printed water bottle drying stand",
+    caption: "3D printed water bottle drying stand",
   },
   {
-    src: "/images/personal/bouldering-1.jpg",
-    alt: "Bouldering session",
-    caption: "Bouldering session",
+    src: "/images/personal/battery-organizers.png",
+    alt: "3D printed battery organizers for AAA and AA batteries",
+    caption: "3D printed battery organizers for AAA and AA batteries",
   },
   {
-    src: "/images/personal/gallery-01.jpg",
-    alt: "Personal interest",
-    caption: "Personal interest",
+    src: "/images/personal/scrub-daddy-holder.png",
+    alt: "3D printed Scrub Daddy holder",
+    caption: "3D printed Scrub Daddy holder",
   },
   {
-    src: "/images/personal/gallery-02.jpg",
-    alt: "Personal interest",
-    caption: "Personal interest",
-  },
-  {
-    src: "/images/personal/gallery-03.jpg",
-    alt: "Personal interest",
-    caption: "Personal interest",
-  },
-  {
-    src: "/images/personal/gallery-04.jpg",
-    alt: "Personal interest",
-    caption: "Personal interest",
-  },
-  {
-    src: "/images/personal/gallery-05.jpg",
-    alt: "Personal interest",
-    caption: "Personal interest",
-  },
-  {
-    src: "/images/personal/gallery-06.jpg",
-    alt: "Personal interest",
-    caption: "Personal interest",
-  },
-  {
-    src: "/images/personal/gallery-07.jpg",
-    alt: "Personal interest",
-    caption: "Personal interest",
-  },
-  {
-    src: "/images/personal/gallery-08.jpg",
-    alt: "Personal interest",
-    caption: "Personal interest",
-  },
-  {
-    src: "/images/personal/gallery-09.jpg",
-    alt: "Personal interest",
-    caption: "Personal interest",
+    src: "/images/personal/sunglasses-holders-display.png",
+    alt: "3D printed sunglasses holders and personal collection display",
+    caption: "3D printed sunglasses holders and personal collection display",
   },
 ];
 
+const displayedImages = galleryImages.slice(0, 3);
+
 export function BackgroundCards() {
-  const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string; caption?: string } | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
 
+  const getImageSrc = (image: GalleryImage) => {
+    if (image.src.startsWith("data:") || image.src.startsWith("http")) {
+      return image.src;
+    }
+
+    return withBasePath(image.src);
+  };
+
+  const openImageAtIndex = (index: number) => {
+    if (!galleryImages.length) return;
+    const normalizedIndex = ((index % galleryImages.length) + galleryImages.length) % galleryImages.length;
+    setSelectedIndex(normalizedIndex);
+  };
+
   const handleImageClick = (image: typeof displayedImages[0]) => {
-    const imageSrc = image.src.startsWith("data:") || image.src.startsWith("http")
-      ? image.src
-      : withBasePath(image.src);
-    setSelectedImage({ src: imageSrc, alt: image.alt, caption: image.caption });
+    const index = galleryImages.findIndex((img) => img.src === image.src);
+    openImageAtIndex(index === -1 ? 0 : index);
   };
 
   const handleModalClose = () => {
-    setSelectedImage(null);
+    setSelectedIndex(null);
   };
 
   const handleGalleryOpen = () => {
@@ -112,12 +73,27 @@ export function BackgroundCards() {
   };
 
   const handleGallerySelect = (image: GalleryImage) => {
-    const imageSrc = image.src.startsWith("data:") || image.src.startsWith("http")
-      ? image.src
-      : withBasePath(image.src);
-    setSelectedImage({ src: imageSrc, alt: image.alt, caption: image.caption });
+    const index = galleryImages.findIndex((img) => img.src === image.src);
+    openImageAtIndex(index === -1 ? 0 : index);
   };
 
+  const handlePrevious = () => {
+    setSelectedIndex((current) => {
+      if (current === null) return null;
+      return (current - 1 + galleryImages.length) % galleryImages.length;
+    });
+  };
+
+  const handleNext = () => {
+    setSelectedIndex((current) => {
+      if (current === null) return null;
+      return (current + 1) % galleryImages.length;
+    });
+  };
+
+  const selectedImage = selectedIndex !== null ? galleryImages[selectedIndex] : null;
+  const selectedImageSrc = selectedImage ? getImageSrc(selectedImage) : "";
+  const canNavigate = galleryImages.length > 1;
   const moreImagesCount = galleryImages.length - displayedImages.length;
 
   return (
@@ -248,9 +224,13 @@ export function BackgroundCards() {
         <ImageModal
           isOpen={!!selectedImage}
           onClose={handleModalClose}
-          imageSrc={selectedImage.src}
+          imageSrc={selectedImageSrc}
           imageAlt={selectedImage.alt}
           description={selectedImage.caption}
+          onPrev={canNavigate ? handlePrevious : undefined}
+          onNext={canNavigate ? handleNext : undefined}
+          hasPrev={canNavigate}
+          hasNext={canNavigate}
         />
       )}
       <ImageGalleryModal
