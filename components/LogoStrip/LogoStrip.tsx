@@ -11,6 +11,8 @@ interface LogoStripProps {
   className?: string;
 }
 
+const LOGO_SECTION_LABEL = "Clients & Collaborators";
+
 export function LogoStrip({ logos, title, className }: LogoStripProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -277,7 +279,7 @@ export function LogoStrip({ logos, title, className }: LogoStripProps) {
   return (
     <section
       className={`${styles.strip} ${className || ""}`}
-      aria-label={title || "Client logos"}
+      aria-label={title || LOGO_SECTION_LABEL}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

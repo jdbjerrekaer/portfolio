@@ -54,24 +54,14 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Logo Strip Section */}
-      <section className={styles.logoStrip}>
-        <LogoStrip logos={clientLogos} title="Trusted by" />
-      </section>
-
       {/* Design Carousel Section */}
       <section className={styles.carousel}>
         <DesignCarousel items={designCarouselItems} />
       </section>
 
-      {/* Client Logos Grid Section */}
-      <section className={styles.logos}>
-        <LogoGrid
-          logos={clientLogos}
-          title="Selected Partners"
-          description="From large international brands to local Danish, Swedish, Norwegian, and Finnish companies, collaborating with innovative teams across the Nordic region and beyond."
-          maxVisible={12}
-        />
+      {/* Logo Strip Section */}
+      <section className={styles.logoStrip}>
+        <LogoStrip logos={clientLogos} title="Clients & Collaborators" />
       </section>
 
       {/* Featured Projects Section */}
@@ -100,6 +90,16 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      {/* Client Logos Grid Section */}
+      <section className={styles.logos}>
+        <LogoGrid
+          logos={clientLogos}
+          title="Clients & Collaborators"
+          description="From large international brands to local Danish, Swedish, Norwegian, and Finnish companies, collaborating with innovative teams across the Nordic region and beyond."
+          maxVisible={12}
+        />
+      </section>
     </div>
   );
 }

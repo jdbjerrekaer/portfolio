@@ -8,7 +8,7 @@ import styles from "./SiteHeader.module.scss";
 
 const navLinks = [
   { href: "/", label: "Home", icon: "house" },
-  { href: "/about", label: "About", icon: "person" },
+  { href: "/about", label: "About Me", icon: "person" },
   { href: "/projects", label: "Projects", icon: "folder" },
 ];
 
@@ -70,7 +70,7 @@ export function SiteHeader() {
     <header className={`${styles.header} ${isScrolled ? styles.scrolled : ""}`}>
       <nav className={styles.nav} aria-label="Main navigation">
         <Link href="/" className={styles.logo}>
-          JonatanDB
+          Jonatan Daugbjerg Bjerrekær
         </Link>
         <ul className={styles.navList}>
           {navLinks.map((link) => (

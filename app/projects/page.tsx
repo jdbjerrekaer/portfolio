@@ -29,14 +29,6 @@ export default async function ProjectsPage() {
         <DesignCarousel items={designCarouselItems} />
       </section>
 
-      <section className={styles.logos}>
-        <LogoGrid
-          logos={clientLogos}
-          title="Clients & Collaborators"
-          maxVisible={12}
-        />
-      </section>
-
       {projects.length > 0 ? (
         <section className={styles.projects}>
           <div className={styles.grid}>
@@ -60,6 +52,14 @@ export default async function ProjectsPage() {
           <p>No projects yet. Check back soon!</p>
         </section>
       )}
+
+      <section className={styles.logos}>
+        <LogoGrid
+          logos={clientLogos}
+          title="Clients & Collaborators"
+          maxVisible={12}
+        />
+      </section>
     </div>
   );
 }

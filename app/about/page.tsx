@@ -30,10 +30,12 @@ export default function AboutPage() {
           <div className={styles.heroText}>
             <h1>About Me</h1>
             <p className={styles.intro}>
-              I'm Jonatan Bjerrekær, a UX/UI designer with 3+ years crafting B2B
-              software. I blend user research, interaction design, and systems
-              thinking to simplify complex problems and deliver intuitive
-              experiences.
+              Hi, I&apos;m Jonatan Bjerrekær 👋 a curious design engineer who likes to
+              sit with real users, map messy workflows into clearer journeys,
+              sketch scrappy prototypes, and then build the thing so it actually
+              works. I grew up tinkering with side projects, and today I bring
+              that same energy to B2B products: making complex tools feel as
+              calm and clear as possible.
             </p>
           </div>
         </div>

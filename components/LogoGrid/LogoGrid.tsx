@@ -15,6 +15,8 @@ interface LogoGridProps {
   className?: string;
 }
 
+const LOGO_SECTION_LABEL = "Clients & Collaborators";
+
 export function LogoGrid({
   logos,
   title,
@@ -185,7 +187,7 @@ export function LogoGrid({
   return (
     <section
       className={`${styles.grid} ${className || ""}`}
-      aria-label={title || "Client logos"}
+      aria-label={title || LOGO_SECTION_LABEL}
     >
       {title && <h2 className={styles.title}>{title}</h2>}
       {description && <p className={styles.description}>{description}</p>}
