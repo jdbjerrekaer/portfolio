@@ -30,7 +30,10 @@ export default async function ProjectsPage() {
       </section>
 
       {projects.length > 0 ? (
-        <section className={styles.projects}>
+        <section className={styles.projects} aria-labelledby="projects-list-label">
+          <p id="projects-list-label" className={styles.sectionLabel}>
+            Case studies & explorations
+          </p>
           <div className={styles.grid}>
             {projects.map((project) => (
               <ProjectCard
@@ -57,6 +60,7 @@ export default async function ProjectsPage() {
         <LogoGrid
           logos={clientLogos}
           title="Clients & Collaborators"
+          align="left"
           maxVisible={12}
         />
       </section>

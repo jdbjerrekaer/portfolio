@@ -137,6 +137,34 @@
   margin-top: var(--space-xl);
 }
 
+.alignLeft {
+  text-align: left;
+
+  .title {
+    text-align: left;
+  }
+
+  .description {
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+.alignCenter {
+  text-align: center;
+
+  .title {
+    text-align: center;
+  }
+
+  .description {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 // Responsive adjustments
 @media (max-width: 768px) {
   .grid {

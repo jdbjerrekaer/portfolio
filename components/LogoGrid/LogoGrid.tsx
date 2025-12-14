@@ -13,6 +13,7 @@ interface LogoGridProps {
   maxVisible?: number;
   showExpand?: boolean;
   className?: string;
+  align?: "left" | "center";
 }
 
 const LOGO_SECTION_LABEL = "Clients & Collaborators";
@@ -24,6 +25,7 @@ export function LogoGrid({
   maxVisible = 12,
   showExpand = true,
   className,
+  align = "center",
 }: LogoGridProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isAnimatingLogos, setIsAnimatingLogos] = useState(false);
@@ -184,9 +186,11 @@ export function LogoGrid({
     });
   }, []);
 
+  const alignmentClass = align === "left" ? styles.alignLeft : styles.alignCenter;
+
   return (
     <section
-      className={`${styles.grid} ${className || ""}`}
+      className={`${styles.grid} ${alignmentClass} ${className || ""}`}
       aria-label={title || LOGO_SECTION_LABEL}
     >
       {title && <h2 className={styles.title}>{title}</h2>}
