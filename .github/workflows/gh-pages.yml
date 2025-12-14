@@ -64,23 +64,19 @@ jobs:
           echo "Current directory: $(pwd)"
           
           # List out directory structure first
-          echo "
-=== Out directory structure ==="
+          echo "=== Out directory structure ==="
           ls -la out/ 2>/dev/null | head -20 || echo "out/ directory not found"
           if [ -d "out/$REPO_NAME" ]; then
-            echo "
-=== Contents of out/$REPO_NAME ==="
+            echo "=== Contents of out/$REPO_NAME ==="
             ls -la "out/$REPO_NAME/" 2>/dev/null | head -20 || true
           fi
           
           # Search for all 404.html files
-          echo "
-=== Searching for 404.html files ==="
+          echo "=== Searching for 404.html files ==="
           find out -name "404.html" -type f 2>/dev/null || echo "No 404.html files found"
           
           # Check if 404.html exists at root
-          echo "
-=== Checking root location ==="
+          echo "=== Checking root location ==="
           if [ -f "out/404.html" ]; then
             echo "✓ Found 404.html at out/404.html (root)"
             echo "File size: $(stat -f%z out/404.html 2>/dev/null || stat -c%s out/404.html 2>/dev/null || echo unknown) bytes"
@@ -100,11 +96,9 @@ jobs:
             SOURCE_FILE="out/404.html"
           else
             echo "✗ Error: 404.html not found in expected locations"
-            echo "
-=== Full directory tree (out/) ==="
+            echo "=== Full directory tree (out/) ==="
             find out -type f -name "*.html" | head -30 || true
-            echo "
-=== Checking if pages/404.tsx exists ==="
+            echo "=== Checking if pages/404.tsx exists ==="
             if [ -f "pages/404.tsx" ]; then
               echo "pages/404.tsx exists"
             else
@@ -114,8 +108,7 @@ jobs:
           fi
           
           # Verify the file has content
-          echo "
-=== Verifying file content ==="
+          echo "=== Verifying file content ==="
           if [ ! -s "$SOURCE_FILE" ]; then
             echo "✗ Error: 404.html exists but is empty"
             exit 1
@@ -123,8 +116,7 @@ jobs:
           echo "✓ File has content"
           
           # Check for custom content - CRITICAL VERIFICATION
-          echo "
-=== Checking for custom NotFoundContent ==="
+          echo "=== Checking for custom NotFoundContent ==="
           if grep -q "NotFoundContent" "$SOURCE_FILE" || grep -q "Page not found" "$SOURCE_FILE"; then
             echo "✓ Custom 404 content detected (NotFoundContent or 'Page not found' found)"
             echo "First 200 chars containing custom content:"
@@ -135,11 +127,9 @@ jobs:
             echo "Checking for default Next.js markers..."
             if grep -qi "this page could not be found" "$SOURCE_FILE"; then
               echo "✗ Found default Next.js 404 message - pages/404.tsx is NOT being used!"
-              echo "
-Sample of file content:"
+              echo "Sample of file content:"
               head -c 500 "$SOURCE_FILE" | cat
-              echo "
-"
+              echo ""
               echo "This is a critical issue - the custom 404 page is not being generated"
               exit 1
             else
@@ -148,8 +138,7 @@ Sample of file content:"
           fi
           
           # Verify asset paths are correct (should reference basePath)
-          echo "
-=== Verifying asset paths ==="
+          echo "=== Verifying asset paths ==="
           if grep -q "/$REPO_NAME/_next" "$SOURCE_FILE" || grep -q "/_next" "$SOURCE_FILE"; then
             echo "✓ Asset paths found in 404.html"
             echo "Sample asset references:"
@@ -158,8 +147,7 @@ Sample of file content:"
             echo "⚠ Warning: No _next asset paths found in 404.html"
           fi
           
-          echo "
-=== Final verification ==="
+          echo "=== Final verification ==="
           echo "✓ 404.html is ready for GitHub Pages at out/404.html"
           echo "File location: $(pwd)/out/404.html"
           echo "File exists: $([ -f "out/404.html" ] && echo "yes" || echo "no")"
