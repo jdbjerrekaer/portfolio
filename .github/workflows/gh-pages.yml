@@ -48,50 +48,111 @@ jobs:
           # GitHub Pages expects 404.html at the root of the deployed site
           # With basePath, Next.js might generate it in a subdirectory
           REPO_NAME="${{ github.event.repository.name }}"
-          echo "Checking for 404.html..."
+          echo "=== 404.html Verification ==="
           echo "Repository name: $REPO_NAME"
+          echo "Current directory: $(pwd)"
+          
+          # List out directory structure first
+          echo "
+=== Out directory structure ==="
+          ls -la out/ 2>/dev/null | head -20 || echo "out/ directory not found"
+          if [ -d "out/$REPO_NAME" ]; then
+            echo "
+=== Contents of out/$REPO_NAME ==="
+            ls -la "out/$REPO_NAME/" 2>/dev/null | head -20 || true
+          fi
+          
+          # Search for all 404.html files
+          echo "
+=== Searching for 404.html files ==="
+          find out -name "404.html" -type f 2>/dev/null || echo "No 404.html files found"
           
           # Check if 404.html exists at root
+          echo "
+=== Checking root location ==="
           if [ -f "out/404.html" ]; then
             echo "✓ Found 404.html at out/404.html (root)"
+            echo "File size: $(stat -f%z out/404.html 2>/dev/null || stat -c%s out/404.html 2>/dev/null || echo unknown) bytes"
             SOURCE_FILE="out/404.html"
           # Check if it exists in the basePath subdirectory
           elif [ -f "out/$REPO_NAME/404.html" ]; then
             echo "Found 404.html at out/$REPO_NAME/404.html, copying to root"
             cp "out/$REPO_NAME/404.html" "out/404.html"
+            echo "Copy completed. Verifying..."
+            if [ -f "out/404.html" ]; then
+              echo "✓ Copy successful"
+              echo "File size: $(stat -f%z out/404.html 2>/dev/null || stat -c%s out/404.html 2>/dev/null || echo unknown) bytes"
+            else
+              echo "✗ Copy failed - file not found after copy"
+              exit 1
+            fi
             SOURCE_FILE="out/404.html"
           else
-            echo "Error: 404.html not found in expected locations"
-            echo "Checking directory structure..."
-            echo "Contents of out directory:"
-            ls -la out/ || true
-            if [ -d "out/$REPO_NAME" ]; then
-              echo "Contents of out/$REPO_NAME:"
-              ls -la "out/$REPO_NAME/" | head -20 || true
+            echo "✗ Error: 404.html not found in expected locations"
+            echo "
+=== Full directory tree (out/) ==="
+            find out -type f -name "*.html" | head -30 || true
+            echo "
+=== Checking if pages/404.tsx exists ==="
+            if [ -f "pages/404.tsx" ]; then
+              echo "pages/404.tsx exists"
+            else
+              echo "pages/404.tsx NOT FOUND"
             fi
-            echo "Searching for 404.html files..."
-            find out -name "404.html" -type f || true
             exit 1
           fi
           
           # Verify the file has content
+          echo "
+=== Verifying file content ==="
           if [ ! -s "$SOURCE_FILE" ]; then
-            echo "Error: 404.html exists but is empty"
+            echo "✗ Error: 404.html exists but is empty"
             exit 1
+          fi
+          echo "✓ File has content"
+          
+          # Check for custom content - CRITICAL VERIFICATION
+          echo "
+=== Checking for custom NotFoundContent ==="
+          if grep -q "NotFoundContent" "$SOURCE_FILE" || grep -q "Page not found" "$SOURCE_FILE"; then
+            echo "✓ Custom 404 content detected (NotFoundContent or 'Page not found' found)"
+            echo "First 200 chars containing custom content:"
+            grep -o "NotFoundContent\|Page not found" "$SOURCE_FILE" | head -3 || true
+          else
+            echo "✗ ERROR: Custom content NOT found in 404.html"
+            echo "This means Next.js generated default 404 instead of using pages/404.tsx"
+            echo "Checking for default Next.js markers..."
+            if grep -qi "this page could not be found" "$SOURCE_FILE"; then
+              echo "✗ Found default Next.js 404 message - pages/404.tsx is NOT being used!"
+              echo "
+Sample of file content:"
+              head -c 500 "$SOURCE_FILE" | cat
+              echo "
+"
+              echo "This is a critical issue - the custom 404 page is not being generated"
+              exit 1
+            else
+              echo "⚠ Warning: No custom content markers found, but also no default message"
+            fi
           fi
           
           # Verify asset paths are correct (should reference basePath)
-          echo "Verifying asset paths in 404.html..."
+          echo "
+=== Verifying asset paths ==="
           if grep -q "/$REPO_NAME/_next" "$SOURCE_FILE" || grep -q "/_next" "$SOURCE_FILE"; then
             echo "✓ Asset paths found in 404.html"
-            # Show a sample of asset references
             echo "Sample asset references:"
-            grep -o "\(/_next\|/$REPO_NAME/_next\|href=\|src=\)[^"]*" "$SOURCE_FILE" | head -5 || true
+            grep -o "\(/_next\|/$REPO_NAME/_next\|href=\|src=\)[^\"]*" "$SOURCE_FILE" | head -5 || true
           else
-            echo "Warning: No _next asset paths found in 404.html (this might be okay)"
+            echo "⚠ Warning: No _next asset paths found in 404.html"
           fi
           
+          echo "
+=== Final verification ==="
           echo "✓ 404.html is ready for GitHub Pages at out/404.html"
+          echo "File location: $(pwd)/out/404.html"
+          echo "File exists: $([ -f "out/404.html" ] && echo "yes" || echo "no")"
+          echo "Contains custom content: $(grep -q "NotFoundContent\|Page not found" "out/404.html" && echo "yes" || echo "no")"
       - name: Verify cookie-policy page exists
         run: |
           # Verify cookie-policy page is generated correctly
