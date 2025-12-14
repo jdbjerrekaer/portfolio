@@ -45,26 +45,53 @@ jobs:
 
       - name: Ensure 404.html exists for GitHub Pages
         run: |
-          # Next.js should generate 404.html automatically, but verify it exists
-          if [ ! -f "out/404.html" ]; then
-            echo "Warning: 404.html not found in out directory"
-            # Check if it exists in a subdirectory (shouldn't happen, but just in case)
-            if [ -f "out/${{ github.event.repository.name }}/404.html" ]; then
-              echo "Found 404.html in subdirectory, copying to root"
-              cp "out/${{ github.event.repository.name }}/404.html" "out/404.html"
-            else
-              echo "Error: 404.html not found anywhere. Next.js should generate this automatically."
-              exit 1
-            fi
+          # GitHub Pages expects 404.html at the root of the deployed site
+          # With basePath, Next.js might generate it in a subdirectory
+          REPO_NAME="${{ github.event.repository.name }}"
+          echo "Checking for 404.html..."
+          echo "Repository name: $REPO_NAME"
+          
+          # Check if 404.html exists at root
+          if [ -f "out/404.html" ]; then
+            echo "✓ Found 404.html at out/404.html (root)"
+            SOURCE_FILE="out/404.html"
+          # Check if it exists in the basePath subdirectory
+          elif [ -f "out/$REPO_NAME/404.html" ]; then
+            echo "Found 404.html at out/$REPO_NAME/404.html, copying to root"
+            cp "out/$REPO_NAME/404.html" "out/404.html"
+            SOURCE_FILE="out/404.html"
           else
-            echo "✓ 404.html found in out directory"
+            echo "Error: 404.html not found in expected locations"
+            echo "Checking directory structure..."
+            echo "Contents of out directory:"
+            ls -la out/ || true
+            if [ -d "out/$REPO_NAME" ]; then
+              echo "Contents of out/$REPO_NAME:"
+              ls -la "out/$REPO_NAME/" | head -20 || true
+            fi
+            echo "Searching for 404.html files..."
+            find out -name "404.html" -type f || true
+            exit 1
           fi
+          
           # Verify the file has content
-          if [ ! -s "out/404.html" ]; then
+          if [ ! -s "$SOURCE_FILE" ]; then
             echo "Error: 404.html exists but is empty"
             exit 1
           fi
-          echo "✓ 404.html is ready for GitHub Pages"
+          
+          # Verify asset paths are correct (should reference basePath)
+          echo "Verifying asset paths in 404.html..."
+          if grep -q "/$REPO_NAME/_next" "$SOURCE_FILE" || grep -q "/_next" "$SOURCE_FILE"; then
+            echo "✓ Asset paths found in 404.html"
+            # Show a sample of asset references
+            echo "Sample asset references:"
+            grep -o "\(/_next\|/$REPO_NAME/_next\|href=\|src=\)[^"]*" "$SOURCE_FILE" | head -5 || true
+          else
+            echo "Warning: No _next asset paths found in 404.html (this might be okay)"
+          fi
+          
+          echo "✓ 404.html is ready for GitHub Pages at out/404.html"
 
 
       - name: Verify cookie-policy page exists
