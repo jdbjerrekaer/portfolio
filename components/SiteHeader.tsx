@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useRouter } from "next/compat/router";
 import { useEffect, useState } from "react";
 import { SFSymbol } from "@/components/ui/SFSymbol";
 import styles from "./SiteHeader.module.scss";
@@ -16,7 +16,8 @@ const SCROLL_THRESHOLD_DESKTOP = 500; // pixels to scroll before background appe
 const SCROLL_THRESHOLD_MOBILE = 50; // pixels to scroll before background appears on mobile
 
 export function SiteHeader() {
-  const pathname = usePathname();
+  const router = useRouter();
+  const pathname = router?.asPath ?? "";
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
