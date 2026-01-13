@@ -42,7 +42,7 @@ export function ProjectCard({
 
   const cardContent = (
     <Card isHoverable className={styles.card}>
-      <div className={styles.imageWrapper}>
+      <div className={`${styles.imageWrapper} ${comingSoon ? styles.comingSoon : ''}`}>
         <Image
           src={imageSrc}
           alt={`${title} project cover`}
