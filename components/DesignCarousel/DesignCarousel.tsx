@@ -56,6 +56,7 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
   const dragThresholdRef = useRef<number>(5); // Minimum pixels to move before considering it a drag
   const hasMovedRef = useRef<boolean>(false);
   const lastDragEndTimeRef = useRef<number>(0);
+  const hoveredImageRef = useRef<HTMLImageElement | null>(null);
 
   // Check for reduced motion preference (reactive)
   useEffect(() => {
@@ -338,6 +339,20 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
     
     const width = rect.width;
     const height = rect.height;
+
+    // Apply parallax effect
+    const xPercent = (x / width - 0.5) * 2; // -1 to 1
+    const yPercent = (y / height - 0.5) * 2; // -1 to 1
+    
+    // Subtle movement: max 12px for desktop, 6px for mobile
+    const item = items[index % items.length];
+    const maxMove = item.kind === "desktop" ? 12 : 6;
+    const moveX = xPercent * maxMove;
+    const moveY = yPercent * maxMove;
+    
+    img.style.setProperty('--parallax-x', `${moveX}px`);
+    img.style.setProperty('--parallax-y', `${moveY}px`);
+    hoveredImageRef.current = img;
     
     // Determine which side/quadrant the mouse is in
     const horizontalCenter = width / 2;
@@ -427,6 +442,11 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
                   onMouseLeave={() => {
                     setHoveredIndex(null);
                     setIsHovered(false);
+                    if (hoveredImageRef.current) {
+                      hoveredImageRef.current.style.setProperty('--parallax-x', '0px');
+                      hoveredImageRef.current.style.setProperty('--parallax-y', '0px');
+                      hoveredImageRef.current = null;
+                    }
                   }}
                 >
                   <Tooltip
@@ -436,14 +456,16 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
                     placement={tooltipPlacements[index] || "top"}
                     followCursor
                   >
-                    <img
-                      src={getImageSrc(item, index)}
-                      alt={`${item.label} - ${item.kind === "desktop" ? "Desktop" : "iPhone"} design ${(index % items.length) + 1}`}
-                      className={styles.image}
-                      draggable={false}
-                      onMouseMove={(e) => handleImageMouseMove(e, index)}
-                      onClick={(e) => handleImageClick(e, item.kind, index)}
-                    />
+                    <div className={styles.imageWrapper}>
+                      <img
+                        src={getImageSrc(item, index)}
+                        alt={`${item.label} - ${item.kind === "desktop" ? "Desktop" : "iPhone"} design ${(index % items.length) + 1}`}
+                        className={styles.image}
+                        draggable={false}
+                        onMouseMove={(e) => handleImageMouseMove(e, index)}
+                        onClick={(e) => handleImageClick(e, item.kind, index)}
+                      />
+                    </div>
                   </Tooltip>
                 </div>
               );
