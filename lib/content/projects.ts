@@ -11,6 +11,14 @@ const projectSchema = z.object({
   role: z.string(),
   tags: z.array(z.string()),
   links: z.record(z.string(), z.string()).optional(),
+  gallery: z
+    .array(
+      z.object({
+        src: z.string(),
+        alt: z.string(),
+      })
+    )
+    .optional(),
   coverImage: z.string().optional(),
   featured: z.boolean().optional().default(false),
   comingSoon: z.boolean().optional().default(false),

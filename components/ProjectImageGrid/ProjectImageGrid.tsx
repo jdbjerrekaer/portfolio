@@ -36,11 +36,14 @@ export function ProjectImageGrid({ images }: ProjectImageGridProps) {
           const imageSrc = image.src.startsWith("data:") || image.src.startsWith("http") 
             ? image.src 
             : withBasePath(image.src);
+
+          // Only apply positional class for items 1–5 (defined in SCSS); others get base gridItem only
+          const positionalClass = index < 5 ? styles[`item${index + 1}`] : "";
           
           return (
             <div
               key={index}
-              className={`${styles.gridItem} ${styles[`item${index + 1}`]}`}
+              className={`${styles.gridItem} ${positionalClass}`.trim()}
               onClick={() => handleImageClick(imageSrc, image.alt)}
             >
               <Image

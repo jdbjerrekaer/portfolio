@@ -116,27 +116,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <MdxContent source={project.content} />
       </div>
 
-      {slug === "iriz" && (
-        <ProjectImageGrid
-          images={[
-            {
-              src: "/projects/iriz/home.png",
-              alt: "Iriz home page",
-            },
-            {
-              src: "/projects/iriz/brand-link-share.png",
-              alt: "Iriz brand link share interface",
-            },
-            {
-              src: "/projects/iriz/product-link-1.png",
-              alt: "Iriz product link interface 1",
-            },
-            {
-              src: "/projects/iriz/product-link-2.png",
-              alt: "Iriz product link interface 2",
-            },
-          ]}
-        />
+      {project.gallery && project.gallery.length > 0 && (
+        <ProjectImageGrid images={project.gallery} />
       )}
     </article>
   );
