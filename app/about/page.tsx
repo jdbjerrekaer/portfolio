@@ -19,7 +19,7 @@ export default function AboutPage() {
         <div className={styles.heroContent}>
           <div className={styles.heroImage}>
             <Image
-              src="https://media.licdn.com/dms/image/v2/D4E03AQH4M0-aldjjIQ/profile-displayphoto-crop_800_800/B4EZsdztZbJQAI-/0/1765731654118?e=1767225600&v=beta&t=hH1svcRT1-aiLa_Wy-2PwHUPUiARi2gBVNafopB5oK0"
+              src="https://media.licdn.com/dms/image/v2/D4E03AQH4M0-aldjjIQ/profile-displayphoto-crop_800_800/B4EZsdztZbJQAI-/0/1765731654118?e=1770249600&v=beta&t=HWv-zOmu3hXC1utVgJgak6oDIhGNT2CSZ_Rhu_4v7M4"
               alt="Jonatan Bjerrekær"
               width={400}
               height={400}
