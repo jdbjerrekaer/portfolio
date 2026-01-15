@@ -10,7 +10,7 @@ export interface ChipProps extends Omit<HeroChipProps, "color" | "variant"> {
 export const Chip = forwardRef<HTMLDivElement, ChipProps>(
   ({ variant = "default", className = "", children, ...props }, ref) => {
     const variantStyles = {
-      default: "bg-[var(--color-background-secondary)] text-[var(--color-text-secondary)]",
+      default: "bg-[var(--color-background)] text-[var(--color-text-secondary)] border border-[rgb(210_210_215/0.5)]",
       accent: "bg-[var(--color-accent-light)] text-[var(--color-accent)]",
     };
 

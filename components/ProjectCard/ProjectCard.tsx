@@ -50,15 +50,15 @@ export function ProjectCard({
           className={styles.image}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
-        <div className={styles.overlay}>
-          <h3 className={styles.overlayTitle}>{title}</h3>
-          <div className={styles.overlayTags}>
-            {tags.map((tag) => (
-              <Chip key={tag} variant="default" size="sm">
-                {tag}
-              </Chip>
-            ))}
-          </div>
+      </div>
+      <div className={styles.content}>
+        <h3 className={styles.title}>{title}</h3>
+        <div className={styles.tags}>
+          {tags.map((tag) => (
+            <Chip key={tag} variant="default" size="sm">
+              {tag}
+            </Chip>
+          ))}
         </div>
       </div>
     </Card>

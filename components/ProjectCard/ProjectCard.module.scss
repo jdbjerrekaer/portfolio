@@ -10,11 +10,12 @@
   height: 100%;
   overflow: hidden;
   padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
   transition:
-    transform var(--transition-base) cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    box-shadow var(--transition-base),
-    border-color var(--transition-base);
-  will-change: transform, box-shadow, border-color;
+    transform var(--transition-base) cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
   
   // Remove default card padding
   :global(.heroui-card) {
@@ -69,50 +70,31 @@
 .link:hover .card,
 .linkWrapper:hover .card {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--color-border);
 }
 
-// Overlay at bottom-left with title and tags
-.overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: var(--space-lg);
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
-  color: white;
+// Content section below the image
+.content {
+  padding: var(--space-md);
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  z-index: 1;
 }
 
-.overlayTitle {
-  font-size: 1.5rem;
+.title {
+  font-size: 1.125rem;
   font-weight: 600;
-  color: white;
+  color: var(--color-text-primary);
   margin: 0;
   letter-spacing: -0.02em;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
 }
 
-.overlayTags {
+.tags {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-xs);
   align-items: center;
-  
-  // Override chip styles for overlay visibility
-  :global(.heroui-chip) {
-    background: rgba(255, 255, 255, 0.2) !important;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    color: white !important;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-  }
 }
