@@ -7,11 +7,17 @@ export function RolesCards() {
   return (
     <ul className={styles.approachList}>
       <li>
-        <div className={styles.approachItem}>
+        <div className={`${styles.approachItem} ${styles.current}`}>
           <SFSymbol name="briefcase" size={24} weight="medium" filled={false} className={styles.approachIcon} />
           <div className={styles.approachContent}>
             <div>
-              <strong>UX Engineer, Adtraction</strong>
+              <div className={styles.roleHeader}>
+                <strong>UX Engineer, Adtraction</strong>
+                <span className={styles.currentBadge}>
+                  <span className={styles.currentDot} aria-hidden="true" />
+                  Current
+                </span>
+              </div>
               <span className={styles.roleYears}>2022 - Present</span>
             </div>
             <ul className={styles.approachSubList}>
