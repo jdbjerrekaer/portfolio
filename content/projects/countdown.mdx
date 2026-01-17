@@ -1,6 +1,6 @@
 ---
 title: "Countdown"
-summary: "A polished iOS-style countdown app built with React, Ionic, and Capacitor—featuring recurring yearly events, count-up mode for past dates, drag-and-drop sorting, calendar import, and widget previews."
+summary: "A polished iOS-style countdown app built with React, Ionic, and Capacitor—featuring recurring yearly events, count-up mode, drag-and-drop sorting, calendar import, widget previews, dark mode, and Siri Shortcuts."
 date: "2026-01-01"
 role: "Design Engineer"
 tags:
@@ -19,7 +19,7 @@ featured: true
 
 I just wanted a countdown app that worked.
 
-Every option in the App Store told the same story: cluttered interfaces, outdated design patterns, and core features locked behind paywalls that felt out of proportion to what you actually got. Want more than three countdowns? Pay. Want a widget? Pay more. Want it to look decent? Good luck—most hadn't been updated in months, some in years.
+Every option in the App Store told the same story: cluttered interfaces, outdated design patterns, and core features locked behind paywalls that felt out of proportion to what you actually got. Want more than three countdowns? Pay. Want a widget? Pay more. Want it to look decent or support dark mode? Good luck—most hadn't been updated in months, some in years.
 
 Meanwhile, iOS kept shipping new capabilities—modern widget APIs, refined design language, better notification handling—and these apps weren't keeping up. The gap between what a native iOS experience *should* feel like and what these apps delivered kept widening.
 
@@ -27,19 +27,19 @@ So I stopped waiting for someone else to fix it.
 
 ## The goal
 
-Build a countdown app that feels like it belongs on iOS: fast, focused, and respectful of the user's time. No accounts. No paywalls for basic functionality. No visual clutter. Just a clean tool for tracking the dates that matter.
+Build a countdown app that feels like it belongs on iOS: fast, focused, and respectful of the user's time. No accounts. No paywalls for basic functionality. No visual clutter. A clean tool for tracking the dates that matter—with a sustainable model that doesn't compromise the experience.
 
 ## Overview
 
-Countdown is a lightweight, iOS-inspired app for tracking important dates—birthdays, anniversaries, holidays, launches—without friction. It supports both future events (countdown) and past events (count up / "days ago"), with recurring yearly events for anything that repeats.
+Countdown is a lightweight, iOS-inspired app for tracking important dates—birthdays, anniversaries, holidays, launches—without friction. It supports both future events (countdown) and past events (count up / "days ago"), with recurring yearly events for anything that repeats. Dark mode and Siri Shortcuts make it feel at home on modern iOS, whether you're checking at a glance or creating an event hands-free.
 
 ## My role
 
 As the **Design Engineer**, I owned the full stack:
 
 - **UX + interaction design**: core flows, editing patterns, motion/feedback, and mobile ergonomics
-- **UI implementation**: a cohesive iOS-like hierarchy using Ionic + React, styled with Tailwind + component primitives
-- **Key logic**: countdown calculations, yearly recurrence, sorting behavior, and native feature integration via Capacitor
+- **UI implementation**: a cohesive iOS-like hierarchy using Ionic + React, styled with Tailwind + component primitives (including dark mode parity)
+- **Key logic**: countdown calculations, yearly recurrence, sorting behavior, and native integrations via Capacitor (calendar, widgets, and Siri/App Intents)
 
 ## The problem with existing apps
 
@@ -52,6 +52,9 @@ I wanted something that feels native, stays fast as the list grows, and makes re
 - **Mobile-first, thumb-friendly** layout and touch targets
 - **Local-first** (no accounts required; everything persists on-device)
 - **Recurring events** that "just work" year over year
+- **Dark mode parity** that maintains hierarchy and contrast
+- **Privacy + consent clarity** when the app needs system permissions
+- **Sustainable monetization** without subscriptions or core feature lockups
 - **Clear hierarchy**: title + emoji for recognition, time state for urgency, secondary details only when needed
 - **Native polish** through haptics, dialogs, and notifications (without breaking on web)
 
@@ -69,16 +72,26 @@ For birthdays and anniversaries, the event stays a single entity that advances e
 
 Drag-and-drop is initiated with an intentional long-press and uses careful transform handling to avoid the common "squish/scale" distortion during drag. The goal is a stable, confident interaction—especially on mobile where precision is harder.
 
+### Monetization without disrupting flow
+The app uses a light-touch, optional model: core features stay free, while a one-time upgrade removes ads. The design goal was to keep the interface calm and transparent—no nagging, no gated features—so the product stays trustworthy.
+
+### Shortcuts for fast capture
+Important dates often come up mid-conversation. Siri Shortcuts make creation and quick lookups feel immediate, so users can add or query a countdown without breaking context.
+
 ## Design-engineering highlights
 
 - **Countdown timing hook**: a dedicated `useCountdown()` updates at 1-second intervals and cleanly handles "today", future, and past states.
 - **Yearly recurrence math**: `date-fns` helpers compute next occurrence and repetition count (e.g. "28th birthday") reliably.
 - **Notifications across platforms**: on iOS, notifications are scheduled via Capacitor local notifications. On web, we fall back to permission + local persistence with "check on load" behavior (because web notifications can't be scheduled arbitrarily far ahead).
+- **Dark mode system**: custom theme tokens map into Ionic's palette so the UI keeps contrast and depth in both modes without duplicating layouts.
+- **Siri/App Intents**: native intents for creating, listing, and querying countdowns make the app usable by voice or Shortcuts.
+- **Optional ad-free upgrade**: a one-time purchase with restore support and celebratory feedback, designed to feel respectful rather than transactional.
+- **Privacy + consent flows**: AdMob consent/ATT handling is surfaced transparently, with a settings-based reset path to keep user control clear.
 - **Calendar import**: native iOS calendar import (via a custom Capacitor plugin) and `.ics` import support. Deduplication normalizes titles across multiple languages and removes age suffixes ("48th Birthday") so yearly events map to a stable identity.
 - **Internationalization**: the UI ships with multiple locales so the product can launch beyond English from day one.
 
 ## What's next
 
 - Add a real **screenshot gallery** and short walkthrough clips once assets are ready
-- Refine onboarding for permissions (calendar + notifications) with a clearer explanation of value
+- Refine onboarding for permissions (calendar + notifications + consent) with a clearer explanation of value
 - Explore native home screen widget delivery (beyond preview) as a future iteration
