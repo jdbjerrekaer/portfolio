@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useCallback, useState, useRef } from "react";
-import { FloatingPortal } from "@floating-ui/react";
+import { FloatingPortal, FloatingFocusManager, useFloating } from "@floating-ui/react";
 import styles from "./ImageModal.module.scss";
 
 export interface ImageModalProps {
@@ -31,6 +31,11 @@ export function ImageModal({
   const touchStartX = useRef<number>(0);
   const touchEndX = useRef<number>(0);
   const minSwipeDistance = 50;
+
+  // Focus management for modal
+  const { refs, context } = useFloating({
+    open: isOpen,
+  });
 
   // Handle keyboard interactions (Escape + arrow navigation)
   useEffect(() => {
@@ -127,19 +132,21 @@ export function ImageModal({
 
   return (
     <FloatingPortal>
-      <div
-        className={styles.backdrop}
-        onClick={handleBackdropClick}
-        role="dialog"
-        aria-modal="true"
-        aria-label="Image modal"
-      >
-        <div 
-          className={`${styles.modalContent} ${isPortrait ? styles.portrait : ""}`}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
+      <FloatingFocusManager context={context} modal initialFocus={-1}>
+        <div
+          ref={refs.setFloating}
+          className={styles.backdrop}
+          onClick={handleBackdropClick}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Image modal"
         >
+          <div 
+            className={`${styles.modalContent} ${isPortrait ? styles.portrait : ""}`}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
           <button
             className={styles.closeButton}
             onClick={onClose}
@@ -224,7 +231,8 @@ export function ImageModal({
             </div>
           )}
         </div>
-      </div>
+        </div>
+      </FloatingFocusManager>
     </FloatingPortal>
   );
 }

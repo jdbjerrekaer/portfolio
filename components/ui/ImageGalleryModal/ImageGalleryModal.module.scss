@@ -23,6 +23,25 @@
   }
 }
 
+// Reduced motion support - respect user preferences
+@media (prefers-reduced-motion: reduce) {
+  .backdrop {
+    animation: none;
+  }
+
+  .modalContent {
+    animation: none;
+  }
+
+  .closeButton,
+  .galleryItem,
+  .galleryImage,
+  .galleryOverlay,
+  .galleryIcon {
+    transition: none;
+  }
+}
+
 .modalContent {
   position: relative;
   width: 100%;
@@ -165,18 +184,18 @@
 @media (max-width: 768px) {
   .backdrop {
     padding: var(--space-md);
-    padding-top: calc(var(--space-3xl) + 50px); // Space for close button + padding on mobile
+    padding-top: calc(var(--space-3xl) + 56px); // Space for close button + padding on mobile
   }
 
   .closeButton {
     top: var(--space-md);
     right: var(--space-md);
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
 
     svg {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
     }
   }
 

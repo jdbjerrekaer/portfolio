@@ -8,6 +8,10 @@ export interface SFSymbolProps {
   weight?: "regular" | "medium" | "semibold" | "bold";
   className?: string;
   filled?: boolean;
+  /** Accessible label for the icon. If not provided, icon is treated as decorative. */
+  "aria-label"?: string;
+  /** Explicitly hide from screen readers. Defaults to true when no aria-label is provided. */
+  "aria-hidden"?: boolean;
 }
 
 // SF Symbols-inspired SVG icons (using SF Symbols-style paths)
@@ -114,7 +118,7 @@ const strokeWidths: Record<string, number> = {
 };
 
 export const SFSymbol = forwardRef<SVGSVGElement, SFSymbolProps>(
-  ({ name, size = 20, weight = "regular", className = "", filled = false }, ref) => {
+  ({ name, size = 20, weight = "regular", className = "", filled = false, "aria-label": ariaLabel, "aria-hidden": ariaHidden }, ref) => {
     const symbol = symbolPaths[name];
     const strokeWidth = strokeWidths[weight];
 
@@ -126,6 +130,10 @@ export const SFSymbol = forwardRef<SVGSVGElement, SFSymbolProps>(
     const path = filled ? symbol.filled : symbol.outline;
     const paths = Array.isArray(path) ? path : [path];
     const isEyeSlash = name === "eye.slash";
+
+    // If no aria-label provided, treat as decorative (aria-hidden=true)
+    // If aria-label provided, use role="img" for proper semantics
+    const isDecorative = ariaHidden ?? !ariaLabel;
 
     return (
       <svg
@@ -139,6 +147,9 @@ export const SFSymbol = forwardRef<SVGSVGElement, SFSymbolProps>(
         strokeLinecap="round"
         strokeLinejoin="round"
         className={className}
+        aria-label={ariaLabel}
+        aria-hidden={isDecorative}
+        role={ariaLabel ? "img" : undefined}
         style={{
           display: "inline-block",
           verticalAlign: "middle",

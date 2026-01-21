@@ -21,6 +21,26 @@
   }
 }
 
+// Reduced motion support - respect user preferences
+@media (prefers-reduced-motion: reduce) {
+  .backdrop {
+    animation: none;
+  }
+
+  .modalContent {
+    animation: none;
+  }
+
+  .caption {
+    animation: none;
+  }
+
+  .closeButton,
+  .navButton {
+    transition: none;
+  }
+}
+
 .modalContent {
   position: relative;
   width: 100%;
@@ -218,23 +238,23 @@
   }
 
   .closeButton {
-    top: -40px;
-    width: 36px;
-    height: 36px;
-
-    svg {
-      width: 18px;
-      height: 18px;
-    }
-  }
-
-  .navButton {
-    width: 40px;
-    height: 40px;
+    top: -48px;
+    width: 44px;
+    height: 44px;
 
     svg {
       width: 20px;
       height: 20px;
+    }
+  }
+
+  .navButton {
+    width: 44px;
+    height: 44px;
+
+    svg {
+      width: 22px;
+      height: 22px;
     }
   }
 
@@ -265,13 +285,13 @@
   }
 
   .closeButton {
-    top: -40px;
-    width: 36px;
-    height: 36px;
+    top: -48px;
+    width: 44px;
+    height: 44px;
 
     svg {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
     }
   }
 

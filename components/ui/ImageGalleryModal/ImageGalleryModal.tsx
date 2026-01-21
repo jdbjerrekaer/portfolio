@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useCallback } from "react";
-import { FloatingPortal } from "@floating-ui/react";
+import { FloatingPortal, FloatingFocusManager, useFloating } from "@floating-ui/react";
 import Image from "next/image";
 import { withBasePath } from "@/lib/utils/paths";
 import styles from "./ImageGalleryModal.module.scss";
@@ -25,6 +25,11 @@ export function ImageGalleryModal({
   images,
   onSelect,
 }: ImageGalleryModalProps): React.ReactElement | null {
+  // Focus management for modal
+  const { refs, context } = useFloating({
+    open: isOpen,
+  });
+
   // Handle ESC key press
   useEffect(() => {
     if (!isOpen) return;
@@ -63,14 +68,16 @@ export function ImageGalleryModal({
 
   return (
     <FloatingPortal>
-      <div
-        className={styles.backdrop}
-        onClick={handleBackdropClick}
-        role="dialog"
-        aria-modal="true"
-        aria-label="Image gallery"
-      >
-        <div className={styles.modalContent}>
+      <FloatingFocusManager context={context} modal initialFocus={-1}>
+        <div
+          ref={refs.setFloating}
+          className={styles.backdrop}
+          onClick={handleBackdropClick}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Image gallery"
+        >
+          <div className={styles.modalContent}>
           <button
             className={styles.closeButton}
             onClick={onClose}
@@ -104,6 +111,15 @@ export function ImageGalleryModal({
                   key={index}
                   className={styles.galleryItem}
                   onClick={() => handleImageClick(image)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleImageClick(image);
+                    }
+                  }}
+                  aria-label={`View ${image.alt}`}
                 >
                   <Image
                     src={imageSrc}
@@ -136,7 +152,8 @@ export function ImageGalleryModal({
             })}
           </div>
         </div>
-      </div>
+        </div>
+      </FloatingFocusManager>
     </FloatingPortal>
   );
 }
