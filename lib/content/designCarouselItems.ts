@@ -24,13 +24,6 @@ export const designCarouselItems: CarouselItem[] = [
     description: "Drag-and-drop reordering with smooth animations and careful transform handling for a physical, confident interaction."
   },
   { 
-    kind: "desktop", 
-    label: "Brands Directory", 
-    tooltip: "ADTRACTION: Brands Directory", 
-    image: withBasePath("/projects/adtraction/brands-page-desktop.png"),
-    description: "Comprehensive directory of affiliate brands with filtering options, commission rates, and EPC metrics for partner discovery."
-  },
-  { 
     kind: "iphone", 
     label: "Mobile Dashboard", 
     tooltip: "ADTRACTION: Mobile Dashboard", 
@@ -39,10 +32,17 @@ export const designCarouselItems: CarouselItem[] = [
   },
   { 
     kind: "desktop", 
-    label: "Brand Settings Overview", 
-    tooltip: "ADTRACTION: Brand Settings Overview", 
-    image: withBasePath("/projects/adtraction/brand-settings-overview.png"),
-    description: "Centralized brand management interface for customizing brand presence, managing partner access, financial settings, and commission structures."
+    label: "Brands Directory", 
+    tooltip: "ADTRACTION: Brands Directory", 
+    image: withBasePath("/projects/adtraction/brands-page-desktop.png"),
+    description: "Comprehensive directory of affiliate brands with filtering options, commission rates, and EPC metrics for partner discovery."
+  },
+  { 
+    kind: "iphone", 
+    label: "Edit Event", 
+    tooltip: "COUNTDOWN: Edit Event", 
+    image: withBasePath("/projects/countdown/edit-event-light.png"),
+    description: "Event editing screen with emoji picker, color customization slider, repeat yearly toggle, and inline calendar for date selection."
   },
   { 
     kind: "iphone", 
@@ -53,10 +53,17 @@ export const designCarouselItems: CarouselItem[] = [
   },
   { 
     kind: "desktop", 
-    label: "Affiliate Dashboard", 
-    tooltip: "ADTRACTION: Affiliate Dashboard", 
-    image: withBasePath("/projects/affiliate-marketing-web/cover.png"),
-    description: "Web-based dashboard for managing affiliate programs, tracking conversions, and analyzing marketing performance with real-time metrics."
+    label: "Brand Settings Overview", 
+    tooltip: "ADTRACTION: Brand Settings Overview", 
+    image: withBasePath("/projects/adtraction/brand-settings-overview.png"),
+    description: "Centralized brand management interface for customizing brand presence, managing partner access, financial settings, and commission structures."
+  },
+  { 
+    kind: "iphone", 
+    label: "Small Widget", 
+    tooltip: "COUNTDOWN: Small Widget", 
+    image: withBasePath("/projects/countdown/widget-small-light.png"),
+    description: "Native iOS small widget showing a single countdown with emoji badge, event title, next date, and days remaining."
   },
   { 
     kind: "iphone", 
@@ -67,10 +74,17 @@ export const designCarouselItems: CarouselItem[] = [
   },
   { 
     kind: "desktop", 
-    label: "Platform Design UI Tokens", 
-    tooltip: "Figma Component Library: Platform Design UI Tokens 'n Components", 
-    image: withBasePath("/projects/figma-component-library/cover.png"),
-    description: "Comprehensive design system and component library featuring UI tokens, reusable components, and consistent design patterns for scalable product development."
+    label: "Affiliate Dashboard", 
+    tooltip: "ADTRACTION: Affiliate Dashboard", 
+    image: withBasePath("/projects/affiliate-marketing-web/cover.png"),
+    description: "Web-based dashboard for managing affiliate programs, tracking conversions, and analyzing marketing performance with real-time metrics."
+  },
+  { 
+    kind: "iphone", 
+    label: "Large Widget", 
+    tooltip: "COUNTDOWN: Large Widget", 
+    image: withBasePath("/projects/countdown/widget-large-light.png"),
+    description: "Native iOS large widget with expanded countdown display showing days, hours, minutes, and seconds in a grid layout."
   },
   { 
     kind: "iphone", 
@@ -80,11 +94,18 @@ export const designCarouselItems: CarouselItem[] = [
     description: "Product detail page showing brand information, product details, and options to generate affiliate links for sharing on social media platforms."
   },
   { 
+    kind: "desktop", 
+    label: "Platform Design UI Tokens", 
+    tooltip: "Figma Component Library: Platform Design UI Tokens 'n Components", 
+    image: withBasePath("/projects/figma-component-library/cover.png"),
+    description: "Comprehensive design system and component library featuring UI tokens, reusable components, and consistent design patterns for scalable product development."
+  },
+  { 
     kind: "iphone", 
-    label: "Edit Event", 
-    tooltip: "COUNTDOWN: Edit Event", 
-    image: withBasePath("/projects/countdown/edit-event-light.png"),
-    description: "Event editing screen with emoji picker, color customization slider, repeat yearly toggle, and inline calendar for date selection."
+    label: "Classic Widget", 
+    tooltip: "COUNTDOWN: Classic Widget", 
+    image: withBasePath("/projects/countdown/widget-classic-light.png"),
+    description: "Native iOS widget with classic flip-clock inspired digit display for a nostalgic countdown experience."
   },
   { 
     kind: "iphone", 
