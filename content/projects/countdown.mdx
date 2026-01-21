@@ -1,6 +1,6 @@
 ---
 title: "Countdown"
-summary: "A polished iOS-style countdown app built with React, Ionic, and Capacitor. Featuring recurring yearly events, count-up mode, drag-and-drop sorting, calendar import, widget previews, dark mode, and Siri Shortcuts."
+summary: "A polished iOS-style countdown app built with React, Ionic, and Capacitor. Featuring recurring yearly events, count-up mode, drag-and-drop sorting, calendar import, native home screen widgets, dark mode, and Siri Shortcuts."
 date: "2026-01-01"
 role: "Design Engineer"
 tags:
@@ -8,31 +8,39 @@ tags:
   - React
   - Ionic
   - Capacitor
+  - WidgetKit
+  - SwiftUI
 links:
-  Demo: "https://jdbjerrekaer.github.io/yet-another-countdown-app/"
+  Web demo: "https://jdbjerrekaer.github.io/yet-another-countdown-app/"
 coverImage: "/projects/countdown/home-list-light.png"
 featured: true
 gallery:
   - src: "/projects/countdown/home-list-light.png"
-    alt: "Countdown app home screen in light mode"
+    alt: "Main event list showing upcoming countdowns with emoji icons, time remaining, recurring event badges, and calendar category labels."
   - src: "/projects/countdown/drag-reorder-light.png"
-    alt: "Drag-and-drop reordering in light mode"
+    alt: "Long-press to drag and reorder events. The lifted card floats above the list with a subtle shadow, maintaining visual clarity during the interaction."
   - src: "/projects/countdown/edit-event-light.png"
-    alt: "Edit event screen with emoji picker and color slider in light mode"
+    alt: "Edit event screen with title input, contextual emoji suggestions, color gradient slider, repeat yearly toggle, and inline calendar picker."
   - src: "/projects/countdown/swipe-delete-light.png"
-    alt: "Swipe-to-delete interaction in light mode"
+    alt: "Swipe left on any event to reveal the delete action. A familiar iOS pattern for quick, destructive actions without extra taps."
   - src: "/projects/countdown/home-list.png"
-    alt: "Countdown app home screen in dark mode"
+    alt: "Dark mode preserves the same visual hierarchy with adjusted contrast and depth. Cards float on the dark background."
   - src: "/projects/countdown/swipe-delete.png"
-    alt: "Swipe-to-delete interaction in dark mode"
+    alt: "The swipe-to-delete pattern in dark mode. The red delete button stands out against the darker card backgrounds."
   - src: "/projects/countdown/new-event-empty.png"
-    alt: "New event creation screen with emoji suggestions"
+    alt: "Creating a new event starts with an empty form. Default emoji suggestions include popular choices like targets, party poppers, and trophies."
   - src: "/projects/countdown/new-event-emoji.png"
-    alt: "Emoji search when creating a Japan countdown"
+    alt: "Type a keyword like 'Japan' to get contextual emoji suggestions. The picker surfaces relevant options like flags, landmarks, and food."
   - src: "/projects/countdown/new-event-calendar.png"
-    alt: "Calendar picker with color customization"
+    alt: "Pick a date with the inline calendar. The color slider lets you personalize each event's card background."
   - src: "/projects/countdown/ad-free-upgrade.png"
-    alt: "Ad-free upgrade screen with one-time purchase options"
+    alt: "One-time purchase options for removing ads. A supporter tier offers the same features with a thank-you badge. Restore purchases is always accessible."
+  - src: "/projects/countdown/widget-small-light.png"
+    alt: "Small home screen widget showing a single countdown with emoji badge, event title, next date, and days remaining."
+  - src: "/projects/countdown/widget-large-light.png"
+    alt: "Large widget with expanded countdown display showing days, hours, minutes, and seconds in a grid layout."
+  - src: "/projects/countdown/widget-classic-light.png"
+    alt: "Classic widget style with flip-clock inspired digit display. A nostalgic look with the same real-time countdown data."
 ---
 
 ## Why I built this
@@ -55,17 +63,7 @@ Countdown is a lightweight, iOS-native app for tracking important dates: birthda
 
 ## My role
 
-As the **Design Engineer**, I owned the full stack:
-
-- **UX + interaction design**: core flows, editing patterns, motion/feedback, and mobile ergonomics
-- **UI implementation**: native iOS 26 UI elements via Ionic + React, styled with Tailwind + component primitives (including dark mode parity)
-- **Key logic**: countdown calculations, yearly recurrence, sorting behavior, and native integrations via Capacitor (calendar, widgets, and Siri/App Intents)
-
-## The problem with existing apps
-
-Most countdown apps fall into two camps: oversimplified tools with arbitrary limits, or bloated utilities with interfaces that haven't evolved since iOS 7. Neither respects users enough to offer a complete, polished experience without strings attached.
-
-I wanted something that feels native, stays fast as the list grows, and makes recurring events effortless—without asking me to subscribe for the privilege.
+Solo **Design Engineer** — owned UX, UI implementation, and native integrations end-to-end.
 
 ## Goals & constraints
 
@@ -93,6 +91,7 @@ For birthdays and anniversaries, the event stays a single entity that advances e
 Drag-and-drop is initiated with an intentional long-press and uses careful transform handling to avoid the common "squish/scale" distortion during drag. The goal is a stable, confident interaction—especially on mobile where precision is harder.
 
 ### Monetization without disrupting flow
+
 The app uses a light-touch, optional model: core features stay free, while a one-time upgrade removes ads. The design goal was to keep the interface calm and transparent. No nagging, no gated features. So the product stays trustworthy.
 
 ### Shortcuts for fast capture
@@ -106,6 +105,7 @@ Important dates often come up mid-conversation. Siri Shortcuts make creation and
 - **Notifications across platforms**: on iOS, notifications are scheduled via Capacitor local notifications. On web, we fall back to permission + local persistence with "check on load" behavior (because web notifications can't be scheduled arbitrarily far ahead).
 - **Dark mode system**: custom theme tokens map into Ionic's palette so the UI keeps contrast and depth in both modes without duplicating layouts.
 - **Siri/App Intents**: native intents for creating, listing, and querying countdowns make the app usable by voice or Shortcuts.
+- **Native home screen widgets**: WidgetKit-based widgets in small, medium, and large sizes, with three display styles (Focus, Visual with progress bars, and Classic flip-clock digits). Uses App Groups for seamless data sync and supports iOS 17+ AppIntents for per-widget event selection. Tapping a widget deep-links directly to that event's edit modal. A triple-event large widget variant shows three countdowns at once.
 - **Optional ad-free upgrade**: a one-time purchase with restore support and celebratory feedback, designed to feel respectful rather than transactional.
 - **Privacy + consent flows**: AdMob consent/ATT handling is surfaced transparently, with a settings-based reset path to keep user control clear.
 - **Calendar import**: native iOS calendar import (via a custom Capacitor plugin) and `.ics` import support. Deduplication normalizes titles across multiple languages and removes age suffixes ("48th Birthday") so yearly events map to a stable identity.
@@ -115,4 +115,3 @@ Important dates often come up mid-conversation. Siri Shortcuts make creation and
 
 - Add short walkthrough clips to showcase key interactions
 - Refine onboarding for permissions (calendar + notifications + consent) with a clearer explanation of value
-- Explore native home screen widget delivery (beyond preview) as a future iteration

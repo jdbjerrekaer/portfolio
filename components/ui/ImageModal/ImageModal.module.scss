@@ -124,11 +124,33 @@
 }
 
 .prevButton {
-  left: -56px;
+  left: -60px;
 }
 
 .nextButton {
-  right: -56px;
+  right: -60px;
+}
+
+// For portrait images on tablet+, use fixed positioning to place buttons at viewport edges
+@media (min-width: 481px) {
+  .modalContent.portrait {
+    .closeButton {
+      top: var(--space-sm);
+      right: var(--space-sm);
+    }
+
+    .navButton {
+      position: fixed;
+    }
+
+    .prevButton {
+      left: var(--space-xl);
+    }
+
+    .nextButton {
+      right: var(--space-xl);
+    }
+  }
 }
 
 .imageWrapper {
@@ -189,8 +211,8 @@
   animation: fadeIn 0.3s ease-out 0.1s both;
 }
 
-// Responsive adjustments
-@media (max-width: 768px) {
+// Tablet adjustments (481px - 768px)
+@media (max-width: 768px) and (min-width: 481px) {
   .backdrop {
     padding: var(--space-md);
   }
@@ -207,8 +229,45 @@
   }
 
   .navButton {
-    width: 38px;
-    height: 38px;
+    width: 40px;
+    height: 40px;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .prevButton {
+    left: var(--space-md);
+  }
+
+  .nextButton {
+    right: var(--space-md);
+  }
+
+  .imageWrapper {
+    border-radius: var(--radius-md);
+  }
+
+  .caption {
+    margin-top: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    font-size: 0.875rem;
+    max-width: 100%;
+  }
+}
+
+// Mobile adjustments - hide nav buttons, users can swipe
+@media (max-width: 480px) {
+  .backdrop {
+    padding: var(--space-sm);
+  }
+
+  .closeButton {
+    top: -40px;
+    width: 36px;
+    height: 36px;
 
     svg {
       width: 18px;
@@ -216,16 +275,24 @@
     }
   }
 
-  .prevButton {
-    left: 8px;
-  }
-
-  .nextButton {
-    right: 8px;
+  // Hide nav buttons on mobile - users swipe instead
+  .navButton {
+    display: none;
   }
 
   .imageWrapper {
     border-radius: var(--radius-md);
+  }
+
+  .modalContent.portrait {
+    .closeButton {
+      top: var(--space-xs);
+      right: var(--space-xs);
+    }
+
+    .image {
+      max-width: 85vw;
+    }
   }
 
   .caption {

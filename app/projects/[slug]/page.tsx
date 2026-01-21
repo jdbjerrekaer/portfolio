@@ -112,13 +112,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         />
       )}
 
-      <div className={styles.content}>
-        <MdxContent source={project.content} />
-      </div>
-
       {project.gallery && project.gallery.length > 0 && (
         <ProjectImageGrid images={project.gallery} />
       )}
+
+      <div className={styles.content}>
+        <MdxContent source={project.content} />
+      </div>
     </article>
   );
 }

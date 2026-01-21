@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useEffect, useCallback, useState, useRef } from "react";
 import { FloatingPortal } from "@floating-ui/react";
 import styles from "./ImageModal.module.scss";
 
@@ -28,6 +28,10 @@ export function ImageModal({
   hasPrev = false,
 }: ImageModalProps): React.ReactElement | null {
   const [isPortrait, setIsPortrait] = useState<boolean>(false);
+  const touchStartX = useRef<number>(0);
+  const touchEndX = useRef<number>(0);
+  const minSwipeDistance = 50;
+
   // Handle keyboard interactions (Escape + arrow navigation)
   useEffect(() => {
     if (!isOpen) return;
@@ -92,6 +96,33 @@ export function ImageModal({
     [onClose]
   );
 
+  // Handle touch swipe for mobile navigation
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  }, []);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+  }, []);
+
+  const handleTouchEnd = useCallback(() => {
+    const swipeDistance = touchStartX.current - touchEndX.current;
+    
+    if (Math.abs(swipeDistance) > minSwipeDistance) {
+      if (swipeDistance > 0 && hasNext && onNext) {
+        // Swiped left - go to next
+        onNext();
+      } else if (swipeDistance < 0 && hasPrev && onPrev) {
+        // Swiped right - go to previous
+        onPrev();
+      }
+    }
+    
+    // Reset values
+    touchStartX.current = 0;
+    touchEndX.current = 0;
+  }, [hasNext, hasPrev, onNext, onPrev]);
+
   if (!isOpen) return null;
 
   return (
@@ -103,7 +134,12 @@ export function ImageModal({
         aria-modal="true"
         aria-label="Image modal"
       >
-        <div className={`${styles.modalContent} ${isPortrait ? styles.portrait : ""}`}>
+        <div 
+          className={`${styles.modalContent} ${isPortrait ? styles.portrait : ""}`}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           <button
             className={styles.closeButton}
             onClick={onClose}

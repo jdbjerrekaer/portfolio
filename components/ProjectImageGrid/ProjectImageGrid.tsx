@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import Image from "next/image";
 import { ImageModal } from "@/components/ui";
 import { withBasePath } from "@/lib/utils/paths";
@@ -14,29 +14,50 @@ interface ProjectImageGridProps {
 }
 
 export function ProjectImageGrid({ images }: ProjectImageGridProps) {
-  const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
-  const handleImageClick = (src: string, alt: string) => {
-    setSelectedImage({ src, alt });
+  // Pre-compute image sources with base path
+  const processedImages = useMemo(() => {
+    return images.map((image) => ({
+      src: image.src.startsWith("data:") || image.src.startsWith("http")
+        ? image.src
+        : withBasePath(image.src),
+      alt: image.alt,
+    }));
+  }, [images]);
+
+  const handleImageClick = (index: number) => {
+    setSelectedIndex(index);
   };
 
   const handleModalClose = () => {
-    setSelectedImage(null);
+    setSelectedIndex(null);
   };
+
+  const handleNext = useCallback(() => {
+    if (selectedIndex !== null && selectedIndex < processedImages.length - 1) {
+      setSelectedIndex(selectedIndex + 1);
+    }
+  }, [selectedIndex, processedImages.length]);
+
+  const handlePrev = useCallback(() => {
+    if (selectedIndex !== null && selectedIndex > 0) {
+      setSelectedIndex(selectedIndex - 1);
+    }
+  }, [selectedIndex]);
 
   if (!images || images.length === 0) {
     return null;
   }
 
+  const selectedImage = selectedIndex !== null ? processedImages[selectedIndex] : null;
+  const hasNext = selectedIndex !== null && selectedIndex < processedImages.length - 1;
+  const hasPrev = selectedIndex !== null && selectedIndex > 0;
+
   return (
     <>
       <div className={styles.grid}>
-        {images.map((image, index) => {
-          // Prefix src with base path if it's a regular path (not a data URI or external URL)
-          const imageSrc = image.src.startsWith("data:") || image.src.startsWith("http") 
-            ? image.src 
-            : withBasePath(image.src);
-
+        {processedImages.map((image, index) => {
           // Only apply positional class for items 1–5 (defined in SCSS); others get base gridItem only
           const positionalClass = index < 5 ? styles[`item${index + 1}`] : "";
           
@@ -44,10 +65,10 @@ export function ProjectImageGrid({ images }: ProjectImageGridProps) {
             <div
               key={index}
               className={`${styles.gridItem} ${positionalClass}`.trim()}
-              onClick={() => handleImageClick(imageSrc, image.alt)}
+              onClick={() => handleImageClick(index)}
             >
               <Image
-                src={imageSrc}
+                src={image.src}
                 alt={image.alt}
                 fill
                 className={styles.image}
@@ -82,6 +103,11 @@ export function ProjectImageGrid({ images }: ProjectImageGridProps) {
           onClose={handleModalClose}
           imageSrc={selectedImage.src}
           imageAlt={selectedImage.alt}
+          description={selectedImage.alt}
+          onNext={handleNext}
+          onPrev={handlePrev}
+          hasNext={hasNext}
+          hasPrev={hasPrev}
         />
       )}
     </>
