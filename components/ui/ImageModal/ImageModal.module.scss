@@ -148,6 +148,7 @@
 .modalContent.portrait .imageWrapper {
   width: fit-content;
   height: fit-content;
+  max-height: 90vh;
 }
 
 .image {
@@ -165,10 +166,11 @@
 }
 
 .modalContent.portrait .image {
-  width: min(50vw, 450px);
+  width: auto;
   height: auto;
   max-width: min(50vw, 450px);
   max-height: 90vh;
+  object-fit: contain;
 }
 
 .caption {
