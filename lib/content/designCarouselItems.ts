@@ -4,10 +4,10 @@ import { withBasePath } from "@/lib/utils/paths";
 export const designCarouselItems: CarouselItem[] = [
   { 
     kind: "iphone", 
-    label: "Mobile Dashboard", 
-    tooltip: "ADTRACTION: Mobile Dashboard", 
-    image: withBasePath("/projects/affiliate-marketing-mobile/cover.png"),
-    description: "Mobile dashboard for affiliate marketers to track campaigns, manage partnerships, and monitor performance on the go."
+    label: "Countdown Home", 
+    tooltip: "COUNTDOWN: Event List", 
+    image: withBasePath("/projects/countdown/home-list-light.png"),
+    description: "Main countdown list showing upcoming events with emoji icons, time remaining, and recurring event badges."
   },
   { 
     kind: "desktop", 
@@ -17,11 +17,25 @@ export const designCarouselItems: CarouselItem[] = [
     description: "Detailed brand page showing commission rates, tracking links, and performance metrics for affiliate partners."
   },
   { 
+    kind: "iphone", 
+    label: "Drag Reorder", 
+    tooltip: "COUNTDOWN: Drag to Reorder", 
+    image: withBasePath("/projects/countdown/drag-reorder-light.png"),
+    description: "Drag-and-drop reordering with smooth animations and careful transform handling for a physical, confident interaction."
+  },
+  { 
     kind: "desktop", 
     label: "Brands Directory", 
     tooltip: "ADTRACTION: Brands Directory", 
     image: withBasePath("/projects/adtraction/brands-page-desktop.png"),
     description: "Comprehensive directory of affiliate brands with filtering options, commission rates, and EPC metrics for partner discovery."
+  },
+  { 
+    kind: "iphone", 
+    label: "Mobile Dashboard", 
+    tooltip: "ADTRACTION: Mobile Dashboard", 
+    image: withBasePath("/projects/affiliate-marketing-mobile/cover.png"),
+    description: "Mobile dashboard for affiliate marketers to track campaigns, manage partnerships, and monitor performance on the go."
   },
   { 
     kind: "desktop", 
@@ -52,6 +66,13 @@ export const designCarouselItems: CarouselItem[] = [
     description: "Product link generation interface allowing influencers to create and copy affiliate links for different social media platforms with platform-specific commission rates."
   },
   { 
+    kind: "desktop", 
+    label: "Platform Design UI Tokens", 
+    tooltip: "Figma Component Library: Platform Design UI Tokens 'n Components", 
+    image: withBasePath("/projects/figma-component-library/cover.png"),
+    description: "Comprehensive design system and component library featuring UI tokens, reusable components, and consistent design patterns for scalable product development."
+  },
+  { 
     kind: "iphone", 
     label: "Product Detail", 
     tooltip: "IRIZ: Product Page", 
@@ -59,11 +80,18 @@ export const designCarouselItems: CarouselItem[] = [
     description: "Product detail page showing brand information, product details, and options to generate affiliate links for sharing on social media platforms."
   },
   { 
-    kind: "desktop", 
-    label: "Platform Design UI Tokens", 
-    tooltip: "Figma Component Library: Platform Design UI Tokens 'n Components", 
-    image: withBasePath("/projects/figma-component-library/cover.png"),
-    description: "Comprehensive design system and component library featuring UI tokens, reusable components, and consistent design patterns for scalable product development."
+    kind: "iphone", 
+    label: "Edit Event", 
+    tooltip: "COUNTDOWN: Edit Event", 
+    image: withBasePath("/projects/countdown/edit-event-light.png"),
+    description: "Event editing screen with emoji picker, color customization slider, repeat yearly toggle, and inline calendar for date selection."
+  },
+  { 
+    kind: "iphone", 
+    label: "Ad-Free Upgrade", 
+    tooltip: "COUNTDOWN: Go Ad-Free", 
+    image: withBasePath("/projects/countdown/ad-free-upgrade.png"),
+    description: "One-time purchase screen offering ad removal with optional supporter tier, featuring restore purchases and transparent pricing."
   },
 ];
 

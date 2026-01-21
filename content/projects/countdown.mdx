@@ -10,10 +10,30 @@ tags:
   - Capacitor
 links:
   Demo: "https://jdbjerrekaer.github.io/yet-another-countdown-app/"
+coverImage: "/projects/countdown/home-list-light.png"
 featured: true
+gallery:
+  - src: "/projects/countdown/home-list-light.png"
+    alt: "Countdown app home screen in light mode"
+  - src: "/projects/countdown/drag-reorder-light.png"
+    alt: "Drag-and-drop reordering in light mode"
+  - src: "/projects/countdown/edit-event-light.png"
+    alt: "Edit event screen with emoji picker and color slider in light mode"
+  - src: "/projects/countdown/swipe-delete-light.png"
+    alt: "Swipe-to-delete interaction in light mode"
+  - src: "/projects/countdown/home-list.png"
+    alt: "Countdown app home screen in dark mode"
+  - src: "/projects/countdown/swipe-delete.png"
+    alt: "Swipe-to-delete interaction in dark mode"
+  - src: "/projects/countdown/new-event-empty.png"
+    alt: "New event creation screen with emoji suggestions"
+  - src: "/projects/countdown/new-event-emoji.png"
+    alt: "Emoji search when creating a Japan countdown"
+  - src: "/projects/countdown/new-event-calendar.png"
+    alt: "Calendar picker with color customization"
+  - src: "/projects/countdown/ad-free-upgrade.png"
+    alt: "Ad-free upgrade screen with one-time purchase options"
 ---
-
-> **Note:** Screenshots will be added soon. This case study focuses on product decisions and implementation details in the meantime.
 
 ## Why I built this
 
@@ -31,14 +51,14 @@ Build a countdown app that feels like it belongs on iOS: fast, focused, and resp
 
 ## Overview
 
-Countdown is a lightweight, iOS-inspired app for tracking important dates—birthdays, anniversaries, holidays, launches—without friction. It supports both future events (countdown) and past events (count up / "days ago"), with recurring yearly events for anything that repeats. Dark mode and Siri Shortcuts make it feel at home on modern iOS, whether you're checking at a glance or creating an event hands-free.
+Countdown is a lightweight, iOS-native app for tracking important dates: birthdays, anniversaries, holidays, launches. It supports both future events (countdown) and past events (count up / "days ago"), with recurring yearly events for anything that repeats. Built with native iOS 26 UI elements, dark mode support, and Siri Shortcuts, it feels right at home on modern iOS whether you're checking at a glance or creating an event hands-free.
 
 ## My role
 
 As the **Design Engineer**, I owned the full stack:
 
 - **UX + interaction design**: core flows, editing patterns, motion/feedback, and mobile ergonomics
-- **UI implementation**: a cohesive iOS-like hierarchy using Ionic + React, styled with Tailwind + component primitives (including dark mode parity)
+- **UI implementation**: native iOS 26 UI elements via Ionic + React, styled with Tailwind + component primitives (including dark mode parity)
 - **Key logic**: countdown calculations, yearly recurrence, sorting behavior, and native integrations via Capacitor (calendar, widgets, and Siri/App Intents)
 
 ## The problem with existing apps
@@ -80,6 +100,7 @@ Important dates often come up mid-conversation. Siri Shortcuts make creation and
 
 ## Design-engineering highlights
 
+- **Native iOS 26 components**: the app uses native iOS UI elements (buttons, lists, modals, date pickers) through Ionic's iOS mode, ensuring pixel-perfect alignment with Apple's latest Human Interface Guidelines.
 - **Countdown timing hook**: a dedicated `useCountdown()` updates at 1-second intervals and cleanly handles "today", future, and past states.
 - **Yearly recurrence math**: `date-fns` helpers compute next occurrence and repetition count (e.g. "28th birthday") reliably.
 - **Notifications across platforms**: on iOS, notifications are scheduled via Capacitor local notifications. On web, we fall back to permission + local persistence with "check on load" behavior (because web notifications can't be scheduled arbitrarily far ahead).
@@ -92,6 +113,6 @@ Important dates often come up mid-conversation. Siri Shortcuts make creation and
 
 ## What's next
 
-- Add a real **screenshot gallery** and short walkthrough clips once assets are ready
+- Add short walkthrough clips to showcase key interactions
 - Refine onboarding for permissions (calendar + notifications + consent) with a clearer explanation of value
 - Explore native home screen widget delivery (beyond preview) as a future iteration
