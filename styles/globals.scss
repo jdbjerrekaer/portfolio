@@ -1,6 +1,42 @@
 @import "tailwindcss";
 
 // =============================================================================
+// Font Face Declarations - Open Runde
+// =============================================================================
+
+@font-face {
+  font-family: "Open Runde";
+  src: url("/fonts/OpenRunde-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Open Runde";
+  src: url("/fonts/OpenRunde-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Open Runde";
+  src: url("/fonts/OpenRunde-Semibold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Open Runde";
+  src: url("/fonts/OpenRunde-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+// =============================================================================
 // Design Tokens - Apple-like light/modern aesthetic
 // =============================================================================
 
@@ -19,7 +55,7 @@
   --color-accent-light: rgba(47, 106, 165, 0.1);
 
   // Typography
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+  --font-sans: "Open Runde", -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
     "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-mono: "SF Mono", SFMono-Regular, ui-monospace, Menlo, Monaco, Consolas,
     monospace;
