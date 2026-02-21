@@ -30,7 +30,7 @@ export async function getFeaturedProjectsList(): Promise<FeaturedProject[]> {
   }));
 
   // Prioritize specific projects for the featured section
-  const priorityOrder = ["yadl", "countdown", "iriz", "figma-component-library"];
+  const priorityOrder = ["countdown", "leadplatform", "iriz", "yadl", "figma-component-library"];
   
   return mapped.sort((a, b) => {
     const indexA = priorityOrder.indexOf(a.slug);

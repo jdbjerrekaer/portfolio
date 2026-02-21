@@ -3,6 +3,13 @@ import { withBasePath } from "@/lib/utils/paths";
 
 export const designCarouselItems: CarouselItem[] = [
   { 
+    kind: "desktop", 
+    label: "LeadPlatform Hero", 
+    tooltip: "LEADPLATFORM: All-in-one Lead Generation", 
+    image: withBasePath("/projects/leadplatform/hero.png"),
+    description: "Hero section of LeadPlatform showcasing the all-in-one gamified lead generation platform combining quizzes, contests, calendars, and memory games."
+  },
+  { 
     kind: "iphone", 
     label: "Countdown Home", 
     tooltip: "COUNTDOWN: Event List", 
