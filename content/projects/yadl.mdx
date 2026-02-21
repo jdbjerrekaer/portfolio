@@ -43,6 +43,14 @@ YADL (Yet Another Design Linter) is a comprehensive Figma plugin that automates 
 - **Nested components** - Validates component structure
 - **Broken variables** - Detects issues with design tokens and variables
 
+## Technical Implementation
+
+Building a linter that evaluates Figma documents requires deep integration with the Figma API and a performant architecture to handle complex node trees without crashing the browser thread.
+
+- **Plugin Architecture:** Separated the UI thread (React/HTML) from the sandbox thread (Figma API). The main sandbox recursively traverses the document tree to evaluate nodes against defined linting rules, while the UI thread handles the presentation of issues.
+- **Figma API Navigation:** Designed an efficient node traversal system that batches reads from the Figma scene graph. By strategically skipping hidden layers and optimizing how we access properties like `strokes`, `fills`, and `typography`, the plugin can analyze hundreds of components in seconds.
+- **Rule Engine:** Implemented a modular rule evaluation system. Each of the 12 check areas (from missing styles to broken variables) operates independently, allowing users to toggle specific checks and making it easy to extend the system with new rules in the future.
+
 ## Impact
 
 What started as a tool to solve my own workflow challenges has become a valuable resource for the Figma community, with adoption spanning from global financial institutions to innovative startups worldwide. The plugin's success is evident in Figma's response—they're developing a similar feature called "Check designs" for their platform. However, their version is only available to Organization and Enterprise plan users and is currently in early access, requiring users to apply for access through a waitlist.

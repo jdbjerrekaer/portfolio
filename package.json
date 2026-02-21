@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "npm run build && concurrently 'chokidar app/**/* components/**/* content/**/* lib/**/* public/**/* -c \"npm run build\"' 'npx serve@latest out'",
+    "start:static": "npm run build && npx serve@latest out",
     "lint": "eslint"
   },
   "dependencies": {
@@ -29,6 +30,9 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "baseline-browser-mapping": "^2.10.0",
+    "chokidar-cli": "^3.0.0",
+    "concurrently": "^9.2.1",
     "eslint": "^9",
     "eslint-config-next": "16.0.10",
     "tailwindcss": "^4",

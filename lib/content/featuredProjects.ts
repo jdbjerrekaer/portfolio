@@ -18,7 +18,7 @@ export interface FeaturedProject {
 export async function getFeaturedProjectsList(): Promise<FeaturedProject[]> {
   const projects = await getFeaturedProjects();
   
-  return projects.map((project: Project): FeaturedProject => ({
+  const mapped = projects.map((project: Project): FeaturedProject => ({
     slug: project.slug,
     title: project.title,
     summary: project.summary,
@@ -28,4 +28,18 @@ export async function getFeaturedProjectsList(): Promise<FeaturedProject[]> {
     date: project.date,
     featured: project.featured,
   }));
+
+  // Prioritize specific projects for the featured section
+  const priorityOrder = ["yadl", "countdown", "iriz", "figma-component-library"];
+  
+  return mapped.sort((a, b) => {
+    const indexA = priorityOrder.indexOf(a.slug);
+    const indexB = priorityOrder.indexOf(b.slug);
+    
+    if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+    if (indexA !== -1) return -1;
+    if (indexB !== -1) return 1;
+    
+    return 0; // Maintain original date-based sorting for the rest
+  });
 }

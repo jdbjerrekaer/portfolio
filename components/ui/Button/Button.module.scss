@@ -95,6 +95,71 @@
   transform: scale(1);
 }
 
+// Hover icon styles - appears on hover with blur, opacity, scale animation
+.hasHoverIcon {
+  .text {
+    transition: transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+}
+
+.hasSuccess {}
+
+.hoverIconContainer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+  width: 0;
+  height: 1.25em;
+  margin-left: 0;
+  opacity: 0;
+  filter: blur(4px);
+  transform: scale(0.5) translateX(-8px);
+  transition: opacity 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    filter 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    width 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    margin-left 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.hoverIconInner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0);
+  transition: opacity 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    filter 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.hoverIconHidden {
+  opacity: 0;
+  transform: scale(0.5);
+  filter: blur(4px);
+  pointer-events: none;
+}
+
+.hoverIconFilled {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+}
+
+// On hover, show the hover icon with animation and expand width
+.button:hover .hoverIconContainer,
+.hasSuccess .hoverIconContainer {
+  opacity: 1;
+  filter: blur(0);
+  transform: scale(1) translateX(0);
+  width: 1.25em;
+  margin-left: 0.25rem;
+}
+
 // Text transition styles for state changes (used in LogoGrid)
 :global(.buttonCollapsed) .text {
   animation: textFadeIn 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;

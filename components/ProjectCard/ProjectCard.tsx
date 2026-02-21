@@ -41,7 +41,7 @@ export function ProjectCard({
   `.trim())}`;
 
   const cardContent = (
-    <Card isHoverable className={styles.card}>
+    <Card className={styles.card}>
       <div className={`${styles.imageWrapper} ${comingSoon ? styles.comingSoon : ''}`}>
         <Image
           src={imageSrc}

@@ -13,9 +13,6 @@
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  transition:
-    transform var(--transition-base) cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  will-change: transform;
   
   // Remove default card padding
   :global(.heroui-card) {
@@ -64,12 +61,6 @@
       filter: grayscale(0%);
     }
   }
-}
-
-// Smooth card hover lift on the wrapper
-.link:hover .card,
-.linkWrapper:hover .card {
-  transform: translateY(-4px);
 }
 
 // Content section below the image

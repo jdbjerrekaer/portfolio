@@ -9,10 +9,31 @@ export interface ButtonProps extends Omit<HeroButtonProps, "color" | "variant"> 
   variant?: "primary" | "premium" | "secondary" | "ghost";
   icon?: string;
   iconPosition?: "left" | "right";
+  hoverIcon?: string;
+  hoverIconFilled?: boolean;
+  successIcon?: string;
+  successIconFilled?: boolean;
+  isSuccess?: boolean;
 }
 
 const ButtonComponent = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ variant = "primary", size = "md", className = "", children, icon, iconPosition = "right", ...props }, ref) => {
+  (
+    {
+      variant = "primary",
+      size = "md",
+      className = "",
+      children,
+      icon,
+      iconPosition = "right",
+      hoverIcon,
+      hoverIconFilled = true,
+      successIcon,
+      successIconFilled = true,
+      isSuccess,
+      ...props
+    },
+    ref
+  ) => {
     // Size-based padding - Apple-like button sizing
     const sizeStyles = {
       sm: "px-4 py-2 min-h-[36px] text-sm",
@@ -37,13 +58,14 @@ const ButtonComponent = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const iconSize = iconSizes[size || "md"];
     const hasIcon = Boolean(icon);
+    const hasHoverIcon = Boolean(hoverIcon);
 
     return (
       <HeroButton
         ref={ref}
         radius="full"
         size={size}
-        className={`${baseStyles} ${variantStyles[variant]} ${className} ${styles.button} ${hasIcon ? styles.hasIcon : ""}`}
+        className={`${baseStyles} ${variantStyles[variant]} ${className} ${styles.button} ${hasIcon ? styles.hasIcon : ""} ${hasHoverIcon ? styles.hasHoverIcon : ""} ${isSuccess ? styles.hasSuccess : ""}`}
         style={{
           transition: 'background-color 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94)',
         } as React.CSSProperties}
@@ -61,6 +83,30 @@ const ButtonComponent = forwardRef<HTMLButtonElement, ButtonProps>(
             <span className={`${styles.icon} ${styles.iconRight}`}>
               <SFSymbol name={icon} size={iconSize} weight="medium" filled={false} className={styles.iconOutline} />
               <SFSymbol name={icon} size={iconSize} weight="medium" filled={true} className={styles.iconFilled} />
+            </span>
+          )}
+          {hasHoverIcon && hoverIcon && (
+            <span className={`${styles.icon} ${styles.hoverIconContainer}`}>
+              <span className={`${styles.hoverIconInner} ${isSuccess ? styles.hoverIconHidden : ""}`}>
+                <SFSymbol
+                  name={hoverIcon}
+                  size={iconSize}
+                  weight="medium"
+                  filled={hoverIconFilled}
+                  className={styles.hoverIconFilled}
+                />
+              </span>
+              {successIcon && (
+                <span className={`${styles.hoverIconInner} ${styles.successIconInner} ${isSuccess ? "" : styles.hoverIconHidden}`}>
+                  <SFSymbol
+                    name={successIcon}
+                    size={iconSize}
+                    weight="medium"
+                    filled={successIconFilled}
+                    className={styles.hoverIconFilled}
+                  />
+                </span>
+              )}
             </span>
           )}
         </span>

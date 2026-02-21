@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { AvailabilityCTA } from "@/components/AvailabilityCTA";
+import { Testimonials } from "@/components/Testimonials";
 import { ApproachList } from "./ApproachList";
 import { BackgroundCards } from "./BackgroundCards";
 import { RolesCards } from "./RolesCards";
@@ -30,12 +32,9 @@ export default function AboutPage() {
           <div className={styles.heroText}>
             <h1>About Me</h1>
             <p className={styles.intro}>
-              Hi, I&apos;m Jonatan Bjerrekær 👋 a curious design engineer who likes to
-              sit with real users, map messy workflows into clearer journeys,
-              sketch scrappy prototypes, and then build the thing so it actually
-              works. I grew up tinkering with side projects, and today I bring
-              that same energy to B2B products: making complex tools feel as
-              calm and clear as possible.
+              Hi, I&apos;m Jonatan Bjerrekær 👋 a design engineer applying 10+ years of full-contact discipline to product design. 
+              I map messy workflows into clear journeys, sketch prototypes, and build the actual product. 
+              Today, I bring that iterative depth to B2B tools: making the complex feel calm and clear.
             </p>
           </div>
         </div>
@@ -63,22 +62,11 @@ export default function AboutPage() {
         </div>
 
         <div className={styles.section}>
-          <h2>Let's connect</h2>
-          <p>
-            I'm open to new opportunities and collaborations. Feel free to reach
-            out to talk about design systems, product UX, or tough interaction
-            challenges.
-          </p>
-          <div className={styles.contact}>
-            <a href="mailto:jonatanbjerrekaer@gmail.com">jonatanbjerrekaer@gmail.com</a>
-            <a
-              href="https://www.linkedin.com/in/jonatandbjerrek%C3%A6r"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              LinkedIn
-            </a>
-          </div>
+          <Testimonials />
+        </div>
+
+        <div className={styles.section}>
+          <AvailabilityCTA />
         </div>
       </section>
     </div>

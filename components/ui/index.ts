@@ -14,3 +14,6 @@ export type { ImageModalProps } from "./ImageModal";
 export { ImageGalleryModal } from "./ImageGalleryModal";
 export type { ImageGalleryModalProps, GalleryImage } from "./ImageGalleryModal";
 
+export { AnchoredPopover } from "./AnchoredPopover";
+export type { AnchoredPopoverProps } from "./AnchoredPopover";
+

@@ -7,9 +7,10 @@ import { SFSymbol } from "@/components/ui/SFSymbol";
 import styles from "./SiteHeader.module.scss";
 
 const navLinks = [
-  { href: "/", label: "Home", icon: "house" },
+  { href: "/", label: "Home" },
   { href: "/about", label: "About Me", icon: "person" },
   { href: "/projects", label: "Projects", icon: "folder" },
+  { href: "https://github.com/jdbjerrekaer", label: "GitHub" },
 ];
 
 const SCROLL_THRESHOLD_DESKTOP = 500; // pixels to scroll before background appears on desktop
@@ -73,21 +74,42 @@ export function SiteHeader() {
           Jonatan Daugbjerg Bjerrekær
         </Link>
         <ul className={styles.navList}>
-          {navLinks.map((link) => (
+          {navLinks.map((link) => {
+            const isExternal = link.href.startsWith("http");
+            return (
             <li key={link.href}>
-              <Link
-                href={link.href}
-                className={`${styles.navLink} ${isActive(link.href) ? styles.active : ""}`}
-                aria-current={isActive(link.href) ? "page" : undefined}
-              >
-                <span className={styles.navIcon}>
-                  <SFSymbol name={link.icon} size={16} weight="medium" filled={false} className={styles.iconOutline} />
-                  <SFSymbol name={link.icon} size={16} weight="medium" filled={true} className={styles.iconFilled} />
-                </span>
-                {link.label}
-              </Link>
+              {isExternal ? (
+                <a
+                  href={link.href}
+                  className={styles.navLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {link.label}
+                  {link.icon && (
+                    <span className={styles.navIcon}>
+                      <SFSymbol name={link.icon} size={16} weight="medium" filled={false} className={styles.iconOutline} />
+                      <SFSymbol name={link.icon} size={16} weight="medium" filled={true} className={styles.iconFilled} />
+                    </span>
+                  )}
+                </a>
+              ) : (
+                <Link
+                  href={link.href}
+                  className={`${styles.navLink} ${isActive(link.href) ? styles.active : ""}`}
+                  aria-current={isActive(link.href) ? "page" : undefined}
+                >
+                  {link.label}
+                  {link.icon && (
+                    <span className={styles.navIcon}>
+                      <SFSymbol name={link.icon} size={16} weight="medium" filled={false} className={styles.iconOutline} />
+                      <SFSymbol name={link.icon} size={16} weight="medium" filled={true} className={styles.iconFilled} />
+                    </span>
+                  )}
+                </Link>
+              )}
             </li>
-          ))}
+          )})}
         </ul>
       </nav>
     </header>

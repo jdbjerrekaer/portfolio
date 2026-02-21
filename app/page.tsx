@@ -9,6 +9,9 @@ import { getFeaturedProjectsList } from "@/lib/content/featuredProjects";
 import { designCarouselItems } from "@/lib/content/designCarouselItems";
 import { clientLogos } from "@/lib/content/clientLogos";
 import { hasCaseStudy, getProjectBySlug } from "@/lib/content/projects";
+import { AvailabilityCTA } from "@/components/AvailabilityCTA";
+import { Testimonials } from "@/components/Testimonials";
+import { WritingSection } from "@/components/WritingSection";
 import styles from "./page.module.scss";
 
 export default async function HomePage() {
@@ -33,11 +36,10 @@ export default async function HomePage() {
       <section className={styles.hero}>
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
-            Design Engineer &<br />
-            Technical UX Designer
+            I design interfaces that developers actually want to build.
           </h1>
           <p className={styles.heroSubtitle}>
-            Turning complex problems into intuitive products.
+            10+ years of full-contact discipline applied to product design, bridging the gap between Figma and the codebase.
           </p>
           <div className={styles.heroCta}>
             <Link href="/projects/">
@@ -50,6 +52,11 @@ export default async function HomePage() {
                 About Me
               </Button>
             </Link>
+            <a href="https://github.com/jdbjerrekaer" target="_blank" rel="noopener noreferrer">
+              <Button variant="secondary" size="lg" hoverIcon="arrow.up.right">
+                GitHub
+              </Button>
+            </a>
           </div>
         </div>
       </section>
@@ -91,6 +98,12 @@ export default async function HomePage() {
         </section>
       )}
 
+      {/* Writing Section */}
+      <WritingSection />
+
+      {/* Testimonials Section */}
+      <Testimonials />
+
       {/* Client Logos Grid Section */}
       <section className={styles.logos}>
         <LogoGrid
@@ -100,6 +113,9 @@ export default async function HomePage() {
           maxVisible={12}
         />
       </section>
+
+      {/* Availability CTA Section */}
+      <AvailabilityCTA />
     </div>
   );
 }
