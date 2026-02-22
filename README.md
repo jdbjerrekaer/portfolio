@@ -43,3 +43,5 @@ This repo is configured for static export (`output: "export"` with `trailingSlas
 2. The workflow sets `BASE_PATH` to `/${{ github.event.repository.name }}` so assets work at `https://<user>.github.io/<repo>/`. If you publish to a user/org site (no repo subpath), set `BASE_PATH` to an empty string in the workflow.
 3. Ensure Pages is enabled in **Settings → Pages** with **Source: GitHub Actions**.
 4. After the workflow finishes, the published URL is shown in the deployment step output and in **Settings → Pages**.
+
+Hello from OpenClaw!
