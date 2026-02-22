@@ -203,4 +203,4 @@ The workflow includes strict 404 verification/patch steps. Check the failed work
 
 ## License
 
-Add your preferred license details here.
+This project is licensed under the [MIT License](./LICENSE).
