@@ -1,8 +1,27 @@
-# Portfolio
+# ✨ Portfolio
 
-A content-driven portfolio built with **Next.js 16**, **React 19**, **TypeScript**, and **SCSS**.
+<p align="center">
+  <a href="https://jdbjerrekaer.github.io/portfolio/"><strong>🔗 View Live Portfolio</strong></a>
+</p>
 
-The site is statically exported and deployed to **GitHub Pages**, with project case studies authored as **MDX** files in `content/projects`.
+<p align="center">
+  A content-driven developer portfolio built with <strong>Next.js 16</strong>, <strong>React 19</strong>, <strong>TypeScript</strong>, and <strong>SCSS</strong>.
+  <br/>
+  Includes project case studies authored in <strong>MDX</strong> and deployed via <strong>GitHub Pages</strong>.
+</p>
+
+<p align="center">
+  <a href="https://jdbjerrekaer.github.io/portfolio/"><img alt="Live Portfolio" src="https://img.shields.io/badge/Live%20Site-Visit%20Now-0A66C2?style=for-the-badge" /></a>
+  <img alt="Next.js" src="https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=nextdotjs" />
+  <img alt="React" src="https://img.shields.io/badge/React-19-149ECA?style=for-the-badge&logo=react" />
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-Ready-3178C6?style=for-the-badge&logo=typescript&logoColor=white" />
+</p>
+
+<p align="center">
+  <a href="https://jdbjerrekaer.github.io/portfolio/">
+    <img src="assets/readme/portfolio-preview.jpg" alt="Portfolio preview" width="900" />
+  </a>
+</p>
 
 ---
 
