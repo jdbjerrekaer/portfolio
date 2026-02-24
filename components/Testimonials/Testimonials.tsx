@@ -11,16 +11,25 @@ export interface Testimonial {
 
 const placeholderTestimonials: Testimonial[] = [
   {
-    quote: "Jonatan is that rare breed of designer who actually understands how things are built. His Figma files are structured like codebases, making the handoff process seamless.",
-    author: "Developer Colleague",
-    role: "Senior Frontend Engineer",
-    company: "Current Company",
+    quote:
+      "A great thing about how he works is how his designs are structured. It is easy for me as a developer to follow his idea of how the UI should be built and which components to use.",
+    author: "Johannes Pedersen",
+    role: "Software Developer",
+    company: "Adtraction / Adservice",
   },
   {
-    quote: "YADL has completely transformed our design system maintenance. It's the exact tool we needed to keep our sprawling component libraries in check.",
-    author: "Figma Community User",
+    quote:
+      "Jonatan is kind, transparent, and a really good team player. He is very good at both taking and giving feedback, and he is key to my own performance.",
+    author: "Simon Knudsen",
     role: "Product Designer",
-    company: "Global Financial Institution",
+    company: "Adtraction / Adservice",
+  },
+  {
+    quote:
+      "Jonatan adapted quickly and helped get a strong design team up and running. He has delivered good results and is already off to a strong start on the new platform.",
+    author: "Frej Korsgaard",
+    role: "Engineering Manager",
+    company: "Adtraction / Adservice",
   },
 ];
 
