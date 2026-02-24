@@ -8,7 +8,7 @@ import styles from "./SiteHeader.module.scss";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About Me", icon: "person" },
+  { href: "/about", label: "About", icon: "person" },
   { href: "/projects", label: "Projects", icon: "folder" },
   { href: "https://github.com/jdbjerrekaer", label: "GitHub" },
 ];

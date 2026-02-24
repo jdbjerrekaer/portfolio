@@ -78,6 +78,8 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  white-space: nowrap;
+  flex-wrap: nowrap;
   font-size: 0.9375rem;
   font-weight: 500;
   color: var(--color-text-secondary);
@@ -208,7 +210,16 @@
 @media (max-width: 640px) {
   .nav {
     justify-content: center;
-    gap: var(--space-lg);
+    gap: var(--space-md);
+  }
+
+  .navList {
+    gap: 0.45rem;
+  }
+
+  .navLink {
+    padding: 0.4rem 0.55rem;
+    font-size: 0.84rem;
   }
 
   .logo {
