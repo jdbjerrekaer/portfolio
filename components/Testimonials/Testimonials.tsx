@@ -19,10 +19,10 @@ const placeholderTestimonials: Testimonial[] = [
   },
   {
     quote:
-      "Jonatan is kind, transparent, and a really good team player. He is very good at both taking and giving feedback, and he is key to my own performance.",
-    author: "Simon Knudsen",
-    role: "Product Designer",
-    company: "Adservice",
+      "He has helped me better understand what makes a great interface, which helped me finish tasks faster and with fewer corrections.",
+    author: "Kristoffer Hvitfeldt",
+    role: "Developer",
+    company: "Adservice / Adtraction",
   },
   {
     quote:
