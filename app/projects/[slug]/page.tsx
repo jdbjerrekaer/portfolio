@@ -105,10 +105,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             <span className={styles.quickFactValue}>{formattedDate}</span>
           </div>
           <div className={styles.quickFact}>
-            <span className={styles.quickFactLabel}>Tags</span>
-            <span className={styles.quickFactValue}>{project.tags.slice(0, 3).join(" • ")}</span>
-          </div>
-          <div className={styles.quickFact}>
             <span className={styles.quickFactLabel}>Outcome</span>
             <span className={styles.quickFactValue}>Case study with product and UX decisions</span>
           </div>
@@ -168,4 +164,3 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     </article>
   );
 }
-
