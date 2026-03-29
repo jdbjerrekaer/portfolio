@@ -12,24 +12,20 @@
   padding: 0;
   display: block;
 
-  &:hover,
   &:focus-visible {
     transform: scale(1.01);
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
 
     .overlay {
       opacity: 1;
     }
   }
-
-  &:focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 4px;
-  }
 }
 
 .image {
   object-fit: cover;
-  transition: transform var(--transition-base);
+  transition: transform var(--transition-fast);
 }
 
 .overlay {
@@ -57,8 +53,8 @@
   -webkit-backdrop-filter: blur(10px);
   border-radius: var(--radius-full);
   color: var(--color-text-primary);
-  transform: scale(0.9);
-  transition: transform var(--transition-base);
+  transform: scale(0.94);
+  transition: transform var(--transition-fast);
 
   svg {
     width: 20px;
@@ -79,7 +75,20 @@
   font-weight: 600;
 }
 
-.coverImage:hover .icon,
 .coverImage:focus-visible .icon {
   transform: scale(1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .coverImage:hover {
+    transform: scale(1.01);
+
+    .overlay {
+      opacity: 1;
+    }
+  }
+
+  .coverImage:hover .icon {
+    transform: scale(1);
+  }
 }

@@ -10,7 +10,7 @@
   background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  animation: fadeIn 0.2s ease-out;
+  animation: fadeIn 160ms var(--ease-out);
   overflow-y: auto;
 }
 
@@ -47,7 +47,8 @@
   width: 100%;
   max-width: 1400px;
   padding: 0 var(--space-lg) var(--space-lg);
-  animation: scaleIn 0.2s ease-out;
+  transform-origin: center top;
+  animation: scaleIn 180ms var(--ease-out);
 }
 
 @keyframes scaleIn {
@@ -78,19 +79,13 @@
   color: white;
   cursor: pointer;
   transition:
-    background var(--transition-base),
-    transform var(--transition-base),
-    border-color var(--transition-base);
+    background var(--transition-fast),
+    transform var(--transition-fast),
+    border-color var(--transition-fast);
   z-index: 10000;
 
-  &:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.1);
-    border-color: rgba(255, 255, 255, 0.3);
-  }
-
   &:active {
-    transform: scale(0.95);
+    transform: scale(0.97);
   }
 
   svg {
@@ -122,24 +117,12 @@
   overflow: hidden;
   background: var(--color-background-secondary);
   cursor: pointer;
-  transition: transform var(--transition-base);
-
-  &:hover {
-    transform: scale(1.05);
-
-    .galleryOverlay {
-      opacity: 1;
-    }
-
-    .galleryIcon {
-      transform: scale(1);
-    }
-  }
+  transition: transform var(--transition-fast);
 }
 
 .galleryImage {
   object-fit: cover;
-  transition: transform var(--transition-base);
+  transition: transform var(--transition-fast);
 }
 
 .galleryOverlay {
@@ -152,7 +135,7 @@
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   opacity: 0;
-  transition: opacity var(--transition-base);
+  transition: opacity var(--transition-fast);
   z-index: 1;
 }
 
@@ -167,8 +150,8 @@
   -webkit-backdrop-filter: blur(10px);
   border-radius: var(--radius-full);
   color: var(--color-text-primary);
-  transform: scale(0.9);
-  transition: transform var(--transition-base);
+  transform: scale(0.94);
+  transition: transform var(--transition-fast);
 
   svg {
     width: 24px;
@@ -176,8 +159,24 @@
   }
 }
 
-.galleryItem:hover .galleryIcon {
-  transform: scale(1);
+@media (hover: hover) and (pointer: fine) {
+  .closeButton:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.04);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .galleryItem:hover {
+    transform: scale(1.02);
+  }
+
+  .galleryItem:hover .galleryOverlay {
+    opacity: 1;
+  }
+
+  .galleryItem:hover .galleryIcon {
+    transform: scale(1);
+  }
 }
 
 // Responsive adjustments

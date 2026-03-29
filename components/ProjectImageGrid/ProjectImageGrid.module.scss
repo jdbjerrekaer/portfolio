@@ -26,18 +26,14 @@
   width: 100%;
   text-align: left;
 
-  &:hover,
   &:focus-visible {
-    transform: scale(1.02);
+    transform: scale(1.01);
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
 
     .overlay {
       opacity: 1;
     }
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 4px;
   }
 
   // Mosaic pattern: varied sizes for portrait images creating visual interest
@@ -121,7 +117,7 @@
 
 .image {
   object-fit: cover;
-  transition: transform var(--transition-base);
+  transition: transform var(--transition-fast);
 }
 
 .overlay {
@@ -149,8 +145,8 @@
   -webkit-backdrop-filter: blur(10px);
   border-radius: var(--radius-full);
   color: var(--color-text-primary);
-  transform: scale(0.9);
-  transition: transform var(--transition-base);
+  transform: scale(0.94);
+  transition: transform var(--transition-fast);
 
   svg {
     width: 20px;
@@ -171,7 +167,20 @@
   font-weight: 600;
 }
 
-.gridItem:hover .icon,
 .gridItem:focus-visible .icon {
   transform: scale(1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .gridItem:hover {
+    transform: scale(1.01);
+
+    .overlay {
+      opacity: 1;
+    }
+  }
+
+  .gridItem:hover .icon {
+    transform: scale(1);
+  }
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { RefObject, useEffect, useRef } from "react";
+import { RefObject, useCallback, useEffect, useRef } from "react";
 import styles from "./AnchoredPopover.module.scss";
 
 export interface AnchoredPopoverProps {
@@ -24,7 +24,7 @@ export function AnchoredPopover({
 }: AnchoredPopoverProps) {
   const popoverRef = useRef<HTMLDivElement>(null);
 
-  const positionPopover = () => {
+  const positionPopover = useCallback(() => {
     const anchorEl = anchorRef.current;
     const popoverEl = popoverRef.current;
     if (!anchorEl || !popoverEl) return;
@@ -32,7 +32,7 @@ export function AnchoredPopover({
     const rect = anchorEl.getBoundingClientRect();
     popoverEl.style.left = `${rect.left + rect.width / 2}px`;
     popoverEl.style.top = `${rect.top - offsetY}px`;
-  };
+  }, [anchorRef, offsetY]);
 
   useEffect(() => {
     const popoverEl = popoverRef.current;
@@ -61,7 +61,7 @@ export function AnchoredPopover({
     if (popoverEl.matches(":popover-open")) {
       popoverEl.hidePopover();
     }
-  }, [isOpen, offsetY]);
+  }, [isOpen, positionPopover]);
 
   return (
     <div

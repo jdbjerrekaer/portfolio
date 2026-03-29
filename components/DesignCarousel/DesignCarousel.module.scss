@@ -63,15 +63,10 @@
   align-items: center;
   justify-content: center;
   
-  // Smooth transitions for any hover effects
-  transition: transform var(--transition-base);
-  
+  transition: transform var(--transition-fast);
+
   &.hovered {
-    transform: scale(1.02);
-  }
-  
-  &.scaledDown {
-    transform: scale(0.98);
+    transform: scale(1.01);
   }
   
   // Ensure any wrapper (like Tooltip) fills the container and allows overflow
@@ -120,7 +115,7 @@
   
   // Parallax effect
   transform: translate3d(var(--parallax-x, 0), var(--parallax-y, 0), 0);
-  transition: transform 0.4s cubic-bezier(0.1, 0, 0.2, 1);
+  transition: transform var(--transition-slow);
   will-change: transform;
 }
 
