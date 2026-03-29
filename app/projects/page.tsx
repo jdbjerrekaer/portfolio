@@ -18,11 +18,13 @@ export default async function ProjectsPage() {
   return (
     <div className={styles.page}>
       <section className={styles.hero}>
-        <h1>Projects</h1>
-        <p className={styles.intro}>
-          A collection of projects where design meets engineering. Each project
-          represents a unique challenge and solution.
-        </p>
+        <div className={styles.sectionInner}>
+          <h1>Projects</h1>
+          <p className={styles.intro}>
+            A collection of projects where design meets engineering. Each project
+            represents a unique challenge and solution.
+          </p>
+        </div>
       </section>
 
       <section className={styles.carousel}>
@@ -30,29 +32,37 @@ export default async function ProjectsPage() {
       </section>
 
       {projects.length > 0 ? (
-        <section className={styles.projects} aria-labelledby="projects-list-label">
-          <p id="projects-list-label" className={styles.sectionLabel}>
-            Case studies & explorations
-          </p>
-          <div className={styles.grid}>
-            {projects.map((project) => (
-              <ProjectCard
-                key={project.slug}
-                slug={project.slug}
-                title={project.title}
-                summary={project.summary}
-                role={project.role}
-                tags={project.tags}
-                coverImage={project.coverImage}
-                hasCaseStudy={hasCaseStudy(project)}
-                comingSoon={project.comingSoon}
-              />
-            ))}
+        <section className={styles.contentSection}>
+          <div className={styles.sectionInner}>
+            <div className={styles.projects} aria-labelledby="projects-list-label">
+              <p id="projects-list-label" className={styles.sectionLabel}>
+                Case studies & explorations
+              </p>
+              <div className={styles.grid}>
+                {projects.map((project) => (
+                  <ProjectCard
+                    key={project.slug}
+                    slug={project.slug}
+                    title={project.title}
+                    summary={project.summary}
+                    role={project.role}
+                    tags={project.tags}
+                    coverImage={project.coverImage}
+                    hasCaseStudy={hasCaseStudy(project)}
+                    comingSoon={project.comingSoon}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </section>
       ) : (
-        <section className={styles.empty}>
-          <p>No projects yet. Check back soon!</p>
+        <section className={styles.contentSection}>
+          <div className={styles.sectionInner}>
+            <div className={styles.empty}>
+              <p>No projects yet. Check back soon!</p>
+            </div>
+          </div>
         </section>
       )}
 
@@ -67,4 +77,3 @@ export default async function ProjectsPage() {
     </div>
   );
 }
-

@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Tooltip, ImageModal } from "@/components/ui";
 import styles from "./DesignCarousel.module.scss";
@@ -25,7 +24,6 @@ export interface CarouselItem {
   tooltip?: string;
   image?: string; // Optional image path to use instead of placeholder
   description?: string; // Optional description/caption shown in fullscreen modal
-  href?: string;
 }
 
 interface DesignCarouselProps {
@@ -65,12 +63,11 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
     if (typeof window === "undefined") return;
 
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mediaQuery.matches);
 
     const handleChange = (e: MediaQueryListEvent) => {
       setPrefersReducedMotion(e.matches);
     };
-
-    handleChange({ matches: mediaQuery.matches } as MediaQueryListEvent);
 
     mediaQuery.addEventListener("change", handleChange);
     return () => mediaQuery.removeEventListener("change", handleChange);
@@ -184,10 +181,7 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
         // If we moved beyond threshold, prevent default to stop link clicks
         if (hasMovedRef.current) {
           e.preventDefault();
-          lastDragEndTimeRef.current = 1;
-          window.setTimeout(() => {
-            lastDragEndTimeRef.current = 0;
-          }, 100);
+          lastDragEndTimeRef.current = Date.now();
         }
         
         isDraggingRef.current = false;
@@ -396,8 +390,9 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
 
   // Handle image click to open modal
   const handleImageClick = (e: React.MouseEvent<HTMLImageElement>, kind: "desktop" | "iphone", index: number) => {
-    // Don't open modal if user was dragging recently
-    if (hasMovedRef.current || lastDragEndTimeRef.current > 0) {
+    // Don't open modal if user was dragging (check if drag ended recently)
+    const timeSinceDragEnd = Date.now() - lastDragEndTimeRef.current;
+    if (hasMovedRef.current || timeSinceDragEnd < 100) {
       return;
     }
     
@@ -462,26 +457,14 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
                     followCursor
                   >
                     <div className={styles.imageWrapper}>
-                      <button
-                        type="button"
-                        className={styles.imageButton}
-                        onClick={(e) => handleImageClick(e as unknown as React.MouseEvent<HTMLImageElement>, item.kind, index)}
-                        aria-label={`Open fullscreen image for ${item.label}`}
-                      >
-                        <img
-                          src={getImageSrc(item, index)}
-                          alt={`${item.label} - ${item.kind === "desktop" ? "Desktop" : "iPhone"} design ${(index % items.length) + 1}`}
-                          className={styles.image}
-                          draggable={false}
-                          onMouseMove={(e) => handleImageMouseMove(e, index)}
-                        />
-                        <span className={styles.imageHint}>Open fullscreen</span>
-                      </button>
-                      {item.href && (
-                        <Link href={item.href} className={styles.projectLink}>
-                          View related project
-                        </Link>
-                      )}
+                      <img
+                        src={getImageSrc(item, index)}
+                        alt={`${item.label} - ${item.kind === "desktop" ? "Desktop" : "iPhone"} design ${(index % items.length) + 1}`}
+                        className={styles.image}
+                        draggable={false}
+                        onMouseMove={(e) => handleImageMouseMove(e, index)}
+                        onClick={(e) => handleImageClick(e, item.kind, index)}
+                      />
                     </div>
                   </Tooltip>
                 </div>
@@ -502,4 +485,3 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
     </>
   );
 }
-

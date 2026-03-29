@@ -1,15 +1,24 @@
 .page {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: var(--space-4xl) var(--space-lg);
+  display: flex;
+  flex-direction: column;
 }
 
 .hero {
-  margin-bottom: var(--space-3xl);
+  padding: var(--space-4xl) var(--space-lg);
 
   h1 {
     margin-bottom: var(--space-lg);
   }
+}
+
+.contentSection {
+  padding: 0 var(--space-lg) var(--space-4xl);
+}
+
+.sectionInner {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
 }
 
 .intro {
@@ -54,11 +63,10 @@
 
 .empty {
   text-align: center;
-  padding: var(--space-4xl) var(--space-lg);
+  padding: var(--space-4xl) 0;
 
   p {
     font-size: 1.125rem;
     color: var(--color-text-tertiary);
   }
 }
-

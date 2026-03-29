@@ -7,16 +7,14 @@ export const designCarouselItems: CarouselItem[] = [
     label: "LeadPlatform Hero", 
     tooltip: "LEADPLATFORM: All-in-one Lead Generation", 
     image: withBasePath("/projects/leadplatform/hero.png"),
-    description: "Hero section of LeadPlatform showcasing the all-in-one gamified lead generation platform combining quizzes, contests, calendars, and memory games.",
-    href: "/projects/leadplatform/"
+    description: "Hero section of LeadPlatform showcasing the all-in-one gamified lead generation platform combining quizzes, contests, calendars, and memory games."
   },
   { 
     kind: "iphone", 
     label: "Countdown Home", 
     tooltip: "COUNTDOWN: Event List", 
     image: withBasePath("/projects/countdown/home-list-light.png"),
-    description: "Main countdown list showing upcoming events with emoji icons, time remaining, and recurring event badges.",
-    href: "/projects/countdown/"
+    description: "Main countdown list showing upcoming events with emoji icons, time remaining, and recurring event badges."
   },
   { 
     kind: "desktop", 
@@ -30,8 +28,7 @@ export const designCarouselItems: CarouselItem[] = [
     label: "Drag Reorder", 
     tooltip: "COUNTDOWN: Drag to Reorder", 
     image: withBasePath("/projects/countdown/drag-reorder-light.png"),
-    description: "Drag-and-drop reordering with smooth animations and careful transform handling for a physical, confident interaction.",
-    href: "/projects/countdown/"
+    description: "Drag-and-drop reordering with smooth animations and careful transform handling for a physical, confident interaction."
   },
   { 
     kind: "iphone", 
@@ -52,16 +49,14 @@ export const designCarouselItems: CarouselItem[] = [
     label: "Edit Event", 
     tooltip: "COUNTDOWN: Edit Event", 
     image: withBasePath("/projects/countdown/edit-event-light.png"),
-    description: "Event editing screen with emoji picker, color customization slider, repeat yearly toggle, and inline calendar for date selection.",
-    href: "/projects/countdown/"
+    description: "Event editing screen with emoji picker, color customization slider, repeat yearly toggle, and inline calendar for date selection."
   },
   { 
     kind: "iphone", 
     label: "Brand Page", 
     tooltip: "IRIZ: Brand Page", 
     image: withBasePath("/projects/iriz/cover.png"),
-    description: "Mobile brand page interface for Iriz influencer affiliate marketing platform, featuring social media platform integration and earnings display.",
-    href: "/projects/iriz/"
+    description: "Mobile brand page interface for Iriz influencer affiliate marketing platform, featuring social media platform integration and earnings display."
   },
   { 
     kind: "desktop", 
@@ -75,8 +70,7 @@ export const designCarouselItems: CarouselItem[] = [
     label: "Small Widget", 
     tooltip: "COUNTDOWN: Small Widget", 
     image: withBasePath("/projects/countdown/widget-small-light.png"),
-    description: "Native iOS small widget showing a single countdown with emoji badge, event title, next date, and days remaining.",
-    href: "/projects/countdown/"
+    description: "Native iOS small widget showing a single countdown with emoji badge, event title, next date, and days remaining."
   },
   { 
     kind: "iphone", 
@@ -97,8 +91,7 @@ export const designCarouselItems: CarouselItem[] = [
     label: "Large Widget", 
     tooltip: "COUNTDOWN: Large Widget", 
     image: withBasePath("/projects/countdown/widget-large-light.png"),
-    description: "Native iOS large widget with expanded countdown display showing days, hours, minutes, and seconds in a grid layout.",
-    href: "/projects/countdown/"
+    description: "Native iOS large widget with expanded countdown display showing days, hours, minutes, and seconds in a grid layout."
   },
   { 
     kind: "iphone", 
@@ -119,16 +112,13 @@ export const designCarouselItems: CarouselItem[] = [
     label: "Classic Widget", 
     tooltip: "COUNTDOWN: Classic Widget", 
     image: withBasePath("/projects/countdown/widget-classic-light.png"),
-    description: "Native iOS widget with classic flip-clock inspired digit display for a nostalgic countdown experience.",
-    href: "/projects/countdown/"
+    description: "Native iOS widget with classic flip-clock inspired digit display for a nostalgic countdown experience."
   },
   { 
     kind: "iphone", 
     label: "Ad-Free Upgrade", 
     tooltip: "COUNTDOWN: Go Ad-Free", 
     image: withBasePath("/projects/countdown/ad-free-upgrade.png"),
-    description: "One-time purchase screen offering ad removal with optional supporter tier, featuring restore purchases and transparent pricing.",
-    href: "/projects/countdown/"
+    description: "One-time purchase screen offering ad removal with optional supporter tier, featuring restore purchases and transparent pricing."
   },
 ];
-
