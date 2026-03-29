@@ -4,8 +4,8 @@
  * This fixes the issue where Next.js generates default 404.html instead of using app/not-found.tsx
  */
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 const REPO_NAME = process.env.BASE_PATH?.replace(/^\//, '') || process.env.REPO_NAME || 'portfolio';
 const OUT_DIR = path.join(process.cwd(), 'out');

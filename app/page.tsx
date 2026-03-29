@@ -3,7 +3,6 @@ import { Button } from "@/components/ui";
 import { SFSymbol } from "@/components/ui/SFSymbol";
 import { ProjectCard } from "@/components/ProjectCard";
 import { DesignCarousel } from "@/components/DesignCarousel";
-import { LogoStrip } from "@/components/LogoStrip";
 import { LogoGrid } from "@/components/LogoGrid";
 import { getFeaturedProjectsList } from "@/lib/content/featuredProjects";
 import { designCarouselItems } from "@/lib/content/designCarouselItems";
@@ -39,7 +38,7 @@ export default async function HomePage() {
             I design interfaces that developers actually want to build.
           </h1>
           <p className={styles.heroSubtitle}>
-            10+ years of full-contact discipline applied to product design, bridging the gap between Figma and the codebase.
+            Design Engineer portfolio with selected case studies, product thinking, and the systems behind shipping better interfaces.
           </p>
           <div className={styles.heroCta}>
             <Link href="/projects/">
@@ -59,16 +58,6 @@ export default async function HomePage() {
             </a>
           </div>
         </div>
-      </section>
-
-      {/* Design Carousel Section */}
-      <section className={styles.carousel}>
-        <DesignCarousel items={designCarouselItems} />
-      </section>
-
-      {/* Logo Strip Section */}
-      <section className={styles.logoStrip}>
-        <LogoStrip logos={clientLogos} title="Clients & Collaborators" />
       </section>
 
       {/* Featured Projects Section */}
@@ -98,6 +87,12 @@ export default async function HomePage() {
         </section>
       )}
 
+      {/* Design Carousel Section */}
+      <section className={styles.carousel} aria-labelledby="visual-highlights-title">
+        <h2 id="visual-highlights-title" className="sr-only">Visual highlights from selected projects</h2>
+        <DesignCarousel items={designCarouselItems} />
+      </section>
+
       {/* Writing Section */}
       <WritingSection />
 
@@ -108,7 +103,7 @@ export default async function HomePage() {
       <section className={styles.logos}>
         <LogoGrid
           logos={clientLogos}
-          title="Clients & Collaborators"
+          title="Who I’ve worked with"
           description="From large international brands to local Danish, Swedish, Norwegian, and Finnish companies, collaborating with innovative teams across the Nordic region and beyond."
           maxVisible={12}
         />

@@ -70,7 +70,9 @@ export function ImageGalleryModal({
     <FloatingPortal>
       <FloatingFocusManager context={context} modal initialFocus={-1}>
         <div
-          ref={refs.setFloating}
+          ref={(node) => {
+            refs.setFloating(node);
+          }}
           className={styles.backdrop}
           onClick={handleBackdropClick}
           role="dialog"

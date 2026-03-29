@@ -8,13 +8,22 @@
   background: var(--color-background-secondary);
   cursor: pointer;
   transition: transform var(--transition-base);
+  border: none;
+  padding: 0;
+  display: block;
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     transform: scale(1.01);
 
     .overlay {
       opacity: 1;
     }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
   }
 }
 
@@ -57,6 +66,20 @@
   }
 }
 
-.coverImage:hover .icon {
+.overlayLabel {
+  position: absolute;
+  bottom: var(--space-md);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(17, 17, 17, 0.72);
+  color: white;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.coverImage:hover .icon,
+.coverImage:focus-visible .icon {
   transform: scale(1);
 }

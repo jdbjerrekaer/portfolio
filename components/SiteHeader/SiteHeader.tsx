@@ -7,7 +7,6 @@ import { SFSymbol } from "@/components/ui/SFSymbol";
 import styles from "./SiteHeader.module.scss";
 
 const navLinks = [
-  { href: "/", label: "Home" },
   { href: "/about", label: "About", icon: "person" },
   { href: "/projects", label: "Projects", icon: "folder" },
   { href: "https://github.com/jdbjerrekaer", label: "GitHub" },
@@ -29,12 +28,7 @@ export function SiteHeader() {
     const handleScroll = () => {
       const scrollY = window.scrollY;
       const threshold = getScrollThreshold();
-      // Background appears after threshold, but disappears immediately at top
-      if (scrollY > threshold) {
-        setIsScrolled(true);
-      } else if (scrollY === 0) {
-        setIsScrolled(false);
-      }
+      setIsScrolled(scrollY > threshold);
     };
 
     const handleResize = () => {

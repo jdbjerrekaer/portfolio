@@ -40,9 +40,12 @@ export function ProjectCard({
     </svg>
   `.trim())}`;
 
+  const isUnavailable = comingSoon || !hasCaseStudy;
+  const statusLabel = comingSoon ? "Coming soon" : !hasCaseStudy ? "Preview only" : "Case study available";
+
   const cardContent = (
     <Card className={styles.card}>
-      <div className={`${styles.imageWrapper} ${comingSoon ? styles.comingSoon : ''}`}>
+      <div className={`${styles.imageWrapper} ${isUnavailable ? styles.comingSoon : ''}`}>
         <Image
           src={imageSrc}
           alt={`${title} project cover`}
@@ -50,9 +53,16 @@ export function ProjectCard({
           className={styles.image}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
+        <span className={`${styles.statusBadge} ${isUnavailable ? styles.statusBadgeMuted : styles.statusBadgeActive}`}>
+          {statusLabel}
+        </span>
       </div>
       <div className={styles.content}>
-        <h3 className={styles.title}>{title}</h3>
+        <div className={styles.headingRow}>
+          <h3 className={styles.title}>{title}</h3>
+          <span className={styles.role}>{role}</span>
+        </div>
+        <p className={styles.summary}>{summary}</p>
         <div className={styles.tags}>
           {tags.map((tag) => (
             <Chip key={tag} variant="default" size="sm">
@@ -60,21 +70,23 @@ export function ProjectCard({
             </Chip>
           ))}
         </div>
+        <p className={styles.cardState}>
+          {isUnavailable ? "Case study in progress" : "Read case study"}
+        </p>
       </div>
     </Card>
   );
 
-  // Wrap with tooltip if coming soon or no case study yet
-  if (comingSoon || !hasCaseStudy) {
+  if (isUnavailable) {
     return (
       <Tooltip
-        content="Coming soon"
+        content={comingSoon ? "Case study coming soon" : "Project preview only"}
         delay={300}
         className="tooltip-glass"
         placement="top"
         followCursor
       >
-        <div className={styles.linkWrapper}>
+        <div className={styles.linkWrapper} aria-label={`${title}. ${statusLabel}.`}>
           {cardContent}
         </div>
       </Tooltip>

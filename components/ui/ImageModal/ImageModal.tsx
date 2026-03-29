@@ -76,7 +76,6 @@ export function ImageModal({
   // Detect portrait orientation by loading image and checking dimensions
   useEffect(() => {
     if (!isOpen || !imageSrc) {
-      setIsPortrait(false);
       return;
     }
 
@@ -130,11 +129,15 @@ export function ImageModal({
 
   if (!isOpen) return null;
 
+  const modalIsPortrait = imageSrc ? isPortrait : false;
+
   return (
     <FloatingPortal>
       <FloatingFocusManager context={context} modal initialFocus={-1}>
         <div
-          ref={refs.setFloating}
+          ref={(node) => {
+            refs.setFloating(node);
+          }}
           className={styles.backdrop}
           onClick={handleBackdropClick}
           role="dialog"
@@ -142,7 +145,7 @@ export function ImageModal({
           aria-label="Image modal"
         >
           <div 
-            className={`${styles.modalContent} ${isPortrait ? styles.portrait : ""}`}
+            className={`${styles.modalContent} ${modalIsPortrait ? styles.portrait : ""}`}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}

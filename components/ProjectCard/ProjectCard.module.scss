@@ -2,8 +2,15 @@
 .linkWrapper {
   text-decoration: none;
   display: block;
-  cursor: pointer;
   height: 100%;
+}
+
+.link {
+  cursor: pointer;
+}
+
+.linkWrapper {
+  cursor: default;
 }
 
 .card {
@@ -43,8 +50,7 @@
   -moz-user-select: none;
   -ms-user-select: none;
 
-  .link:hover &,
-  .linkWrapper:hover & {
+  .link:hover & {
     transform: scale(1.05);
   }
 }
@@ -71,6 +77,13 @@
   gap: var(--space-sm);
 }
 
+.headingRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-sm);
+}
+
 .title {
   font-size: 1.125rem;
   font-weight: 600;
@@ -83,9 +96,54 @@
   -ms-user-select: none;
 }
 
+.role {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.summary {
+  margin: 0;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
 .tags {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-xs);
   align-items: center;
+}
+
+.cardState {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.statusBadge {
+  position: absolute;
+  top: var(--space-sm);
+  left: var(--space-sm);
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.statusBadgeActive {
+  background: rgba(255, 255, 255, 0.88);
+  color: #1d1d1f;
+}
+
+.statusBadgeMuted {
+  background: rgba(29, 29, 31, 0.7);
+  color: #f5f5f7;
 }

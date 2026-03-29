@@ -51,8 +51,8 @@ export function Testimonials({ testimonials = placeholderTestimonials }: { testi
       <div className={styles.grid}>
         {testimonials.map((testimonial, index) => (
           <div key={index} className={styles.card}>
-            <SFSymbol name="quote.opening" size={24} className={styles.quoteIcon} />
-            <p className={styles.quoteText}>"{testimonial.quote}"</p>
+            <span className={styles.quoteIcon} aria-hidden="true">“</span>
+            <p className={styles.quoteText}>{testimonial.quote}</p>
             <div className={styles.authorInfo}>
               <p className={styles.authorName}>{testimonial.author}</p>
               <p className={styles.authorRole}>

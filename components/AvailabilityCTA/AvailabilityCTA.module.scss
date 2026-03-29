@@ -50,6 +50,12 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .dot {
+    animation: none;
+  }
+}
+
 .title {
   margin: 0 0 var(--space-sm);
   font-size: 2rem;
@@ -60,7 +66,14 @@
   color: var(--color-text-secondary);
   font-size: 1.125rem;
   line-height: 1.5;
+  margin: 0 0 var(--space-md);
+}
+
+.email {
   margin: 0 0 var(--space-2xl);
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  word-break: break-word;
 }
 
 .actions {

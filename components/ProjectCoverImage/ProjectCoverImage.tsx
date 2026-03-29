@@ -30,7 +30,12 @@ export function ProjectCoverImage({ src, alt, title }: ProjectCoverImageProps) {
 
   return (
     <>
-      <div className={styles.coverImage} onClick={handleImageClick}>
+      <button
+        type="button"
+        className={styles.coverImage}
+        onClick={handleImageClick}
+        aria-label={`Open full-size cover image for ${title}`}
+      >
         <Image
           src={imageSrc}
           alt={alt}
@@ -57,8 +62,9 @@ export function ProjectCoverImage({ src, alt, title }: ProjectCoverImageProps) {
               />
             </svg>
           </div>
+          <span className={styles.overlayLabel}>Open full image</span>
         </div>
-      </div>
+      </button>
       {isModalOpen && (
         <ImageModal
           isOpen={isModalOpen}

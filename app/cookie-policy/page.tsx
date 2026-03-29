@@ -58,7 +58,7 @@ export default function CookiePolicyPage() {
               <p>
                 These cookies help us understand how visitors interact with our
                 website by collecting and reporting information anonymously. This
-                helps us improve the website's functionality and user
+                helps us improve the website&apos;s functionality and user
                 experience.
               </p>
               <ul>

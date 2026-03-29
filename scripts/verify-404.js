@@ -4,8 +4,8 @@
  * Run after: BASE_PATH=/portfolio npm run build
  */
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 const REPO_NAME = process.env.BASE_PATH?.replace(/^\//, '') || 'portfolio';
 const OUT_DIR = path.join(process.cwd(), 'out');

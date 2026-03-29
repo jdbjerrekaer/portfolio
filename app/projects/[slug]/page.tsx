@@ -48,6 +48,17 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
   const project = await getProjectBySlug(slug);
 
+  const sectionMatches = project?.content.match(/^##\s+(.+)$/gm) ?? [];
+  const sections = sectionMatches.map((heading) => {
+    const title = heading.replace(/^##\s+/, "").trim();
+    const id = title
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .trim()
+      .replace(/\s+/g, "-");
+    return { title, id };
+  });
+
   if (!project) {
     notFound();
   }
@@ -65,6 +76,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   return (
     <article className={styles.page}>
       <header className={styles.header}>
+        <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
+          <Link href="/projects/" className={styles.breadcrumbLink}>Projects</Link>
+          <span className={styles.breadcrumbDivider}>/</span>
+          <span className={styles.breadcrumbCurrent}>{project.title}</span>
+        </nav>
+
         <Link href="/projects/" className={styles.backLink}>
           <SFSymbol name="arrow.left" size={16} weight="medium" className={styles.backIcon} />
           <span>Back to Projects</span>
@@ -77,6 +94,35 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
         <h1 className={styles.title}>{project.title}</h1>
         <p className={styles.summary}>{project.summary}</p>
+
+        <aside className={styles.quickFacts} aria-label="Project quick facts">
+          <div className={styles.quickFact}>
+            <span className={styles.quickFactLabel}>Role</span>
+            <span className={styles.quickFactValue}>{project.role}</span>
+          </div>
+          <div className={styles.quickFact}>
+            <span className={styles.quickFactLabel}>Date</span>
+            <span className={styles.quickFactValue}>{formattedDate}</span>
+          </div>
+          <div className={styles.quickFact}>
+            <span className={styles.quickFactLabel}>Tags</span>
+            <span className={styles.quickFactValue}>{project.tags.slice(0, 3).join(" • ")}</span>
+          </div>
+          <div className={styles.quickFact}>
+            <span className={styles.quickFactLabel}>Outcome</span>
+            <span className={styles.quickFactValue}>Case study with product and UX decisions</span>
+          </div>
+        </aside>
+
+        {sections.length > 0 && (
+          <nav className={styles.sectionNav} aria-label="Jump to section">
+            {sections.map((section) => (
+              <a key={section.id} href={`#${section.id}`} className={styles.sectionLink}>
+                {section.title}
+              </a>
+            ))}
+          </nav>
+        )}
 
         <div className={styles.tags}>
           {project.tags.map((tag) => (
