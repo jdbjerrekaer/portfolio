@@ -13,7 +13,7 @@ export const designCarouselItems: CarouselItem[] = [
     kind: "iphone", 
     label: "Countdown Home", 
     tooltip: "COUNTDOWN: Event List", 
-    image: withBasePath("/projects/countdown/home-list-light.png"),
+    image: withBasePath("/projects/yet-another-countdown/home-list-light.png"),
     description: "Main countdown list showing upcoming events with emoji icons, time remaining, and recurring event badges."
   },
   { 
@@ -27,7 +27,7 @@ export const designCarouselItems: CarouselItem[] = [
     kind: "iphone", 
     label: "Drag Reorder", 
     tooltip: "COUNTDOWN: Drag to Reorder", 
-    image: withBasePath("/projects/countdown/drag-reorder-light.png"),
+    image: withBasePath("/projects/yet-another-countdown/drag-reorder-light.png"),
     description: "Drag-and-drop reordering with smooth animations and careful transform handling for a physical, confident interaction."
   },
   { 
@@ -48,7 +48,7 @@ export const designCarouselItems: CarouselItem[] = [
     kind: "iphone", 
     label: "Edit Event", 
     tooltip: "COUNTDOWN: Edit Event", 
-    image: withBasePath("/projects/countdown/edit-event-light.png"),
+    image: withBasePath("/projects/yet-another-countdown/edit-event-light.png"),
     description: "Event editing screen with emoji picker, color customization slider, repeat yearly toggle, and inline calendar for date selection."
   },
   { 
@@ -69,7 +69,7 @@ export const designCarouselItems: CarouselItem[] = [
     kind: "iphone", 
     label: "Small Widget", 
     tooltip: "COUNTDOWN: Small Widget", 
-    image: withBasePath("/projects/countdown/widget-small-light.png"),
+    image: withBasePath("/projects/yet-another-countdown/widget-small-light.png"),
     description: "Native iOS small widget showing a single countdown with emoji badge, event title, next date, and days remaining."
   },
   { 
@@ -90,7 +90,7 @@ export const designCarouselItems: CarouselItem[] = [
     kind: "iphone", 
     label: "Large Widget", 
     tooltip: "COUNTDOWN: Large Widget", 
-    image: withBasePath("/projects/countdown/widget-large-light.png"),
+    image: withBasePath("/projects/yet-another-countdown/widget-large-light.png"),
     description: "Native iOS large widget with expanded countdown display showing days, hours, minutes, and seconds in a grid layout."
   },
   { 
@@ -111,14 +111,14 @@ export const designCarouselItems: CarouselItem[] = [
     kind: "iphone", 
     label: "Classic Widget", 
     tooltip: "COUNTDOWN: Classic Widget", 
-    image: withBasePath("/projects/countdown/widget-classic-light.png"),
+    image: withBasePath("/projects/yet-another-countdown/widget-classic-light.png"),
     description: "Native iOS widget with classic flip-clock inspired digit display for a nostalgic countdown experience."
   },
   { 
     kind: "iphone", 
     label: "Ad-Free Upgrade", 
     tooltip: "COUNTDOWN: Go Ad-Free", 
-    image: withBasePath("/projects/countdown/ad-free-upgrade.png"),
+    image: withBasePath("/projects/yet-another-countdown/ad-free-upgrade.png"),
     description: "One-time purchase screen offering ad removal with optional supporter tier, featuring restore purchases and transparent pricing."
   },
 ];
