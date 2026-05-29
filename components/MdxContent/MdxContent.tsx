@@ -33,22 +33,23 @@ const components = {
     // Fallback to regular img for external images
     return <img {...props} className="my-8 rounded-lg w-full h-auto" />;
   },
-  video: (props: ComponentProps<"video">) => {
-    const { children, className, ...videoProps } = props;
-    return (
-      <div className="my-8 rounded-lg overflow-hidden bg-[var(--color-background-secondary)] shadow-md">
-        <video
-          {...videoProps}
-          className={`w-full h-auto ${className || ""}`}
-          controls={videoProps.controls ?? true}
-          playsInline={videoProps.playsInline ?? true}
-          preload={videoProps.preload ?? "metadata"}
-        >
-          {children}
-        </video>
-      </div>
-    );
-  },
+  // Use <ProjectVideo src="/projects/.../demo.mp4" /> in MDX rather than a raw
+  // <video><source/></video>. Lowercase HTML elements written literally in MDX
+  // compile to plain intrinsic tags and bypass this components map, so a custom
+  // (capitalized) component is the only reliable way to apply withBasePath() —
+  // required for assets to resolve under the GitHub Pages basePath (/portfolio).
+  ProjectVideo: ({ src, className, ...props }: ComponentProps<"video">) => (
+    <div className="my-8 rounded-lg overflow-hidden bg-[var(--color-background-secondary)] shadow-md">
+      <video
+        {...props}
+        src={typeof src === "string" && src.startsWith("/") ? withBasePath(src) : src}
+        className={`w-full h-auto ${className || ""}`}
+        controls={props.controls ?? true}
+        playsInline={props.playsInline ?? true}
+        preload={props.preload ?? "metadata"}
+      />
+    </div>
+  ),
 };
 
 interface MdxContentProps {
