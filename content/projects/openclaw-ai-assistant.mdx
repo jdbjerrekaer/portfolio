@@ -1,0 +1,215 @@
+---
+title: "OpenClaw: Personal AI Operations Assistant"
+summary: "A self-hosted AI assistant workspace that turns recurring digital work into governed workflows across messaging, memory, automation, project support, and operational maintenance."
+date: "2026-06-01"
+role: "Product Design Engineer"
+tags:
+  - AI Assistant
+  - Automation
+  - Systems Design
+  - UX Engineering
+  - Self-hosted Tools
+coverImage: "/projects/openclaw-ai-assistant/cover.png"
+featured: true
+gallery:
+  - src: "/projects/openclaw-ai-assistant/cover.png"
+    alt: "Synthetic OpenClaw operations workspace showing private messaging, memory cards, scheduled workflows, subagents, guardrails, and a guarded runtime lane."
+---
+
+## Why I built this
+
+Most AI tools are useful in the moment, then forget the work the second the chat ends.
+
+That is fine for quick questions. It is not enough for recurring work: maintaining a self-hosted setup, preparing social media material from messy source files, tracking operational follow-ups, remembering project constraints, and turning small fixes into repeatable workflows.
+
+I wanted an assistant that behaved less like a chatbot and more like a product layer around my own work: persistent, constrained, practical, and able to operate inside real systems without becoming reckless.
+
+## The goal
+
+Design a personal AI operations layer that could help with real workflows while staying understandable and controllable.
+
+The system needed to:
+
+- Keep memory across sessions without exposing sensitive information
+- Work through a simple messaging interface
+- Support recurring workflows, reminders, and scheduled reviews
+- Use project-specific skills instead of generic prompts
+- Handle technical operations with approval gates and rollback-aware rules
+- Turn repeated manual tasks into reliable human-in-the-loop flows
+
+The point was not to make AI feel magical. The point was to make it boringly useful.
+
+## Overview
+
+OpenClaw is the runtime. JARVIS is the assistant layer I use inside it.
+
+Together, they form a self-hosted workspace for coordinating messages, files, scripts, memory, skills, scheduled jobs, and project workflows. The interface is intentionally ordinary: most interactions happen through Telegram, where the assistant can send status updates, ask for approval, or deliver a finished result.
+
+Under that simple surface is a more structured system:
+
+- Long-term memory for stable preferences, constraints, and project context
+- Daily logs for session history and open loops
+- Skills for repeatable workflows such as media imports, subtitle diagnosis, social post preparation, runtime updates, and button-based approvals
+- Guardrails for runtime changes, restart requests, secrets, and public actions
+- Cron and heartbeat jobs for scheduled checks
+- Subagents for bounded research, review, and implementation passes when a task benefits from parallel work
+
+This case study focuses on the design of the operating model: how the assistant is shaped, constrained, and used as infrastructure.
+
+## My role
+
+Solo **Product Design Engineer**.
+
+I designed the workflows, wrote and refined the operating rules, created project-specific skills, tested the failure cases, documented the guardrails, and use the system as a daily interface for recurring work.
+
+The work sits between UX, systems design, and implementation. The interesting part is not just that an assistant can run commands. The interesting part is designing when it should act, when it should wait, what it should remember, what it should never expose, and how it should recover when something goes wrong.
+
+## Goals & constraints
+
+- **Useful autonomy**: the assistant should move low-risk work forward without waiting for constant supervision.
+- **Human approval for high-impact actions**: posting publicly, editing runtime configuration, deleting files, or changing infrastructure requires explicit guardrails.
+- **Durable memory**: important preferences and workflow decisions should survive restarts and future sessions.
+- **Low-friction interface**: Telegram should be enough for approvals, status checks, and finished outputs.
+- **No hidden magic**: operational workflows need logs, state files, and clear handoffs.
+- **Project-specific behavior**: recurring tasks should become skills and scripts, not fragile one-off prompts.
+- **Privacy by default**: public writing should avoid secrets, private identifiers, internal notes, and sensitive operational details.
+
+## System model
+
+The setup is designed around a simple loop:
+
+1. A request arrives through chat, a schedule, or a project trigger.
+2. The assistant reads the relevant workspace memory, docs, files, and skills.
+3. The task is routed through either a direct workflow, a skill, a script, or a subagent pass.
+4. Risky actions are gated by policy.
+5. The result is sent back in a concise, complete message.
+6. Useful decisions are written back into memory, docs, or a workflow tracker.
+
+That loop turns the assistant from a disposable conversation into a small operating system for repeated work.
+
+## Key UX decisions
+
+### Memory as product infrastructure
+
+Memory is treated as part of the product, not as a vague personalization feature.
+
+Stable preferences live in durable memory. Daily work goes into date-based logs. Project notes capture current status, constraints, decisions, open risks, and next actions. This gives the assistant enough continuity to avoid re-learning the same context every time, while keeping different kinds of memory separated.
+
+That separation matters. A long-term preference and a temporary troubleshooting note should not have the same weight.
+
+### Skills instead of prompt soup
+
+When a workflow repeats, it becomes a skill.
+
+For example, media import triage has its own process: inspect the download folder, classify each item, prefer live evidence from the target app, stop on ambiguity, and never delete files from triage alone.
+
+The Instagram archive workflow has a different skill: handle button callbacks, update the approval state, delete handled Telegram media cards, and send the next candidate only after state has been written.
+
+That keeps behavior consistent. The assistant is not just improvising from a giant prompt every time.
+
+### Human-in-the-loop automation
+
+The most useful workflows are not fully autonomous. They are structured handoffs.
+
+For social media preparation, the assistant can find old source documents, extract participant names, locate embedded images, prepare a preview, and send it for approval. The human decision remains explicit: approve, reject, postpone, or approve and show the next candidate.
+
+This makes the system faster without pretending that public posting should be invisible or unsupervised.
+
+### Guardrails for real operations
+
+Runtime operations use a strict policy.
+
+Only specific runtime files can be edited. Restart requests go through one approved request path. Certain command classes are hard-denied. Secrets and auth files are not edited. Failed restart results stop the workflow instead of triggering automatic retries.
+
+That is less glamorous than "AI agent fixes itself", but it is much closer to how a trustworthy system should behave.
+
+### Subagents for focused work
+
+Subagents are useful when a task has separate research or review streams.
+
+For this case study, the assistant can split the work into focused roles:
+
+- Evidence miner: gather concrete examples from project files, memory, docs, and scripts
+- Systems analyst: turn the evidence into a workflow and architecture story
+- UX writer: shape the case study into a recruiter-readable narrative
+- Privacy reviewer: remove sensitive details and unsafe public claims
+- Recruiter reviewer: cut anything that sounds impressive only to the person who built it
+
+The main assistant remains the orchestrator. Subagents gather and review, but the final judgment stays centralized.
+
+## Proof module: personal media library operations
+
+One recurring area is personal media library maintenance for legally owned content.
+
+The assistant helps with the unglamorous parts that usually eat time: diagnosing service reachability, routing manual library maintenance tasks, checking whether files belong in film or series workflows, handling subtitle quality issues, and documenting when a media app reports something confusing.
+
+The design challenge here is not the media stack itself. It is turning messy operational work into bounded workflows:
+
+- Classify before making changes
+- Prefer app-level evidence over filename guesses
+- Stop on ambiguity instead of forcing a match
+- Back up subtitles before remediation
+- Write durable notes when metadata mismatches can confuse future troubleshooting
+
+This is a good example of the system's role: it does not replace judgment, but it reduces repeated manual diagnosis and makes the safe path easier to follow.
+
+## Proof module: Instagram archive workflow
+
+Another recurring workflow is preparing old club archive material for Instagram.
+
+The source material is messy: old Word documents, inconsistent filenames, embedded images, missing or hard-to-extract participant names, and candidates that need human approval before public use.
+
+The assistant workflow turns that into a review queue:
+
+- Find old candidates that have not been approved, rejected, or posted
+- Extract useful text and participant names where possible
+- Locate embedded or related images
+- Generate a preview for Telegram
+- Handle approve, reject, and postpone actions through buttons
+- Update the persistent approval state
+- Show the next candidate only after the previous action has been processed
+
+The important UX decision was to make the review loop small and reliable. One candidate at a time. One clear action. State written before the next prompt.
+
+That makes a messy archive of hundreds of source documents feel like a manageable queue.
+
+## Proof module: assistant as project infrastructure
+
+The broader system supports project work beyond any single workflow.
+
+It can inspect a codebase, read project notes, write implementation plans, draft case studies, create or update skills, verify local tooling, track follow-ups, and report only the information that matters.
+
+The assistant also keeps operational memory about how it should behave: be concise in Telegram, avoid exposing secrets, use direct Google Workspace tooling before claiming access is missing, write follow-ups into durable trackers, and challenge weak assumptions instead of politely agreeing.
+
+That personality layer is not cosmetic. It is part of the interaction design. A useful assistant needs a stable operating style.
+
+## Design-engineering highlights
+
+- **Content-addressable workflows**: project context lives in files, memory notes, scripts, and skills instead of being trapped inside a chat window.
+- **Telegram-first interaction**: the assistant can deliver complete replies, approval prompts, and workflow updates in the same channel where requests happen.
+- **Skill-driven execution**: repeated tasks are documented as skills with required flows, guardrails, and output contracts.
+- **Subagent research model**: independent evidence, review, and writing passes can run in parallel before the orchestrator merges the result.
+- **Runtime safety policy**: high-impact operations use explicit allowlists, hard denies, validation, and result handling.
+- **Operational follow-up tracking**: open loops are written into durable docs or memory instead of being left as "remember to check later" chat residue.
+
+## Impact
+
+The strongest impact is continuity.
+
+The system reduces the cost of coming back to a task after days or weeks, because the context has somewhere to live. It turns repeated work into named workflows. It catches weak assumptions by checking local evidence. It keeps high-risk actions behind guardrails. And it lets me move between design, writing, automation, and operations without starting from zero every time.
+
+For a portfolio, this project shows more than AI enthusiasm. It shows how I think about AI as a designed system:
+
+- Interfaces matter
+- Memory needs structure
+- Automation needs constraints
+- Human approval is a feature, not a failure
+- The best workflows are boring, repeatable, and easy to inspect
+
+## What's next
+
+The next step is to make the system more visible without making it noisier.
+
+I want to add a clearer dashboard for active workflows, better visual summaries for scheduled checks, and more reusable subagent roles for research, review, and implementation tasks.
+
+The long-term goal is not a more powerful chatbot. It is a more dependable personal operations layer.
