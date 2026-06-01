@@ -81,6 +81,7 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
  * Single source of truth shared by the projects listing and the home page.
  */
 export const PROJECT_PRIORITY_ORDER = [
+  "openclaw-ai-assistant",
   "yet-another-countdown",
   "yadl",
   "leadplatform",
@@ -138,4 +139,3 @@ export function hasCaseStudy(project: Project): boolean {
   // Consider it a case study if content exists and is more than just whitespace/newlines
   return trimmedContent.length > 0 && trimmedContent.length > 50;
 }
-
