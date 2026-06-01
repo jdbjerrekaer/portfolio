@@ -31,9 +31,9 @@ export function Tooltip({
   content,
   children,
   placement = "bottom",
-  delay = 500,
+  delay = 180,
   className = "",
-  followCursor = true,
+  followCursor = false,
   portal = true,
 }: TooltipProps): React.ReactElement | null {
   const [open, setOpen] = useState(false);
@@ -108,4 +108,3 @@ export function Tooltip({
     </>
   );
 }
-

@@ -66,9 +66,6 @@ const ButtonComponent = forwardRef<HTMLButtonElement, ButtonProps>(
         radius="full"
         size={size}
         className={`${baseStyles} ${variantStyles[variant]} ${className} ${styles.button} ${hasIcon ? styles.hasIcon : ""} ${hasHoverIcon ? styles.hasHoverIcon : ""} ${isSuccess ? styles.hasSuccess : ""}`}
-        style={{
-          transition: 'background-color 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-        } as React.CSSProperties}
         {...props}
       >
         <span className={styles.content} data-icon-position={iconPosition}>
@@ -118,4 +115,3 @@ const ButtonComponent = forwardRef<HTMLButtonElement, ButtonProps>(
 ButtonComponent.displayName = "Button";
 
 export const Button = ButtonComponent;
-

@@ -3,8 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getProjectBySlug, getProjectSlugs } from "@/lib/content/projects";
 import { MdxContent } from "@/components/MdxContent";
-import { ProjectCoverImage } from "@/components/ProjectCoverImage";
-import { ProjectImageGrid } from "@/components/ProjectImageGrid";
+import { ProjectGallery } from "@/components/ProjectGallery";
 import { Chip } from "@/components/ui";
 import { SFSymbol } from "@/components/ui/SFSymbol";
 import styles from "./page.module.scss";
@@ -105,10 +104,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             <span className={styles.quickFactValue}>{formattedDate}</span>
           </div>
           <div className={styles.quickFact}>
-            <span className={styles.quickFactLabel}>Tags</span>
-            <span className={styles.quickFactValue}>{project.tags.slice(0, 3).join(" • ")}</span>
-          </div>
-          <div className={styles.quickFact}>
             <span className={styles.quickFactLabel}>Outcome</span>
             <span className={styles.quickFactValue}>Case study with product and UX decisions</span>
           </div>
@@ -150,17 +145,18 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         )}
       </header>
 
-      {project.coverImage && (
-        <ProjectCoverImage
-          src={project.coverImage}
-          alt={`${project.title} project cover`}
-          title={project.title}
-        />
-      )}
-
-      {project.gallery && project.gallery.length > 0 && (
-        <ProjectImageGrid images={project.gallery} />
-      )}
+      <ProjectGallery
+        cover={
+          project.coverImage
+            ? {
+                src: project.coverImage,
+                alt: `${project.title} project cover`,
+                title: project.title,
+              }
+            : undefined
+        }
+        images={project.gallery}
+      />
 
       <div className={styles.content}>
         <MdxContent source={project.content} />
@@ -168,4 +164,3 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     </article>
   );
 }
-

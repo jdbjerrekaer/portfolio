@@ -4,20 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { Tooltip, ImageModal } from "@/components/ui";
 import styles from "./DesignCarousel.module.scss";
 
-type TippyPlacement = 
-  | "top" 
-  | "top-start" 
-  | "top-end" 
-  | "bottom" 
-  | "bottom-start" 
-  | "bottom-end" 
-  | "left" 
-  | "left-start" 
-  | "left-end" 
-  | "right" 
-  | "right-start" 
-  | "right-end";
-
 export interface CarouselItem {
   kind: "desktop" | "iphone";
   label: string;
@@ -38,15 +24,20 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
   const lastTimeRef = useRef<number>(0);
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [tooltipPlacements, setTooltipPlacements] = useState<Record<number, TippyPlacement>>({});
   const [halfWidth, setHalfWidth] = useState(0);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => {
+    if (typeof window === "undefined") {
+      return false;
+    }
+
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  });
   const [isManuallyScrolling, setIsManuallyScrolling] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string; description?: string } | null>(null);
   const currentSpeedRef = useRef<number>(30); // pixels per second
   const baseSpeed = 30; // pixels per second
-  const crawlSpeed = baseSpeed * 0.08; // 8% of base speed
+  const crawlSpeed = baseSpeed * 0.3;
   const manualScrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const touchStartXRef = useRef<number>(0);
   const touchStartOffsetRef = useRef<number>(0);
@@ -63,7 +54,6 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
     if (typeof window === "undefined") return;
 
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(mediaQuery.matches);
 
     const handleChange = (e: MediaQueryListEvent) => {
       setPrefersReducedMotion(e.matches);
@@ -181,7 +171,7 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
         // If we moved beyond threshold, prevent default to stop link clicks
         if (hasMovedRef.current) {
           e.preventDefault();
-          lastDragEndTimeRef.current = Date.now();
+          lastDragEndTimeRef.current = e.timeStamp;
         }
         
         isDraggingRef.current = false;
@@ -327,11 +317,11 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
     return getPlaceholderImage(item.kind, index % items.length);
   };
 
-  // Calculate tooltip placement based on mouse position relative to image
-  const handleImageMouseMove = (
-    event: React.MouseEvent<HTMLImageElement>,
-    index: number
-  ) => {
+  const handleImageMouseMove = (event: React.MouseEvent<HTMLImageElement>, index: number) => {
+    if (prefersReducedMotion || isManuallyScrolling) {
+      return;
+    }
+
     const img = event.currentTarget;
     const rect = img.getBoundingClientRect();
     const x = event.clientX - rect.left;
@@ -344,54 +334,21 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
     const xPercent = (x / width - 0.5) * 2; // -1 to 1
     const yPercent = (y / height - 0.5) * 2; // -1 to 1
     
-    // Subtle movement: max 12px for desktop, 6px for mobile
+    // Keep the parallax close to the resting state so the image feels reactive, not theatrical.
     const item = items[index % items.length];
-    const maxMove = item.kind === "desktop" ? 12 : 6;
+    const maxMove = item.kind === "desktop" ? 8 : 4;
     const moveX = xPercent * maxMove;
     const moveY = yPercent * maxMove;
     
     img.style.setProperty('--parallax-x', `${moveX}px`);
     img.style.setProperty('--parallax-y', `${moveY}px`);
     hoveredImageRef.current = img;
-    
-    // Determine which side/quadrant the mouse is in
-    const horizontalCenter = width / 2;
-    const verticalCenter = height / 2;
-    
-    let placement: TippyPlacement = "top";
-    
-    // Determine placement based on mouse position
-    // Check vertical position first (top vs bottom)
-    if (y < height * 0.4) {
-      // Top 40% - tooltip comes from top
-      placement = x < horizontalCenter ? "top-start" : "top-end";
-    } else if (y > height * 0.6) {
-      // Bottom 40% - tooltip comes from bottom
-      placement = x < horizontalCenter ? "bottom-start" : "bottom-end";
-    } else {
-      // Middle 20% - check horizontal position
-      if (x < width * 0.4) {
-        // Left side
-        placement = "left";
-      } else if (x > width * 0.6) {
-        // Right side
-        placement = "right";
-      } else {
-        // Center - default to top
-        placement = y < verticalCenter ? "top" : "bottom";
-      }
-    }
-    
-    setTooltipPlacements((prev) => ({
-      ...prev,
-      [index]: placement,
-    }));
   };
 
   // Handle image click to open modal
   const handleImageClick = (e: React.MouseEvent<HTMLImageElement>, kind: "desktop" | "iphone", index: number) => {
     // Don't open modal if user was dragging (check if drag ended recently)
-    const timeSinceDragEnd = Date.now() - lastDragEndTimeRef.current;
+    const timeSinceDragEnd = e.timeStamp - lastDragEndTimeRef.current;
     if (hasMovedRef.current || timeSinceDragEnd < 100) {
       return;
     }
@@ -429,12 +386,11 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
           <div ref={trackRef} className={styles.track}>
             {duplicatedItems.map((item, index) => {
               const isItemHovered = hoveredIndex === index;
-              const hasAnyHover = hoveredIndex !== null;
               
               return (
                 <div
                   key={`${item.kind}-${index}`}
-                  className={`${styles.item} ${styles[item.kind]} ${isItemHovered ? styles.hovered : ""} ${hasAnyHover && !isItemHovered ? styles.scaledDown : ""}`}
+                  className={`${styles.item} ${styles[item.kind]} ${isItemHovered ? styles.hovered : ""}`}
                   onMouseEnter={() => {
                     setHoveredIndex(index);
                     setIsHovered(true);
@@ -451,10 +407,9 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
                 >
                   <Tooltip
                     content={item.tooltip || item.label}
-                    delay={750}
+                    delay={180}
                     className="tooltip-glass"
-                    placement={tooltipPlacements[index] || "top"}
-                    followCursor
+                    placement="top"
                   >
                     <div className={styles.imageWrapper}>
                       <img

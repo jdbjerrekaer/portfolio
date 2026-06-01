@@ -33,27 +33,9 @@
   height: 8px;
   background-color: currentColor;
   border-radius: 50%;
-  animation: pulse 2s infinite;
+  box-shadow: 0 0 0 4px rgba(52, 199, 89, 0.14);
   user-select: none;
   -webkit-user-select: none;
-}
-
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.4);
-  }
-  70% {
-    box-shadow: 0 0 0 6px rgba(52, 199, 89, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(52, 199, 89, 0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .dot {
-    animation: none;
-  }
 }
 
 .title {

@@ -1,4 +1,4 @@
-import { getFeaturedProjects, type Project } from "./projects";
+import { getFeaturedProjects, PROJECT_PRIORITY_ORDER, type Project } from "./projects";
 
 export interface FeaturedProject {
   slug: string;
@@ -29,12 +29,11 @@ export async function getFeaturedProjectsList(): Promise<FeaturedProject[]> {
     featured: project.featured,
   }));
 
-  // Prioritize specific projects for the featured section
-  const priorityOrder = ["countdown", "leadplatform", "iriz", "yadl", "figma-component-library"];
-  
+  // Prioritize specific projects for the featured section (shared with the
+  // projects listing so the two stay in sync)
   return mapped.sort((a, b) => {
-    const indexA = priorityOrder.indexOf(a.slug);
-    const indexB = priorityOrder.indexOf(b.slug);
+    const indexA = PROJECT_PRIORITY_ORDER.indexOf(a.slug);
+    const indexB = PROJECT_PRIORITY_ORDER.indexOf(b.slug);
     
     if (indexA !== -1 && indexB !== -1) return indexA - indexB;
     if (indexA !== -1) return -1;

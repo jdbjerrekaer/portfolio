@@ -76,8 +76,21 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
 }
 
 /**
- * Get all projects, sorted by date (newest first)
- * Includes all projects, including those marked as comingSoon
+ * Curated ordering for the most important case studies. Projects listed here
+ * appear first (in this order); everything else falls back to date sorting.
+ * Single source of truth shared by the projects listing and the home page.
+ */
+export const PROJECT_PRIORITY_ORDER = [
+  "yet-another-countdown",
+  "yadl",
+  "leadplatform",
+  "iriz",
+  "figma-component-library",
+];
+
+/**
+ * Get all projects, ordered by the curated priority list first, then by date
+ * (newest first). Includes all projects, including those marked as comingSoon.
  */
 export async function getAllProjects(): Promise<Project[]> {
   const slugs = await getProjectSlugs();
@@ -90,8 +103,15 @@ export async function getAllProjects(): Promise<Project[]> {
     }
   }
 
-  // Sort by date, newest first
   return projects.sort((a, b) => {
+    const indexA = PROJECT_PRIORITY_ORDER.indexOf(a.slug);
+    const indexB = PROJECT_PRIORITY_ORDER.indexOf(b.slug);
+
+    if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+    if (indexA !== -1) return -1;
+    if (indexB !== -1) return 1;
+
+    // Fall back to date, newest first
     return new Date(b.date).getTime() - new Date(a.date).getTime();
   });
 }

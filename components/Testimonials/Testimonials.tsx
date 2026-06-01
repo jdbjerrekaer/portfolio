@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./Testimonials.module.scss";
-import { SFSymbol } from "@/components/ui/SFSymbol";
 
 export interface Testimonial {
   quote: string;
