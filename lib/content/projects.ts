@@ -19,6 +19,14 @@ const projectSchema = z.object({
       })
     )
     .optional(),
+  sectionNav: z
+    .array(
+      z.object({
+        title: z.string(),
+        id: z.string(),
+      })
+    )
+    .optional(),
   coverImage: z.string().optional(),
   featured: z.boolean().optional().default(false),
   comingSoon: z.boolean().optional().default(false),

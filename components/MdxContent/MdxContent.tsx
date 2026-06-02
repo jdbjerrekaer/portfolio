@@ -1,16 +1,37 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { ComponentProps } from "react";
+import type React from "react";
 import Image from "next/image";
 import { withBasePath } from "@/lib/utils/paths";
+
+function getTextFromNode(node: React.ReactNode): string {
+  if (typeof node === "string" || typeof node === "number") {
+    return String(node);
+  }
+
+  if (Array.isArray(node)) {
+    return node.map(getTextFromNode).join("");
+  }
+
+  return "";
+}
+
+function slugifyHeading(children: React.ReactNode) {
+  return getTextFromNode(children)
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
+}
 
 // Custom components for MDX
 const components = {
   // Override default elements with custom styling if needed
   h2: (props: ComponentProps<"h2">) => (
-    <h2 {...props} className="scroll-mt-20" />
+    <h2 {...props} id={props.id ?? slugifyHeading(props.children)} className="scroll-mt-20" />
   ),
   h3: (props: ComponentProps<"h3">) => (
-    <h3 {...props} className="scroll-mt-20" />
+    <h3 {...props} id={props.id ?? slugifyHeading(props.children)} className="scroll-mt-20" />
   ),
   a: (props: ComponentProps<"a">) => (
     <a {...props} target={props.href?.startsWith("http") ? "_blank" : undefined} rel={props.href?.startsWith("http") ? "noopener noreferrer" : undefined} />
@@ -31,7 +52,7 @@ const components = {
       );
     }
     // Fallback to regular img for external images
-    return <img {...props} className="my-8 rounded-lg w-full h-auto" />;
+    return <img {...props} alt={props.alt || ""} className="my-8 rounded-lg w-full h-auto" />;
   },
   // Use <ProjectVideo src="/projects/.../demo.mp4" /> in MDX rather than a raw
   // <video><source/></video>. Lowercase HTML elements written literally in MDX
@@ -63,4 +84,3 @@ export function MdxContent({ source }: MdxContentProps) {
     </div>
   );
 }
-

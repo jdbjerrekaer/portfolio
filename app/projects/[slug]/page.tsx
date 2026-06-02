@@ -48,7 +48,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const project = await getProjectBySlug(slug);
 
   const sectionMatches = project?.content.match(/^##\s+(.+)$/gm) ?? [];
-  const sections = sectionMatches.map((heading) => {
+  const detectedSections = sectionMatches.map((heading) => {
     const title = heading.replace(/^##\s+/, "").trim();
     const id = title
       .toLowerCase()
@@ -57,6 +57,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       .replace(/\s+/g, "-");
     return { title, id };
   });
+  const sections = project?.sectionNav ?? detectedSections;
 
   if (!project) {
     notFound();
@@ -105,7 +106,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </div>
           <div className={styles.quickFact}>
             <span className={styles.quickFactLabel}>Outcome</span>
-            <span className={styles.quickFactValue}>Case study with product and UX decisions</span>
+            <span className={styles.quickFactValue}>AI workflow system with guardrails, memory, and review loops</span>
           </div>
         </aside>
 
