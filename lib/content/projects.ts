@@ -20,6 +20,13 @@ const projectSchema = z.object({
       })
     )
     .optional(),
+  demoVideo: z
+    .object({
+      src: z.string(),
+      label: z.string().optional(),
+      poster: z.string().optional(),
+    })
+    .optional(),
   sectionNav: z
     .array(
       z.object({

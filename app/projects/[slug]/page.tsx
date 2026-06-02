@@ -6,6 +6,7 @@ import { MdxContent } from "@/components/MdxContent";
 import { ProjectGallery } from "@/components/ProjectGallery";
 import { Chip } from "@/components/ui";
 import { SFSymbol } from "@/components/ui/SFSymbol";
+import { withBasePath } from "@/lib/utils/paths";
 import styles from "./page.module.scss";
 
 interface ProjectPageProps {
@@ -95,6 +96,54 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <h1 className={styles.title}>{project.title}</h1>
         <p className={styles.summary}>{project.summary}</p>
 
+        {project.links && Object.keys(project.links).length > 0 && (
+          <div className={styles.links}>
+            {Object.entries(project.links).map(([label, url]) => (
+              <a
+                key={label}
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.link}
+              >
+                {label}
+                <SFSymbol name="arrow.up.right" size={14} weight="medium" className={styles.externalIcon} />
+              </a>
+            ))}
+          </div>
+        )}
+      </header>
+
+      {project.demoVideo && (
+        <figure className={styles.demo}>
+          <video
+            src={withBasePath(project.demoVideo.src)}
+            poster={project.demoVideo.poster ? withBasePath(project.demoVideo.poster) : undefined}
+            className={styles.demoVideo}
+            controls
+            playsInline
+            preload="metadata"
+          />
+          {project.demoVideo.label && (
+            <figcaption className={styles.demoCaption}>{project.demoVideo.label}</figcaption>
+          )}
+        </figure>
+      )}
+
+      <ProjectGallery
+        cover={
+          project.coverImage
+            ? {
+                src: project.coverImage,
+                alt: `${project.title} project cover`,
+                title: project.title,
+              }
+            : undefined
+        }
+        images={project.gallery}
+      />
+
+      <div className={styles.projectMeta}>
         <aside className={styles.quickFacts} aria-label="Project quick facts">
           <div className={styles.quickFact}>
             <span className={styles.quickFactLabel}>Role</span>
@@ -127,37 +176,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             </Chip>
           ))}
         </div>
-
-        {project.links && Object.keys(project.links).length > 0 && (
-          <div className={styles.links}>
-            {Object.entries(project.links).map(([label, url]) => (
-              <a
-                key={label}
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.link}
-              >
-                {label}
-                <SFSymbol name="arrow.up.right" size={14} weight="medium" className={styles.externalIcon} />
-              </a>
-            ))}
-          </div>
-        )}
-      </header>
-
-      <ProjectGallery
-        cover={
-          project.coverImage
-            ? {
-                src: project.coverImage,
-                alt: `${project.title} project cover`,
-                title: project.title,
-              }
-            : undefined
-        }
-        images={project.gallery}
-      />
+      </div>
 
       <div className={styles.content}>
         <MdxContent source={project.content} />
