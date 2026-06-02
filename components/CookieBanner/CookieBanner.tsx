@@ -258,9 +258,10 @@ export function CookieBanner() {
     script.src = withBasePath("/cookie-banner/silktide-consent-manager.js");
     script.async = true;
 
+    let initializeTimer: ReturnType<typeof setTimeout> | undefined;
+
     script.onload = () => {
-      // Wait a bit for the script to fully initialize
-      setTimeout(() => {
+      initializeTimer = setTimeout(() => {
         initializeCookieBanner();
       }, 100);
     };
@@ -277,6 +278,10 @@ export function CookieBanner() {
 
     // Cleanup function
     return () => {
+      if (initializeTimer) {
+        clearTimeout(initializeTimer);
+      }
+
       // Remove script and CSS on unmount
       const scriptPath = withBasePath("/cookie-banner/silktide-consent-manager.js");
       const existingScript = document.querySelector(
