@@ -9,6 +9,7 @@ const projectSchema = z.object({
   summary: z.string(),
   date: z.string(),
   role: z.string(),
+  outcome: z.string().optional(),
   tags: z.array(z.string()),
   links: z.record(z.string(), z.string()).optional(),
   gallery: z

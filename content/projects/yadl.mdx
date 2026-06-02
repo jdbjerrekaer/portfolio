@@ -1,18 +1,34 @@
 ---
 title: "YADL: Yet Another Design Linter"
-summary: "A free Figma plugin that automates design system compliance checks and helps maintain design consistency across teams. Created to solve real-world design cleanup challenges and ensure adherence to design systems."
+summary: "A free Figma plugin that turns design-system QA into repeatable rules, helping teams find hard-coded values, spacing drift, broken variables, and inconsistent design decisions before handoff."
 date: "2024-01-15"
 role: "Design Engineer"
+outcome: "Public Figma plugin used by 22+ teams to standardize design QA"
 tags:
   - Figma Plugin
   - Design System
+  - Design QA
   - Workflow Automation
   - Design Tools
-  - Open Source
 links:
   Figma Plugin: "https://www.figma.com/community/plugin/1496477931536811576/yet-another-design-linter"
 coverImage: "/projects/yadl/yadl-cover.png"
 featured: true
+sectionNav:
+  - title: "Recruiter takeaway"
+    id: "recruiter-takeaway"
+  - title: "Problem"
+    id: "problem"
+  - title: "System model"
+    id: "system-model"
+  - title: "Plugin experience"
+    id: "plugin-experience"
+  - title: "Rule engine"
+    id: "rule-engine"
+  - title: "Product decisions"
+    id: "product-decisions"
+  - title: "Impact"
+    id: "impact"
 gallery:
   - src: "/projects/yadl/welcome.jpg"
     alt: "YADL onboarding screen with a three-step guide to analyze a selection"
@@ -22,55 +38,95 @@ gallery:
     alt: "YADL Variables tab listing variable collections and modes"
 ---
 
-> **Note:** The images shown are Figma screenshots, but this is a real product used by hundreds of users worldwide.
+## Recruiter takeaway
 
-## The Problem
+YADL is the clearest proof that I can turn design-system judgment into productized tooling.
 
-After inheriting design files from a colleague, I found myself spending countless hours manually checking for design inconsistencies, naming conventions, and adherence to our design system. This repetitive cleanup work was not only time-consuming but also error-prone, leaving room for inconsistencies to slip through.
+The project is not just "I made a Figma plugin." It shows that I can spot a repeated design operations problem, define the quality rules, design the plugin UX, build the Figma API implementation, and ship a public tool that other teams can use without my involvement.
 
-## The Solution
+For a product design, design systems, or UX engineering role, the important signal is this:
 
-YADL (Yet Another Design Linter) is a comprehensive Figma plugin that automates design system compliance checks. It provides smart suggestions across 12 key areas of design quality:
+- I think about design quality as a system, not a personal review habit
+- I can translate subjective UI feedback into concrete checks
+- I understand the messy handoff point between Figma, tokens, components, and implementation
+- I can design internal tools that reduce repeated manual work
+- I can move from product framing to interface design to front-end implementation
+
+## Problem
+
+Design systems are only useful when designers actually apply them consistently.
+
+In practice, that breaks down quickly. Files get inherited, copied, edited under deadline pressure, and filled with slightly wrong spacing, hard-coded colors, detached styles, generic layer names, hidden layers, and broken variables. Each issue is small on its own. Together, they create noisy handoffs and make UI quality depend on whoever has time to review the file manually.
+
+The problem I wanted to solve was simple:
+
+How do you make design-system QA repeatable inside Figma, before the file reaches development?
+
+## System model
+
+YADL works like a design linter for selected Figma layers.
+
+The designer selects layers, runs the plugin, reviews grouped findings, and applies or dismisses suggestions. Instead of asking someone to remember every naming, token, spacing, and component rule by hand, the plugin turns those checks into a visible workflow.
+
+The current check areas cover:
 
 <ProjectVideo src="/projects/yadl/yadl-promo.mp4" />
 
-- **Generic layer names** - Identifies layers that need better naming conventions
-- **Typography** - Ensures consistent font usage, sizes, and line heights
-- **Padding** - Validates spacing within elements
-- **Gap** - Checks spacing between elements
-- **Stroke** - Verifies border and stroke consistency
-- **Colors** - Ensures proper use of design system colors
-- **Effects** - Validates shadows, blurs, and other effects
-- **Border radius** - Checks corner rounding consistency
-- **Locked layers** - Identifies layers that may need to be unlocked
-- **Hidden layers** - Finds unnecessary hidden layers
-- **Nested components** - Validates component structure
-- **Broken variables** - Detects issues with design tokens and variables
+- Generic layer names
+- Typography
+- Padding
+- Gap
+- Stroke
+- Colors
+- Effects
+- Border radius
+- Locked layers
+- Hidden layers
+- Nested components
+- Broken variables
 
-## Technical Implementation
+## Plugin experience
 
-Building a linter that evaluates Figma documents requires deep integration with the Figma API and a performant architecture to handle complex node trees without crashing the browser thread.
+The UX is deliberately direct: select layers, analyze, review suggestions.
 
-- **Plugin Architecture:** Separated the UI thread (React/HTML) from the sandbox thread (Figma API). The main sandbox recursively traverses the document tree to evaluate nodes against defined linting rules, while the UI thread handles the presentation of issues.
-- **Figma API Navigation:** Designed an efficient node traversal system that batches reads from the Figma scene graph. By strategically skipping hidden layers and optimizing how we access properties like `strokes`, `fills`, and `typography`, the plugin can analyze hundreds of components in seconds.
-- **Rule Engine:** Implemented a modular rule evaluation system. Each of the 12 check areas (from missing styles to broken variables) operates independently, allowing users to toggle specific checks and making it easy to extend the system with new rules in the future.
+The interface groups issues by category so the designer can focus on one type of cleanup at a time. In the captured demo, the error view shows 33 total findings, grouped into categories like spacing, color, radius, and stroke. YADL also separates immediately available fixes from findings that need review, so the plugin supports both quick cleanup and more deliberate design decisions.
+
+The variables view exposes collections, modes, and variable counts. That matters because design-system issues are not only visual. They often come from token and library drift: the design looks plausible, but the underlying variable reference is wrong, missing, or inconsistent with the intended system.
+
+## Rule engine
+
+The technical challenge was making Figma document analysis feel lightweight.
+
+Figma plugins run with a split architecture: the UI runs separately from the plugin sandbox that can access the Figma document. YADL uses that separation intentionally:
+
+- The sandbox traverses the selected node tree and evaluates each node against the enabled checks
+- The UI presents grouped findings, filters, smart suggestions, and apply actions
+- Rule modules stay independent so checks can be expanded without turning the plugin into one tangled audit function
+- Hidden layers and irrelevant branches can be skipped to avoid wasting time on noise
+- Properties such as fills, strokes, typography, effects, layout spacing, and variables are normalized into comparable rule inputs
+
+That architecture is the interesting part. It turns subjective review patterns into a small, extensible quality system.
+
+## Product decisions
+
+I made YADL free and public because design-system quality problems are not limited to enterprise teams.
+
+Figma has since introduced its own "Check designs" feature for Organization and Enterprise plans, which validates the problem space: design QA is becoming a platform-level workflow, not just a personal best practice. YADL sits in that same problem category, but as a lightweight public plugin that teams can try without enterprise access.
+
+The design goal was not to replace designer judgment. It was to remove the boring checks so judgment can be spent on the parts that actually need a human.
 
 ## Impact
 
-What started as a tool to solve my own workflow challenges has become a valuable resource for the Figma community, with adoption spanning from global financial institutions to innovative startups worldwide. The plugin's success is evident in Figma's response—they're developing a similar feature called "Check designs" for their platform. However, their version is only available to Organization and Enterprise plan users and is currently in early access, requiring users to apply for access through a waitlist.
+YADL is now a public Figma Community plugin used by 22+ teams.
 
-YADL has found its way into design workflows at major organizations including **Goldman Sachs**, where it helps maintain consistency across complex financial product interfaces, as well as numerous companies across India and other regions that rely on it to scale their design operations. The plugin's global reach demonstrates that design system compliance is a universal challenge, regardless of company size or industry.
+The strongest impact is not just the install count. It is the kind of work the plugin replaces: repeated manual review, subjective cleanup comments, and avoidable design-system drift before handoff.
 
-The impact extends beyond individual teams—YADL has become a critical tool for design teams working across time zones and cultures, ensuring that design quality standards remain consistent even when collaboration happens remotely. Designers from solo practitioners to enterprise teams have integrated YADL into their daily workflows, saving countless hours that would otherwise be spent on manual design audits and cleanup work.
+For my portfolio, the project proves a useful combination:
 
-YADL remains **free and accessible to everyone**, democratizing design system compliance for teams of all sizes. Whether you're a solo designer or part of a large organization, YADL helps maintain design quality and consistency without the barriers of enterprise pricing. This commitment to accessibility has made design system compliance achievable for teams that might not have the budget for enterprise-grade solutions, leveling the playing field for designers everywhere.
+- Product thinking: identifying a repeated workflow problem with clear user value
+- Design systems: understanding tokens, variables, components, and consistency at scale
+- UX design: making the audit flow scannable and action-oriented inside a constrained plugin surface
+- Engineering: building against the Figma plugin API with a modular rule engine
+- Design operations: turning standards into a repeatable workflow other people can run
 
-## Key Features
-
-- **Automated compliance checking** - Catch design inconsistencies before they become problems
-- **Design system enforcement** - Ensure all designs adhere to your established design system
-- **Time-saving automation** - Reduce manual cleanup work significantly
-- **Free and accessible** - Available to all Figma users, regardless of team size
-- **Comprehensive coverage** - 12 different areas of design quality validation
-
-YADL represents the power of solving real problems with thoughtful tooling—creating something that not only improves your own workflow but benefits the entire design community.
+That is why YADL belongs next to the larger product case studies. It is small in surface area, but strong in signal.

@@ -106,7 +106,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </div>
           <div className={styles.quickFact}>
             <span className={styles.quickFactLabel}>Outcome</span>
-            <span className={styles.quickFactValue}>AI workflow system with guardrails, memory, and review loops</span>
+            <span className={styles.quickFactValue}>{project.outcome ?? "Selected design engineering case study"}</span>
           </div>
         </aside>
 
