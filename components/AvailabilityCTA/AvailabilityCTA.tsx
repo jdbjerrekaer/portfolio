@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { AnchoredPopover } from "@/components/ui";
 import styles from "./AvailabilityCTA.module.scss";
@@ -12,18 +12,19 @@ export function AvailabilityCTA() {
   const copyButtonRef = useRef<HTMLButtonElement>(null);
   const resetTimerRef = useRef<number | null>(null);
 
-  useEffect(() => {
-    return () => {
-      if (resetTimerRef.current) {
-        window.clearTimeout(resetTimerRef.current);
-      }
-    };
-  }, []);
-
-  const handleCopyEmail = async () => {
+  const clearCopyResetTimer = useCallback(() => {
     if (resetTimerRef.current) {
       window.clearTimeout(resetTimerRef.current);
+      resetTimerRef.current = null;
     }
+  }, []);
+
+  useEffect(() => {
+    return clearCopyResetTimer;
+  }, [clearCopyResetTimer]);
+
+  const handleCopyEmail = async () => {
+    clearCopyResetTimer();
 
     try {
       await navigator.clipboard.writeText(emailAddress);

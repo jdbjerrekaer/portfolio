@@ -103,24 +103,17 @@ export function ImageGalleryModal({
             </svg>
           </button>
           <div className={styles.galleryGrid}>
-            {images.map((image, index) => {
+            {images.map((image) => {
               const imageSrc = image.src.startsWith("data:") || image.src.startsWith("http")
                 ? image.src
                 : withBasePath(image.src);
 
               return (
-                <div
-                  key={index}
+                <button
+                  key={image.src}
+                  type="button"
                   className={styles.galleryItem}
                   onClick={() => handleImageClick(image)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      handleImageClick(image);
-                    }
-                  }}
                   aria-label={`View ${image.alt}`}
                 >
                   <Image
@@ -149,7 +142,7 @@ export function ImageGalleryModal({
                       </svg>
                     </div>
                   </div>
-                </div>
+                </button>
               );
             })}
           </div>

@@ -37,7 +37,7 @@ export function ProjectImageGrid({ images, onOpenImage }: ProjectImageGridProps)
 
         return (
           <button
-            key={index}
+            key={image.src}
             type="button"
             className={`${styles.gridItem} ${positionalClass}`.trim()}
             onClick={() => onOpenImage(index)}

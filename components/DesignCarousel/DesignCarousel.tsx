@@ -346,7 +346,7 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
   };
 
   // Handle image click to open modal
-  const handleImageClick = (e: React.MouseEvent<HTMLImageElement>, kind: "desktop" | "iphone", index: number) => {
+  const handleImageClick = (e: React.MouseEvent<HTMLElement>, kind: "desktop" | "iphone", index: number) => {
     // Don't open modal if user was dragging (check if drag ended recently)
     const timeSinceDragEnd = e.timeStamp - lastDragEndTimeRef.current;
     if (hasMovedRef.current || timeSinceDragEnd < 100) {
@@ -411,16 +411,20 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
                     className="tooltip-glass"
                     placement="top"
                   >
-                    <div className={styles.imageWrapper}>
+                    <button
+                      type="button"
+                      className={styles.imageWrapper}
+                      onClick={(e) => handleImageClick(e, item.kind, index)}
+                      aria-label={`Open ${item.label} ${item.kind === "desktop" ? "desktop" : "iPhone"} design ${(index % items.length) + 1}`}
+                    >
                       <img
                         src={getImageSrc(item, index)}
                         alt={`${item.label} - ${item.kind === "desktop" ? "Desktop" : "iPhone"} design ${(index % items.length) + 1}`}
                         className={styles.image}
                         draggable={false}
                         onMouseMove={(e) => handleImageMouseMove(e, index)}
-                        onClick={(e) => handleImageClick(e, item.kind, index)}
                       />
-                    </div>
+                    </button>
                   </Tooltip>
                 </div>
               );

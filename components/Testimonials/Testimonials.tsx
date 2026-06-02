@@ -48,8 +48,8 @@ export function Testimonials({ testimonials = placeholderTestimonials }: { testi
       </div>
 
       <div className={styles.grid}>
-        {testimonials.map((testimonial, index) => (
-          <div key={index} className={styles.card}>
+        {testimonials.map((testimonial) => (
+          <div key={`${testimonial.author}-${testimonial.company}`} className={styles.card}>
             <span className={styles.quoteIcon} aria-hidden="true">“</span>
             <p className={styles.quoteText}>{testimonial.quote}</p>
             <div className={styles.authorInfo}>

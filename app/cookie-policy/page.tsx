@@ -123,13 +123,7 @@ export default function CookiePolicyPage() {
         </div>
 
         <div className={styles.section}>
-          <p className={styles.lastUpdated}>
-            Last updated: {new Date().toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </p>
+          <p className={styles.lastUpdated}>Last updated: December 14, 2025</p>
         </div>
       </section>
     </div>

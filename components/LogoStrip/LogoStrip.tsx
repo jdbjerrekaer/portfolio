@@ -22,7 +22,13 @@ export function LogoStrip({ logos, title, className }: LogoStripProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [isManuallyScrolling, setIsManuallyScrolling] = useState(false);
   const [halfWidth, setHalfWidth] = useState(0);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => {
+    if (typeof window === "undefined") {
+      return false;
+    }
+
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  });
   const currentSpeedRef = useRef<number>(20); // pixels per second
   const manualScrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const touchStartXRef = useRef<number>(0);
@@ -44,8 +50,6 @@ export function LogoStrip({ logos, title, className }: LogoStripProps) {
     const handleChange = (e: MediaQueryListEvent) => {
       setPrefersReducedMotion(e.matches);
     };
-
-    handleChange({ matches: mediaQuery.matches } as MediaQueryListEvent);
 
     mediaQuery.addEventListener("change", handleChange);
     return () => mediaQuery.removeEventListener("change", handleChange);
@@ -322,4 +326,3 @@ export function LogoStrip({ logos, title, className }: LogoStripProps) {
     </section>
   );
 }
-

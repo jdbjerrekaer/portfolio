@@ -24,17 +24,21 @@ function slugifyHeading(children: React.ReactNode) {
     .replace(/\s+/g, "-");
 }
 
-// Custom components for MDX
 const components = {
-  // Override default elements with custom styling if needed
-  h2: (props: ComponentProps<"h2">) => (
-    <h2 {...props} id={props.id ?? slugifyHeading(props.children)} className="scroll-mt-20" />
+  h2: ({ children, className, id, ...props }: ComponentProps<"h2">) => (
+    <h2 {...props} id={id ?? slugifyHeading(children)} className={`scroll-mt-20 ${className ?? ""}`.trim()}>
+      {children}
+    </h2>
   ),
-  h3: (props: ComponentProps<"h3">) => (
-    <h3 {...props} id={props.id ?? slugifyHeading(props.children)} className="scroll-mt-20" />
+  h3: ({ children, className, id, ...props }: ComponentProps<"h3">) => (
+    <h3 {...props} id={id ?? slugifyHeading(children)} className={`scroll-mt-20 ${className ?? ""}`.trim()}>
+      {children}
+    </h3>
   ),
-  a: (props: ComponentProps<"a">) => (
-    <a {...props} target={props.href?.startsWith("http") ? "_blank" : undefined} rel={props.href?.startsWith("http") ? "noopener noreferrer" : undefined} />
+  a: ({ children, href, ...props }: ComponentProps<"a">) => (
+    <a {...props} href={href} target={href?.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
+      {children}
+    </a>
   ),
   img: (props: ComponentProps<"img">) => {
     // Handle Next.js Image component for local images

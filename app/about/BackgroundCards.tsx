@@ -147,16 +147,18 @@ export function BackgroundCards() {
             <div className={styles.approachContent}>
               <strong>Personal interests</strong>
               <div className={styles.personalImagesGrid}>
-                {displayedImages.map((image, index) => {
+                {displayedImages.map((image) => {
                   const imageSrc = image.src.startsWith("data:") || image.src.startsWith("http")
                     ? image.src
                     : withBasePath(image.src);
                   
                   return (
-                    <div
-                      key={index}
+                    <button
+                      key={image.src}
+                      type="button"
                       className={styles.personalImageItem}
                       onClick={() => handleImageClick(image)}
+                      aria-label={`Open image: ${image.alt}`}
                     >
                       <Image
                         src={imageSrc}
@@ -184,22 +186,23 @@ export function BackgroundCards() {
                           </svg>
                         </div>
                       </div>
-                    </div>
+                    </button>
                   );
                 })}
-                {/* More images tile */}
-                <div
+                <button
+                  type="button"
                   className={`${styles.personalImageItem} ${styles.personalMoreTile}`}
                   onClick={handleGalleryOpen}
+                  aria-label={`Open gallery with ${moreImagesCount} more images`}
                 >
                   <div className={styles.personalMorePreviewGrid}>
-                    {galleryImages.slice(displayedImages.length, displayedImages.length + 4).map((image, index) => {
+                    {galleryImages.slice(displayedImages.length, displayedImages.length + 4).map((image) => {
                       const imageSrc = image.src.startsWith("data:") || image.src.startsWith("http")
                         ? image.src
                         : withBasePath(image.src);
                       
                       return (
-                        <div key={index} className={styles.personalMorePreviewItem}>
+                        <div key={image.src} className={styles.personalMorePreviewItem}>
                           <Image
                             src={imageSrc}
                             alt={image.alt}
@@ -214,7 +217,7 @@ export function BackgroundCards() {
                   <div className={styles.personalMoreOverlay}>
                     <span className={styles.personalMoreLabel}>+{moreImagesCount}</span>
                   </div>
-                </div>
+                </button>
               </div>
             </div>
           </div>

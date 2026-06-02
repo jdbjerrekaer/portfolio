@@ -111,11 +111,15 @@
 }
 
 .galleryItem {
+  appearance: none;
   position: relative;
   aspect-ratio: 16 / 9;
+  padding: 0;
+  border: 0;
   border-radius: var(--radius-md);
   overflow: hidden;
   background: var(--color-background-secondary);
+  color: inherit;
   cursor: pointer;
   transition: transform var(--transition-fast);
 }
