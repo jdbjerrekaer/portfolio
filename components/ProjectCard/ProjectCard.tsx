@@ -71,7 +71,7 @@ export function ProjectCard({
         <p className={styles.summary}>{summary}</p>
         <div className={styles.tags}>
           {tags.map((tag) => (
-            <Chip key={tag} variant="default" size="sm">
+            <Chip key={tag} variant="default" size="sm" className={styles.tag}>
               {tag}
             </Chip>
           ))}

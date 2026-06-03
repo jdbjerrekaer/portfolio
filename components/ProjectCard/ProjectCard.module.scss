@@ -113,6 +113,14 @@
   flex-wrap: wrap;
   gap: var(--space-xs);
   align-items: center;
+  min-width: 0;
+}
+
+.tag {
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .cardState {
@@ -184,9 +192,10 @@
     .tags {
       max-height: 1.75rem;
       overflow: hidden;
+      flex-wrap: nowrap;
     }
 
-    .tags > *:nth-child(n + 3) {
+    .tags > *:nth-child(n + 2) {
       display: none;
     }
   }
