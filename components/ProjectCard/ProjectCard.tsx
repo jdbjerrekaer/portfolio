@@ -16,6 +16,7 @@ export interface ProjectCardProps {
   hasCaseStudy?: boolean;
   comingSoon?: boolean;
   showStatusBadge?: boolean;
+  compactOnMobile?: boolean;
 }
 
 export function ProjectCard({
@@ -28,6 +29,7 @@ export function ProjectCard({
   hasCaseStudy = false,
   comingSoon = false,
   showStatusBadge = true,
+  compactOnMobile = false,
 }: ProjectCardProps) {
   // Generate placeholder image if no coverImage provided
   // Prefix coverImage with base path if it's a regular path (not a data URI)
@@ -46,7 +48,7 @@ export function ProjectCard({
   const statusLabel = comingSoon ? "Coming soon" : !hasCaseStudy ? "Preview only" : "Case study available";
 
   const cardContent = (
-    <Card className={styles.card}>
+    <Card className={`${styles.card} ${compactOnMobile ? styles.compactOnMobile : ""}`}>
       <div className={`${styles.imageWrapper} ${isUnavailable ? styles.comingSoon : ''}`}>
         <Image
           src={imageSrc}

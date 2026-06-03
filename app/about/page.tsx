@@ -11,7 +11,7 @@ import styles from "./page.module.scss";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Learn more about Jonatan Bjerrekær: Design Engineer & Technical UX Designer blending research, interaction design, and development.",
+    "Learn more about Jonatan Bjerrekær: Product Design Engineer bridging product strategy, UX, design systems, and engineering feasibility.",
 };
 
 export default function AboutPage() {
@@ -33,9 +33,9 @@ export default function AboutPage() {
             <div className={styles.heroText}>
               <h1>About Me</h1>
               <p className={styles.intro}>
-                Hi, I&apos;m Jonatan Bjerrekær 👋 a design engineer applying 10+ years of full-contact discipline to product design.
-                I map messy workflows into clear journeys, sketch prototypes, and build the actual product.
-                Today, I bring that iterative depth to B2B tools: making the complex feel calm and clear.
+                Hi, I&apos;m Jonatan Bjerrekær, a Product Design Engineer working across product strategy, UX, design systems, and front-end implementation.
+                I turn messy B2B workflows into clear product experiences, then stay close through build, QA, and production quality.
+                My strength is making design decisions practical enough for developers to ship without losing the user clarity behind them.
               </p>
             </div>
           </div>

@@ -82,6 +82,7 @@ export default async function HomePage() {
                 hasCaseStudy={project.hasCaseStudy}
                 comingSoon={project.comingSoon}
                 showStatusBadge={false}
+                compactOnMobile
               />
             ))}
           </div>

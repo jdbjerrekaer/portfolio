@@ -16,12 +16,13 @@
 .status {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-xs);
-  padding: var(--space-xs) var(--space-sm);
+  gap: 0.45rem;
+  padding: 0.35rem 0.75rem;
   background: rgba(52, 199, 89, 0.1);
   color: #34c759; // iOS green
   border-radius: var(--radius-full);
   font-size: 0.875rem;
+  line-height: 1.2;
   font-weight: 600;
   margin-bottom: var(--space-lg);
   user-select: none;
@@ -29,6 +30,7 @@
 }
 
 .dot {
+  flex: 0 0 auto;
   width: 8px;
   height: 8px;
   background-color: currentColor;
@@ -63,4 +65,41 @@
   justify-content: center;
   gap: var(--space-md);
   flex-wrap: wrap;
+}
+
+@media (max-width: 767px) {
+  .availability {
+    padding: var(--space-3xl) var(--space-md);
+  }
+
+  .content {
+    width: 100%;
+    padding: var(--space-2xl) var(--space-lg);
+  }
+
+  .status {
+    max-width: 100%;
+    align-items: flex-start;
+    text-align: left;
+    padding: 0.4rem 0.8rem 0.4rem 0.7rem;
+    gap: 0.55rem;
+    line-height: 1.25;
+  }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+    margin-top: 0.28em;
+    box-shadow: 0 0 0 3px rgba(52, 199, 89, 0.14);
+  }
+
+  .title {
+    font-size: 1.65rem;
+    line-height: 1.15;
+  }
+
+  .description {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
 }

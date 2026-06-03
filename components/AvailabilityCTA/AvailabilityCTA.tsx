@@ -49,11 +49,11 @@ export function AvailabilityCTA() {
       <div className={styles.content}>
         <div className={styles.status}>
           <span className={styles.dot}></span>
-          Available for new opportunities
+          Available for Product Design Engineer roles
         </div>
-        <h2 className={styles.title}>Looking for a Design Engineer?</h2>
+        <h2 className={styles.title}>Looking for a Product Design Engineer?</h2>
         <p className={styles.description}>
-          I am currently open for senior UX/UI or Design Engineer roles. Let us build interfaces that developers actually want to build.
+          I bridge product strategy, UX, design systems, and engineering feasibility so teams can move from messy problems to shipped product quality.
         </p>
         <p className={styles.email}>{emailAddress}</p>
         <div className={styles.actions}>
