@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { BlossomCarousel } from "@blossom-carousel/react";
-import type { BlossomCarouselHandle } from "@blossom-carousel/react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import AutoScroll from "embla-carousel-auto-scroll";
+import useEmblaCarousel from "embla-carousel-react";
 import { Tooltip, ImageModal } from "@/components/ui";
 import styles from "./DesignCarousel.module.scss";
+
+type EmblaOptions = NonNullable<Parameters<typeof useEmblaCarousel>[0]>;
 
 export interface CarouselItem {
   kind: "desktop" | "iphone";
@@ -21,12 +23,9 @@ interface DesignCarouselProps {
 export function DesignCarousel({ items }: DesignCarouselProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const mobileCarouselRef = useRef<BlossomCarouselHandle>(null);
   const mobileSwipeRef = useRef({ startX: 0, startY: 0, moved: false });
   const animationFrameRef = useRef<number | null>(null);
-  const mobileAnimationFrameRef = useRef<number | null>(null);
   const offsetRef = useRef<number>(0);
-  const mobileSetWidthRef = useRef<number>(0);
   const lastTimeRef = useRef<number>(0);
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -55,6 +54,28 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
   const hasMovedRef = useRef<boolean>(false);
   const lastDragEndTimeRef = useRef<number>(0);
   const hoveredImageRef = useRef<HTMLImageElement | null>(null);
+  const emblaOptions = useMemo<EmblaOptions>(
+    () => ({
+      align: "start",
+      containScroll: false,
+      dragFree: true,
+      loop: true,
+    }),
+    []
+  );
+  const emblaAutoScroll = useMemo(
+    () =>
+      AutoScroll({
+        playOnInit: !prefersReducedMotion,
+        speed: 0.45,
+        startDelay: 700,
+        stopOnFocusIn: true,
+        stopOnInteraction: false,
+        stopOnMouseEnter: false,
+      }),
+    [prefersReducedMotion]
+  );
+  const [emblaRef, emblaApi] = useEmblaCarousel(emblaOptions, [emblaAutoScroll]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -324,73 +345,18 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
   }, [halfWidth, isHovered, prefersReducedMotion, isManuallyScrolling, isModalOpen, baseSpeed, crawlSpeed, isMobileCarousel]);
 
   useEffect(() => {
-    if (!isMobileCarousel) return;
-
-    const scroller = mobileCarouselRef.current?.element;
-    if (!scroller) return;
-
-    const normalizeScrollPosition = () => {
-      const setWidth = mobileSetWidthRef.current;
-      if (setWidth <= 0) return;
-
-      if (scroller.scrollLeft >= setWidth * 2) {
-        scroller.scrollLeft -= setWidth;
-      } else if (scroller.scrollLeft <= 0) {
-        scroller.scrollLeft += setWidth;
-      }
-    };
-
-    const measureLoop = () => {
-      mobileSetWidthRef.current = scroller.scrollWidth / 3;
-
-      if (mobileSetWidthRef.current > 0 && scroller.scrollLeft < 1) {
-        scroller.scrollLeft = mobileSetWidthRef.current;
-      }
-    };
-
-    const measureFrame = requestAnimationFrame(measureLoop);
-    window.addEventListener("resize", measureLoop);
-    scroller.addEventListener("scroll", normalizeScrollPosition, { passive: true });
-
-    return () => {
-      cancelAnimationFrame(measureFrame);
-      window.removeEventListener("resize", measureLoop);
-      scroller.removeEventListener("scroll", normalizeScrollPosition);
-    };
-  }, [items.length, isMobileCarousel]);
-
-  useEffect(() => {
-    if (!isMobileCarousel || prefersReducedMotion || isManuallyScrolling || isModalOpen) {
+    const autoScroll = emblaApi?.plugins().autoScroll;
+    if (!autoScroll) {
       return;
     }
 
-    const scroller = mobileCarouselRef.current?.element;
-    if (!scroller) return;
+    if (!isMobileCarousel || prefersReducedMotion || isManuallyScrolling || isModalOpen) {
+      autoScroll.stop();
+      return;
+    }
 
-    lastTimeRef.current = performance.now();
-
-    const animateMobile = (currentTime: number) => {
-      const deltaTime = (currentTime - lastTimeRef.current) / 1000;
-      lastTimeRef.current = currentTime;
-
-      const setWidth = mobileSetWidthRef.current;
-      scroller.scrollLeft += baseSpeed * deltaTime;
-
-      if (setWidth > 0 && scroller.scrollLeft >= setWidth * 2) {
-        scroller.scrollLeft -= setWidth;
-      }
-
-      mobileAnimationFrameRef.current = requestAnimationFrame(animateMobile);
-    };
-
-    mobileAnimationFrameRef.current = requestAnimationFrame(animateMobile);
-
-    return () => {
-      if (mobileAnimationFrameRef.current) {
-        cancelAnimationFrame(mobileAnimationFrameRef.current);
-      }
-    };
-  }, [baseSpeed, isManuallyScrolling, isMobileCarousel, isModalOpen, prefersReducedMotion]);
+    autoScroll.play(0);
+  }, [emblaApi, isManuallyScrolling, isMobileCarousel, isModalOpen, prefersReducedMotion]);
 
   // Generate placeholder SVG data URLs
   const getPlaceholderImage = (kind: "desktop" | "iphone", index: number): string => {
@@ -508,48 +474,39 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
 
   // Duplicate items for seamless loop
   const duplicatedItems = [...items, ...items];
-  const mobileLoopItems = [...items, ...items, ...items];
-
   if (isMobileCarousel) {
     return (
       <>
         <section className={styles.carouselSection} aria-label="Design carousel">
-          <BlossomCarousel
-            ref={mobileCarouselRef}
+          <div
+            ref={emblaRef}
             className={styles.mobileContainer}
-            load="always"
-            repeat={false}
             onPointerUp={handleMobilePointerEnd}
             onPointerCancel={handleMobilePointerEnd}
             onWheel={handleManualScrollEnd}
           >
-            {mobileLoopItems.map((item, index) => {
-              const actualIndex = index % items.length;
-
-              return (
-                <div
-                  key={`${item.kind}-${item.label}-${index}`}
-                  className={`${styles.mobileItem} ${styles[item.kind]}`}
-                >
+            <div className={styles.mobileTrack}>
+              {items.map((item, index) => (
+                <div key={`${item.kind}-${item.label}`} className={`${styles.mobileItem} ${styles[item.kind]}`}>
                   <button
                     type="button"
                     className={styles.imageWrapper}
                     onPointerDown={handleMobilePointerDown}
                     onPointerMove={handleMobilePointerMove}
-                    onClick={(e) => handleMobileImageClick(e, item.kind, actualIndex)}
-                    aria-label={`Open ${item.label} ${item.kind === "desktop" ? "desktop" : "iPhone"} design ${actualIndex + 1}`}
+                    onClick={(e) => handleMobileImageClick(e, item.kind, index)}
+                    aria-label={`Open ${item.label} ${item.kind === "desktop" ? "desktop" : "iPhone"} design ${index + 1}`}
                   >
                     <img
-                      src={getImageSrc(item, actualIndex)}
-                      alt={`${item.label} - ${item.kind === "desktop" ? "Desktop" : "iPhone"} design ${actualIndex + 1}`}
+                      src={getImageSrc(item, index)}
+                      alt={`${item.label} - ${item.kind === "desktop" ? "Desktop" : "iPhone"} design ${index + 1}`}
                       className={styles.image}
                       draggable={false}
                     />
                   </button>
                 </div>
-              );
-            })}
-          </BlossomCarousel>
+              ))}
+            </div>
+          </div>
         </section>
         {selectedImage && (
           <ImageModal
