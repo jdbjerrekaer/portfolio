@@ -194,6 +194,17 @@
       overflow: visible;
     }
 
+    .tag {
+      display: inline-flex !important;
+      align-items: center;
+      height: auto !important;
+      min-height: 2rem;
+      line-height: 1.15;
+      padding-top: 0.35rem !important;
+      padding-bottom: 0.35rem !important;
+      box-sizing: border-box;
+    }
+
     .tags > *:nth-child(n + 2) {
       display: none;
     }
