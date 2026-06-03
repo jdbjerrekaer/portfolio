@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { BlossomCarousel } from "@blossom-carousel/react";
+import type { BlossomCarouselHandle } from "@blossom-carousel/react";
 import { Tooltip, ImageModal } from "@/components/ui";
 import styles from "./DesignCarousel.module.scss";
 
@@ -20,9 +21,12 @@ interface DesignCarouselProps {
 export function DesignCarousel({ items }: DesignCarouselProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const mobileCarouselRef = useRef<BlossomCarouselHandle>(null);
   const mobileSwipeRef = useRef({ startX: 0, startY: 0, moved: false });
   const animationFrameRef = useRef<number | null>(null);
+  const mobileAnimationFrameRef = useRef<number | null>(null);
   const offsetRef = useRef<number>(0);
+  const mobileSetWidthRef = useRef<number>(0);
   const lastTimeRef = useRef<number>(0);
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -104,6 +108,13 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
     manualScrollTimeoutRef.current = setTimeout(() => {
       setIsManuallyScrolling(false);
     }, 1500); // Resume auto-scroll after 1.5 seconds of inactivity
+  };
+
+  const pauseMobileAutoScroll = () => {
+    if (manualScrollTimeoutRef.current) {
+      clearTimeout(manualScrollTimeoutRef.current);
+    }
+    setIsManuallyScrolling(true);
   };
 
   // Mouse wheel scroll handler
@@ -312,6 +323,75 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
     };
   }, [halfWidth, isHovered, prefersReducedMotion, isManuallyScrolling, isModalOpen, baseSpeed, crawlSpeed, isMobileCarousel]);
 
+  useEffect(() => {
+    if (!isMobileCarousel) return;
+
+    const scroller = mobileCarouselRef.current?.element;
+    if (!scroller) return;
+
+    const normalizeScrollPosition = () => {
+      const setWidth = mobileSetWidthRef.current;
+      if (setWidth <= 0) return;
+
+      if (scroller.scrollLeft >= setWidth * 2) {
+        scroller.scrollLeft -= setWidth;
+      } else if (scroller.scrollLeft <= 0) {
+        scroller.scrollLeft += setWidth;
+      }
+    };
+
+    const measureLoop = () => {
+      mobileSetWidthRef.current = scroller.scrollWidth / 3;
+
+      if (mobileSetWidthRef.current > 0 && scroller.scrollLeft < 1) {
+        scroller.scrollLeft = mobileSetWidthRef.current;
+      }
+    };
+
+    const measureFrame = requestAnimationFrame(measureLoop);
+    window.addEventListener("resize", measureLoop);
+    scroller.addEventListener("scroll", normalizeScrollPosition, { passive: true });
+
+    return () => {
+      cancelAnimationFrame(measureFrame);
+      window.removeEventListener("resize", measureLoop);
+      scroller.removeEventListener("scroll", normalizeScrollPosition);
+    };
+  }, [items.length, isMobileCarousel]);
+
+  useEffect(() => {
+    if (!isMobileCarousel || prefersReducedMotion || isManuallyScrolling || isModalOpen) {
+      return;
+    }
+
+    const scroller = mobileCarouselRef.current?.element;
+    if (!scroller) return;
+
+    lastTimeRef.current = performance.now();
+
+    const animateMobile = (currentTime: number) => {
+      const deltaTime = (currentTime - lastTimeRef.current) / 1000;
+      lastTimeRef.current = currentTime;
+
+      const setWidth = mobileSetWidthRef.current;
+      scroller.scrollLeft += baseSpeed * deltaTime;
+
+      if (setWidth > 0 && scroller.scrollLeft >= setWidth * 2) {
+        scroller.scrollLeft -= setWidth;
+      }
+
+      mobileAnimationFrameRef.current = requestAnimationFrame(animateMobile);
+    };
+
+    mobileAnimationFrameRef.current = requestAnimationFrame(animateMobile);
+
+    return () => {
+      if (mobileAnimationFrameRef.current) {
+        cancelAnimationFrame(mobileAnimationFrameRef.current);
+      }
+    };
+  }, [baseSpeed, isManuallyScrolling, isMobileCarousel, isModalOpen, prefersReducedMotion]);
+
   // Generate placeholder SVG data URLs
   const getPlaceholderImage = (kind: "desktop" | "iphone", index: number): string => {
     const width = kind === "desktop" ? 580 : 165;
@@ -388,11 +468,16 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
   };
 
   const handleMobilePointerDown = (event: React.PointerEvent<HTMLElement>) => {
+    pauseMobileAutoScroll();
     mobileSwipeRef.current = {
       startX: event.clientX,
       startY: event.clientY,
       moved: false,
     };
+  };
+
+  const handleMobilePointerEnd = () => {
+    handleManualScrollEnd();
   };
 
   const handleMobilePointerMove = (event: React.PointerEvent<HTMLElement>) => {
@@ -423,38 +508,47 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
 
   // Duplicate items for seamless loop
   const duplicatedItems = [...items, ...items];
+  const mobileLoopItems = [...items, ...items, ...items];
 
   if (isMobileCarousel) {
     return (
       <>
         <section className={styles.carouselSection} aria-label="Design carousel">
           <BlossomCarousel
+            ref={mobileCarouselRef}
             className={styles.mobileContainer}
             load="always"
             repeat={false}
+            onPointerUp={handleMobilePointerEnd}
+            onPointerCancel={handleMobilePointerEnd}
+            onWheel={handleManualScrollEnd}
           >
-            {items.map((item, index) => (
-              <div
-                key={`${item.kind}-${item.label}-${index}`}
-                className={`${styles.mobileItem} ${styles[item.kind]}`}
-              >
-                <button
-                  type="button"
-                  className={styles.imageWrapper}
-                  onPointerDown={handleMobilePointerDown}
-                  onPointerMove={handleMobilePointerMove}
-                  onClick={(e) => handleMobileImageClick(e, item.kind, index)}
-                  aria-label={`Open ${item.label} ${item.kind === "desktop" ? "desktop" : "iPhone"} design ${index + 1}`}
+            {mobileLoopItems.map((item, index) => {
+              const actualIndex = index % items.length;
+
+              return (
+                <div
+                  key={`${item.kind}-${item.label}-${index}`}
+                  className={`${styles.mobileItem} ${styles[item.kind]}`}
                 >
-                  <img
-                    src={getImageSrc(item, index)}
-                    alt={`${item.label} - ${item.kind === "desktop" ? "Desktop" : "iPhone"} design ${index + 1}`}
-                    className={styles.image}
-                    draggable={false}
-                  />
-                </button>
-              </div>
-            ))}
+                  <button
+                    type="button"
+                    className={styles.imageWrapper}
+                    onPointerDown={handleMobilePointerDown}
+                    onPointerMove={handleMobilePointerMove}
+                    onClick={(e) => handleMobileImageClick(e, item.kind, actualIndex)}
+                    aria-label={`Open ${item.label} ${item.kind === "desktop" ? "desktop" : "iPhone"} design ${actualIndex + 1}`}
+                  >
+                    <img
+                      src={getImageSrc(item, actualIndex)}
+                      alt={`${item.label} - ${item.kind === "desktop" ? "Desktop" : "iPhone"} design ${actualIndex + 1}`}
+                      className={styles.image}
+                      draggable={false}
+                    />
+                  </button>
+                </div>
+              );
+            })}
           </BlossomCarousel>
         </section>
         {selectedImage && (

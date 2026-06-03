@@ -15,6 +15,7 @@ export interface ProjectCardProps {
   coverImage?: string;
   hasCaseStudy?: boolean;
   comingSoon?: boolean;
+  showStatusBadge?: boolean;
 }
 
 export function ProjectCard({
@@ -26,6 +27,7 @@ export function ProjectCard({
   coverImage,
   hasCaseStudy = false,
   comingSoon = false,
+  showStatusBadge = true,
 }: ProjectCardProps) {
   // Generate placeholder image if no coverImage provided
   // Prefix coverImage with base path if it's a regular path (not a data URI)
@@ -53,9 +55,11 @@ export function ProjectCard({
           className={styles.image}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
-        <span className={`${styles.statusBadge} ${isUnavailable ? styles.statusBadgeMuted : styles.statusBadgeActive}`}>
-          {statusLabel}
-        </span>
+        {showStatusBadge && (
+          <span className={`${styles.statusBadge} ${isUnavailable ? styles.statusBadgeMuted : styles.statusBadgeActive}`}>
+            {statusLabel}
+          </span>
+        )}
       </div>
       <div className={styles.content}>
         <div className={styles.headingRow}>
@@ -99,4 +103,3 @@ export function ProjectCard({
     </Link>
   );
 }
-

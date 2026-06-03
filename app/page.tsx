@@ -15,7 +15,7 @@ import styles from "./page.module.scss";
 
 export default async function HomePage() {
   // Get featured projects from actual project files
-  const featuredProjects = await getFeaturedProjectsList();
+  const featuredProjects = (await getFeaturedProjectsList()).slice(0, 3);
   
   // Fetch actual project data for featured projects to check if they have case studies
   const featuredProjectsWithCaseStudy = await Promise.all(
@@ -81,6 +81,7 @@ export default async function HomePage() {
                 coverImage={project.coverImage}
                 hasCaseStudy={project.hasCaseStudy}
                 comingSoon={project.comingSoon}
+                showStatusBadge={false}
               />
             ))}
           </div>

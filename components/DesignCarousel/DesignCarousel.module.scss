@@ -51,37 +51,12 @@
   gap: var(--space-md);
   padding: 12px var(--space-md) 18px;
   scroll-padding-inline: var(--space-md);
-  scroll-snap-type: x proximity;
   overscroll-behavior-x: contain;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 
   &::-webkit-scrollbar {
     display: none;
-  }
-
-  &::before,
-  &::after {
-    content: "";
-    position: sticky;
-    top: 0;
-    bottom: 0;
-    width: 32px;
-    flex: 0 0 32px;
-    z-index: 2;
-    pointer-events: none;
-  }
-
-  &::before {
-    left: 0;
-    margin-right: calc(-32px - var(--space-md));
-    background: linear-gradient(to right, var(--color-background), transparent);
-  }
-
-  &::after {
-    right: 0;
-    margin-left: calc(-32px - var(--space-md));
-    background: linear-gradient(to left, var(--color-background), transparent);
   }
 }
 
@@ -134,7 +109,6 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  scroll-snap-align: center;
 
   &.desktop {
     width: min(520px, calc(100vw - (var(--space-md) * 2)));
@@ -196,6 +170,27 @@
 @media (max-width: 767px) {
   .carouselSection {
     padding: var(--space-2xl) 0;
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 44px;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    &::before {
+      left: 0;
+      background: linear-gradient(to right, var(--color-background), transparent);
+    }
+
+    &::after {
+      right: 0;
+      background: linear-gradient(to left, var(--color-background), transparent);
+    }
   }
 
   .image {
