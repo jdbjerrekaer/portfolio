@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { BlossomCarousel } from "@blossom-carousel/react";
 import { Tooltip, ImageModal } from "@/components/ui";
 import styles from "./DesignCarousel.module.scss";
 
@@ -19,6 +20,7 @@ interface DesignCarouselProps {
 export function DesignCarousel({ items }: DesignCarouselProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const mobileSwipeRef = useRef({ startX: 0, startY: 0, moved: false });
   const animationFrameRef = useRef<number | null>(null);
   const offsetRef = useRef<number>(0);
   const lastTimeRef = useRef<number>(0);
@@ -34,6 +36,7 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
   });
   const [isManuallyScrolling, setIsManuallyScrolling] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMobileCarousel, setIsMobileCarousel] = useState(false);
   const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string; description?: string } | null>(null);
   const currentSpeedRef = useRef<number>(30); // pixels per second
   const baseSpeed = 30; // pixels per second
@@ -48,6 +51,19 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
   const hasMovedRef = useRef<boolean>(false);
   const lastDragEndTimeRef = useRef<number>(0);
   const hoveredImageRef = useRef<HTMLImageElement | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const handleChange = (event: MediaQueryList | MediaQueryListEvent) => {
+      setIsMobileCarousel(event.matches);
+    };
+
+    handleChange(mediaQuery);
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
 
   // Check for reduced motion preference (reactive)
   useEffect(() => {
@@ -64,7 +80,7 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
   }, []);
 
   useEffect(() => {
-    if (!trackRef.current) return;
+    if (isMobileCarousel || !trackRef.current) return;
 
     // Measure half width (width of one set of items)
     const measureWidth = () => {
@@ -77,7 +93,7 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
     measureWidth();
     window.addEventListener("resize", measureWidth);
     return () => window.removeEventListener("resize", measureWidth);
-  }, [items]);
+  }, [items, isMobileCarousel]);
 
   // Handle manual scroll timeout - resume auto-scroll after user stops
   const handleManualScrollEnd = () => {
@@ -92,6 +108,8 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
 
   // Mouse wheel scroll handler
   useEffect(() => {
+    if (isMobileCarousel) return;
+
     const container = containerRef.current;
     if (!container) return;
 
@@ -119,10 +137,12 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
 
     container.addEventListener("wheel", handleWheel, { passive: false });
     return () => container.removeEventListener("wheel", handleWheel);
-  }, [halfWidth]);
+  }, [halfWidth, isMobileCarousel]);
 
   // Mouse drag handlers
   useEffect(() => {
+    if (isMobileCarousel) return;
+
     const container = containerRef.current;
     if (!container) return;
 
@@ -200,10 +220,12 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
       document.removeEventListener("mouseup", handleMouseUp);
       container.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, [halfWidth]);
+  }, [halfWidth, isMobileCarousel]);
 
   // Touch scroll handlers
   useEffect(() => {
+    if (isMobileCarousel) return;
+
     const container = containerRef.current;
     if (!container) return;
 
@@ -245,10 +267,10 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
       container.removeEventListener("touchmove", handleTouchMove);
       container.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [halfWidth]);
+  }, [halfWidth, isMobileCarousel]);
 
   useEffect(() => {
-    if (prefersReducedMotion || isManuallyScrolling || isModalOpen) {
+    if (isMobileCarousel || prefersReducedMotion || isManuallyScrolling || isModalOpen) {
       return;
     }
 
@@ -288,7 +310,7 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
         clearTimeout(manualScrollTimeoutRef.current);
       }
     };
-  }, [halfWidth, isHovered, prefersReducedMotion, isManuallyScrolling, isModalOpen, baseSpeed, crawlSpeed]);
+  }, [halfWidth, isHovered, prefersReducedMotion, isManuallyScrolling, isModalOpen, baseSpeed, crawlSpeed, isMobileCarousel]);
 
   // Generate placeholder SVG data URLs
   const getPlaceholderImage = (kind: "desktop" | "iphone", index: number): string => {
@@ -365,6 +387,34 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
     setIsModalOpen(true);
   };
 
+  const handleMobilePointerDown = (event: React.PointerEvent<HTMLElement>) => {
+    mobileSwipeRef.current = {
+      startX: event.clientX,
+      startY: event.clientY,
+      moved: false,
+    };
+  };
+
+  const handleMobilePointerMove = (event: React.PointerEvent<HTMLElement>) => {
+    const deltaX = Math.abs(event.clientX - mobileSwipeRef.current.startX);
+    const deltaY = Math.abs(event.clientY - mobileSwipeRef.current.startY);
+
+    if (deltaX > 8 || deltaY > 8) {
+      mobileSwipeRef.current.moved = true;
+    }
+  };
+
+  const handleMobileImageClick = (e: React.MouseEvent<HTMLElement>, kind: "desktop" | "iphone", index: number) => {
+    if (mobileSwipeRef.current.moved) {
+      e.preventDefault();
+      e.stopPropagation();
+      mobileSwipeRef.current.moved = false;
+      return;
+    }
+
+    handleImageClick(e, kind, index);
+  };
+
   // Handle modal close
   const handleModalClose = () => {
     setIsModalOpen(false);
@@ -373,6 +423,52 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
 
   // Duplicate items for seamless loop
   const duplicatedItems = [...items, ...items];
+
+  if (isMobileCarousel) {
+    return (
+      <>
+        <section className={styles.carouselSection} aria-label="Design carousel">
+          <BlossomCarousel
+            className={styles.mobileContainer}
+            load="always"
+            repeat={false}
+          >
+            {items.map((item, index) => (
+              <div
+                key={`${item.kind}-${item.label}-${index}`}
+                className={`${styles.mobileItem} ${styles[item.kind]}`}
+              >
+                <button
+                  type="button"
+                  className={styles.imageWrapper}
+                  onPointerDown={handleMobilePointerDown}
+                  onPointerMove={handleMobilePointerMove}
+                  onClick={(e) => handleMobileImageClick(e, item.kind, index)}
+                  aria-label={`Open ${item.label} ${item.kind === "desktop" ? "desktop" : "iPhone"} design ${index + 1}`}
+                >
+                  <img
+                    src={getImageSrc(item, index)}
+                    alt={`${item.label} - ${item.kind === "desktop" ? "Desktop" : "iPhone"} design ${index + 1}`}
+                    className={styles.image}
+                    draggable={false}
+                  />
+                </button>
+              </div>
+            ))}
+          </BlossomCarousel>
+        </section>
+        {selectedImage && (
+          <ImageModal
+            isOpen={isModalOpen}
+            onClose={handleModalClose}
+            imageSrc={selectedImage.src}
+            imageAlt={selectedImage.alt}
+            description={selectedImage.description}
+          />
+        )}
+      </>
+    );
+  }
 
   return (
     <>
