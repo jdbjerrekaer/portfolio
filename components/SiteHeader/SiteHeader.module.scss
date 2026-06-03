@@ -32,11 +32,14 @@
 }
 
 .logo {
+  display: inline-flex;
   font-size: 0.975rem;
   font-weight: 600;
   color: var(--color-text-primary);
   text-decoration: none;
   letter-spacing: -0.015em;
+  white-space: nowrap;
+  flex-shrink: 0;
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
@@ -51,6 +54,10 @@
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
+}
+
+.logoOptional {
+  margin-left: 0.25em;
 }
 
 .navList {
@@ -223,9 +230,12 @@
   }
 
   .logo {
-    display: inline-flex;
-    font-size: 0.78rem;
-    max-width: 115px;
-    line-height: 1.1;
+    font-size: 0.9rem;
+    max-width: none;
+    line-height: 1;
+  }
+
+  .logoOptional {
+    display: none;
   }
 }

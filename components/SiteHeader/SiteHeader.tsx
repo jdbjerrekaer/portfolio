@@ -65,7 +65,7 @@ export function SiteHeader() {
     <header className={`${styles.header} ${isScrolled ? styles.scrolled : ""}`}>
       <nav className={styles.nav} aria-label="Main navigation">
         <Link href="/" className={styles.logo}>
-          Jonatan Daugbjerg Bjerrekær
+          Jonatan <span className={styles.logoOptional}>Daugbjerg Bjerrekær</span>
         </Link>
         <ul className={styles.navList}>
           {navLinks.map((link) => {
@@ -109,4 +109,3 @@ export function SiteHeader() {
     </header>
   );
 }
-
