@@ -40,7 +40,7 @@ export default async function HomePage() {
             I design interfaces that developers actually want to build.
           </h1>
           <p className={styles.heroSubtitle}>
-            Design Engineer portfolio with selected case studies, product thinking, and the systems behind shipping better interfaces.
+            10+ years of full-contact discipline applied to product design, bridging the gap between Figma and the codebase.
           </p>
           <div className={styles.heroCta}>
             <Link href="/projects/">
