@@ -17,7 +17,9 @@
 .heroContent {
   display: grid;
   justify-items: center;
+  justify-self: center;
   width: min(100%, 1080px);
+  margin: 0 auto;
   text-align: center;
 }
 
