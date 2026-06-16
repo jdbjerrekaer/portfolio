@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui";
 import { SFSymbol } from "@/components/ui/SFSymbol";
 import { ProjectCard } from "@/components/ProjectCard";
@@ -8,6 +9,7 @@ import { getFeaturedProjectsList } from "@/lib/content/featuredProjects";
 import { designCarouselItems } from "@/lib/content/designCarouselItems";
 import { clientLogos } from "@/lib/content/clientLogos";
 import { hasCaseStudy, getProjectBySlug } from "@/lib/content/projects";
+import { withBasePath } from "@/lib/utils/paths";
 import { AvailabilityCTA } from "@/components/AvailabilityCTA";
 import { Testimonials } from "@/components/Testimonials";
 import { WritingSection } from "@/components/WritingSection";
@@ -34,11 +36,12 @@ export default async function HomePage() {
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className={styles.heroContent}>
+          <p className={styles.heroKicker}>Jonatan Bjerrekær</p>
           <h1 className={styles.heroTitle}>
-            I design interfaces that developers actually want to build.
+            Design engineer portfolio
           </h1>
           <p className={styles.heroSubtitle}>
-            Design Engineer portfolio with selected case studies, product thinking, and the systems behind shipping better interfaces.
+            I design interfaces that developers actually want to build, then shape the systems, QA loops, and implementation details that help them ship cleanly.
           </p>
           <div className={styles.heroCta}>
             <Link href="/projects/">
@@ -56,6 +59,28 @@ export default async function HomePage() {
                 GitHub
               </Button>
             </a>
+          </div>
+          <div className={styles.heroShowcase} aria-label="Selected design engineering work preview">
+            <div className={styles.heroWindow}>
+              <div className={styles.windowChrome} aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </div>
+              <Image
+                src={withBasePath("/projects/openclaw-ai-assistant/openclaw-website-hero.png")}
+                alt="OpenClaw assistant website interface preview"
+                width={960}
+                height={600}
+                priority
+                className={styles.heroImage}
+              />
+            </div>
+            <div className={styles.heroProof}>
+              <span>Design systems</span>
+              <span>UX engineering</span>
+              <span>AI-assisted QA</span>
+            </div>
           </div>
         </div>
       </section>
