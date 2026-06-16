@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Button } from "@/components/ui";
 import { SFSymbol } from "@/components/ui/SFSymbol";
 import { ProjectCard } from "@/components/ProjectCard";
@@ -9,7 +8,6 @@ import { getFeaturedProjectsList } from "@/lib/content/featuredProjects";
 import { designCarouselItems } from "@/lib/content/designCarouselItems";
 import { clientLogos } from "@/lib/content/clientLogos";
 import { hasCaseStudy, getProjectBySlug } from "@/lib/content/projects";
-import { withBasePath } from "@/lib/utils/paths";
 import { AvailabilityCTA } from "@/components/AvailabilityCTA";
 import { Testimonials } from "@/components/Testimonials";
 import { WritingSection } from "@/components/WritingSection";
@@ -58,28 +56,6 @@ export default async function HomePage() {
                 GitHub
               </Button>
             </a>
-          </div>
-          <div className={styles.heroShowcase} aria-label="Selected design engineering work preview">
-            <div className={styles.heroWindow}>
-              <div className={styles.windowChrome} aria-hidden="true">
-                <span />
-                <span />
-                <span />
-              </div>
-              <Image
-                src={withBasePath("/projects/openclaw-ai-assistant/openclaw-website-hero.png")}
-                alt="OpenClaw assistant website interface preview"
-                width={960}
-                height={600}
-                priority
-                className={styles.heroImage}
-              />
-            </div>
-            <div className={styles.heroProof}>
-              <span>Design systems</span>
-              <span>UX engineering</span>
-              <span>AI-assisted QA</span>
-            </div>
           </div>
         </div>
       </section>
