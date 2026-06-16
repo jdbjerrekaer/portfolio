@@ -41,7 +41,7 @@ export default async function HomePage() {
             Design engineer portfolio
           </h1>
           <p className={styles.heroSubtitle}>
-            I design interfaces that developers actually want to build, then shape the systems, QA loops, and implementation details that help them ship cleanly.
+            Design Engineer portfolio with selected case studies, product thinking, and the systems behind shipping better interfaces.
           </p>
           <div className={styles.heroCta}>
             <Link href="/projects/">
