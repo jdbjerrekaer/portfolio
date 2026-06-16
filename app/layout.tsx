@@ -35,7 +35,7 @@ const openRunde = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: "Design engineer portfolio",
+    default: "Jonatan Designer Portfolio",
     template: "%s | Portfolio",
   },
   description: "Design Engineer & Technical UX Designer portfolio showcasing projects and work.",

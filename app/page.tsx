@@ -36,12 +36,11 @@ export default async function HomePage() {
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className={styles.heroContent}>
-          <p className={styles.heroKicker}>Jonatan Bjerrekær</p>
           <h1 className={styles.heroTitle}>
-            Design engineer portfolio
+            I design interfaces that developers actually want to build.
           </h1>
           <p className={styles.heroSubtitle}>
-            Selected case studies, product thinking, and the systems behind shipping better interfaces.
+            Design Engineer portfolio with selected case studies, product thinking, and the systems behind shipping better interfaces.
           </p>
           <div className={styles.heroCta}>
             <Link href="/projects/">
