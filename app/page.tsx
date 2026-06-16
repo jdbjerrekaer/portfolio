@@ -41,7 +41,7 @@ export default async function HomePage() {
             Design engineer portfolio
           </h1>
           <p className={styles.heroSubtitle}>
-            Design Engineer portfolio with selected case studies, product thinking, and the systems behind shipping better interfaces.
+            Selected case studies, product thinking, and the systems behind shipping better interfaces.
           </p>
           <div className={styles.heroCta}>
             <Link href="/projects/">
