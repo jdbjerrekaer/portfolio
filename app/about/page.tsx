@@ -6,6 +6,7 @@ import { ApproachList } from "./ApproachList";
 import { BackgroundCards } from "./BackgroundCards";
 import { RolesCards } from "./RolesCards";
 import { SkillsCards } from "./SkillsCards";
+import { withBasePath } from "@/lib/utils/paths";
 import styles from "./page.module.scss";
 
 export const metadata: Metadata = {
@@ -22,7 +23,7 @@ export default function AboutPage() {
           <div className={styles.heroContent}>
             <div className={styles.heroImage}>
               <Image
-                src="/images/about-profile.jpg"
+                src={withBasePath("/images/about-profile.jpg")}
                 alt="Jonatan Bjerrekær"
                 width={400}
                 height={400}
