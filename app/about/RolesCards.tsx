@@ -40,7 +40,7 @@ export function RolesCards() {
             <ul className={styles.approachSubList}>
               <li>Designed and improved internal staff, partner, and brand tools</li>
               <li>Worked closely with engineering on implementation details, QA, and design-to-code handoff</li>
-              <li>Shipped YADL, a Figma plugin now used by 22+ teams to standardize design-system QA</li>
+              <li>Shipped YADL, a Figma plugin now used by 400+ teams globally, with 60+ frequent daily users, to standardize design-system QA</li>
               <li>Contributed to LeadPlatform product work after Adservice merged into Adtraction</li>
             </ul>
           </div>

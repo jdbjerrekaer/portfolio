@@ -1,15 +1,13 @@
 ---
 title: "YADL: Yet Another Design Linter"
-summary: "A public Figma plugin that turns design-system QA into a repeatable audit workflow, helping teams find hard-coded values, spacing drift, broken variables, style mismatches, and inconsistent decisions before handoff."
+summary: "Public Figma plugin used by 400+ teams across the world, with 60+ frequent daily users, to make design-system QA repeatable before developer handoff."
 date: "2024-01-15"
 role: "Design Engineer"
-outcome: "Public Figma plugin used by 22+ teams to standardize design-system QA"
+outcome: "Figma design-system QA plugin used by 400+ teams globally"
 tags:
+  - Design Systems
   - Figma Plugin
-  - Design System
   - Design QA
-  - Workflow Automation
-  - Design Tools
 links:
   Figma Plugin: "https://www.figma.com/community/plugin/1496477931536811576/yet-another-design-linter"
 coverImage: "/projects/yadl/yadl-cover.png"
@@ -18,20 +16,18 @@ demoVideo:
   src: "/projects/yadl/yadl-promo.mp4"
   label: "YADL demo: select Figma layers, scan for design-system issues, review grouped findings, and apply smart suggestions."
 sectionNav:
-  - title: "Product proof"
-    id: "product-proof"
+  - title: "Recruiter takeaway"
+    id: "recruiter-takeaway"
   - title: "Problem"
     id: "problem"
-  - title: "System model"
-    id: "system-model"
-  - title: "Plugin experience"
-    id: "plugin-experience"
-  - title: "Rule engine"
-    id: "rule-engine"
-  - title: "Product decisions"
-    id: "product-decisions"
-  - title: "Impact"
-    id: "impact"
+  - title: "My role"
+    id: "my-role"
+  - title: "Constraints"
+    id: "constraints"
+  - title: "Key decisions"
+    id: "key-decisions"
+  - title: "Outcome"
+    id: "outcome"
 gallery:
   - src: "/projects/yadl/welcome.jpg"
     alt: "YADL onboarding screen with a three-step guide to analyze a selection"
@@ -41,19 +37,17 @@ gallery:
     alt: "YADL Variables tab listing variable collections and modes"
 ---
 
-## Product proof
+## Recruiter takeaway
 
 YADL is a productized design-system QA workflow, not just a plugin experiment.
 
-The demo shows the core loop: select Figma layers, scan the selection, review grouped findings, inspect smart suggestions, and clean up problems before handoff. The screenshots show the same story in still form: onboarding, issue grouping, and variable/library visibility.
+The public Figma plugin is used by 400+ teams across the world, with 60+ frequent daily users. The core loop is simple: select layers, scan the selection, review grouped findings, inspect smart suggestions, and clean up issues before developer handoff.
 
-For a product design, design systems, or UX engineering role, the recruiter signal is:
+What this proves:
 
-- I think about design quality as a system, not a personal review habit
-- I can translate subjective UI feedback into concrete checks
-- I understand the messy handoff point between Figma, tokens, components, and implementation
-- I can design internal tools that reduce repeated manual work
-- I can move from product framing to interface design to front-end implementation in the same project
+- I can turn subjective design-system quality into concrete, repeatable checks
+- I understand the handoff point between Figma, tokens, components, and implementation
+- I can frame, design, and build a useful design tool end-to-end
 
 ## Problem
 
@@ -64,6 +58,26 @@ In practice, that breaks down quickly. Files get inherited, copied, edited under
 The problem I wanted to solve was simple:
 
 How do you make design-system QA repeatable inside Figma, before the file reaches development?
+
+## My role
+
+Solo **Design Engineer** — owned product framing, plugin UX, Figma plugin implementation, rule design, copy, and public release.
+
+## Constraints
+
+- Figma plugin UI and document access run in separate contexts
+- Findings had to be understandable without turning the plugin into a noisy checklist
+- Rules needed to support real design-system cleanup without pretending every team has identical standards
+
+## Key decisions
+
+- Group findings by issue type so designers can scan problems instead of reading a raw error stream
+- Use smart suggestions where the plugin can identify likely fixes, while leaving final judgment visible
+- Keep the workflow selection-based so designers can audit a frame, flow, or component without scanning an entire file
+
+## Outcome
+
+YADL is now a public Figma Community plugin used by 400+ teams globally, with 60+ frequent daily users. The project is small in surface area, but strong in recruiter signal: design systems, tooling, implementation, and handoff quality in one shipped artifact.
 
 ## System model
 
@@ -133,7 +147,7 @@ That shaped several implementation choices:
 
 ## Impact
 
-YADL is now a public Figma Community plugin used by 22+ teams.
+YADL is now a public Figma Community plugin used by 400+ teams globally, with 60+ frequent daily users.
 
 The strongest impact is not just the install count. It is the kind of work the plugin replaces: repeated manual review, subjective cleanup comments, and avoidable design-system drift before handoff.
 

@@ -64,7 +64,10 @@ export default async function HomePage() {
       {featuredProjects.length > 0 && (
         <section className={styles.featured}>
           <div className={styles.sectionHeader}>
-            <h2>Featured Projects</h2>
+            <div>
+              <h2>Featured Projects</h2>
+              <p className={styles.sectionIntro}>Selected work showing how I connect UX, design systems, implementation, and product quality.</p>
+            </div>
             <Link href="/projects/" className={styles.viewAll}>
               View all projects <SFSymbol name="folder" size={18} weight="medium" className={styles.folderIcon} />
             </Link>
@@ -77,11 +80,13 @@ export default async function HomePage() {
                 title={project.title}
                 summary={project.summary}
                 role={project.role}
+                outcome={project.outcome}
                 tags={project.tags}
                 coverImage={project.coverImage}
                 hasCaseStudy={project.hasCaseStudy}
                 comingSoon={project.comingSoon}
                 showStatusBadge={false}
+                showSummary={false}
                 compactOnMobile
               />
             ))}

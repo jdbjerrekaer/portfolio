@@ -97,9 +97,9 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
  * Single source of truth shared by the projects listing and the home page.
  */
 export const PROJECT_PRIORITY_ORDER = [
+  "yadl",
   "openclaw-ai-assistant",
   "yet-another-countdown",
-  "yadl",
   "leadplatform",
   "iriz",
   "figma-component-library",

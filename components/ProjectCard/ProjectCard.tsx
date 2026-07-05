@@ -11,11 +11,13 @@ export interface ProjectCardProps {
   title: string;
   summary: string;
   role: string;
+  outcome?: string;
   tags: string[];
   coverImage?: string;
   hasCaseStudy?: boolean;
   comingSoon?: boolean;
   showStatusBadge?: boolean;
+  showSummary?: boolean;
   compactOnMobile?: boolean;
 }
 
@@ -24,11 +26,13 @@ export function ProjectCard({
   title,
   summary,
   role,
+  outcome,
   tags,
   coverImage,
   hasCaseStudy = false,
   comingSoon = false,
   showStatusBadge = true,
+  showSummary = true,
   compactOnMobile = false,
 }: ProjectCardProps) {
   // Generate placeholder image if no coverImage provided
@@ -68,7 +72,8 @@ export function ProjectCard({
           <h3 className={styles.title}>{title}</h3>
           <span className={styles.role}>{role}</span>
         </div>
-        <p className={styles.summary}>{summary}</p>
+        {outcome && <p className={styles.proofLine}>{outcome}</p>}
+        {showSummary && <p className={styles.summary}>{summary}</p>}
         <div className={styles.tags}>
           {tags.map((tag) => (
             <Chip key={tag} variant="default" size="sm" className={styles.tag}>

@@ -1,15 +1,13 @@
 ---
 title: "Yet Another Countdown"
-summary: "A polished iOS-style countdown app built with React, Ionic, and Capacitor. Featuring recurring yearly events, count-up mode, drag-and-drop sorting, calendar import, native home screen widgets, dark mode, and Siri Shortcuts."
+summary: "Local-first countdown app with recurring events, calendar import, widgets, dark mode, and Siri Shortcuts. A solo design-engineering project focused on native-feeling mobile UX."
 date: "2026-01-01"
 role: "Design Engineer"
+outcome: "Solo design-engineering mobile app with native widgets and shortcuts"
 tags:
-  - iOS
-  - React
-  - Ionic
-  - Capacitor
-  - WidgetKit
-  - SwiftUI
+  - Mobile UX
+  - React/Ionic
+  - Native iOS
 links:
   Web demo: "https://jdbjerrekaer.github.io/yet-another-countdown-app/"
 coverImage: "/projects/yet-another-countdown/countdown-cover.png"
@@ -29,7 +27,15 @@ gallery:
     alt: "Lock screen widget keeping the next big moment visible without unlocking the phone."
 ---
 
-## Why I built this
+## Recruiter takeaway
+
+Yet Another Countdown is here to show solo product craft: finding a small broken market, defining the interaction model, designing the mobile UI, implementing it, and carrying native integrations through to a polished experience.
+
+What this proves:
+
+- I can own UX, UI, implementation, and native-feeling polish end-to-end
+- I design mobile products around real interaction constraints, not just screen layouts
+- I can make privacy, permissions, widgets, shortcuts, and local-first behavior feel calm
 
 I just wanted a countdown app that worked.
 
@@ -39,17 +45,33 @@ Meanwhile, iOS kept shipping new capabilities: modern widget APIs, refined desig
 
 So I stopped waiting for someone else to fix it.
 
-## The goal
+## Problem
 
-Build a countdown app that feels like it belongs on iOS: fast, focused, and respectful of the user's time. No accounts. No paywalls for basic functionality. No visual clutter. A clean tool for tracking the dates that matter—with a sustainable model that doesn't compromise the experience.
+Countdown apps should be simple, but many App Store options felt cluttered, visually stale, or locked basic features behind subscriptions. The product problem was to make important dates visible without making the app feel heavier than the moments it tracks.
+
+## My role
+
+Solo **Design Engineer** — owned product framing, UX, UI, React/Ionic implementation, Capacitor app setup, calendar import, widgets, shortcuts, dark mode, and release polish.
+
+## Constraints
+
+- Mobile-first interaction had to stay thumb-friendly and readable at a glance
+- The app needed to work local-first without accounts or unnecessary data collection
+- Native features like widgets, calendar access, notifications, and shortcuts had to feel integrated instead of bolted on
+
+## Key decisions
+
+- Treat future and past dates as one event model so countdown and count-up states stay simple
+- Use recurring yearly events instead of duplicating birthdays and anniversaries every year
+- Keep monetization optional and light-touch so the core tracking flow stays trustworthy
+
+## Outcome
+
+Yet Another Countdown became a polished local-first countdown app with recurring events, calendar import, dark mode, widgets, and Siri Shortcuts. It is the mobile craft case study: small scope, high finish, and full design-engineering ownership.
 
 ## Overview
 
 Yet Another Countdown is a lightweight, iOS-native app for tracking important dates: birthdays, anniversaries, holidays, launches. It supports both future events (countdown) and past events (count up / "days ago"), with recurring yearly events for anything that repeats. Built with native iOS 26 UI elements, dark mode support, and Siri Shortcuts, it feels right at home on modern iOS whether you're checking at a glance or creating an event hands-free.
-
-## My role
-
-Solo **Design Engineer** — owned UX, UI implementation, and native integrations end-to-end.
 
 ## Goals & constraints
 

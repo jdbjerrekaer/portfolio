@@ -7,10 +7,10 @@
 // Hero Section
 .hero {
   display: grid;
-  align-items: start;
+  align-items: center;
   justify-content: center;
-  padding: clamp(var(--space-2xl), 6vh, var(--space-3xl)) var(--space-lg) var(--space-3xl);
-  min-height: calc(100svh - var(--header-height) - 72px);
+  padding: clamp(var(--space-xl), 5vh, var(--space-3xl)) var(--space-lg);
+  min-height: min(720px, calc(100svh - var(--header-height) - 72px));
   overflow: hidden;
 }
 
@@ -107,6 +107,14 @@
   h2 {
     margin: 0;
   }
+}
+
+.sectionIntro {
+  max-width: 44rem;
+  margin: var(--space-sm) 0 0;
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 .viewAll {

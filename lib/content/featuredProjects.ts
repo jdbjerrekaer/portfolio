@@ -5,6 +5,7 @@ export interface FeaturedProject {
   title: string;
   summary: string;
   role: string;
+  outcome?: string;
   tags: string[];
   coverImage?: string;
   date: string;
@@ -23,6 +24,7 @@ export async function getFeaturedProjectsList(): Promise<FeaturedProject[]> {
     title: project.title,
     summary: project.summary,
     role: project.role,
+    outcome: project.outcome,
     tags: project.tags,
     coverImage: project.coverImage,
     date: project.date,

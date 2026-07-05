@@ -46,10 +46,12 @@ export default async function ProjectsPage() {
                     title={project.title}
                     summary={project.summary}
                     role={project.role}
+                    outcome={project.outcome}
                     tags={project.tags}
                     coverImage={project.coverImage}
                     hasCaseStudy={hasCaseStudy(project)}
                     comingSoon={project.comingSoon}
+                    showSummary={false}
                   />
                 ))}
               </div>

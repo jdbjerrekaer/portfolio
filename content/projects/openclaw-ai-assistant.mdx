@@ -1,15 +1,13 @@
 ---
 title: "OpenClaw: AI Workflow Design"
-summary: "A self-hosted AI operations layer designed around memory, guardrails, repeatable workflows, and human review instead of one-off prompting."
+summary: "Self-hosted AI workflow system with memory, guardrails, approvals, and delivery loops. It shows how I turn ambiguous operations into usable, reviewable product systems."
 date: "2026-06-01"
 role: "Product Design Engineer"
-outcome: "AI workflow system with guardrails, memory, and review loops"
+outcome: "AI workflow system with memory, guardrails, and review loops"
 tags:
-  - AI Workflow Design
-  - Design Systems
+  - AI Workflows
   - UX Engineering
-  - Automation
-  - Product Operations
+  - Product Ops
 coverImage: "/projects/openclaw-ai-assistant/openclaw-website-hero.png"
 featured: true
 sectionNav:
@@ -17,14 +15,14 @@ sectionNav:
     id: "recruiter-takeaway"
   - title: "Problem"
     id: "problem"
-  - title: "Operating model"
-    id: "operating-model"
-  - title: "Proof modules"
-    id: "proof-modules"
-  - title: "Design decisions"
-    id: "design-decisions"
-  - title: "Impact"
-    id: "impact"
+  - title: "My role"
+    id: "my-role"
+  - title: "Constraints"
+    id: "constraints"
+  - title: "Key decisions"
+    id: "key-decisions"
+  - title: "Outcome"
+    id: "outcome"
 gallery:
   - src: "/projects/openclaw-ai-assistant/openclaw-openreplay-hero.png"
     alt: "OpenReplay and OpenClaw branded hero image showing the product context."
@@ -36,13 +34,11 @@ This project is not here to say "I built a chatbot."
 
 It shows that I can turn AI into a reliable product workflow: define the system boundaries, design the interaction model, build the supporting scripts and content structure, test failure cases, and keep risky actions under human control.
 
-For a Danish product design, UX engineering, or design systems role, that is the relevant signal:
+What this proves:
 
-- I design AI-enabled workflows around real user constraints, not novelty
-- I structure ambiguous operational work into reusable systems
-- I can move between UX framing, implementation, documentation, and release verification
-- I think in guardrails, handoffs, states, and feedback loops
-- I use automation to reduce repeated work while keeping accountability visible
+- I design AI-enabled workflows around real constraints, not novelty
+- I can structure ambiguous operational work into reusable systems
+- I think in guardrails, handoffs, states, feedback loops, and recovery
 
 The strongest part of the project is the operating model. OpenClaw is useful because the assistant knows what it may do, what it must remember, what it must never expose, and when a human decision is required.
 
@@ -55,6 +51,26 @@ That is fine for quick questions. It is weak for recurring work: maintaining a s
 The design challenge was not "how do I use more AI?"
 
 It was: how do I make AI useful enough for repeated work while keeping trust, review, and recovery visible?
+
+## My role
+
+Solo **Product Design Engineer** — defined the workflow model, interaction rules, memory structure, guardrails, scripts, documentation, and review points.
+
+## Constraints
+
+- The system handles real files, schedules, messages, and delivery paths, so trust and rollback matter more than novelty
+- Risky actions need explicit boundaries instead of optimistic automation
+- The assistant has to explain state and ask for approval without slowing every low-risk task
+
+## Key decisions
+
+- Treat AI as an operations layer with permissions, memory, and review loops rather than a free-form chat surface
+- Route risky actions through policy checks and human approval instead of automatic retries
+- Use Telegram for status, approvals, and delivery because it matches the way repeated tasks actually arrive
+
+## Outcome
+
+OpenClaw is a working self-hosted workflow system for repeated personal operations. Its value is not public usage numbers; it is the product model: bounded automation, visible accountability, recoverable state, and human review where it matters.
 
 ## Operating model
 
