@@ -120,6 +120,41 @@
   transition: transform var(--transition-fast);
 }
 
+.landscape {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: none;
+
+  .gridItem {
+    aspect-ratio: 16 / 9;
+    grid-column: auto;
+    grid-row: auto;
+
+    .image {
+      object-fit: contain;
+    }
+  }
+
+  .gridItem.item1,
+  .gridItem.item5 {
+    grid-column: 1 / -1;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+
+    .gridItem,
+    .gridItem.item1,
+    .gridItem.item2,
+    .gridItem.item3,
+    .gridItem.item4,
+    .gridItem.item5 {
+      grid-column: 1;
+      grid-row: auto;
+      aspect-ratio: 16 / 10;
+    }
+  }
+}
+
 .overlay {
   position: absolute;
   inset: 0;

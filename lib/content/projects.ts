@@ -20,6 +20,7 @@ const projectSchema = z.object({
       })
     )
     .optional(),
+  galleryLayout: z.enum(["mosaic", "landscape"]).optional().default("mosaic"),
   demoVideo: z
     .object({
       src: z.string(),

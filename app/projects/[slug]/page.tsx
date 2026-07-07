@@ -141,6 +141,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             : undefined
         }
         images={project.gallery}
+        layout={project.galleryLayout}
       />
 
       <div className={styles.projectMeta}>

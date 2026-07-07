@@ -18,6 +18,7 @@ interface ProjectGalleryProps {
     title: string;
   };
   images?: GalleryImage[];
+  layout?: "mosaic" | "landscape";
 }
 
 const prefix = (src: string) =>
@@ -27,7 +28,7 @@ const prefix = (src: string) =>
  * Owns a single lightbox for the whole case study so arrow keys / swipe
  * navigate across the cover image and all gallery images as one set.
  */
-export function ProjectGallery({ cover, images = [] }: ProjectGalleryProps) {
+export function ProjectGallery({ cover, images = [], layout = "mosaic" }: ProjectGalleryProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   // Combined ordered set: cover first (when present), then gallery images.
@@ -70,6 +71,7 @@ export function ProjectGallery({ cover, images = [] }: ProjectGalleryProps) {
       {images.length > 0 && (
         <ProjectImageGrid
           images={images}
+          layout={layout}
           onOpenImage={(index) => setOpenIndex(coverOffset + index)}
         />
       )}

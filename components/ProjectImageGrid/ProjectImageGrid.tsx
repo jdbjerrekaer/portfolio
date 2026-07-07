@@ -10,11 +10,12 @@ interface ProjectImageGridProps {
     src: string;
     alt: string;
   }>;
+  layout?: "mosaic" | "landscape";
   /** Called with the clicked image's index when a thumbnail is opened. */
   onOpenImage: (index: number) => void;
 }
 
-export function ProjectImageGrid({ images, onOpenImage }: ProjectImageGridProps) {
+export function ProjectImageGrid({ images, layout = "mosaic", onOpenImage }: ProjectImageGridProps) {
   // Pre-compute image sources with base path
   const processedImages = useMemo(() => {
     return images.map((image) => ({
@@ -30,7 +31,7 @@ export function ProjectImageGrid({ images, onOpenImage }: ProjectImageGridProps)
   }
 
   return (
-    <div className={styles.grid}>
+    <div className={`${styles.grid} ${layout === "landscape" ? styles.landscape : ""}`.trim()}>
       {processedImages.map((image, index) => {
         // Only apply positional class for items 1–5 (defined in SCSS); others get base gridItem only
         const positionalClass = index < 5 ? styles[`item${index + 1}`] : "";
