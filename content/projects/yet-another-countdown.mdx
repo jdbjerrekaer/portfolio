@@ -67,9 +67,11 @@ Solo **Design Engineer** — owned product framing, UX, UI, React/Ionic implemen
 
 Yet Another Countdown became a polished local-first countdown app with recurring events, calendar import, dark mode, widgets, and Siri Shortcuts. It is the mobile craft case study: small scope, high finish, and full design-engineering ownership.
 
+The App Store presence gets the same treatment as the product: the screenshot set shown here was designed around the two real audiences — countdown moments and count-up streaks — with each screenshot pairing one benefit headline with a real capture of the app, composed through a scripted, repeatable pipeline rather than one-off mockups.
+
 ## Overview
 
-Yet Another Countdown is a lightweight, iOS-native app for tracking important dates: birthdays, anniversaries, holidays, launches. It supports both future events (countdown) and past events (count up / "days ago"), with recurring yearly events for anything that repeats. Built with native iOS 26 UI elements, dark mode support, and Siri Shortcuts, it feels right at home on modern iOS whether you're checking at a glance or creating an event hands-free.
+Yet Another Countdown is a lightweight, iOS-native app for tracking important dates — and it serves two audiences with one model: people counting down to the moments they can't wait for (a concert, a birthday, summer break) and people counting up the milestones they're proud of (days snus-free, days since a big change). It supports both future events (countdown) and past events (count up / "days ago"), with recurring yearly events for anything that repeats. Built with native iOS 26 UI elements, dark mode support, and Siri Shortcuts, it feels right at home on modern iOS whether you're checking at a glance or creating an event hands-free.
 
 ## Goals & constraints
 
@@ -86,7 +88,11 @@ Yet Another Countdown is a lightweight, iOS-native app for tracking important da
 
 ### Count down and count up in the same model
 
-Instead of forcing separate "modes", the app treats past dates as first-class events and shows a clear "days ago" state. This supports real user mental models (e.g. "how long since we shipped?") and keeps the add flow simple.
+Instead of forcing separate "modes", the app treats past dates as first-class events. The same model that counts down to a concert or a birthday also counts up a streak — days since quitting snus, days since a milestone. Two very different audiences (teens tracking the moments they can't wait for, adults tracking how far they've come) share one simple add flow, with no separate "habit tracker" bolted on.
+
+### Make every countdown feel personal
+
+Each event gets an emoji, a colour, and a shape. The edit sheet suggests emoji contextually from the title, a hue slider tints the icon container, and a long-press on the icon opens a shape popover — circle, hexagon, squircle, heart, or flower. Personalisation is what makes a countdown list feel like *yours*, and it had to be playful without becoming a settings page.
 
 ### Recurring yearly events without duplicated items
 
@@ -116,6 +122,7 @@ Important dates often come up mid-conversation. Siri Shortcuts make creation and
 - **Privacy + consent flows**: AdMob consent/ATT handling is surfaced transparently, with a settings-based reset path to keep user control clear.
 - **Calendar import**: native iOS calendar import (via a custom Capacitor plugin) and `.ics` import support. Deduplication normalizes titles across multiple languages and removes age suffixes ("48th Birthday") so yearly events map to a stable identity.
 - **Internationalization**: the UI ships with multiple locales so the product can launch beyond English from day one.
+- **Icon shape system**: the five container shapes are SVG masks with per-shape fill scaling so every shape reads at the same visual weight; the selection state uses a drop-shadow on a wrapper element (CSS filters composite before masks, so shadows on the masked element itself get clipped away). The same shapes are re-implemented as native paths in the WidgetKit views so widgets match the app pixel-for-pixel.
 
 ## What's next
 
