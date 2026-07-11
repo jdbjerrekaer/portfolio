@@ -1,0 +1,170 @@
+---
+title: "Hermes: Moving AI Operations Off the NAS"
+summary: "A staged migration from OpenClaw on a ZeroTier-connected NAS to Hermes on GX10, turning one assistant into a safer orchestration layer for media operations, research, coding, and browser work."
+date: "2026-06-20"
+role: "Product Design Engineer"
+outcome: "Separated AI orchestration from the NAS while expanding the system into reusable, reviewable workflows"
+tags:
+  - AI Operations
+  - Systems Design
+  - Automation
+  - Homelab
+coverImage: "/projects/hermes-migration/hermes-migration-cover.svg"
+featured: true
+galleryLayout: "landscape"
+sectionNav:
+  - title: "Recruiter takeaway"
+    id: "recruiter-takeaway"
+  - title: "The migration"
+    id: "the-migration"
+  - title: "Before and after"
+    id: "before-and-after"
+  - title: "What Hermes does now"
+    id: "what-hermes-does-now"
+  - title: "Key decisions"
+    id: "key-decisions"
+  - title: "Outcome"
+    id: "outcome"
+  - title: "Next step"
+    id: "next-step"
+gallery:
+  - src: "/projects/hermes-migration/hermes-migration-architecture.svg"
+    alt: "Before-and-after architecture showing OpenClaw on the NAS and Hermes on GX10 connected to the media stack through ZeroTier"
+  - src: "/projects/hermes-migration/hermes-migration-workflows.svg"
+    alt: "Hermes workflow map covering media operations, coding, research, browser automation, and planned Home Assistant control"
+---
+
+## Recruiter takeaway
+
+This is a migration story, not a tool-collection story.
+
+I moved the AI orchestration layer away from the machine that stores and serves my media. That gave me a cleaner boundary: the NAS can keep running the ARR stack, while Hermes on GX10 handles reasoning, memory, skills, research, coding tasks, and controlled remote actions over ZeroTier.
+
+What this proves:
+
+- I can separate a system by responsibility instead of letting one host become a fragile everything-box
+- I design automation around review, recovery, and explicit boundaries
+- I turn repeated work into named workflows that can be inspected and improved
+- I can migrate a live personal system in stages while preserving the useful parts of the old one
+
+## The migration
+
+OpenClaw was the first version of this system. It ran on VKSNAS, the same NAS that hosts my ARR/media stack. The assistant could work with the media services, but the runtime and the workload it managed lived too close together.
+
+The cutover to Hermes began on **20 June 2026**. That date is supported by the first Hermes session and the timestamped configuration backup made during the cutover. The migration was staged rather than treated as a single destructive switch:
+
+1. Preserve the OpenClaw memory and workflow footprint in an archive.
+2. Bring the Hermes runtime up on GX10 with a local gateway and profile-based configuration.
+3. Carry over useful user context, persona, memories, approvals, and skills instead of copying a whole runtime blindly.
+4. Reconnect the ARR workflows across the existing ZeroTier path to the NAS.
+5. Add the workflows that were difficult to maintain as one-off assistant behavior: reusable research, planning, browser, and media-import skills.
+6. Validate the new setup through real tasks and keep the old evidence available for recovery and comparison.
+
+The important design choice was not “replace OpenClaw with Hermes.” It was to preserve the operating knowledge while moving orchestration to a host better suited to experimentation and model/tool routing.
+
+## Before and after
+
+![Before and after architecture: OpenClaw on VKSNAS became Hermes on GX10, with the ARR stack remaining on the NAS.](/projects/hermes-migration/hermes-migration-architecture.svg)
+
+### Before: one host carried both roles
+
+OpenClaw ran on VKSNAS, alongside the services it helped manage. The connection to the NAS was available through ZeroTier, and the assistant had accumulated practical knowledge about Sonarr, Radarr, Prowlarr, Jellyseerr, qBittorrent, Jellyfin, Bazarr, FlareSolverr, and related media workflows.
+
+That setup was useful, but it mixed two very different jobs:
+
+- hosting storage-heavy, always-on media services
+- running an evolving AI runtime with models, browser tools, memory, and experimental workflows
+
+The archive shows the cost of that coupling: runtime maintenance, restart safeguards, network-path debugging, media imports, and memory structure all lived in the same operational surface.
+
+### After: orchestration and workload are separate
+
+Hermes now runs on GX10. The ARR stack remains on VKSNAS, and Hermes reaches it over the existing private ZeroTier connection. The boundary is simple and useful:
+
+- **GX10 / Hermes:** model and profile routing, memory, skills, DeepPlan, DeepResearch, Camofox/Chromium, coding assistance, and workflow orchestration
+- **VKSNAS:** storage, Docker services, media processing, and the ARR stack itself
+- **ZeroTier:** private network path between the orchestration host and the services it manages
+
+That separation makes failures easier to reason about. A model swap or browser-tool change on GX10 does not require treating the media host as an AI development box. A media-service issue can be diagnosed as a service or network problem instead of being conflated with the assistant runtime.
+
+## What Hermes does now
+
+![Hermes capability map showing media operations, coding, research, browser automation, and the planned Home Assistant extension.](/projects/hermes-migration/hermes-migration-workflows.svg)
+
+### Media operations across ZeroTier
+
+Hermes is the control layer I use for the ARR stack on VKSNAS. The workflows are deliberately narrower than “let the agent do anything”:
+
+- Sonarr and Radarr skills prepare and verify manual imports
+- Jellyseerr requests can be routed to the correct media service
+- Download triage separates likely movie and episode work before an import is attempted
+- Subtitle and library tasks use the service’s own state as the source of truth
+- Risky cleanup or ambiguous matching stays behind an explicit review step
+
+The OpenClaw archive provided the operational evidence that made this possible: real path mappings, known import failure modes, service-specific constraints, and recovery patterns. Hermes turns those lessons into reusable playbooks instead of rediscovering them in every chat.
+
+### Small coding tasks
+
+I also use Hermes for minor coding tasks, including work routed through a Claude Sonnet 4.0 coding setup when that model is the right fit. The value is not autonomous software delivery. It is a short loop around a real repository: inspect the local context, make a focused change, run the relevant check, and return a result that I can review.
+
+That workflow benefits from the same boundary as the media work. Hermes can coordinate the task and retain the project context without making the NAS itself the place where every experiment runs.
+
+### DeepPlan and DeepResearch
+
+Complex work gets named workflows instead of one giant prompt.
+
+- **DeepPlan** is the planning pass for larger changes. It scrubs the task, produces an implementation plan, and leaves an artifact that can be inspected before execution.
+- **DeepResearch** combines search, page reading, browser fallback, and synthesis when a question needs more than one answer from one page.
+- Profile-specific configuration lets coding and research work use different tool and search defaults without duplicating the whole runtime.
+
+This is a product decision as much as a technical one: a plan and a research report are outputs with a shape, not invisible reasoning that disappears when the chat ends.
+
+### Camofox and browser-based search
+
+Direct HTTP clients and paid search APIs are not always the best fit for a personal research workflow. Hermes has a local Camofox Chromium path for browser sessions that can handle sites where plain clients run into Cloudflare or Google verification friction.
+
+The same browser path powers Google search in my research workflow, reducing dependence on per-query search API fees. I treat it as browser compatibility and interactive research infrastructure, not as permission to defeat a site’s access controls.
+
+### Home Assistant: the next extension
+
+Home Assistant is not yet a live Hermes-managed workflow. Hermes already has a Home Assistant platform/toolset surface, but I have not connected it to my household controls as an operational capability.
+
+The next step is intentionally bounded: start with read-only state and a small allowlist of reversible actions, add confirmation for anything that changes the home, and keep the integration separate from the ARR workflows. The goal is a useful home-automation control layer, not an assistant with unrestricted access to everything.
+
+## Key decisions
+
+### Move the control plane, not the data plane
+
+The migration kept the ARR stack on the NAS. Moving storage and media services would have created a larger migration with more downtime and no clear benefit. Moving orchestration to GX10 solved the coupling problem at the smaller boundary.
+
+### Preserve knowledge, replace the runtime
+
+The OpenClaw archive was not thrown away. Its memory bridge contains the migration notes, media workflows, incident history, and project context that Hermes needed to inherit. Hermes’ migration tooling then provided a structured destination for compatible memories, persona, approvals, and skills.
+
+### Turn repeated behavior into skills
+
+Media imports, research, planning, browser fallback, and coding queues each have clearer triggers and validators now. That makes behavior easier to test, easier to explain, and safer to change than a growing pile of chat instructions.
+
+### Keep the network private and the actions reviewable
+
+ZeroTier provides the private path to VKSNAS. The assistant still has to respect service boundaries, confirm ambiguous matches, and use the target system’s own status before claiming success. The architecture is remote, but the feedback loop is visible.
+
+## Outcome
+
+The migration changed Hermes from a general assistant into an orchestration layer for a small personal operations system.
+
+The concrete outcome is architectural:
+
+- the AI runtime can evolve on GX10 without turning the NAS into a development workstation
+- the ARR stack remains where its storage and services already belong
+- OpenClaw’s useful operational knowledge survives as searchable, reusable evidence
+- media work, research, browser automation, and coding tasks have clearer workflow boundaries
+- Home Assistant has a safe path to become a future integration instead of an unbounded promise
+
+The deeper outcome is process. When something fails, I can ask which layer failed: model routing, browser access, skill logic, ZeroTier reachability, or the target service itself. That is a much better debugging model than treating “the assistant” as one opaque thing.
+
+## Next step
+
+The next milestone is a permission-bounded Home Assistant workflow. I will start with state inspection, define a small set of reversible actions, add confirmation and audit receipts, and only then consider broader automation.
+
+That follows the same rule that made the migration successful: move one boundary at a time, keep the old evidence available, and make the system more inspectable after every change.

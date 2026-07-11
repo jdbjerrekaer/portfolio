@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">OpenClaw to Hermes architecture</title>
+  <desc id="desc">A two-column comparison of the former OpenClaw setup on the NAS and the Hermes setup on GX10.</desc>
+  <rect width="1600" height="900" rx="36" fill="#f4f7fb"/>
+  <text x="100" y="105" fill="#15243a" font-family="Inter,Arial,sans-serif" font-size="45" font-weight="750">The migration changed the boundary</text>
+  <text x="100" y="150" fill="#597086" font-family="Inter,Arial,sans-serif" font-size="24">Same private path. Different responsibility model.</text>
+  <g transform="translate(100 220)">
+    <rect width="630" height="470" rx="28" fill="#fff" stroke="#d7e1eb" stroke-width="3"/>
+    <text x="40" y="64" fill="#60758b" font-family="Inter,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="2">BEFORE</text>
+    <text x="40" y="112" fill="#15243a" font-family="Inter,Arial,sans-serif" font-size="34" font-weight="750">OpenClaw on VKSNAS</text>
+    <rect x="40" y="160" width="550" height="92" rx="16" fill="#fff1dc"/>
+    <text x="72" y="215" fill="#925d1e" font-family="Inter,Arial,sans-serif" font-size="25" font-weight="700">AI runtime + media host</text>
+    <text x="40" y="315" fill="#314b64" font-family="Inter,Arial,sans-serif" font-size="24">• ARR stack and storage</text>
+    <text x="40" y="360" fill="#314b64" font-family="Inter,Arial,sans-serif" font-size="24">• OpenClaw orchestration</text>
+    <text x="40" y="405" fill="#314b64" font-family="Inter,Arial,sans-serif" font-size="24">• Shared maintenance surface</text>
+  </g>
+  <g transform="translate(870 220)">
+    <rect width="630" height="470" rx="28" fill="#fff" stroke="#c9e9df" stroke-width="3"/>
+    <text x="40" y="64" fill="#31806e" font-family="Inter,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="2">AFTER</text>
+    <text x="40" y="112" fill="#15243a" font-family="Inter,Arial,sans-serif" font-size="34" font-weight="750">Hermes on GX10</text>
+    <rect x="40" y="160" width="550" height="92" rx="16" fill="#e4f7f1"/>
+    <text x="72" y="215" fill="#16715e" font-family="Inter,Arial,sans-serif" font-size="25" font-weight="700">Control plane / data plane</text>
+    <text x="40" y="315" fill="#314b64" font-family="Inter,Arial,sans-serif" font-size="24">• Hermes: models, skills, memory</text>
+    <text x="40" y="360" fill="#314b64" font-family="Inter,Arial,sans-serif" font-size="24">• VKSNAS: ARR stack and storage</text>
+    <text x="40" y="405" fill="#314b64" font-family="Inter,Arial,sans-serif" font-size="24">• ZeroTier: private connection</text>
+  </g>
+  <path d="M730 460 H870" stroke="#55b99e" stroke-width="5" stroke-linecap="round"/>
+  <path d="M835 430 L870 460 L835 490" fill="none" stroke="#55b99e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="440" y="755" width="720" height="72" rx="36" fill="#15243a"/>
+  <text x="800" y="802" text-anchor="middle" fill="#e8f7f3" font-family="Inter,Arial,sans-serif" font-size="25" font-weight="700">ZeroTier keeps the path private</text>
+</svg>

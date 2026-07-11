@@ -99,6 +99,7 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
  */
 export const PROJECT_PRIORITY_ORDER = [
   "yadl",
+  "hermes-migration",
   "openclaw-ai-assistant",
   "yet-another-countdown",
   "leadplatform",
