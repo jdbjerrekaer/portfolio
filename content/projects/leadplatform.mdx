@@ -1,14 +1,16 @@
 ---
 title: "LeadPlatform"
-summary: "An all-in-one gamified lead generation product for brands to capture marketing leads via quizzes, contests, and calendars."
+summary: "Adtraction's lead-generation platform — an Angular app for spinning up branded quiz, prize-wheel, contest, scratcher and advent-calendar campaigns that turn form-filling into a game."
 date: "2021-06-01"
-role: "Lead UI/UX Designer"
+role: "Design Engineer"
 tags:
+  - Angular
+  - TypeScript
+  - Front-End
   - Lead Generation
   - Gamification
+  - Design Systems
   - B2B
-  - Product Design
-  - Affiliate Marketing
 links:
   Website: "https://www.adservice.com/en/leadplatform/"
 coverImage: "/projects/leadplatform/hero.png"
@@ -24,56 +26,65 @@ gallery:
 
 ## Overview
 
-LeadPlatform is an all-in-one lead generation product that combines the power of gamification with the technology and reach of the leading Nordic affiliate network. Instead of traditional lead capture forms, brands can engage potential customers through interactive experiences that entertain while collecting valuable marketing leads.
+LeadPlatform is Adtraction's lead-generation system — the product for campaigns where the conversion is a *lead* (someone submitting their name, phone or email) rather than an e-commerce sale. Instead of a plain newsletter form, brands run interactive, gamified microsites that entertain people while collecting qualified leads, distributed through the Nordic affiliate network. The system began at Adservice and is now a standalone Angular service that I design and build.
+
+## What I built
+
+This is a design-engineering project, not a design hand-off — I work across the Angular front-end and the tooling around it:
+
+- **Angular platform** — the campaign microsites are built in Angular 19 (TypeScript, pnpm), with a shared component and theming layer so every new campaign inherits a consistent, on-brand system.
+- **Shared form & UI component library** — a reusable set of form primitives (inputs, selects, checkboxes, date and birthdate pickers, buttons) with a live preview page, so every campaign's forms behave and look the same without being rebuilt each time.
+- **`create-leadplatform` scaffolding CLI** — a generator that spins up a new branded campaign (quiz, wheel, contest, scratcher) from a template, themes it to the client's brand, wires up routing and state, and configures the campaign settings in a single command.
+- **Automated banner pipeline** — a Satori → resvg → sharp toolchain that renders ad banners, prize tiles and social/OG share images to WebP from templates, so campaign creatives don't have to be cut by hand.
+- **Hub previews** — auto-captured screenshot tiles for the platform hub, kept in sync as new campaigns are added.
+
+## The lead flow
+
+Behind the interactive front-end is a real lead pipeline:
+
+- a user completes a quiz, wheel or contest on an affiliate's landing page and submits their details;
+- the submission is validated and de-duplicated — required fields present, no repeat entries, the affiliate authorised for the campaign;
+- qualified leads are forwarded to each advertiser's own integration;
+- the lead receives a GDPR consent and confirmation email, with a self-service flow to withdraw consent at any time.
+
+The service is containerised and deployed to AWS behind a CDN and WAF.
+
+## Campaign formats
+
+LeadPlatform ships several gamified formats, each a value exchange that makes people *want* to share their details:
+
+### Quiz
+
+Interactive questionnaires that capture curiosity along with contact details, instead of asking people to fill in a static form.
+
+### Prize Wheel
+
+Spin-to-win mechanics with a clear, immediate reward for entering.
+
+### Contest
+
+Raffle signups where the prize justifies sharing information — a clean value exchange that motivates people to opt in.
+
+### Scratcher
+
+Instant-win scratch cards for fast, low-friction entry.
+
+### Advent Calendar
+
+Seasonal day-by-day calendars that bring people back to open a new door — and a new chance to enter — across a whole campaign period.
 
 ## Impact
 
-The gamification approach delivers measurable results:
+The gamified approach delivers measurable results:
 
-- **207,992 clicks** in a 20-day period — a **384.92% increase** compared to the preceding period (from 42,892 clicks)
-- **7,553 conversions** captured — a **43.51% increase** compared to the preceding period (from 5,263 conversions)
-- **+31% Average Conversion Rate** for quiz-based lead capture
-- **Full-service solution** — design, traffic driving, and integration support included
-- **Access to publisher network** — leverage the Nordic affiliate network for distribution
-- **No yearly licensing** — flexible pay-per-site model
+- **60+ live branded campaigns** shipped across the Nordic market — for brands including UNICEF, Telia, DNA, Talkmore, Fortum and Plan BørneFonden — from a single templated platform
+- **207,992 clicks** in a 20-day period — a **384.92% increase** versus the preceding period (from 42,892 clicks)
+- **7,553 conversions** captured — a **43.51% increase** versus the preceding period (from 5,263 conversions)
+- **+31% average conversion rate** for quiz-based lead capture
+- **Full-service** — design, traffic driving and integration handled by one partner
+- **Distribution** through the Nordic affiliate network
+- **Pay-per-site pricing**, with no yearly licensing
 
-## The Problem
+## Why it works
 
-Traditional lead generation methods often suffer from low engagement and poor conversion rates. Standard newsletter signups and contact forms feel transactional and fail to capture user attention. Brands needed a way to stand out in a crowded digital landscape while still collecting qualified leads effectively.
-
-## The Solution
-
-LeadPlatform offers four distinct gamified experiences designed to capture marketing leads through entertainment:
-
-### The Quiz
-
-Capture potential customers' curiosity using interactive quizzes. Instead of asking customers to simply fill out a form, brands can entertain them with a quiz while receiving their contact details.
-
-### Contest Signup
-
-Entice potential customers to participate in a raffle by giving their information in exchange for a chance to win. This creates a clear value exchange that motivates users to share their contact details willingly.
-
-### The Memory Game
-
-Build product recognition while obtaining marketing leads. Users engage with brand imagery in a fun, interactive format that increases recall and engagement compared to passive advertising.
-
-### Christmas Calendar
-
-Expose brands through seasonal Christmas calendar campaigns. This format creates daily touchpoints with potential customers over an extended period, building brand familiarity and collecting leads progressively.
-
-## Technical Implementation
-
-LeadPlatform integrates seamlessly with the Adservice ecosystem:
-
-- **Platform integration** — Access to the Adservice Platform is included for monitoring performance and integrating with other digital marketing platforms
-- **Demo sites** — Live examples available for prospects to explore before committing
-- **Multi-language support** — Available across Nordic markets (Danish, Swedish, Norwegian, Finnish)
-
-## Key Features
-
-- **Full-service approach** — One partner handles site creation, traffic driving, and integration
-- **Gamified experiences** — Four distinct engagement formats (Quiz, Contest, Memory Game, Christmas Calendar)
-- **Performance tracking** — Built-in analytics to monitor campaign effectiveness
-- **Flexible pricing** — Pay per site rather than yearly licensing fees
-
-LeadPlatform demonstrates how gamification can transform lead generation from a passive form-filling exercise into an engaging brand experience that users actually want to participate in.
+LeadPlatform turns lead generation from a passive form-filling exercise into something people actually want to play. Just as important, the engineering around it — a scaffolding CLI, a templated component system, and an automated creative pipeline — means a new branded campaign can go from brief to live in a fraction of the usual time, without sacrificing brand consistency or quality.
