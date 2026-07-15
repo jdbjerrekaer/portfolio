@@ -5,6 +5,7 @@ import { LogoGrid } from "@/components/LogoGrid";
 import { designCarouselItems } from "@/lib/content/designCarouselItems";
 import { clientLogos } from "@/lib/content/clientLogos";
 import { ProjectCard } from "@/components/ProjectCard";
+import { Badge, Section } from "@/components/ui";
 import styles from "./page.module.scss";
 
 export const metadata: Metadata = {
@@ -17,55 +18,46 @@ export default async function ProjectsPage() {
 
   return (
     <div className={styles.page}>
-      <section className={styles.hero}>
-        <div className={styles.sectionInner}>
+      <Section variant="hero" className={styles.hero} innerClassName={styles.sectionInner}>
           <h1>Projects</h1>
           <p className={styles.intro}>
             A collection of projects where design meets engineering. Each project
             represents a unique challenge and solution.
           </p>
-        </div>
-      </section>
+      </Section>
 
       <section className={styles.carousel}>
         <DesignCarousel items={designCarouselItems} />
       </section>
 
       {projects.length > 0 ? (
-        <section className={styles.contentSection}>
-          <div className={styles.sectionInner}>
+        <Section className={styles.contentSection} innerClassName={styles.sectionInner}>
             <div className={styles.projects} aria-labelledby="projects-list-label">
-              <p id="projects-list-label" className={styles.sectionLabel}>
-                Case studies & explorations
-              </p>
+              <Badge id="projects-list-label" tone="muted" className={styles.sectionLabel} label="Case studies & explorations" />
               <div className={styles.grid}>
                 {projects.map((project) => (
                   <ProjectCard
                     key={project.slug}
                     slug={project.slug}
                     title={project.title}
-                    summary={project.summary}
                     role={project.role}
                     outcome={project.outcome}
                     tags={project.tags}
                     coverImage={project.coverImage}
                     hasCaseStudy={hasCaseStudy(project)}
                     comingSoon={project.comingSoon}
-                    showSummary={false}
+                    variant="catalog"
                   />
                 ))}
               </div>
             </div>
-          </div>
-        </section>
+        </Section>
       ) : (
-        <section className={styles.contentSection}>
-          <div className={styles.sectionInner}>
+        <Section className={styles.contentSection} innerClassName={styles.sectionInner}>
             <div className={styles.empty}>
               <p>No projects yet. Check back soon!</p>
             </div>
-          </div>
-        </section>
+        </Section>
       )}
 
       <section className={styles.logos}>

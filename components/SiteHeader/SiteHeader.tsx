@@ -3,13 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { SFSymbol } from "@/components/ui/SFSymbol";
+import { AnimateIcon } from "@/components/animate-ui/icons/icon";
+import { Icon, type IconName } from "@/components/ui/Icon";
 import styles from "./SiteHeader.module.scss";
 
-const navLinks = [
-  { href: "/about", label: "About", icon: "person" },
+const navLinks: Array<{ href: string; label: string; icon: IconName }> = [
   { href: "/projects", label: "Projects", icon: "folder" },
-  { href: "https://github.com/jdbjerrekaer", label: "GitHub" },
+  { href: "/about", label: "About", icon: "user" },
+  { href: "https://github.com/jdbjerrekaer", label: "GitHub", icon: "arrow-up-right" },
 ];
 
 const SCROLL_THRESHOLD_DESKTOP = 500; // pixels to scroll before background appears on desktop
@@ -73,34 +74,28 @@ export function SiteHeader() {
             return (
             <li key={link.href}>
               {isExternal ? (
-                <a
-                  href={link.href}
-                  className={styles.navLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {link.label}
-                  {link.icon && (
-                    <span className={styles.navIcon}>
-                      <SFSymbol name={link.icon} size={16} weight="medium" filled={false} className={styles.iconOutline} />
-                      <SFSymbol name={link.icon} size={16} weight="medium" filled={true} className={styles.iconFilled} />
-                    </span>
-                  )}
-                </a>
+                <AnimateIcon animateOnHover asChild>
+                  <a
+                    href={link.href}
+                    className={styles.navLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {link.label}
+                    <Icon name={link.icon} size={16} className={styles.navIcon} />
+                  </a>
+                </AnimateIcon>
               ) : (
-                <Link
-                  href={link.href}
-                  className={`${styles.navLink} ${isActive(link.href) ? styles.active : ""}`}
-                  aria-current={isActive(link.href) ? "page" : undefined}
-                >
-                  {link.label}
-                  {link.icon && (
-                    <span className={styles.navIcon}>
-                      <SFSymbol name={link.icon} size={16} weight="medium" filled={false} className={styles.iconOutline} />
-                      <SFSymbol name={link.icon} size={16} weight="medium" filled={true} className={styles.iconFilled} />
-                    </span>
-                  )}
-                </Link>
+                <AnimateIcon animateOnHover asChild>
+                  <Link
+                    href={link.href}
+                    className={`${styles.navLink} ${isActive(link.href) ? styles.active : ""}`}
+                    aria-current={isActive(link.href) ? "page" : undefined}
+                  >
+                    {link.label}
+                    <Icon name={link.icon} size={16} className={styles.navIcon} />
+                  </Link>
+                </AnimateIcon>
               )}
             </li>
           )})}

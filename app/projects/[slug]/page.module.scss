@@ -18,6 +18,9 @@
 }
 
 .breadcrumbLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   color: var(--color-text-secondary);
   text-decoration: none;
 }
@@ -135,7 +138,7 @@
 
 .quickFactLabel {
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--color-text-tertiary);
@@ -164,6 +167,7 @@
   text-decoration: none;
   font-size: 0.875rem;
   font-weight: 500;
+  min-height: 44px;
 }
 
 .tags {

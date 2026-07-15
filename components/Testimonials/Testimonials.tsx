@@ -1,4 +1,4 @@
-import React from "react";
+import { Card, Section, SectionHeader } from "@/components/ui";
 import styles from "./Testimonials.module.scss";
 
 export interface Testimonial {
@@ -41,15 +41,16 @@ const placeholderTestimonials: Testimonial[] = [
 
 export function Testimonials({ testimonials = placeholderTestimonials }: { testimonials?: Testimonial[] }) {
   return (
-    <section className={styles.testimonials}>
-      <div className={styles.sectionHeader}>
-        <h2>What People Say</h2>
-        <p className={styles.subtitle}>Feedback from developers, designers, and collaborators.</p>
-      </div>
+    <Section variant="subtle" className={styles.testimonials}>
+      <SectionHeader
+        title="What People Say"
+        description="Feedback from developers, designers, and collaborators."
+        variant="centered"
+      />
 
       <div className={styles.grid}>
         {testimonials.map((testimonial) => (
-          <div key={`${testimonial.author}-${testimonial.company}`} className={styles.card}>
+          <Card key={`${testimonial.author}-${testimonial.company}`} variant="surface" className={styles.card}>
             <span className={styles.quoteIcon} aria-hidden="true">“</span>
             <p className={styles.quoteText}>{testimonial.quote}</p>
             <div className={styles.authorInfo}>
@@ -58,9 +59,9 @@ export function Testimonials({ testimonials = placeholderTestimonials }: { testi
                 {testimonial.role} <span className={styles.separator}>•</span> {testimonial.company}
               </p>
             </div>
-          </div>
+          </Card>
         ))}
       </div>
-    </section>
+    </Section>
   );
 }

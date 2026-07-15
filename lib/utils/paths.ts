@@ -6,5 +6,15 @@
  */
 export function withBasePath(path: string): string {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || process.env.BASE_PATH || "";
-  return `${basePath}${path}`;
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return `${basePath}${normalizedPath}`;
+}
+
+export function resolveAssetSrc(src: string): string {
+  if (/^(?:blob:|data:|https?:|\/\/)/.test(src)) return src;
+
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || process.env.BASE_PATH || "";
+  if (basePath && (src === basePath || src.startsWith(`${basePath}/`))) return src;
+
+  return withBasePath(src);
 }

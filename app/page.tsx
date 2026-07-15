@@ -1,6 +1,4 @@
-import Link from "next/link";
-import { Button } from "@/components/ui";
-import { SFSymbol } from "@/components/ui/SFSymbol";
+import { ActionLink, Button, Section, SectionHeader } from "@/components/ui";
 import { ProjectCard } from "@/components/ProjectCard";
 import { DesignCarousel } from "@/components/DesignCarousel";
 import { LogoGrid } from "@/components/LogoGrid";
@@ -31,9 +29,7 @@ export default async function HomePage() {
 
   return (
     <div className={styles.page}>
-      {/* Hero Section */}
-      <section className={styles.hero}>
-        <div className={styles.heroContent}>
+      <Section variant="hero" className={styles.hero} innerClassName={styles.heroContent}>
           <h1 className={styles.heroTitle}>
             I design interfaces that developers actually want to build.
           </h1>
@@ -41,57 +37,51 @@ export default async function HomePage() {
             10+ years of full-contact discipline applied to product design, bridging the gap between Figma and the codebase.
           </p>
           <div className={styles.heroCta}>
-            <Link href="/projects/">
-              <Button variant="premium" size="lg" icon="folder" iconPosition="right">
-                View Projects
-              </Button>
-            </Link>
-            <Link href="/about/">
-              <Button variant="secondary" size="lg" icon="person" iconPosition="right">
-                About Me
-              </Button>
-            </Link>
-            <a href="https://github.com/jdbjerrekaer" target="_blank" rel="noopener noreferrer">
-              <Button variant="secondary" size="lg" hoverIcon="arrow.up.right">
-                GitHub
-              </Button>
-            </a>
+            <Button href="/projects/" variant="primary" size="lg" icon="folder" iconPosition="right">
+              View Projects
+            </Button>
+            <Button href="/about/" variant="secondary" size="lg" icon="user" iconPosition="right">
+              About Me
+            </Button>
+            <Button
+              href="https://github.com/jdbjerrekaer"
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="secondary"
+              size="lg"
+              icon="arrow-up-right"
+            >
+              GitHub
+            </Button>
           </div>
-        </div>
-      </section>
+      </Section>
 
       {/* Featured Projects Section */}
       {featuredProjects.length > 0 && (
-        <section className={styles.featured}>
-          <div className={styles.sectionHeader}>
-            <div>
-              <h2>Featured Projects</h2>
-              <p className={styles.sectionIntro}>Selected work showing how I connect UX, design systems, implementation, and product quality.</p>
-            </div>
-            <Link href="/projects/" className={styles.viewAll}>
-              View all projects <SFSymbol name="folder" size={18} weight="medium" className={styles.folderIcon} />
-            </Link>
-          </div>
+        <Section variant="subtle" className={styles.featured}>
+          <SectionHeader
+            title="Featured Projects"
+            description="Selected work showing how I connect UX, design systems, implementation, and product quality."
+            variant="split"
+            action={<ActionLink href="/projects/" icon="folder">View all projects</ActionLink>}
+          />
           <div className={styles.projectGrid}>
             {featuredProjectsWithCaseStudy.map((project) => (
               <ProjectCard
                 key={project.slug}
                 slug={project.slug}
                 title={project.title}
-                summary={project.summary}
                 role={project.role}
                 outcome={project.outcome}
                 tags={project.tags}
                 coverImage={project.coverImage}
                 hasCaseStudy={project.hasCaseStudy}
                 comingSoon={project.comingSoon}
-                showStatusBadge={false}
-                showSummary={false}
-                compactOnMobile
+                variant="featured"
               />
             ))}
           </div>
-        </section>
+        </Section>
       )}
 
       {/* Design Carousel Section */}

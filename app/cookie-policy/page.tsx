@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Card, Section } from "@/components/ui";
 import styles from "./page.module.scss";
 
 export const metadata: Metadata = {
@@ -9,17 +10,17 @@ export const metadata: Metadata = {
 
 export default function CookiePolicyPage() {
   return (
-    <div className={styles.page}>
-      <section className={styles.hero}>
+    <div>
+      <Section variant="hero" width="content" className={styles.hero}>
         <h1>Cookie Policy</h1>
         <p className={styles.intro}>
           This Cookie Policy explains how we use cookies and similar tracking
           technologies on our website. By using our website, you consent to the
           use of cookies as described in this policy.
         </p>
-      </section>
+      </Section>
 
-      <section className={styles.content}>
+      <Section width="content" className={styles.content}>
         <div className={styles.section}>
           <h2>What Are Cookies?</h2>
           <p>
@@ -38,7 +39,7 @@ export default function CookiePolicyPage() {
           </p>
 
           <div className={styles.cookieTypes}>
-            <div className={styles.cookieType}>
+            <Card variant="subtle" className={styles.cookieType}>
               <h3>Necessary Cookies</h3>
               <p>
                 These cookies are essential for the website to function properly.
@@ -51,9 +52,9 @@ export default function CookiePolicyPage() {
                 <li>Security features</li>
                 <li>Cookie consent preferences</li>
               </ul>
-            </div>
+            </Card>
 
-            <div className={styles.cookieType}>
+            <Card variant="subtle" className={styles.cookieType}>
               <h3>Analytics Cookies</h3>
               <p>
                 These cookies help us understand how visitors interact with our
@@ -66,7 +67,7 @@ export default function CookiePolicyPage() {
                 <li>Time spent on pages</li>
                 <li>Traffic sources</li>
               </ul>
-            </div>
+            </Card>
           </div>
         </div>
 
@@ -125,7 +126,7 @@ export default function CookiePolicyPage() {
         <div className={styles.section}>
           <p className={styles.lastUpdated}>Last updated: December 14, 2025</p>
         </div>
-      </section>
+      </Section>
     </div>
   );
 }

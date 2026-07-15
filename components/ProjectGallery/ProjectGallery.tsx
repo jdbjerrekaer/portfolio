@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo, useState } from "react";
 import { ImageModal } from "@/components/ui";
-import { withBasePath } from "@/lib/utils/paths";
+import { resolveAssetSrc } from "@/lib/utils/paths";
 import { ProjectCoverImage } from "@/components/ProjectCoverImage";
 import { ProjectImageGrid } from "@/components/ProjectImageGrid";
 
@@ -21,9 +21,6 @@ interface ProjectGalleryProps {
   layout?: "mosaic" | "landscape";
 }
 
-const prefix = (src: string) =>
-  src.startsWith("data:") || src.startsWith("http") ? src : withBasePath(src);
-
 /**
  * Owns a single lightbox for the whole case study so arrow keys / swipe
  * navigate across the cover image and all gallery images as one set.
@@ -36,7 +33,7 @@ export function ProjectGallery({ cover, images = [], layout = "mosaic" }: Projec
     const combined: GalleryImage[] = [];
     if (cover) combined.push({ src: cover.src, alt: cover.alt });
     combined.push(...images);
-    return combined.map((image) => ({ src: prefix(image.src), alt: image.alt }));
+    return combined.map((image) => ({ src: resolveAssetSrc(image.src), alt: image.alt }));
   }, [cover, images]);
 
   const coverOffset = cover ? 1 : 0;

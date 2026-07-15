@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui/Button";
-import { AnchoredPopover } from "@/components/ui";
+import { AnchoredPopover, Badge, Button, Section } from "@/components/ui";
 import styles from "./AvailabilityCTA.module.scss";
 
 export function AvailabilityCTA() {
@@ -45,12 +44,8 @@ export function AvailabilityCTA() {
   };
 
   return (
-    <section className={styles.availability}>
-      <div className={styles.content}>
-        <div className={styles.status}>
-          <span className={styles.dot}></span>
-          Available for Product Design Engineer roles
-        </div>
+    <Section className={styles.availability} innerClassName={styles.content}>
+        <Badge tone="success" dot label="Available for Product Design Engineer roles" />
         <h2 className={styles.title}>Looking for a Product Design Engineer?</h2>
         <p className={styles.description}>
           I bridge product strategy, UX, design systems, and engineering feasibility so teams can move from messy problems to shipped product quality.
@@ -59,44 +54,37 @@ export function AvailabilityCTA() {
         <div className={styles.actions}>
           <Button
             ref={copyButtonRef}
-            variant="premium"
+            variant="primary"
             size="lg"
             onClick={handleCopyEmail}
-            hoverIcon="document.on.document"
-            hoverIconFilled={false}
-            successIcon="checkmark.circle"
-            successIconFilled={false}
+            icon="copy"
+            successIcon="check-circle"
             isSuccess={isCopied}
           >
             Copy email
           </Button>
-          <a href={`mailto:${emailAddress}`}>
-            <Button
-              variant="secondary"
-              size="lg"
-              hoverIcon="arrow.up.right"
-            >
-              Email me
-            </Button>
-          </a>
-          <a
+          <Button
+            href={`mailto:${emailAddress}`}
+            variant="secondary"
+            size="lg"
+            icon="arrow-up-right"
+          >
+            Email me
+          </Button>
+          <Button
             href="https://www.linkedin.com/in/jonatandbjerrek%C3%A6r"
             target="_blank"
             rel="noopener noreferrer"
+            variant="secondary"
+            size="lg"
+            icon="arrow-up-right"
           >
-            <Button
-              variant="secondary"
-              size="lg"
-              hoverIcon="arrow.up.right"
-            >
-              LinkedIn
-            </Button>
-          </a>
+            LinkedIn
+          </Button>
         </div>
         <AnchoredPopover anchorRef={copyButtonRef} isOpen={isCopied || copyFailed}>
           {isCopied ? "Email copied" : "Opening your email app"}
         </AnchoredPopover>
-      </div>
-    </section>
+    </Section>
   );
 }

@@ -7,6 +7,11 @@
 
 .link {
   cursor: pointer;
+  color: inherit;
+
+  &:hover {
+    color: inherit;
+  }
 }
 
 .linkWrapper {
@@ -15,16 +20,7 @@
 
 .card {
   height: 100%;
-  overflow: hidden;
   padding: 0 !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  
-  // Remove default card padding
-  :global(.heroui-card) {
-    padding: 0 !important;
-  }
 }
 
 .imageWrapper {
@@ -33,7 +29,7 @@
   aspect-ratio: 16 / 10;
   background: var(--color-background-secondary);
   overflow: hidden;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
 .image {
@@ -41,7 +37,7 @@
   transition: 
     transform var(--transition-slow),
     filter var(--transition-fast);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   transform: scale(1);
   transform-origin: center;
   will-change: transform, filter;
@@ -70,7 +66,7 @@
 
 // Content section below the image
 .content {
-  padding: var(--space-md);
+  padding: var(--space-md) var(--space-md) var(--space-lg);
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
@@ -109,13 +105,6 @@
   line-height: 1.4;
 }
 
-.summary {
-  margin: 0;
-  color: var(--color-text-secondary);
-  line-height: 1.5;
-  font-size: 0.95rem;
-}
-
 .tags {
   display: flex;
   flex-wrap: wrap;
@@ -132,6 +121,9 @@
 }
 
 .cardState {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
   margin: 0;
   font-size: 0.875rem;
   font-weight: 600;
@@ -143,28 +135,12 @@
   top: var(--space-sm);
   left: var(--space-sm);
   z-index: 1;
-  display: inline-flex;
-  align-items: center;
-  padding: 0.35rem 0.65rem;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 600;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
 
-.statusBadgeActive {
-  background: rgba(255, 255, 255, 0.88);
-  color: #1d1d1f;
-}
-
-.statusBadgeMuted {
-  background: rgba(29, 29, 31, 0.7);
-  color: #f5f5f7;
-}
-
 @media (max-width: 767px) {
-  .compactOnMobile {
+  .featured {
     .content {
       gap: 0.45rem;
       padding: var(--space-sm) var(--space-md) var(--space-md);
@@ -175,8 +151,7 @@
     }
 
     .title,
-    .proofLine,
-    .summary {
+    .proofLine {
       display: -webkit-box;
       -webkit-box-orient: vertical;
       overflow: hidden;
@@ -190,12 +165,6 @@
       max-width: 42%;
       overflow: hidden;
       text-overflow: ellipsis;
-    }
-
-    .summary {
-      -webkit-line-clamp: 2;
-      line-height: 1.4;
-      font-size: 0.9rem;
     }
 
     .proofLine {

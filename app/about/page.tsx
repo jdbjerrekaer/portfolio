@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { AvailabilityCTA } from "@/components/AvailabilityCTA";
 import { Testimonials } from "@/components/Testimonials";
+import { Section, SectionHeader } from "@/components/ui";
 import { ApproachList } from "./ApproachList";
 import { BackgroundCards } from "./BackgroundCards";
 import { RolesCards } from "./RolesCards";
 import { SkillsCards } from "./SkillsCards";
-import { withBasePath } from "@/lib/utils/paths";
+import { resolveAssetSrc } from "@/lib/utils/paths";
 import styles from "./page.module.scss";
 
 export const metadata: Metadata = {
@@ -18,12 +19,11 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div className={styles.page}>
-      <section className={styles.hero}>
-        <div className={styles.sectionInner}>
+      <Section variant="hero" className={styles.hero} innerClassName={styles.sectionInner}>
           <div className={styles.heroContent}>
             <div className={styles.heroImage}>
               <Image
-                src={withBasePath("/images/about-profile.jpg")}
+                src={resolveAssetSrc("/images/about-profile.jpg")}
                 alt="Jonatan Bjerrekær"
                 width={400}
                 height={400}
@@ -40,44 +40,35 @@ export default function AboutPage() {
               </p>
             </div>
           </div>
-        </div>
-      </section>
+      </Section>
 
-      <section className={styles.contentSection}>
-        <div className={styles.sectionInner}>
-          <div className={styles.section}>
-            <h2>Background</h2>
+      <Section className={styles.contentSection} innerClassName={styles.sectionInner}>
+          <div>
+            <SectionHeader title="Background" />
             <BackgroundCards />
           </div>
-        </div>
-      </section>
+      </Section>
 
-      <section className={styles.contentSection}>
-        <div className={styles.sectionInner}>
-          <div className={styles.section}>
-            <h2>Approach</h2>
+      <Section variant="subtle" className={styles.contentSection} innerClassName={styles.sectionInner}>
+          <div>
+            <SectionHeader title="Approach" />
             <ApproachList />
           </div>
-        </div>
-      </section>
+      </Section>
 
-      <section className={styles.contentSection}>
-        <div className={styles.sectionInner}>
-          <div className={styles.section}>
-            <h2>Skills</h2>
+      <Section className={styles.contentSection} innerClassName={styles.sectionInner}>
+          <div>
+            <SectionHeader title="Skills" />
             <SkillsCards />
           </div>
-        </div>
-      </section>
+      </Section>
 
-      <section className={styles.contentSection}>
-        <div className={styles.sectionInner}>
-          <div className={styles.section}>
-            <h2>Recent roles</h2>
+      <Section variant="subtle" className={styles.contentSection} innerClassName={styles.sectionInner}>
+          <div>
+            <SectionHeader title="Recent roles" />
             <RolesCards />
           </div>
-        </div>
-      </section>
+      </Section>
 
       <Testimonials />
       <AvailabilityCTA />

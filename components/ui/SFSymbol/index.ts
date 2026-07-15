@@ -1,1 +1,0 @@
-export { SFSymbol } from "./SFSymbol";

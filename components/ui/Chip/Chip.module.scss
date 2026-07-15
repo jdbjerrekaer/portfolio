@@ -1,0 +1,25 @@
+.chip {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 28px;
+  padding: 0.3rem 0.65rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-full);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.default {
+  color: var(--color-text-secondary);
+  background: rgba(29, 29, 31, 0.065);
+}
+
+.accent {
+  color: var(--color-accent);
+  background: var(--color-accent-light);
+}

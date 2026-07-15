@@ -1,24 +1,6 @@
 .testimonials {
-  padding: var(--space-4xl) clamp(var(--space-lg), 4vw, var(--space-xl));
-  background: var(--color-background-secondary);
-}
-
-.sectionHeader {
-  max-width: var(--max-width);
-  margin: 0 auto var(--space-2xl);
-  text-align: center;
-
-  h2 {
-    margin: 0 0 var(--space-sm);
-  }
-
-  .subtitle {
-    color: var(--color-text-secondary);
-    font-size: 1.125rem;
-    line-height: 1.5;
-    margin: 0 auto;
-    max-width: 40rem;
-  }
+  padding-top: var(--space-4xl);
+  padding-bottom: var(--space-4xl);
 }
 
 .grid {
@@ -33,14 +15,7 @@
   display: flex;
   flex-direction: column;
   padding: var(--space-2xl);
-  background: var(--color-background);
-  border: 1px solid rgba(29, 29, 31, 0.06);
-  border-radius: var(--radius-lg);
   position: relative;
-  transition:
-    transform var(--transition-fast),
-    box-shadow var(--transition-fast),
-    border-color var(--transition-fast);
 }
 
 .quoteIcon {
@@ -52,7 +27,7 @@
 .quoteText {
   font-size: 1.125rem;
   line-height: 1.6;
-  color: var(--color-text);
+  color: var(--color-text-primary);
   margin: 0 0 var(--space-xl);
   flex-grow: 1;
   font-style: italic;
@@ -66,7 +41,7 @@
   font-weight: 600;
   font-size: 1rem;
   margin: 0 0 var(--space-xs);
-  color: var(--color-text);
+  color: var(--color-text-primary);
   user-select: none;
   -webkit-user-select: none;
 }
@@ -82,12 +57,4 @@
 .separator {
   margin: 0 4px;
   color: var(--color-border);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .card:hover {
-    transform: translateY(-2px);
-    border-color: rgba(29, 29, 31, 0.1);
-    box-shadow: var(--shadow-md);
-  }
 }

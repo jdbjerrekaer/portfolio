@@ -4,9 +4,8 @@ import Link from "next/link";
 import { getProjectBySlug, getProjectSlugs } from "@/lib/content/projects";
 import { MdxContent } from "@/components/MdxContent";
 import { ProjectGallery } from "@/components/ProjectGallery";
-import { Chip } from "@/components/ui";
-import { SFSymbol } from "@/components/ui/SFSymbol";
-import { withBasePath } from "@/lib/utils/paths";
+import { ActionLink, Chip } from "@/components/ui";
+import { resolveAssetSrc } from "@/lib/utils/paths";
 import styles from "./page.module.scss";
 
 interface ProjectPageProps {
@@ -83,10 +82,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           <span className={styles.breadcrumbCurrent}>{project.title}</span>
         </nav>
 
-        <Link href="/projects/" className={styles.backLink}>
-          <SFSymbol name="arrow.left" size={16} weight="medium" className={styles.backIcon} />
-          <span>Back to Projects</span>
-        </Link>
+        <ActionLink href="/projects/" variant="back" className={styles.backLink}>Back to Projects</ActionLink>
 
         <div className={styles.meta}>
           <span className={styles.role}>{project.role}</span>
@@ -99,16 +95,14 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         {project.links && Object.keys(project.links).length > 0 && (
           <div className={styles.links}>
             {Object.entries(project.links).map(([label, url]) => (
-              <a
+              <ActionLink
                 key={label}
                 href={url}
-                target="_blank"
-                rel="noopener noreferrer"
+                variant="external"
                 className={styles.link}
               >
                 {label}
-                <SFSymbol name="arrow.up.right" size={14} weight="medium" className={styles.externalIcon} />
-              </a>
+              </ActionLink>
             ))}
           </div>
         )}
@@ -117,8 +111,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       {project.demoVideo && (
         <figure className={styles.demo}>
           <video
-            src={withBasePath(project.demoVideo.src)}
-            poster={project.demoVideo.poster ? withBasePath(project.demoVideo.poster) : undefined}
+            src={resolveAssetSrc(project.demoVideo.src)}
+            poster={project.demoVideo.poster ? resolveAssetSrc(project.demoVideo.poster) : undefined}
             className={styles.demoVideo}
             controls
             playsInline

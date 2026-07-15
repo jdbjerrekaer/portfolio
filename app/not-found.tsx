@@ -1,5 +1,6 @@
 import { NotFoundContent } from "@/components/NotFoundContent";
 import { Metadata } from "next";
+import { Section } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "404 - Page Not Found",
@@ -8,8 +9,8 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <div className="container mx-auto">
+    <Section width="content">
       <NotFoundContent />
-    </div>
+    </Section>
   );
 }

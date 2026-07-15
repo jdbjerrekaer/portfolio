@@ -1,0 +1,44 @@
+.card {
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  transition:
+    transform var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.surface,
+.interactive {
+  background: var(--color-background);
+  border: 1px solid transparent;
+}
+
+.subtle {
+  background: var(--color-background-secondary);
+  border: 1px solid transparent;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .interactive:hover {
+    transform: scale(1.01);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+.interactive:active {
+  transform: scale(0.98);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .interactive:hover {
+    transform: none;
+  }
+
+  .interactive:active {
+    transform: none;
+  }
+}

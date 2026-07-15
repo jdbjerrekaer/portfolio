@@ -2,7 +2,8 @@
 
 import { useMemo } from "react";
 import Image from "next/image";
-import { withBasePath } from "@/lib/utils/paths";
+import { Icon } from "@/components/ui/Icon";
+import { resolveAssetSrc } from "@/lib/utils/paths";
 import styles from "./ProjectImageGrid.module.scss";
 
 interface ProjectImageGridProps {
@@ -19,9 +20,7 @@ export function ProjectImageGrid({ images, layout = "mosaic", onOpenImage }: Pro
   // Pre-compute image sources with base path
   const processedImages = useMemo(() => {
     return images.map((image) => ({
-      src: image.src.startsWith("data:") || image.src.startsWith("http")
-        ? image.src
-        : withBasePath(image.src),
+      src: resolveAssetSrc(image.src),
       alt: image.alt,
     }));
   }, [images]);
@@ -53,21 +52,7 @@ export function ProjectImageGrid({ images, layout = "mosaic", onOpenImage }: Pro
             />
             <div className={styles.overlay}>
               <div className={styles.icon}>
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <Icon name="search" size={14} />
               </div>
               <span className={styles.overlayLabel}>Open image</span>
             </div>

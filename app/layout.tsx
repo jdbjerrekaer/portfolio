@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import { Providers } from "./providers";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { withBasePath } from "@/lib/utils/paths";
+import { resolveAssetSrc } from "@/lib/utils/paths";
 import "@/styles/globals.scss";
 
 const openRunde = localFont({
@@ -23,11 +23,6 @@ const openRunde = localFont({
       weight: "600",
       style: "normal",
     },
-    {
-      path: "../public/fonts/OpenRunde-Bold.woff2",
-      weight: "700",
-      style: "normal",
-    },
   ],
   display: "swap",
   variable: "--font-open-runde",
@@ -40,8 +35,8 @@ export const metadata: Metadata = {
   },
   description: "Design Engineer & Technical UX Designer portfolio showcasing projects and work.",
   icons: {
-    icon: withBasePath("/icon.png"),
-    apple: withBasePath("/apple-icon.png"),
+    icon: resolveAssetSrc("/icon.png"),
+    apple: resolveAssetSrc("/apple-icon.png"),
   },
 };
 

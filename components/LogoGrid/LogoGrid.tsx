@@ -3,7 +3,7 @@
 import { TransitionEvent, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import type { ClientLogo } from "@/lib/content/clientLogos";
-import { Button } from "@/components/ui/Button";
+import { Button, SectionHeader } from "@/components/ui";
 import styles from "./LogoGrid.module.scss";
 
 interface LogoGridProps {
@@ -72,8 +72,13 @@ export function LogoGrid({
       className={`${styles.grid} ${alignmentClass} ${className || ""}`}
       aria-label={title || LOGO_SECTION_LABEL}
     >
-      {title && <h2 className={styles.title}>{title}</h2>}
-      {description && <p className={styles.description}>{description}</p>}
+      {title && (
+        <SectionHeader
+          title={title}
+          description={description}
+          variant={align === "center" ? "centered" : "stacked"}
+        />
+      )}
       <div 
         ref={wrapperRef}
         className={`${styles.logoContainerWrapper} ${isExpanded ? styles.expanded : ""}`}
@@ -117,7 +122,7 @@ export function LogoGrid({
           <Button
             variant="secondary"
             size="md"
-            icon={isExpanded ? "eye.slash" : "eye"}
+            icon={isExpanded ? "eye-off" : "eye"}
             iconPosition="right"
             onClick={handleToggle}
             aria-expanded={isExpanded}

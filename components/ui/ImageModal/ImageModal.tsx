@@ -2,6 +2,7 @@
 
 import React, { useEffect, useCallback, useState, useRef } from "react";
 import { FloatingPortal, FloatingFocusManager, useFloating } from "@floating-ui/react";
+import { Icon } from "@/components/ui/Icon";
 import styles from "./ImageModal.module.scss";
 
 export interface ImageModalProps {
@@ -156,21 +157,7 @@ export function ImageModal({
             aria-label="Close modal"
             type="button"
           >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M18 6L6 18M6 6L18 18"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <Icon name="x" size={20} />
           </button>
           {hasPrev && onPrev && (
             <button
@@ -179,21 +166,7 @@ export function ImageModal({
               aria-label="View previous image"
               type="button"
             >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M15 18l-6-6 6-6"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <Icon name="chevron-left" size={24} />
             </button>
           )}
           {hasNext && onNext && (
@@ -203,21 +176,7 @@ export function ImageModal({
               aria-label="View next image"
               type="button"
             >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M9 6l6 6-6 6"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <Icon name="chevron-right" size={24} />
             </button>
           )}
           <div className={styles.imageWrapper}>

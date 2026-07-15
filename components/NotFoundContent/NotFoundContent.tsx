@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Button } from "@/components/ui/Button";
 import { useRouter } from "next/compat/router";
 import { useState } from "react";
@@ -18,7 +18,7 @@ export function NotFoundContent() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[70vh] px-4 overflow-hidden pt-16 pb-16 mt-8 mb-8">
-      <div className="relative flex items-center justify-center text-[clamp(6rem,20vw,12rem)] font-bold leading-none select-none text-[var(--color-text-primary)] mb-8">
+      <div className="relative flex items-center justify-center text-[clamp(6rem,20vw,12rem)] font-semibold leading-none select-none text-[var(--color-text-primary)] mb-8">
         <motion.span
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -71,9 +71,9 @@ export function NotFoundContent() {
         
         <div className="pt-4 flex justify-center">
           <Button 
-            variant="premium" 
+            variant="primary"
             size="lg" 
-            icon="house" 
+            icon="home"
             onPress={goHome}
           >
             Go Home
