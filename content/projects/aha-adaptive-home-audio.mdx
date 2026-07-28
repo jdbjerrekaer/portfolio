@@ -1,0 +1,65 @@
+---
+title: "Adaptive Home Audio: Music That Follows You Between Rooms"
+summary: "We built a smart-home system that hands Spotify playback between rooms as you walk, then measured it: 0.46 s average handover, against 30 seconds to 4 minutes for the off-the-shelf alternative."
+date: "2021-06-01"
+role: "Concept and project lead (three-person team)"
+outcome: "0.46 s mean handover across 2,077 measured samples"
+tags:
+  - IoT
+  - Product Development
+  - Research
+  - Prototyping
+featured: false
+sectionNav:
+  - title: "The result"
+    id: "the-result"
+  - title: "My role"
+    id: "my-role"
+  - title: "What we built"
+    id: "what-we-built"
+  - title: "We measured it instead of asserting it worked"
+    id: "we-measured-it-instead-of-asserting-it-worked"
+  - title: "The technical choices were product choices"
+    id: "the-technical-choices-were-product-choices"
+  - title: "What we would do next"
+    id: "what-we-would-do-next"
+---
+
+*University work. It is here because the method is still how I work.*
+
+## The result
+
+Walk from the kitchen to the living room and the music follows you, mid-song, without touching a phone. We measured that handover at 0.46 seconds on average. The off-the-shelf alternative took between 30 seconds and 4 minutes to do the same thing.
+
+This was our bachelor's thesis at Aarhus University in 2021, with three of us on it. The question we set out to answer: can music streaming work in a modern multi-person smart home with no pauses, no interrupted songs, and instant speaker handover as people move between rooms?
+
+## My role
+
+The idea was mine and I led the project — framing the question, planning the work, splitting it between us, and keeping a six-month thesis on track. I worked across most of the build rather than owning one slice of it, which meant I was also the one holding the argument together: what we were claiming, and what we had actually proven.
+
+## What we built
+
+A working system, not a mockup. One Raspberry Pi 4 per room, Bluetooth signal strength for indoor positioning, a tracking service we wrote in Python 3, and Spotify Connect through Raspotify for playback. Spotify Group Session handled multiple listeners in the same room.
+
+## We measured it instead of asserting it worked
+
+- **2,077 timed handover samples.** Mean 0.46 s, SD 0.58, range 0.1 to 10.8 s. Most switches land near half a second.
+- **Benchmarked against the alternative.** Home Assistant took 30 seconds to 4 minutes for the same handover on the same setup.
+- **A 65,000-entry signal study** to derive the room-detection thresholds, roughly 31 minutes of data per position across two rooms and multiple positions.
+- **A deliberately hard test environment.** A 63 m² apartment with thin walls, chosen because signal bleed between rooms made the problem harder, not easier. Doors closed for every cross-room measurement, both devices rebooted before every run.
+
+## The technical choices were product choices
+
+**Extra sensors rejected on product grounds, not technical ones.** PIR, camera, laser and ultrasonic were all evaluated and dropped. Each would have improved accuracy, and each needed visible wiring that made the system clunky to install and ugly in a home. A usability call that overrode the technically better option.
+
+**Opt-in over opt-out for shared playback.** Auto-joining people to a group session would have been more automated. It would also mean walking into a room hijacks what someone else is listening to. We chose user control over automation.
+
+**Bluetooth classic over BLE and Wi-Fi.** We tried BLE first and dropped it on hardware availability inside the timebox. Bluetooth classic measured more precise than Wi-Fi-only positioning in our own testing. We wrote down the cost too: modern phones scramble their address for unpaired devices, so a user has to pair before the system can see them.
+
+**Build versus buy, decided on two stated axes:** time investment and modifiability. We built the tracking ourselves because we needed control over it, and handed playback and multi-user handling to Spotify because we did not.
+
+## What we would do next
+
+One Raspberry Pi per room caps how precisely you can place someone, and false positives between adjacent rooms were hard to eliminate. There was no interface: registering a device meant editing the Python source, so nobody outside the team could set it up.
+
+Both are named in the thesis as the next things to solve — better positioning, and a setup flow built for someone who is not a programmer.
