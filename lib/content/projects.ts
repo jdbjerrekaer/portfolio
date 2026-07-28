@@ -39,6 +39,7 @@ const projectSchema = z.object({
   coverImage: z.string().optional(),
   featured: z.boolean().optional().default(false),
   comingSoon: z.boolean().optional().default(false),
+  hidden: z.boolean().optional().default(false),
 });
 
 export type ProjectFrontmatter = z.infer<typeof projectSchema>;
@@ -100,8 +101,10 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
 export const PROJECT_PRIORITY_ORDER = [
   "yadl",
   "hermes-migration",
-  "openclaw-ai-assistant",
   "yet-another-countdown",
+  "aha-adaptive-home-audio",
+  "openclaw-ai-assistant",
+  "biombrane",
   "leadplatform",
   "iriz",
   "figma-component-library",
@@ -117,7 +120,7 @@ export async function getAllProjects(): Promise<Project[]> {
 
   for (const slug of slugs) {
     const project = await getProjectBySlug(slug);
-    if (project) {
+    if (project && !project.hidden) {
       projects.push(project);
     }
   }
