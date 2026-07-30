@@ -194,4 +194,24 @@ export const clientLogos: ClientLogo[] = [
     src: resolveAssetSrc("/brand_logos/brand-037.png"),
     alt: "Grøn El-Forsyning logo",
   },
+  {
+    name: "Comforth Scandinavia",
+    src: resolveAssetSrc("/brand_logos/brand-038.png"),
+    alt: "Comforth Scandinavia logo",
+  },
+  {
+    name: "Moi",
+    src: resolveAssetSrc("/brand_logos/brand-039.png"),
+    alt: "Moi logo",
+  },
+  {
+    name: "Dansk Strøm",
+    src: resolveAssetSrc("/brand_logos/brand-040.png"),
+    alt: "Dansk Strøm logo",
+  },
+  {
+    name: "Adentium",
+    src: resolveAssetSrc("/brand_logos/brand-041.png"),
+    alt: "Adentium logo",
+  },
 ];
