@@ -214,4 +214,9 @@ export const clientLogos: ClientLogo[] = [
     src: resolveAssetSrc("/brand_logos/brand-041.png"),
     alt: "Adentium logo",
   },
+  {
+    name: "Apopro",
+    src: resolveAssetSrc("/brand_logos/brand-042.png"),
+    alt: "Apopro logo",
+  },
 ];
