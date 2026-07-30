@@ -139,4 +139,59 @@ export const clientLogos: ClientLogo[] = [
     src: resolveAssetSrc("/brand_logos/brand-026.png"),
     alt: "Brand 26 logo",
   },
+  {
+    name: "Seiska",
+    src: resolveAssetSrc("/brand_logos/brand-027.png"),
+    alt: "Seiska logo",
+  },
+  {
+    name: "Femina",
+    src: resolveAssetSrc("/brand_logos/brand-028.png"),
+    alt: "Femina logo",
+  },
+  {
+    name: "Fortum",
+    src: resolveAssetSrc("/brand_logos/brand-029.png"),
+    alt: "Fortum logo",
+  },
+  {
+    name: "Elisa",
+    src: resolveAssetSrc("/brand_logos/brand-030.png"),
+    alt: "Elisa logo",
+  },
+  {
+    name: "Sisi Copenhagen",
+    src: resolveAssetSrc("/brand_logos/brand-031.png"),
+    alt: "Sisi Copenhagen logo",
+  },
+  {
+    name: "VitaePro",
+    src: resolveAssetSrc("/brand_logos/brand-032.png"),
+    alt: "VitaePro logo",
+  },
+  {
+    name: "SEF Energi",
+    src: resolveAssetSrc("/brand_logos/brand-033.png"),
+    alt: "SEF Energi logo",
+  },
+  {
+    name: "Vesterålens",
+    src: resolveAssetSrc("/brand_logos/brand-034.png"),
+    alt: "Vesterålens logo",
+  },
+  {
+    name: "idenyt",
+    src: resolveAssetSrc("/brand_logos/brand-035.png"),
+    alt: "idenyt logo",
+  },
+  {
+    name: "eesy",
+    src: resolveAssetSrc("/brand_logos/brand-036.png"),
+    alt: "eesy logo",
+  },
+  {
+    name: "Grøn El-Forsyning",
+    src: resolveAssetSrc("/brand_logos/brand-037.png"),
+    alt: "Grøn El-Forsyning logo",
+  },
 ];
