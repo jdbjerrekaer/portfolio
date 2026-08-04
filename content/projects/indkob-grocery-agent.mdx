@@ -1,8 +1,8 @@
 ---
 title: "The Shopping List That Shops For You"
-summary: "A Danish grocery-price agent that annotates an ordinary Apple Reminders list in place — best current offer as the note, the store as a real geofence, the offer's expiry as the due date. No new app to open."
+summary: "A Danish grocery price agent that annotates the Apple Reminders list I already use: the best current offer as the note, the store as a real geofence, the offer expiry as the due date. No new app to open."
 date: "2026-08-04"
-role: "Solo — research, design and build"
+role: "Solo, research through build"
 outcome: "Running unattended on a home server since August 2026, annotating a list I actually shop from."
 tags:
   - Personal Project
@@ -31,152 +31,76 @@ hidden: false
 
 ## The problem
 
-Danish supermarkets rotate weekly offers across seven chains near me. Checking
-whether the thing on my shopping list is cheap this week means opening an
-offers app, searching each item, and mentally dividing pack prices into
-per-unit prices to compare a 24-pack against a 6-pack.
+Danish supermarkets rotate weekly offers across seven chains near me. Checking whether something on my list is cheap this week means opening an offers app, searching each item, and dividing pack prices down to per unit prices so a 24 pack can be compared with a 6 pack.
 
-Nobody does that. I didn't either. So I overpaid, quietly, forever.
+Nobody does that. I did not either, so I quietly overpaid for years.
 
-The interesting part of this project isn't the price lookup — that's an API
-call. It's everything around it: where the answer should appear, how much
-confidence it needs before it speaks, and when the right answer is nothing at
-all.
+The price lookup turned out to be the easy part, roughly one API call. The work went into where the answer should appear, how sure it has to be before it speaks, and when saying nothing is the correct output.
 
 ## Designing for a surface that already exists
 
-The obvious build is an app: a list, a price column, a store filter. I didn't
-build that, because I'd have to remember to open it — and the moment I have to
-remember something, the tool has failed at the only job that matters.
+The obvious build is an app with a list, a price column and a store filter. I did not build that. I would have to remember to open it, and once I have to remember something, the tool has already failed.
 
-Instead the agent writes into the Apple Reminders list I *already* use. Nothing
-new to install, nothing new to open, and it degrades gracefully: if the agent
-is down, I still have my shopping list.
+So the agent writes into the Apple Reminders list I use anyway. Nothing new to install, nothing new to open. If the agent dies I still have a working shopping list.
 
-This is a **desire path** — with a twist. Usually you watch where people wear
-the grass down and pave that. Here the path was already paved. The move was
-refusing to lay a second one beside it and hoping traffic switched. Every
-"open my app first" product is a fresh path through the grass, asking people
-to change route for the maker's convenience.
+This is a desire path with a twist. Normally you watch where people wear the grass down, then pave that. Here the path was already paved. The move was refusing to lay a second one next to it and hoping traffic would switch. Every product that opens with "install my app first" is a fresh path through the grass, asking people to change route for the maker's convenience.
 
-That decision set the real design constraint. I wasn't designing a screen — I
-was designing into three fields Apple gave me, and each one had to earn its
-place:
+That decision set the real constraint. I was not designing a screen. I was designing into three fields Apple already gives every reminder, and each one had to earn its place.
 
-| field | carries | why |
-|---|---|---|
-| **note** | pack size, price, per-unit price, product | the thing you compare |
-| **location** | the store, as a real geofence | fires when you're there |
-| **due date** | the day the offer expires | the list sorts itself by urgency |
+**Note.** Pack size, price, price per unit, product name. This is the part you actually compare.
 
-The location field is the one doing the most work, and it's the clearest case
-of **calm technology** in the project — Weiser and Brown's idea that a tool
-should sit in the periphery and move to the centre only when it's relevant.
-The reminder says nothing for six days, then surfaces at the moment I walk
-into the shop. Attention is the scarce resource; the geofence spends none of
-it until it can be useful.
+**Location.** The store, as a real geofence rather than as text.
 
-An early version put the store name in the note as text. It looked fine and it
-was wrong — a store is a *place*, and Reminders has a place field. Writing
-"Bilka" into a text note is a screenshot of the right answer rather than the
-answer. Fixing it meant dropping to EventKit, since AppleScript doesn't expose
-a location property on reminders at all.
+**Due date.** The day the offer expires, so the list sorts itself by what runs out first.
 
-Same reasoning retired "til 06/08" from the note. An expiry isn't prose, it's a
-due date — and once it's a due date, the list re-sorts itself around what
-expires soonest without me doing anything.
+Location does the most work here, and it is the clearest case of calm technology in the project. Weiser and Brown's idea is that a tool should sit in the periphery and move to the centre only when it becomes relevant. The reminder stays quiet for six days, then appears as I walk into the shop. Attention is the scarce resource, and the geofence spends none of it until it can be useful.
+
+An early version put the store name into the note as text. It looked fine and it was wrong. A store is a place, and Reminders has a place field. Writing "Bilka" into a note is a picture of the right answer instead of the answer. Fixing it meant dropping to EventKit, because AppleScript does not expose a location property on reminders at all.
+
+The same reasoning retired "til 06/08" from the note. An expiry is a due date, not prose. Once it is a due date, the list reorders itself around whatever expires soonest and I do nothing.
 
 ## The constraint that shaped everything
 
-The agent runs on a Linux box. The list lives on a Mac. macOS **TCC** guards
-Reminders access and keys it to the *responsible process* — over SSH that's
-`sshd`, which is denied. Root doesn't help; TCC is enforced above uid 0. I
-spent real time confirming there was no privilege escalation that would work,
-because the fix that doesn't exist is the most expensive thing to keep looking
-for.
+The agent runs on a Linux box. The list lives on a Mac. macOS TCC guards Reminders access and keys it to the responsible process, and over SSH that process is sshd, which is denied. Root does not help, because TCC is enforced above uid 0. I spent real time confirming that no privilege escalation would work, because a fix that does not exist is the most expensive thing to keep looking for.
 
-So I inverted the dependency. The Linux side never asks the Mac for anything.
-A LaunchAgent inside the Mac's GUI session — where the grant actually lives —
-dumps the list to a file and applies a queue file. Two plain TSV files are the
-entire interface between the machines.
+So I inverted the dependency. The Linux side never asks the Mac for anything. A LaunchAgent inside the Mac's GUI session, where the grant actually lives, dumps the list to a file and applies a queue file. Two plain text files are the whole interface between the machines.
 
-The constraint made the design better. File-drop has no session to expire, no
-socket to drop, and either side can be restarted without the other noticing.
+The constraint made the design better. A file drop has no session to expire and no socket to drop, and either machine can restart without the other noticing.
 
-It also produced the session's most useful lesson. The MCP bridge between the
-machines was "flaky" — 299 restarts logged. It wasn't flaky. `supergateway`
-calls `server.connect()` on one shared server object per connection, so the
-*second* concurrent client throws, and unhandled inside an async Express
-handler, that kills the process. My own enricher was the fatal second client.
+It also produced the most useful lesson. The bridge between the machines looked flaky, with 299 restarts in the log. It was not flaky. The library calls connect() on one shared server object per client, so the second concurrent client throws, and that exception was unhandled inside an async Express handler, which kills the process. My own enricher was the fatal second client.
 
-I patched it to refuse politely instead of dying — and that immediately exposed
-a second bug hiding behind the first: the library overwrites the SDK's
-`onclose` handler, so the transport was never released and every later client
-got refused forever. A crash loop had become a permanent lockout, which is
-worse. Both needed fixing; either alone is broken.
+I patched it to refuse politely instead of dying. That immediately exposed a second bug hiding behind the first. The library also overwrites the SDK's close handler, so the transport was never released and every later client got refused forever. A crash loop had become a permanent lockout, which is worse. Both needed fixing, and either one alone leaves it broken.
 
 ## Teaching it what I actually mean
 
-"Sodavand" on my list means 33 cl cans. Never bottles. A naive implementation
-scales a per-litre price by 0.33 and cheerfully matches a 1.5 L bottle — the
-arithmetic is right and the recommendation is nonsense. The agent now requires
-the offer's actual packaging to match before it computes anything.
+"Sodavand" on my list means 33 cl cans. Never bottles. A naive version scales a per litre price by 0.33 and happily matches a 1.5 L bottle. The arithmetic is correct and the recommendation is nonsense. The agent now requires the offer's real packaging to match before it computes anything.
 
-Then the distinctions got subtler, and each one turned out to be a different
-*kind* of rule:
+The next distinctions were subtler, and each turned out to be a different kind of rule.
 
-**Juice** — I want real orange juice, not nectar, not from concentrate. No data
-source carries that distinction; offer descriptions are marketing copy. A
-keyword filter on "koncentrat" would match nothing and pass everything, looking
-like it worked. So the rule is positive-evidence-only and fails closed: an
-offer must *prove* it qualifies. Most weeks nothing does, and the list stays
-clean. That's the correct behaviour, not a gap.
+**Juice.** I want real orange juice, not nectar and not from concentrate. No data source carries that distinction, because offer descriptions are marketing copy. A keyword filter on "koncentrat" would match nothing and pass everything, while looking like it worked. So the rule is positive evidence only, and it fails closed: an offer has to prove it qualifies. Most weeks nothing does and the list stays empty. That is the intended behaviour, not a gap.
 
-**Yoghurt** — I prefer pære og banan. That's a preference, not a requirement.
-It ranks matching offers first and falls back to the cheapest when none exist.
-Getting no yoghurt because this week's offers are strawberry would be worse
-than useless.
+**Yoghurt.** I prefer pære og banan. That is a preference, not a requirement. Matching offers rank first, and when none exist it falls back to the cheapest. Getting no yoghurt at all because this week's offers are strawberry would be worse than useless.
 
-The design lesson is that "I want X" and "I prefer X" are different data
-structures, and collapsing them into one filter breaks both.
+"I want X" and "I prefer X" are different data structures. Collapsing them into one filter breaks both.
 
 ## Knowing when to say nothing
 
-The sharpest failure I found wasn't a crash. The agent recommended a yoghurt
-offer at 18 kr/kg — a real, current, correctly-parsed offer. It was also a
-third *more expensive* than the same product's everyday shelf price.
+The sharpest failure was not a crash. The agent recommended a yoghurt offer at 18 kr/kg. Real offer, current, correctly parsed. It was also a third more expensive than the same product's everyday shelf price.
 
-A deals tool that only reads the deals feed cannot see this. It will confidently
-route you across town to overpay, and every number it shows you is accurate.
+A tool that only reads the offers feed cannot see this. It will send you across town to overpay, and every number on the screen is accurate.
 
-So offers now have to beat a known everyday price before they're worth
-mentioning. When they don't, the note says so and points at the shelf price
-instead.
+Offers now have to beat a known everyday price before they are worth mentioning. When they do not, the note says so and points at the shelf price instead.
 
-The name for the risk is **automation bias**: people systematically over-trust
-output that looks computed. A number I'd have questioned from a person, I'd
-have accepted from my own tool — which is exactly what makes a confident,
-accurate, wrong answer more dangerous than no answer. Building in the
-conditions under which the system declines to speak is trust calibration, and
-it is the part of this project I'd defend hardest.
+The name for this risk is automation bias: people over-trust output that looks computed. A number I would have questioned from a person, I accepted from my own tool. That is what makes a confident, accurate, wrong answer worse than no answer at all. Deciding when the system declines to speak is trust calibration, and it is the part of this project I would defend first.
 
-That's the thread running through the whole project: the hard part of an
-assistant isn't producing an answer, it's having the judgement to withhold a
-technically-correct one. Verification is a feature. Every helper here reads
-back what it wrote before reporting success — because a geofence at (0,0) and a
-geofence at Bilka look identical to the code that wrote them.
+Verification is a feature. Every helper here reads back what it wrote before reporting success, because a geofence at (0,0) and a geofence at Bilka look identical to the code that wrote them.
 
 ## What I would do next
 
-Honest gaps, in the order they bother me:
+Honest gaps, in the order they bother me.
 
-- The shelf-price baseline is hand-entered. It should come from the shelf-price
-  APIs the tool already talks to.
-- The store geofence for the shop directly below my flat fires every time I come
-  home. Correct code, wrong for one real-world case.
-- Spelling correction lives in the search layer, so a typo on the list fails
-  before correction can run. It should self-heal instead of needing a rename.
+- The shelf price baseline is hand entered. It should come from the shelf price APIs the tool already talks to.
+- The geofence for the shop directly below my flat fires every time I come home. Correct code, wrong for one real case.
+- Spelling correction sits in the search layer, so a typo on the list fails before correction can run. It should heal itself instead of needing a rename.
 
-The code is one repo across two machines, with the live paths symlinked into it
-so editing the repo *is* editing production — and a `deploy.sh` for the half
-that can't be symlinked.
+The code is one repo across two machines. The live paths are symlinked into it, so editing the repo edits production, and a deploy script handles the half that cannot be symlinked.
