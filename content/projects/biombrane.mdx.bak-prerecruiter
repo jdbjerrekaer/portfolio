@@ -1,0 +1,58 @@
+---
+title: "BiomBrane: A Tangible Plant Cell for Biology Class"
+summary: "A 3D plant-cell model paired with a web UI for first-year high-school biology, taken from ethnographic field study through to a prototype evaluated with the same class we observed."
+date: "2019-12-01"
+role: "Student designer and developer (four-person team)"
+outcome: "Evaluated in the classroom it was designed for; dyslexic students benefited most"
+tags:
+  - Product Development
+  - Field Research
+  - EdTech
+  - Accessibility
+featured: false
+sectionNav:
+  - title: "Overview"
+    id: "overview"
+  - title: "The process"
+    id: "the-process"
+  - title: "What we found"
+    id: "what-we-found"
+  - title: "The business case"
+    id: "the-business-case"
+  - title: "What we got wrong"
+    id: "what-we-got-wrong"
+---
+
+## Overview
+
+IT Product Development at Aarhus University, 2019, with three other students. My first larger project, and the first time I ran a full product arc rather than a piece of one.
+
+BiomBrane is a tangible 3D plant-cell model for first-year high-school biology, paired with a web UI in Danish. It replaces a pen-and-paper exercise with a physical object students manipulate, and gives hints when a group gets stuck so they are not sitting idle waiting for the one teacher in the room.
+
+## The process
+
+**Field study first.** Ethnographic observation in a real high-school biology class, using contextual-design methods (Blomberg et al.; Holtzblatt and Beyer). Work models and here-and-now scenarios built from what we actually saw.
+
+**Problem framed from evidence, not assumption.** Biology is theory-heavy, live-specimen experiments carry ethical objections, teacher prep time is the bottleneck, and students lose learning time queuing for help.
+
+**Grounded in literature and in the curriculum.** The four pillars of learning (Hirsh-Pasek et al. 2015), learning-by-doing (Klemmer et al. 2006), virtual biology (Peat and Taylor), the VCell study (Reindl et al.) — and the Danish Ministry of Education curriculum goals, so the tool taught what the class was actually assessed on.
+
+**Built the prototype.** Hardware sensors plus a web UI.
+
+**Evaluated with the same class we had observed.** Groups of two, one group of four, and a whole-class demonstration. Criteria set in advance: ease of use, learning value, social activity. We limited our intervention to moments when students were genuinely stuck, to keep the results honest. The exercise was photosynthesis, matched to their upcoming exam.
+
+## What we found
+
+Students collaborated in focused groups and talked about the tasks — a visible change from the passive behaviour we had watched on the first visit.
+
+**Dyslexic students benefited most** from the tangible interaction. That was an accessibility outcome we had designed for, not one we stumbled into.
+
+## The business case
+
+We costed two go-to-market routes in a business model canvas: outright sale to schools through procurement, and a rental model.
+
+We argued for renting. The plant cell is a small slice of the curriculum, so buying it outright is too large an investment per student reached — which is exactly the objection a school would raise. Renting answers it.
+
+## What we got wrong
+
+Too few tasks for real curriculum depth. And we had pushed the hardware close to fully exploited, so any additional depth would have had to come from the software side rather than the object.

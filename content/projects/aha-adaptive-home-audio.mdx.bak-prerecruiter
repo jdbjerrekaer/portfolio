@@ -1,0 +1,61 @@
+---
+title: "AHA: Adaptive Home Audio"
+summary: "Bachelor's thesis. A smart-home audio system that hands Spotify playback between rooms as you walk, measured at 0.46 s mean handover against 30 s–4 min for Home Assistant."
+date: "2021-06-01"
+role: "Student researcher and developer (three-person team)"
+outcome: "2,077 timed handovers, mean 0.46 s — roughly two orders of magnitude faster than the off-the-shelf alternative"
+tags:
+  - IoT
+  - Indoor Positioning
+  - Research
+  - Prototyping
+featured: false
+sectionNav:
+  - title: "Overview"
+    id: "overview"
+  - title: "What we built"
+    id: "what-we-built"
+  - title: "What we measured"
+    id: "what-we-measured"
+  - title: "Design decisions"
+    id: "design-decisions"
+  - title: "What it did not do"
+    id: "what-it-did-not-do"
+---
+
+## Overview
+
+Bachelor's thesis at Aarhus University, 2021, with two other students. The question we set out to answer: can music streaming work in a modern multi-person smart home with no pauses, no interrupted songs, and instant speaker handover as people move between rooms?
+
+## What we built
+
+A working system, not a mockup. One Raspberry Pi 4 per room, Bluetooth RSSI for indoor positioning, a tracking service we wrote in Python 3, and Spotify Connect through Raspotify for playback. Spotify Group Session handled multiple listeners in the same room.
+
+Walk from the kitchen to the living room and the music follows you, mid-song, without touching a phone.
+
+## What we measured
+
+The interesting part of the thesis is that we measured the thing instead of asserting it worked.
+
+- **2,077 timed handover samples.** Mean 0.46 s, SD 0.58, range 0.1 to 10.8 s. Most switches land near half a second.
+- **Benchmarked against the alternative.** Home Assistant took 30 seconds to 4 minutes for the same handover on the same setup.
+- **A 65,000-entry RSSI study** to derive the room-detection thresholds. A Python script collected roughly 31 minutes of data per position, across two rooms and multiple positions.
+- **A deliberately hard test environment.** A 63 m² apartment with thin walls, chosen because signal bleed between rooms made the problem harder, not easier. Doors closed for every cross-room measurement, both devices rebooted before every run.
+
+## Design decisions
+
+The technical choices were product choices, and the thesis argues them as such.
+
+**Bluetooth classic over BLE and Wi-Fi.** We tried BLE first and dropped it on hardware availability inside the timebox. Bluetooth classic measured more precise than Wi-Fi-only positioning in our own testing. We also wrote down the cost: modern phones scramble MAC addresses for unpaired devices, so a user has to pair before the system can see them.
+
+**Extra sensors rejected on product grounds, not technical ones.** PIR, camera, laser and ultrasonic were all evaluated and dropped. Each needed visible wiring, which made the system clunky to install and ugly in a home. A usability call that overrode the technically better option.
+
+**Build versus buy, decided on two stated axes:** time investment and modifiability. We built tracking from scratch because we needed control over it, and handed playback and multi-user to Spotify because we did not.
+
+**Opt-in over opt-out for shared playback.** Auto-joining people to a group session would have been more automated. It would also mean walking into a room hijacks what someone else is listening to. We chose user control over automation.
+
+## What it did not do
+
+Worth saying plainly, because the thesis says it plainly.
+
+One Raspberry Pi per room caps positional accuracy, and false positives between adjacent rooms were hard to eliminate. There was no UI: registering a device meant editing the Python source, so a non-programmer could not set it up. The named next steps were better tracking accuracy and a real setup flow.

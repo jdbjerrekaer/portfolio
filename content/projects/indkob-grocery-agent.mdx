@@ -53,6 +53,12 @@ Instead the agent writes into the Apple Reminders list I *already* use. Nothing
 new to install, nothing new to open, and it degrades gracefully: if the agent
 is down, I still have my shopping list.
 
+This is a **desire path** — with a twist. Usually you watch where people wear
+the grass down and pave that. Here the path was already paved. The move was
+refusing to lay a second one beside it and hoping traffic switched. Every
+"open my app first" product is a fresh path through the grass, asking people
+to change route for the maker's convenience.
+
 That decision set the real design constraint. I wasn't designing a screen — I
 was designing into three fields Apple gave me, and each one had to earn its
 place:
@@ -62,6 +68,13 @@ place:
 | **note** | pack size, price, per-unit price, product | the thing you compare |
 | **location** | the store, as a real geofence | fires when you're there |
 | **due date** | the day the offer expires | the list sorts itself by urgency |
+
+The location field is the one doing the most work, and it's the clearest case
+of **calm technology** in the project — Weiser and Brown's idea that a tool
+should sit in the periphery and move to the centre only when it's relevant.
+The reminder says nothing for six days, then surfaces at the moment I walk
+into the shop. Attention is the scarce resource; the geofence spends none of
+it until it can be useful.
 
 An early version put the store name in the note as text. It looked fine and it
 was wrong — a store is a *place*, and Reminders has a place field. Writing
@@ -139,6 +152,13 @@ route you across town to overpay, and every number it shows you is accurate.
 So offers now have to beat a known everyday price before they're worth
 mentioning. When they don't, the note says so and points at the shelf price
 instead.
+
+The name for the risk is **automation bias**: people systematically over-trust
+output that looks computed. A number I'd have questioned from a person, I'd
+have accepted from my own tool — which is exactly what makes a confident,
+accurate, wrong answer more dangerous than no answer. Building in the
+conditions under which the system declines to speak is trust calibration, and
+it is the part of this project I'd defend hardest.
 
 That's the thread running through the whole project: the hard part of an
 assistant isn't producing an answer, it's having the judgement to withhold a
