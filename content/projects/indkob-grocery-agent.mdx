@@ -3,7 +3,7 @@ title: "The Shopping List That Shops For You"
 summary: "A Danish grocery price agent that annotates the Apple Reminders list I already use: the best current offer as the note, the store as a real geofence, the offer expiry as the due date. No new app to open."
 date: "2026-08-04"
 role: "Solo, research through build"
-outcome: "Running unattended on a home server since August 2026, annotating a list I actually shop from."
+outcome: "Runs unattended every 30 minutes. Rejected its first flagged deal for being 50% above the everyday shelf price."
 tags:
   - Personal Project
   - Agent Design
@@ -12,6 +12,8 @@ tags:
   - Python
   - Swift
 sectionNav:
+  - title: "Recruiter takeaway"
+    id: "recruiter-takeaway"
   - title: "The problem"
     id: "the-problem"
   - title: "Designing for a surface that already exists"
@@ -29,7 +31,22 @@ comingSoon: false
 hidden: false
 ---
 
+## Recruiter takeaway
+
+This is a judgement story, not an automation story.
+
+The agent reads my shopping list, finds the best current supermarket offer across seven Danish chains, and writes the answer back into the list I already use. Most of the work went into restraint: which native field each piece of information belongs in, and when the correct output is nothing at all.
+
+What this proves:
+
+- I design into surfaces people already use instead of asking them to adopt a new one
+- I treat "the system declines to answer" as a designed state rather than a failure
+- I can take a project from research through to unattended production on real hardware
+- I verify what I ship, including reading back every write before reporting success
+
 ## The problem
+
+**Comparing offers by hand is work nobody actually does.**
 
 Danish supermarkets rotate weekly offers across seven chains near me. Checking whether something on my list is cheap this week means opening an offers app, searching each item, and dividing pack prices down to per unit prices so a 24 pack can be compared with a 6 pack.
 
@@ -38,6 +55,8 @@ Nobody does that. I did not either, so I quietly overpaid for years.
 The price lookup turned out to be the easy part, roughly one API call. The work went into where the answer should appear, how sure it has to be before it speaks, and when saying nothing is the correct output.
 
 ## Designing for a surface that already exists
+
+**The best interface here was one I did not have to build.**
 
 The obvious build is an app with a list, a price column and a store filter. I did not build that. I would have to remember to open it, and once I have to remember something, the tool has already failed.
 
@@ -61,6 +80,8 @@ The same reasoning retired "til 06/08" from the note. An expiry is a due date, n
 
 ## The constraint that shaped everything
 
+**macOS security rules decided the architecture before I did.**
+
 The agent runs on a Linux box. The list lives on a Mac. macOS TCC guards Reminders access and keys it to the responsible process, and over SSH that process is sshd, which is denied. Root does not help, because TCC is enforced above uid 0. I spent real time confirming that no privilege escalation would work, because a fix that does not exist is the most expensive thing to keep looking for.
 
 So I inverted the dependency. The Linux side never asks the Mac for anything. A LaunchAgent inside the Mac's GUI session, where the grant actually lives, dumps the list to a file and applies a queue file. Two plain text files are the whole interface between the machines.
@@ -71,7 +92,11 @@ It also produced the most useful lesson. The bridge between the machines looked 
 
 I patched it to refuse politely instead of dying. That immediately exposed a second bug hiding behind the first. The library also overwrites the SDK's close handler, so the transport was never released and every later client got refused forever. A crash loop had become a permanent lockout, which is worse. Both needed fixing, and either one alone leaves it broken.
 
+Housekeeping turned out to matter too. The list had grown to 686 entries, mostly completed items nobody had cleared, and Apple's own scripting layer slows to a crawl at that size. A small EventKit tool now deletes anything completed more than a week ago, once a day. It runs dry by default, and it refuses to touch an item whose completion date is missing, because unknown age is not the same as old.
+
 ## Teaching it what I actually mean
+
+**Two similar sounding rules turned out to need opposite behaviour.**
 
 "Sodavand" on my list means 33 cl cans. Never bottles. A naive version scales a per litre price by 0.33 and happily matches a 1.5 L bottle. The arithmetic is correct and the recommendation is nonsense. The agent now requires the offer's real packaging to match before it computes anything.
 
@@ -85,7 +110,9 @@ The next distinctions were subtler, and each turned out to be a different kind o
 
 ## Knowing when to say nothing
 
-The sharpest failure was not a crash. The agent recommended a yoghurt offer at 18 kr/kg. Real offer, current, correctly parsed. It was also a third more expensive than the same product's everyday shelf price.
+**The worst failure was a correct answer.**
+
+The sharpest bug was not a crash. The agent recommended a yoghurt offer at 18 kr/kg. Real offer, current, correctly parsed. It was also half as much again as the same product's everyday shelf price of 11.95 kr/kg.
 
 A tool that only reads the offers feed cannot see this. It will send you across town to overpay, and every number on the screen is accurate.
 
@@ -97,10 +124,10 @@ Verification is a feature. Every helper here reads back what it wrote before rep
 
 ## What I would do next
 
-Honest gaps, in the order they bother me.
+**Three gaps I know about, in the order they bother me.**
 
 - The shelf price baseline is hand entered. It should come from the shelf price APIs the tool already talks to.
 - The geofence for the shop directly below my flat fires every time I come home. Correct code, wrong for one real case.
-- Spelling correction sits in the search layer, so a typo on the list fails before correction can run. It should heal itself instead of needing a rename.
+- Spelling correction sits in the search layer. Known variants are mapped at the entry point, so "yogurt" resolves to the Danish "yoghurt", but a novel typo still fails before correction can run and needs a manual rename.
 
 The code is one repo across two machines. The live paths are symlinked into it, so editing the repo edits production, and a deploy script handles the half that cannot be symlinked.

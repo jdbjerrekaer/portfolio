@@ -106,6 +106,8 @@ export const PROJECT_PRIORITY_ORDER = [
   "openclaw-ai-assistant",
   "biombrane",
   "leadplatform",
+  // Above the coming-soon entries below, but not promoted to featured.
+  "indkob-grocery-agent",
   "iriz",
   "figma-component-library",
 ];
