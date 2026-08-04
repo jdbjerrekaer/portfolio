@@ -13,23 +13,23 @@ tags:
   - Swift
 sectionNav:
   - title: "The problem"
-    id: "problem"
+    id: "the-problem"
   - title: "Designing for a surface that already exists"
-    id: "surface"
+    id: "designing-for-a-surface-that-already-exists"
   - title: "The constraint that shaped everything"
-    id: "constraint"
+    id: "the-constraint-that-shaped-everything"
   - title: "Teaching it what I actually mean"
-    id: "meaning"
+    id: "teaching-it-what-i-actually-mean"
   - title: "Knowing when to say nothing"
-    id: "silence"
-  - title: "What I'd do next"
-    id: "next"
+    id: "knowing-when-to-say-nothing"
+  - title: "What I would do next"
+    id: "what-i-would-do-next"
 featured: false
 comingSoon: false
 hidden: false
 ---
 
-## The problem {#problem}
+## The problem
 
 Danish supermarkets rotate weekly offers across seven chains near me. Checking
 whether the thing on my shopping list is cheap this week means opening an
@@ -43,7 +43,7 @@ call. It's everything around it: where the answer should appear, how much
 confidence it needs before it speaks, and when the right answer is nothing at
 all.
 
-## Designing for a surface that already exists {#surface}
+## Designing for a surface that already exists
 
 The obvious build is an app: a list, a price column, a store filter. I didn't
 build that, because I'd have to remember to open it — and the moment I have to
@@ -86,7 +86,7 @@ Same reasoning retired "til 06/08" from the note. An expiry isn't prose, it's a
 due date — and once it's a due date, the list re-sorts itself around what
 expires soonest without me doing anything.
 
-## The constraint that shaped everything {#constraint}
+## The constraint that shaped everything
 
 The agent runs on a Linux box. The list lives on a Mac. macOS **TCC** guards
 Reminders access and keys it to the *responsible process* — over SSH that's
@@ -115,7 +115,7 @@ a second bug hiding behind the first: the library overwrites the SDK's
 got refused forever. A crash loop had become a permanent lockout, which is
 worse. Both needed fixing; either alone is broken.
 
-## Teaching it what I actually mean {#meaning}
+## Teaching it what I actually mean
 
 "Sodavand" on my list means 33 cl cans. Never bottles. A naive implementation
 scales a per-litre price by 0.33 and cheerfully matches a 1.5 L bottle — the
@@ -140,7 +140,7 @@ than useless.
 The design lesson is that "I want X" and "I prefer X" are different data
 structures, and collapsing them into one filter breaks both.
 
-## Knowing when to say nothing {#silence}
+## Knowing when to say nothing
 
 The sharpest failure I found wasn't a crash. The agent recommended a yoghurt
 offer at 18 kr/kg — a real, current, correctly-parsed offer. It was also a
@@ -166,7 +166,7 @@ technically-correct one. Verification is a feature. Every helper here reads
 back what it wrote before reporting success — because a geofence at (0,0) and a
 geofence at Bilka look identical to the code that wrote them.
 
-## What I'd do next {#next}
+## What I would do next
 
 Honest gaps, in the order they bother me:
 
