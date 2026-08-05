@@ -3,7 +3,7 @@ title: "The Shopping List That Shops For You"
 summary: "A Danish grocery price agent that annotates the Apple Reminders list I already use: the best current offer as the note, the store as a real geofence, the offer expiry as the due date. No new app to open."
 date: "2026-08-04"
 role: "Solo, research through build"
-outcome: "Runs unattended every 30 minutes. Rejected its first flagged deal for being 50% above the everyday shelf price."
+outcome: "Annotates a new item in about ten seconds, unattended. Rejected its first flagged deal for being 50% above the everyday shelf price."
 tags:
   - Personal Project
   - Agent Design
@@ -24,6 +24,8 @@ sectionNav:
     id: "teaching-it-what-i-actually-mean"
   - title: "Knowing when to say nothing"
     id: "knowing-when-to-say-nothing"
+  - title: "Two more places it was quietly wrong"
+    id: "two-more-places-it-was-quietly-wrong"
   - title: "What I would do next"
     id: "what-i-would-do-next"
 featured: false
@@ -122,12 +124,47 @@ The name for this risk is automation bias: people over-trust output that looks c
 
 Verification is a feature. Every helper here reads back what it wrote before reporting success, because a geofence at (0,0) and a geofence at Bilka look identical to the code that wrote them.
 
+## Two more places it was quietly wrong
+
+**A typo skipped every rule I had written.**
+
+Correction started as a lookup table of known variants. It only ran when a
+search came back empty, which sounded reasonable and was the wrong trigger. The
+offers API does its own fuzzy matching, so "sodavnd" returned plenty of offers.
+It just did not match the rules, which are keyed on the correct spelling, so
+the 33 cl packaging rule never ran and a 1.5 litre bottle won.
+
+Correction now fires whenever the typed name matches nothing I have rules for,
+not when the search comes back empty, and it fires before the gates rather than
+after. The dictionary is the one already on the Mac, so it needs no service and
+no key, and it only offers a correction for words it also flags as wrong.
+
+The first version of that also fixed the wrong word. "Pære" was corrected to
+"ærter" because peas are stocked this week and pears are not, so peas scored
+better. Being productive is not the same as being plausible. A typo rarely
+changes the first letter, so candidates now have to keep it. The failing case
+is a permanent test.
+
+**An annotation was true when written and nobody checked it since.**
+
+The only signal for "this item needs pricing" is an empty note, so an annotated
+item was never looked at again. Offers rotate weekly. An item kept last week's
+price, last week's shop and a due date in the past, and the geofence still
+fired.
+
+Once a day, anything whose offer has expired has its note cleared, which hands
+it back to the normal path to be re-priced. Everyday shelf prices carry no
+expiry and are left alone.
+
+Both of these are the same failure as the yoghurt: not a crash, not an error
+message, just a confident answer nobody re-checked.
+
 ## What I would do next
 
 **Three gaps I know about, in the order they bother me.**
 
 - The shelf price baseline is hand entered. It should come from the shelf price APIs the tool already talks to.
 - The geofence for the shop directly below my flat fires every time I come home. Correct code, wrong for one real case.
-- Spelling correction sits in the search layer. Known variants are mapped at the entry point, so "yogurt" resolves to the Danish "yoghurt", but a novel typo still fails before correction can run and needs a manual rename.
+- The Mac finds the Linux box by an address its router hands out. If that address changes, the ten second path goes quiet and the half hourly fallback takes over without telling anyone. Degrading silently is the part I do not like.
 
 The code is one repo across two machines. The live paths are symlinked into it, so editing the repo edits production, and a deploy script handles the half that cannot be symlinked.
