@@ -99,9 +99,30 @@ Each event gets an emoji, a colour, and a shape. The edit sheet suggests emoji c
 
 For birthdays and anniversaries, the event stays a single entity that advances each year. The UI surfaces the *next* occurrence, and the logic calculates repetition count and next date when needed—so the list never explodes into duplicates.
 
+### Live Activities that only show up on the day
+
+A countdown that lands today earns the lock screen. On the day itself the event
+becomes a Live Activity: a ticking countdown when it has a real time of day,
+"Today" when it is an all-day event, and "28 years today" for a birthday or
+anniversary that has already come round.
+
+The interesting part was what iOS would not let me do. I wanted the lock screen
+from 24 hours out but the Dynamic Island only on the day — and one
+`ActivityConfiguration` renders both surfaces, with no switch to run one without
+the other. Rather than fake it with two activities (the Island still appears for
+any live activity, so the trick buys nothing), the rule became the mechanism:
+start on the day, and the Island stays quiet until then by construction.
+ActivityKit also refuses to start an activity from the background, and
+push-to-start needs a server this local-first app deliberately does not have —
+so the app asks on launch, on every return to the foreground, and whenever the
+list changes. Dismiss one and it stays gone for that day; the next occurrence
+arms it again.
+
+### Reordering that pivots where you grabbed it
+
 ### Reordering that feels physical
 
-Drag-and-drop is initiated with an intentional long-press and uses careful transform handling to avoid the common "squish/scale" distortion during drag. The goal is a stable, confident interaction—especially on mobile where precision is harder.
+Drag-and-drop is initiated with an intentional long-press and uses careful transform handling to avoid the common "squish/scale" distortion during drag. The tilt is pivoted around the point you actually grabbed: hold a card by its left edge and dragging down drops that edge while the far side lags up, hold it by the right and it mirrors, hold it dead centre and the card stays level — the way a real card behaves in your hand. The lifted preview also reads exactly like the card it came from, down to whether the time is spelled out or abbreviated; the two used to disagree because each measured its own fit.
 
 ### Monetization without disrupting flow
 
@@ -113,6 +134,9 @@ Important dates often come up mid-conversation. Siri Shortcuts make creation and
 ## Design-engineering highlights
 
 - **Native iOS 26 components**: the app uses native iOS UI elements (buttons, lists, modals, date pickers) through Ionic's iOS mode, ensuring pixel-perfect alignment with Apple's latest Human Interface Guidelines.
+- **Live Activities**: a shared `ActivityAttributes` type spans the app and the widget extension; the app composes the localised headline (all eleven languages already live in the web layer) and hands the target date over, so the system ticks the countdown down without a single push.
+- **Gestures that own their touch**: the editor's edge-swipe dismissal runs on a non-passive listener and calls `preventDefault`, because a slow drag otherwise hands the touch to native scrolling — whose `touchcancel` snapped the sheet back with the finger still on the screen. The first real movement also drops the keyboard.
+- **No number that lies**: the small widget used to render seconds under a "min" label in the final minute, on a timeline that only ticks once a minute. Anything below a minute now shows a dash — a widget should either be right or say nothing.
 - **Countdown timing hook**: a dedicated `useCountdown()` updates at 1-second intervals and cleanly handles "today", future, and past states.
 - **Yearly recurrence math**: `date-fns` helpers compute next occurrence and repetition count (e.g. "28th birthday") reliably.
 - **Notifications across platforms**: on iOS, notifications are scheduled via Capacitor local notifications. On web, we fall back to permission + local persistence with "check on load" behavior (because web notifications can't be scheduled arbitrarily far ahead).
