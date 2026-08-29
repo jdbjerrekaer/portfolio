@@ -1,0 +1,85 @@
+---
+title: "One Brand, Two Jobs: Unifying a Danish Pest-Control Webshop and Service Site"
+summary: "A unified landing concept for billigskadedyr.dk and billigskadedyrprof.dk: one entry point, a two-path router (DIY products vs. professional service), a live price estimator, and honest social proof."
+date: "2026-08-29"
+role: "Solo, research through build"
+outcome: "A single-page React concept that resolves the two-site split, ships a working price estimator on real Danish market data, and deploys to GitHub Pages."
+tags:
+  - UX Design
+  - Design-to-Code
+  - React
+  - TypeScript
+  - Tailwind CSS
+  - Conversion Design
+links:
+  live: "https://jonatanbjerrekaer-bot.github.io/billigskadedyr-redesign/"
+  source: "https://github.com/jonatanbjerrekaer-bot/billigskadedyr-redesign"
+gallery:
+  - src: "/images/billigskadedyr/live-desktop.png"
+    alt: "Desktop view of the unified billigskadedyr.dk redesign concept"
+  - src: "/images/billigskadedyr/live-mobile.png"
+    alt: "Mobile view of the unified billigskadedyr.dk redesign concept"
+galleryLayout: "landscape"
+featured: false
+comingSoon: false
+hidden: false
+---
+
+## Recruiter takeaway
+
+This is a scope-and-clarity story, not a visual refresh.
+
+The business behind billigskadedyr.dk runs two properties that tell two stories: a WooCommerce webshop that sells DIY pest-control products, and a separate service site (billigskadedyrprof.dk) that sells professional treatment. A visitor has to already know which story they need before they land. The concept unifies them into one entry point, lets the user pick their path in the first screen, and replaces "contact us for a price" with a working estimator backed by real Danish market data.
+
+What this proves:
+
+- I can audit a live product end to end (crawl, screenshots, pricing research, review mining) before touching a pixel
+- I make the IA decision first: two paths (DIY vs. professional) instead of forcing one funnel on two audiences
+- I build the interface I design: a single-page React/TypeScript/Tailwind app that compiles, deploys, and renders at 390/768/1440
+- I treat honesty as a feature: real Trustpilot and e-mærket numbers, real price ranges, an explicit "unofficial concept" disclaimer, and no invented reviews
+
+## The problem
+
+**Two sites, one customer, zero handoff.**
+
+The webshop sells traps, baits, and professional-grade products. The service site sells the labor. But neither site says: "Here is the same company, here are your two options, here is how to tell which one you need." The practical result:
+
+- A DIY buyer never learns the shop is curated by a professional
+- A service customer never sees the products they could buy
+- Pricing is opaque on the service side ("kontakt os"), which is the single biggest conversion leak in pest control
+
+## Designing the entry point
+
+**The first job was IA, not visual.**
+
+The reference direction (dark forest-green, orange accent, rounded cards, condensed all-caps display type) was applied as a skin, but the structure was rebuilt around the user's first decision: *do I want to handle this myself, or do I want a pro to?*
+
+1. **Two-path router.** "Klar det selv" (DIY) vs. "Få en professionel ud" (professional service). Each card states the price starting point and time-to-result, so the user can self-select before scrolling.
+2. **Pest-first navigation.** A quick-select grid of the common pests (rats/mice, ants, wasps, bed bugs, silverfish, wood borers, cockroaches, flies) that routes each pest to the correct path. Users think in pests, not in product categories.
+3. **Honest trust strip.** e-mærket certification (verified) and the real Trustpilot score. The 3.8/5 is shown as-is, not buried. The 1-star themes (unfulfilled orders, slow support) are noted in the handover doc as the real conversion killer.
+
+## The estimator: replacing "contact us for a price"
+
+**The centrepiece is a working price calculator, not a mockup.**
+
+It takes pest type, property size, property type, and severity, and returns a DKK range. The rate table is in a single file (`src/lib/pricing.ts`) and is sourced from live Danish pricing pages:
+
+- skadedyrforbudt.dk (fra 1.800 kr, free follow-up)
+- skadedyrservice.dk (per-pest list)
+- djurslandskadedyr.dk (fra-priser incl. travel)
+- myreexpressen.dk, denrodemyre.dk, handyhand.dk (range validation)
+
+Deliberate design choices:
+
+- The output is a **range**, not a quote. Labelled "vejledende prisoverslag" (indicative estimate) to avoid the impression of a binding price.
+- Wasps are area-independent (nest removal, not room treatment).
+- Commercial property carries a +40% factor (documentation, access coordination).
+- One file, one `estimate()` function, one `dkr()` formatter. No backend, no API key, testable in the browser.
+
+## What I would do next
+
+**Three gaps, in order of impact.**
+
+- The 1-star Trustpilot reviews are about order fulfilment and support, not design. No redesign fixes that. It is the first thing to fix operationally.
+- The service side's authorisation claims (R1/R2, B-autorisering) are asserted on the site but not verifiable from a public register link. A "see authorisation" link to mst.dk would convert trust.
+- The two domains (address mismatch: Viengevej 6A vs. Engskovbakken 122; opening-hours mismatch) should be reconciled before the unified design is proposed to the owner.

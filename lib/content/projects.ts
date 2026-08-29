@@ -109,6 +109,7 @@ export const PROJECT_PRIORITY_ORDER = [
   // Above the coming-soon entries below, but not promoted to featured.
   "indkob-grocery-agent",
   "iriz",
+  "billigskadedyr-redesign",
   "figma-component-library",
 ];
 
