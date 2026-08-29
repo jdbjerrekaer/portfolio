@@ -1,24 +1,33 @@
 ---
 title: "One Brand, Two Jobs: Unifying a Danish Pest-Control Webshop and Service Site"
-summary: "A unified landing concept for billigskadedyr.dk and billigskadedyrprof.dk: one entry point, a two-path router (DIY products vs. professional service), a live price estimator, and honest social proof."
+summary: "A unified landing concept for billigskadedyr.dk: one entry point, a two-path router (DIY products vs. professional service), a price estimator that returns one concrete number, and a measured before/after against the live site."
 date: "2026-08-29"
 role: "Solo, research through build"
-outcome: "A single-page React concept that resolves the two-site split, ships a working price estimator on real Danish market data, and deploys to GitHub Pages."
+outcome: "Single-page React concept. Against the live site: horizontal overflow gone (6 overflowing elements to 0), requests down 47-61 to 13, sub-44px tap targets on mobile down 32 to 1."
 tags:
   - UX Design
   - Design-to-Code
   - React
   - TypeScript
   - Tailwind CSS
+  - Accessibility
   - Conversion Design
 links:
   live: "https://jonatanbjerrekaer-bot.github.io/billigskadedyr-redesign/"
   source: "https://github.com/jonatanbjerrekaer-bot/billigskadedyr-redesign"
+  "Before (Wayback, 29 Aug 2026)": "https://web.archive.org/web/20260829200352/https://billigskadedyr.dk/"
+coverImage: "/images/billigskadedyr/after-forside-desktop.png"
 gallery:
-  - src: "/images/billigskadedyr/live-desktop.png"
-    alt: "Desktop view of the unified billigskadedyr.dk redesign concept"
-  - src: "/images/billigskadedyr/live-mobile.png"
-    alt: "Mobile view of the unified billigskadedyr.dk redesign concept"
+  - src: "/images/billigskadedyr/before-forside-desktop.png"
+    alt: "Before: the live billigskadedyr.dk homepage on desktop, a dense webshop grid with no service pricing"
+  - src: "/images/billigskadedyr/after-forside-desktop.png"
+    alt: "After: the redesign concept on desktop, with a two-path router and a working price estimator"
+  - src: "/images/billigskadedyr/before-forside-mobile.png"
+    alt: "Before: the live homepage on mobile, where four elements overflow the viewport horizontally"
+  - src: "/images/billigskadedyr/after-forside-mobile.png"
+    alt: "After: the redesign on mobile, with a persistent contact bar and no horizontal overflow"
+  - src: "/images/billigskadedyr/before-artikler-mobile.png"
+    alt: "Before: the article index on mobile, 10,413px tall with 36 tap targets under 44px"
 galleryLayout: "landscape"
 featured: false
 comingSoon: false
@@ -27,59 +36,88 @@ hidden: false
 
 ## Recruiter takeaway
 
-This is a scope-and-clarity story, not a visual refresh.
+This is a scope-and-clarity story with numbers attached, not a visual refresh.
 
-The business behind billigskadedyr.dk runs two properties that tell two stories: a WooCommerce webshop that sells DIY pest-control products, and a separate service site (billigskadedyrprof.dk) that sells professional treatment. A visitor has to already know which story they need before they land. The concept unifies them into one entry point, lets the user pick their path in the first screen, and replaces "contact us for a price" with a working estimator backed by real Danish market data.
+The business behind billigskadedyr.dk runs two properties that tell two stories: a WooCommerce webshop selling DIY pest-control products, and a separate service site selling professional treatment. A visitor has to already know which story they need before they land. The concept unifies them into one entry point, lets the user pick their path in the first screen, and replaces "kontakt os for pris" with an estimator that returns one concrete number.
 
 What this proves:
 
-- I can audit a live product end to end (crawl, screenshots, pricing research, review mining) before touching a pixel
+- I audit a live product before touching a pixel, and I measure the result against it afterwards rather than asserting an improvement
 - I make the IA decision first: two paths (DIY vs. professional) instead of forcing one funnel on two audiences
-- I build the interface I design: a single-page React/TypeScript/Tailwind app that compiles, deploys, and renders at 390/768/1440
-- I treat honesty as a feature: real Trustpilot and e-mærket numbers, real price ranges, an explicit "unofficial concept" disclaimer, and no invented reviews
+- I build the interface I design: a React/TypeScript/Tailwind app on HeroUI that compiles, deploys, and is verified at 390 and 1440 with a scripted audit
+- I am specific about provenance, including where my data is *not* the client's
 
 ## The problem
 
 **Two sites, one customer, zero handoff.**
 
-The webshop sells traps, baits, and professional-grade products. The service site sells the labor. But neither site says: "Here is the same company, here are your two options, here is how to tell which one you need." The practical result:
+The webshop sells traps, baits and professional-grade products. The service site sells the labour. Neither says: here is the same company, here are your two options, here is how to tell which one you need.
 
 - A DIY buyer never learns the shop is curated by a professional
-- A service customer never sees the products they could buy
-- Pricing is opaque on the service side ("kontakt os"), which is the single biggest conversion leak in pest control
+- A service customer never sees the products they could buy instead
+- Pricing is opaque on the service side, which is the single biggest conversion leak in pest control
+
+## Measuring the "before" first
+
+I archived the live site before designing anything, so the comparison would be against a fixed, citable state rather than my memory of it. Two records: a [Wayback capture](https://web.archive.org/web/20260829200352/https://billigskadedyr.dk/) as a timestamped third-party record, and my own full-page captures at 1440 and 390 for pixel control.
+
+A detail worth recording: the article pages are JS-rendered, and their served HTML contains only the navigation. My first scrape returned twelve byte-identical "articles" that were all nav markup. I caught it by checking how many distinct bodies came back (one) before using any of it. The real content comes from the site's own WordPress REST API.
 
 ## Designing the entry point
 
 **The first job was IA, not visual.**
 
-The reference direction (dark forest-green, orange accent, rounded cards, condensed all-caps display type) was applied as a skin, but the structure was rebuilt around the user's first decision: *do I want to handle this myself, or do I want a pro to?*
+The palette is near-black green with an acid-lime accent. That pairing matters: a mid-tone green reads garden centre, while near-black plus lime reads treatment and chemistry, which is the category this business is actually in.
 
-1. **Two-path router.** "Klar det selv" (DIY) vs. "Få en professionel ud" (professional service). Each card states the price starting point and time-to-result, so the user can self-select before scrolling.
-2. **Pest-first navigation.** A quick-select grid of the common pests (rats/mice, ants, wasps, bed bugs, silverfish, wood borers, cockroaches, flies) that routes each pest to the correct path. Users think in pests, not in product categories.
-3. **Honest trust strip.** e-mærket certification (verified) and the real Trustpilot score. The 3.8/5 is shown as-is, not buried. The 1-star themes (unfulfilled orders, slow support) are noted in the handover doc as the real conversion killer.
+1. **Two-path router.** "Klar det selv" vs. "Få en professionel ud", each stating its price starting point and time to result, so the user self-selects before scrolling.
+2. **Pest-first navigation.** A grid of the common pests routing each to the correct path. People think in pests, not product categories.
+3. **Delivery time up front.** Speed is the promise the original site leads with, so it leads here too.
 
-## The estimator: replacing "contact us for a price"
+## The estimator
 
-**The centrepiece is a working price calculator, not a mockup.**
+**The centrepiece is a working calculator, and it returns one number.**
 
-It takes pest type, property size, property type, and severity, and returns a DKK range. The rate table is in a single file (`src/lib/pricing.ts`) and is sourced from live Danish pricing pages:
+An early version showed a range. A range makes the visitor do the arithmetic and still leaves them unsure, so the output is a single figure with the inputs visible. The breakdown underneath is derived from the selections rather than fixed: choosing rats lists *sikring af adgangsveje og opsætning af foderstationer*, wasps lists nest removal, and picking Erhverv swaps the documentation line to audit documentation.
 
-- skadedyrforbudt.dk (fra 1.800 kr, free follow-up)
-- skadedyrservice.dk (per-pest list)
-- djurslandskadedyr.dk (fra-priser incl. travel)
-- myreexpressen.dk, denrodemyre.dk, handyhand.dk (range validation)
+Progressive disclosure does the rest of the work. Choosing the pest is the only visible step; area, property type and severity sit behind one control with sensible defaults, and on desktop that panel opens as the section scrolls into view so the controls are present without being a wall on arrival.
 
-Deliberate design choices:
+**On provenance, precisely:**
 
-- The output is a **range**, not a quote. Labelled "vejledende prisoverslag" (indicative estimate) to avoid the impression of a binding price.
-- Wasps are area-independent (nest removal, not room treatment).
-- Commercial property carries a +40% factor (documentation, access coordination).
-- One file, one `estimate()` function, one `dkr()` formatter. No backend, no API key, testable in the browser.
+- **DIY prices are real and theirs.** Scraped from the shop's own WooCommerce Store API, 167 products, so the "from" figures are the client's actual prices.
+- **Professional prices are market estimates, and the UI says so.** The business publishes no professional call-out prices at all, so there was nothing of theirs to quote. Those figures come from other Danish firms' public price pages and are labelled *vejledende* throughout. Presenting them as the client's numbers would have been the easy lie.
+
+## Before and after, measured
+
+Captured with the same scripted audit against both sites, desktop 1440 and mobile 390.
+
+| | Live site | Concept |
+|---|---|---|
+| Elements overflowing the viewport (desktop / mobile) | 2 / 4 | **0 / 0** |
+| Tap targets under 44px, mobile | 32 | **1** |
+| Tap targets under 44px, article index mobile | 36 | n/a |
+| HTTP requests | 47–61 | **13** |
+
+The wins that matter are the overflow and the tap targets. Horizontal overflow on a phone is the kind of defect people feel as "this site is broken" without being able to name it, and 32 sub-44px targets on a page whose primary action is contacting a tradesperson is a real barrier.
+
+**Where the concept is worse, and why I am leaving it in the table:**
+
+- **It is heavier.** 1.27 MB against roughly 750 KB. The component library plus its motion dependency accounts for most of it. Fewer, larger requests instead of many small ones is a defensible trade, but it is a trade, not a free win.
+- **It is longer.** 13,621px on mobile against 3,200px. Partly genre — a long-form landing page against a shop grid — and partly mine: adding thirteen article extracts for search coverage cost real height. The comparison-matrix and refinement panels are folded away on mobile for exactly this reason.
+
+## Building on someone else's component library
+
+Migrating to HeroUI produced one lesson worth writing down, because it caused four separate visual bugs before I understood it.
+
+Tailwind v4 emits its utilities inside `@layer utilities`; the library's stylesheet is unlayered. **Unlayered rules beat layered ones regardless of specificity**, so a utility class on the JSX can never override a library rule. That is why the nav went dark-on-dark, the package tier names vanished, and the slider kept its default blue: I was writing overrides in a layer that could not win.
+
+The slider took three attempts because I kept treating it as a colour problem. The library draws the filled end as a **12px left border on the track**, not as part of the fill. Measuring it settled it in one pass: track at x=96, fill at x=108. Those 12px were the artifact. Recolouring the border removed the colour and left the gap; setting its width to zero fixed it.
+
+The same discipline fixed the icons. The pest glyphs looked mismatched, and nudging sizes by eye never converged. Measuring the alpha coverage of each PNG showed why: the cockroach carries 2.5× the ink of the beetle at identical box size, so the dense one needed scaling *down* while the sparse one scaled up.
 
 ## What I would do next
 
 **Three gaps, in order of impact.**
 
-- The 1-star Trustpilot reviews are about order fulfilment and support, not design. No redesign fixes that. It is the first thing to fix operationally.
-- The service side's authorisation claims (R1/R2, B-autorisering) are asserted on the site but not verifiable from a public register link. A "see authorisation" link to mst.dk would convert trust.
-- The two domains (address mismatch: Viengevej 6A vs. Engskovbakken 122; opening-hours mismatch) should be reconciled before the unified design is proposed to the owner.
+- The one-star reviews are about order fulfilment and support, not design. No redesign fixes that, and it should be fixed operationally first.
+- The review quotes in the concept are carried over from an earlier pass and I have not re-verified them against the live Trustpilot page. The aggregate scores are real and linked; the individual quotes carry a warning in the source and should be re-scraped or cut before this goes anywhere public. Inventing reviewer names and star counts to fill the section would have looked better and been worthless.
+- The two domains disagree on address and opening hours. That should be reconciled before a unified design is proposed to the owner.
