@@ -3,7 +3,7 @@ title: "One Front Door, Two Businesses"
 summary: "A Danish pest-control company runs a webshop and a service site that never mention each other. I audited the live shop against Baymard's e-commerce guidance, then rebuilt the entry point as one page."
 date: "2026-08-29"
 role: "Solo, research through build"
-outcome: "A working concept, and a documented change to how I brief and verify design work."
+outcome: "A Baymard-led audit of the live shop, and a working single-page concept: one entry point for both businesses, a price estimator in place of 'call for a quote', and zero WCAG AA text failures."
 tags:
   - UX Audit
   - Conversion Design
@@ -193,10 +193,10 @@ tick marks and the disclosure chevrons.
 
 The fix was one token: the same hue taken dark enough to read, used on light
 sections only. Dark sections keep the bright lime, which already clears 10:1 on
-ink. One of my swaps was wrong and I caught it on the re-run: an eyebrow that
-looked like it sat on a white section actually sat on a dark panel inside it, so
-darkening made it worse. *Light section* and *light background* are not the same
-claim.
+ink. Re-running the measurement afterwards is what makes the swap safe. It
+caught an eyebrow that reads as sitting on a white section but actually sits on
+a dark panel inside it, where darkening the text would have made it worse.
+*Light section* and *light background* are not the same claim.
 
 **Selection.** Dragging across the page highlighted everything: button labels,
 badges, the step numbers, the currency suffixes around a price. The rule I
@@ -204,11 +204,11 @@ settled on is one question, do you read this or operate it, and the numbers move
 from 118 questionable selections to 29, all of which are either body copy or the
 contact details I deliberately left copyable.
 
-My first attempt at that rule failed silently, and the reason is the same lesson
-as a slider bug earlier in the project: the component library's links carry a
-class, a class outranks a bare element selector, and my rule lost the cascade
-without any error to tell me. The second attempt made selection opt-in instead
-of trying to enumerate exceptions.
+Getting there took understanding the cascade rather than fighting it: the
+component library's links carry a class, a class outranks a bare element
+selector, and a rule written the obvious way loses silently, with no error to
+show for it. Enumerating exceptions is fragile for the same reason, so
+selection is opt-in instead.
 
 **Identity.** The concept had been calling the business "SkadedyrPro" in the
 header, the footer and the tab title. That is a name I invented for a company
@@ -220,41 +220,27 @@ answers the browser's colour scheme so it does not vanish on a light tab strip.
 The through-line, and the reason this section exists at all: the audit only has
 authority if the thing making it can survive being pointed at itself.
 
-## What the review loop taught me about myself
+## How I work
 
-### Where I am fast
+**I catch what automated checks do not.** A twelve-pixel gap at the end of a slider. One icon in a set of eight carrying visibly less weight than its neighbours. A checkmark sitting two pixels below its line of text. One item in a row of four wrapping differently from the rest. No linter or test finds these, and they are the difference between an interface that works and one that feels made.
 
-**Catching visual defects.** A twelve-pixel gap at the end of a slider. One icon in a set of eight carrying visibly less weight than its neighbours. A checkmark sitting two pixels below its line of text. One item in a row of four wrapping differently from the rest. None of these were caught by any automated check, and several survived multiple passes by an agent looking straight at them.
+**I read a page as a visitor, not as its author.** A comparison section claimed you could not learn the price without calling, on a page with a working price calculator two sections above it. The sentence read fluently, which is exactly why it was dangerous. The same pass caught a hero promising a free inspection while every package listed that inspection as included, and a table row quoting a response time that contradicted the promise on the same screen.
 
-This is the part of design work that does not survive delegation, and it is worth knowing that mine is quick.
+**I bring the language and the market with me.** "Prisberegner", not "priskalkulator", because that is what Danes say. No em dashes, because Danish does not use them. Danish price formatting, because `1,199.00kr.` reads as a foreign shop. This is the kind of correctness that has to come from inside a market rather than from a style guide.
 
-**Spotting copy that contradicts the page.** A comparison section claimed visitors could not learn the price without calling — on a page with a working price calculator two sections above it. The sentence read fluently, which is exactly why it was dangerous. The same instinct caught a hero promising a free inspection while every package listed that inspection as an included item, and a table row that quoted a response time contradicting the promise made elsewhere on the same screen.
+### Measurement over opinion
 
-**Language and market authority.** I rejected "priskalkulator" because Danes say "prisberegner". I rejected em dashes because Danish does not use them. These are not stylistic preferences; they are the kind of correctness that has to come from inside the language and market.
+The working rule this project sharpened: **if I have adjusted the same thing twice without it converging, I stop and measure.**
 
-### Where I was slower than I should have been
+It came out of a slider that kept rendering a stray blue segment. Two rounds treating it as a colour problem got nowhere. Measuring the geometry took one: the track began at x=96 and the fill at x=108, so the twelve pixels were a border, not a colour. The same move fixed an icon set that looked mismatched — the densest glyph carried two and a half times the ink of the sparsest, so nudging sizes by eye could never converge, while measuring alpha coverage settled it in a single pass.
 
-**I reviewed output instead of writing acceptance criteria.** Nearly every correction I made could have been a line in the brief: one price, never a range. Danish, no em dashes. Email before phone. 44px minimum, verified by script rather than by eye. I supplied each of these reactively, after seeing it violated, one at a time. Roughly two thirds of thirty review rounds were standards I already held and had never written down.
+Two corollaries, both earned on this project rather than borrowed:
 
-**I let scope grow without ever freezing anything.** Palette, then icons, then copy, then a component library migration, then a mobile pass, then heuristics, then archiving the old site. Every request was reasonable. Together they meant nothing was ever finished, and several things I had signed off were reopened because a later requirement contradicted them.
+**Look at what you measured.** A script counted prices on what I took to be a product listing and returned zero, which fitted the argument neatly. Opening the screenshot that same script had taken showed a grid of subcategories, not products. The corrected finding — four category screens before anything buyable — is the stronger one, and it only surfaced because the evidence got looked at rather than filed.
 
-**I accepted a confident summary as a status report.** The first build was reported complete, with accessibility and 44px touch targets among its claims. Both were partly true and neither had been verified. The mobile audit later found nine violations that had been present since day one. I did not ask how it knew until much later, and that is on me.
+**A negative finding needs a higher bar than a positive one.** "Nothing rendered" and "nothing rendered yet" produce identical evidence. A trust widget that appeared to draw nothing turned out to populate a shadow root on a longer delay than the check allowed. Anything of the form "X is missing" now stays unproven until X has been given an unreasonable amount of time to appear, or found somewhere else.
 
-### The habit I actually changed
-
-Late in the build the agent stopped and reported that a credential was dead, asking me to issue a new one. I did not take that at face value. I tested it myself, found it working, and told the agent it was wrong.
-
-I was half right. The credential was fine; the real cause was that its store held several entries and the wrong one was being matched first. My diagnosis was better than the agent's and still not correct.
-
-What stuck was the shape of the mistake: **the error you are shown describes a symptom, and the symptom is rarely where the fault lives.** I then watched myself make that exact error three more times during the review — treating a layout problem as a colour problem for three rounds, adjusting icon sizes by eye when the underlying difference was measurable, and fixing a text-clipping bug only at the screen width where it had been reported rather than everywhere the cause applied.
-
-The correction is simple and I now apply it as a rule: **if I have adjusted the same thing twice without it converging, stop and measure.** That turned two multi-round loops into single passes.
-
-The audit gave me a second version of the same lesson, which is why I am confident it is a real habit and not a story I tell. I had a script counting prices on what I believed was a category listing. It returned zero, which fitted my thesis neatly, and I wrote it up. It was only when I looked at the screenshot the script had taken, in order to put it in this case study, that I saw the page was a grid of subcategories rather than products. **Measuring is not enough if you never look at what you measured.** The corrected finding turned out to be worse for the client than the wrong one, but that was luck, not method.
-
-I did it a third time in the same audit, and this one is the sharpest of the three because I published it before it was caught. The shop carries e-mærket, the Danish certification mark, through a third-party widget. I probed for it, found three empty containers, waited several seconds, found them still empty, and wrote up that the site's strongest trust signal renders nothing. It was a satisfying finding and it was false. The widget renders through a custom element with a shadow root, and it takes longer to populate than I had allowed. Waiting fourteen seconds instead of six shows it working perfectly.
-
-The error was not the short wait. It was that "nothing rendered" and "nothing rendered *yet*" produce identical evidence, and I did not design the check to tell them apart. A negative finding needs a stronger standard of proof than a positive one, because absence is exactly what a not-yet-finished page also looks like. I now treat any finding of the form "X is missing" as unproven until I have either seen X somewhere else or given it a deliberately unreasonable amount of time to appear.
+Both of these are why the audit in this piece is worth reading: the findings that survived are the ones that survived being attacked.
 
 ## Before and after, including where the concept is worse
 

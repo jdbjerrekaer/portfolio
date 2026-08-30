@@ -107,9 +107,9 @@ export const PROJECT_PRIORITY_ORDER = [
   "biombrane",
   "leadplatform",
   // Above the coming-soon entries below, but not promoted to featured.
+  "billigskadedyr-redesign",
   "indkob-grocery-agent",
   "iriz",
-  "billigskadedyr-redesign",
   "figma-component-library",
 ];
 
