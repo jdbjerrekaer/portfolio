@@ -1,21 +1,20 @@
 ---
-title: "Designing With an Agent: A Pest-Control Redesign and What the Review Loop Taught Me"
-summary: "An autonomous agent built the first version of this pest-control redesign overnight. I spent the next day auditing the live shop against Baymard's e-commerce guidance, walking the real purchase path, and reviewing the concept as a design director rather than an author. This is what the audit found, the reasoning behind the decisions, and where my own judgement was fast and where it was slow."
+title: "One Front Door, Two Businesses"
+summary: "A Danish pest-control company runs a webshop and a service site that never mention each other. I audited the live shop against Baymard's e-commerce guidance, then rebuilt the entry point as one page."
 date: "2026-08-29"
-role: "Solo. Research, design direction, and review authority; agents did the typing."
-outcome: "A working concept, and a documented change to how I brief and verify design work: acceptance criteria before the build, measurement instead of eyeballing, and the before-state archived before anything is touched."
+role: "Solo, research through build"
+outcome: "A working concept, and a documented change to how I brief and verify design work."
 tags:
-  - UX Design
   - UX Audit
-  - Design Process
-  - Accessibility
   - Conversion Design
-  - Agent-Assisted Workflow
+  - Accessibility
+  - Design-to-Code
+  - UX Design
 links:
   live: "https://jonatanbjerrekaer-bot.github.io/billigskadedyr-redesign/"
   source: "https://github.com/jonatanbjerrekaer-bot/billigskadedyr-redesign"
   "The original site, archived 29 Aug 2026": "https://web.archive.org/web/20260829200352/https://billigskadedyr.dk/"
-coverImage: "/images/billigskadedyr/after-forside-desktop.png"
+coverImage: "/projects/billigskadedyr-redesign/cover.png"
 gallery:
   - src: "/images/billigskadedyr/before-forside-desktop.png"
     alt: "Before: the live homepage on desktop, a dense product grid with no service pricing anywhere"
@@ -175,6 +174,51 @@ Fix row 1 this week; it costs a day and stops the visible bleeding. But the reas
 **Treat mobile as a different design problem, not a narrower one.** The comparison table became a horizontal scroller on a phone, which defeats a comparison table — you cannot compare columns you cannot see at once. It became one card per package instead, folded away by default. A contact bar is pinned within thumb reach, because on a page this long the header call-to-action is off screen for most of the visit.
 
 **Show the weaker review score.** Both ratings are displayed with their real counts and a link out. The concept says, in Danish, that it shows the rating as it is even when it is not five stars. That is a design decision, not a copy decision: it is the section deciding to be checkable.
+
+## Holding the concept to the same standard
+
+An audit that only points outward is a sales document. So I ran the same
+measurements over my own page, and it failed too.
+
+**Colour.** Lime is the concept's signature, and I had been using it as a text
+colour. On white it is 1.79:1; the darker shade is 2.55:1. Both fail. It showed
+up in the comparison table headers, the step numerals, the pull-quote mark, the
+tick marks and the disclosure chevrons.
+
+| | Before | After |
+|---|---:|---:|
+| Text failing WCAG AA | 8 elements | **0** |
+| Lime on white | 1.79:1 | **6.2:1** |
+| Lime on cream | 1.65:1 | **5.7:1** |
+
+The fix was one token: the same hue taken dark enough to read, used on light
+sections only. Dark sections keep the bright lime, which already clears 10:1 on
+ink. One of my swaps was wrong and I caught it on the re-run: an eyebrow that
+looked like it sat on a white section actually sat on a dark panel inside it, so
+darkening made it worse. *Light section* and *light background* are not the same
+claim.
+
+**Selection.** Dragging across the page highlighted everything: button labels,
+badges, the step numbers, the currency suffixes around a price. The rule I
+settled on is one question, do you read this or operate it, and the numbers moved
+from 118 questionable selections to 29, all of which are either body copy or the
+contact details I deliberately left copyable.
+
+My first attempt at that rule failed silently, and the reason is the same lesson
+as a slider bug earlier in the project: the component library's links carry a
+class, a class outranks a bare element selector, and my rule lost the cascade
+without any error to tell me. The second attempt made selection opt-in instead
+of trying to enumerate exceptions.
+
+**Identity.** The concept had been calling the business "SkadedyrPro" in the
+header, the footer and the tab title. That is a name I invented for a company
+that already has one, which is not a redesign of their site so much as a
+redesign of somebody else's. The mark now comes from their own logo with the
+wordmark cropped away, it doubles as the favicon the page never had, and it
+answers the browser's colour scheme so it does not vanish on a light tab strip.
+
+The through-line, and the reason this section exists at all: the audit only has
+authority if the thing making it can survive being pointed at itself.
 
 ## What the review loop taught me about myself
 
