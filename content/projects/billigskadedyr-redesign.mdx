@@ -1,6 +1,6 @@
 ---
 title: "Designing With an Agent: A Pest-Control Redesign and What the Review Loop Taught Me"
-summary: "An autonomous agent built the first version of this redesign overnight. I spent the next day reviewing it as a design director rather than an author. This is the audit that started it, the reasoning behind the decisions, and an honest account of where my judgement was fast, where it was slow, and what I changed."
+summary: "An autonomous agent built the first version of this pest-control redesign overnight. I spent the next day auditing the live shop against Baymard's e-commerce guidance, walking the real purchase path, and reviewing the concept as a design director rather than an author. This is what the audit found, the reasoning behind the decisions, and where my own judgement was fast and where it was slow."
 date: "2026-08-29"
 role: "Solo. Research, design direction, and review authority; agents did the typing."
 outcome: "A working concept, and a documented change to how I brief and verify design work: acceptance criteria before the build, measurement instead of eyeballing, and the before-state archived before anything is touched."
@@ -47,38 +47,79 @@ A Danish pest-control business runs two separate websites. One is a webshop sell
 
 A visitor has to already know which of those they need before they land on either. Neither site says: same company, two options, here is how to tell which one you are.
 
-## What was actually wrong with the existing site
+## Auditing the existing shop
 
-I audited the live site before designing anything, and archived it publicly so the comparison would be against a fixed state rather than my memory of it. What I found sorts into three groups.
+This is a webshop, so I audited it as one: I walked the actual purchase path at desktop and phone widths, added a product to the basket, and went to checkout, recording what happened at each stage rather than reviewing the homepage and calling it an audit. Baymard's e-commerce guidelines are the reference throughout, because they are built on observed purchase sessions rather than opinion.
 
-### Problems that block the sale
+**Credit where it is due first.** The category pages have working faceted filters and a sort control. Checkout allows guest purchase, which many Danish shops still get wrong. Payment covers Apple Pay, MobilePay, card and EAN invoicing, which is genuinely good coverage for a Danish audience including business customers. None of what follows is a theme problem or a taste problem.
 
-**There are no prices for the professional service. Anywhere.** Every service page ends at "ring og få et uforpligtende tilbud" — call for a quote. In a category where people are anxious, embarrassed, and want to know if this is a 500 kr or a 5,000 kr problem before they speak to anyone, that is the single largest conversion leak on the site. Baymard's work on price transparency is unambiguous here: hidden pricing does not defer the decision, it ends it.
+### The product list gives you nothing to decide with
 
-**Products are organised by product type, not by problem.** The navigation offers categories like traps and bait stations. Nobody wakes up wanting a bait station. They wake up because they heard something in the wall. The taxonomy asks the visitor to translate their problem into the vocabulary of a supplier before they can find anything.
+**There are no prices in the category listing.** I counted zero price values across a category page. To compare two rat baits, you must open one, go back, and open the other, holding the first price in your head.
 
-**Nothing connects the shop to the service.** A DIY buyer never learns the shop is curated by a professional who could come out. A service customer never sees that they might solve it themselves for 49 kr. Each site quietly withholds the other's option.
+Price is the single most consulted attribute when people scan a product list. Removing it does not simplify the list; it makes the list undecidable and pushes the comparison work onto the visitor's memory. There are also no ratings and no add-to-basket from the list, so every path forward costs a page load.
 
-### Problems that break trust
+### The product page has no social proof at all
 
-**Placeholder text in production.** The professional site had Lorem ipsum live on it. Nothing else on this list costs as much credibility per pixel.
+Across the entire catalogue, every product has a review count of zero. There is no review section on the product page, and no rating anywhere in the shop.
 
-**The two sites contradict each other on facts.** Different street addresses. Different opening hours. If a visitor checks both — and an anxious one will — the business looks like it does not know its own details.
+This is the gap that struck me hardest, because the business clearly *has* satisfied customers: it advertises a certification score and a Trustpilot presence in the footer. That proof is sitting at the bottom of the site, one level away from the moment it would actually change a decision. Somebody choosing between two poisons for a rat problem in their child's bedroom wants to know that one of them worked for someone else.
 
-**Professional authorisation is asserted but not checkable.** The site claims the relevant Danish certifications. Those sit in a public register, and nothing links to it. A claim you cannot verify does less work than a claim you can.
+**The price is also formatted wrong for the market.** It renders as `1,199.00kr.` — comma for thousands, period for decimals, no space before the unit. Danish uses `1.199,00 kr.` To a Danish reader that reads as either a foreign shop or a broken one, at the exact moment they are deciding whether to trust it with a card number.
 
-**The review picture is uneven.** A 4.6 out of 5 sits prominently; a 3.8 out of 5 from a larger, better-known platform is not shown. Hiding the weaker score is the intuitive move and the wrong one, because the reader who finds it independently now distrusts everything else on the page.
+### The cost you actually pay is hidden until the end, or entirely
 
-### Problems in the interface itself
+Neither the basket nor the checkout showed a delivery cost in my pass. The only delivery information anywhere in that flow is a marketing line: *"Hurtig levering: Vi sender fra dag-til-dag."* Fast, yes. Free, unclear. Cost, unknown.
 
-I measured these rather than eyeballing them, at a desktop and a phone width:
+Unexpected extra cost at the end of checkout is the most-cited reason people abandon a basket, by a wide margin, and it is the failure this shop is set up for: the visitor commits emotionally at the product page, then discovers the real total at the last step. It is possible a figure appears after a postcode is entered — I could not confirm that without placing a real order — but "possibly revealed late" is the problem, not the exception to it.
 
-- **The layout overflows the screen.** Two elements push past the viewport on desktop, four on mobile. Horizontal scrolling on a phone is the kind of defect people experience as "this site feels broken" without being able to name it.
-- **Tap targets are too small to hit reliably.** 32 controls under the 44px minimum on the mobile homepage, 36 on the article index. On a site whose primary action is contacting a tradesperson from a phone, that is a real barrier, not a technicality.
-- **The article index is over 10,000 pixels tall on mobile** and unusually heavy, mostly unresized imagery.
-- **The article content is invisible to anything that does not run JavaScript.** I discovered this by accident: when I pulled twelve articles to read them, all twelve came back identical, because the served page contains only the navigation. For a business whose articles are its main organic search asset, that is worth knowing.
+### The checkout form does not tell you what it needs
 
-That last one is a good example of why I archive and probe a site rather than just screenshotting it. The problem was invisible from the browser and obvious the moment I looked at what the server actually sends.
+Not one field at checkout carries a programmatic required marker, and there is no visual required indicator in the usual place. A sighted user discovers what is mandatory by submitting and failing. Someone using a screen reader is not told at all.
+
+The form also asks for professional pesticide authorisation numbers inline, with no explanation next to them. For restricted products that requirement is legally real, but presenting it as a bare unexplained field mid-checkout, to a customer who may be buying a 49 kr ant bait, invites the reasonable conclusion that this shop is not for them.
+
+### The worst defect: an ad blocker leaves the site permanently frozen
+
+The consent dialog is a full-viewport modal that sits directly over the add-to-basket button, and while it is open the page cannot be scrolled. That much is a design choice, and a common one.
+
+The problem is how the scroll lock is implemented. It is applied to the document itself, and it is not tied to the banner being present. I tested this directly:
+
+| | Scroll works? |
+|---|---|
+| Consent modal showing | No |
+| Banner element removed, as an ad blocker does | **Still no** |
+
+An ad blocker removes the banner element. It does not undo the style the site already applied to the document. So a visitor running one arrives at a page with no visible dialog, no way to dismiss anything, and no ability to scroll or interact. The site does not look like it is asking for consent. It looks broken.
+
+This is my candidate for the single most damaging defect on the site, and it is invisible to anyone testing without an ad blocker — which is to say, invisible to the people who built it. Ad blocker use in Denmark is high enough that this is not an edge case. Those visitors do not report a bug; they leave, and they are counted as a bounce.
+
+It is also the finding I am most confident about, because it is the one I verified hardest. My first instinct was that a stray modal was permanently covering the button, and that was wrong. Checking properly gave me both the correct mechanism and a much more serious problem than the one I thought I had found.
+
+### Structural problems above all of that
+
+- **The catalogue is organised by product type, not by problem.** The visitor must translate "I heard something in the wall" into "bait station" before the navigation can help them.
+- **The shop and the professional service are separate sites with no route between them.** A DIY buyer never learns a technician is available; a service customer never learns they could solve it for 49 kr.
+- **The professional site had placeholder Lorem ipsum live in production**, and the two sites disagree with each other on street address and opening hours.
+- **Certification claims are not checkable.** The relevant Danish authorisations sit in a public register and nothing links to it.
+- **Only the flattering review score is shown.** The higher certification score is displayed; the lower, better-known Trustpilot rating is not. Hiding it is the intuitive move and the wrong one, because a visitor who finds it independently now discounts everything else on the page.
+- **The article content does not exist without JavaScript.** I found this by accident: pulling twelve articles returned twelve identical pages, because the served HTML contains only the navigation. For a business whose guides are its main organic search asset, that is worth knowing.
+
+### Measured interface defects
+
+| | Desktop | Mobile |
+|---|---|---|
+| Elements overflowing the viewport | 2 | 4 |
+| Tap targets below 44px, homepage | — | 32 |
+| Tap targets below 44px, article index | — | 36 |
+
+Horizontal overflow on a phone is the kind of defect people experience as "this site feels broken" without being able to name it. And on a shop whose buyers are standing in a kitchen looking at an ant trail, a phone is the likely device.
+
+### Why I sorted the findings this way
+
+Baymard's argument for costing UX work is that a defect's value is not how ugly it is, it is how much completed business it prevents. So I ordered the list by proximity to the money: missing list prices and hidden delivery costs sit on the purchase path and are cheap template changes. The Lorem ipsum is embarrassing but costs less. The palette, which is what most redesign pitches would lead with, is not on this list at all.
+
+That ordering is also the argument for doing the audit before the design. Had I opened with a visual refresh, I would have produced a prettier version of a shop that still cannot be compared, still hides its delivery cost, and still has no reviews.
 
 ## The decisions, and the reasoning
 
