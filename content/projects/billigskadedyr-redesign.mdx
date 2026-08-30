@@ -1,147 +1,157 @@
 ---
-title: "Designing With an Agent: What 30 Rounds of Review Taught Me About My Own Process"
-summary: "A pest-control redesign built by an autonomous agent overnight, then rebuilt through a long human review loop. The interesting part is not the artefact. It is what the loop exposed about where my judgement is reliable, where it is not, and how I changed the way I brief and verify work as a result."
+title: "Designing With an Agent: A Pest-Control Redesign and What the Review Loop Taught Me"
+summary: "An autonomous agent built the first version of this redesign overnight. I spent the next day reviewing it as a design director rather than an author. This is the audit that started it, the reasoning behind the decisions, and an honest account of where my judgement was fast, where it was slow, and what I changed."
 date: "2026-08-29"
-role: "Solo. Direction, design judgement, and review authority; agents did the typing."
-outcome: "A working concept, and a documented change to how I run agent-assisted design work: acceptance criteria before the build, measurement instead of eyeballing, and a rule that the layer gets diagnosed before the symptom gets patched."
+role: "Solo. Research, design direction, and review authority; agents did the typing."
+outcome: "A working concept, and a documented change to how I brief and verify design work: acceptance criteria before the build, measurement instead of eyeballing, and the before-state archived before anything is touched."
 tags:
-  - Design Process
   - UX Design
-  - Agent-Assisted Workflow
-  - Design-to-Code
+  - UX Audit
+  - Design Process
   - Accessibility
-  - Critique
+  - Conversion Design
+  - Agent-Assisted Workflow
 links:
   live: "https://jonatanbjerrekaer-bot.github.io/billigskadedyr-redesign/"
   source: "https://github.com/jonatanbjerrekaer-bot/billigskadedyr-redesign"
-  "Before (Wayback, 29 Aug 2026)": "https://web.archive.org/web/20260829200352/https://billigskadedyr.dk/"
+  "The original site, archived 29 Aug 2026": "https://web.archive.org/web/20260829200352/https://billigskadedyr.dk/"
 coverImage: "/images/billigskadedyr/after-forside-desktop.png"
 gallery:
   - src: "/images/billigskadedyr/before-forside-desktop.png"
-    alt: "Before: the live billigskadedyr.dk homepage on desktop"
+    alt: "Before: the live homepage on desktop, a dense product grid with no service pricing anywhere"
   - src: "/images/billigskadedyr/after-forside-desktop.png"
-    alt: "After: the concept on desktop, with a two-path router and a price estimator"
+    alt: "After: the concept on desktop, leading with the choice between doing it yourself and booking a professional"
   - src: "/images/billigskadedyr/before-forside-mobile.png"
-    alt: "Before: the live homepage on mobile, where four elements overflow the viewport"
+    alt: "Before: the live homepage on mobile, where four elements push past the edge of the screen"
   - src: "/images/billigskadedyr/after-forside-mobile.png"
-    alt: "After: the concept on mobile, with a persistent contact bar and no horizontal overflow"
+    alt: "After: the concept on mobile, with a contact bar always within thumb reach"
   - src: "/images/billigskadedyr/before-artikler-mobile.png"
-    alt: "Before: the article index on mobile, with 36 tap targets under 44px"
+    alt: "Before: the article index on mobile, over 10,000 pixels tall with 36 tap targets below the minimum size"
 galleryLayout: "landscape"
 featured: false
 comingSoon: false
 hidden: false
 ---
 
-## Why this case study is about process
+## What this case study is about
 
-Most portfolio pieces show the artefact and imply the thinking. This one inverts it, because the artefact is the least interesting output.
+The redesign is the occasion. The subject is how I work.
 
-The subject is a Danish pest-control business running two properties: a webshop selling DIY products, and a separate service site selling professional treatment. The redesign question is genuinely interesting (one entry point, two audiences), but I have written that kind of analysis before. What I had not done before is run a project where an autonomous agent produced the entire first version while I was away from the keyboard, and then spend a working day reviewing it as a design director rather than an author.
+An autonomous agent running on my own hardware built the entire first version of this concept while I was away from the keyboard. When I came back, I reviewed it the way I would review a junior designer's work, and that review ran about thirty rounds across a day.
 
-That produced something more useful than a landing page: a fairly precise map of where my design judgement is fast and trustworthy, where it is slow, and where it was simply absent until a defect made it visible.
+That gap is the interesting part. A capable agent, given a researched brief, produced something coherent that was still wrong in roughly thirty specific ways — and almost none of those ways were things the brief had mentioned. They were things I only knew when I saw them. Working out *why* I only knew them then, and not before, is what this piece is about.
 
-## How the work was actually structured
+## The client situation
 
-**Phase one, autonomous.** A long-running agent on my own hardware held the brief. My instruction before it started was deliberately not "build it" but:
+A Danish pest-control business runs two separate websites. One is a webshop selling DIY products: traps, baits, sprays. The other sells professional treatment, where a technician comes to your house.
 
-> "Maybe do a double take on the plan and research like a second pass to see if we missed anything in the planning or research, so when you finish this task you don't start from scratch."
+A visitor has to already know which of those they need before they land on either. Neither site says: same company, two options, here is how to tell which one you are.
 
-That was the right instinct and I want to keep it. Re-reading a plan before executing it is cheap; discovering a missing constraint after a build is not. The second pass caught real things: the two domains disagree on address and opening hours, the professional site had placeholder text in production, and the authorisation claims were not verifiable from a public register.
+## What was actually wrong with the existing site
 
-It returned a complete, deployed React application. Two-path router, pest-first navigation, a working price estimator, real review scores, Danish throughout, an audit document and a handover document listing open questions for the owner.
+I audited the live site before designing anything, and archived it publicly so the comparison would be against a fixed state rather than my memory of it. What I found sorts into three groups.
 
-**Phase two, review.** I opened it and started looking. That phase ran roughly thirty rounds of feedback across a day.
+### Problems that block the sale
 
-The gap between those two phases is the finding. A capable agent given a good brief produced something coherent that was still wrong in about thirty specific ways, and almost none of those ways were things the brief had mentioned. They were things I only knew when I saw them.
+**There are no prices for the professional service. Anywhere.** Every service page ends at "ring og få et uforpligtende tilbud" — call for a quote. In a category where people are anxious, embarrassed, and want to know if this is a 500 kr or a 5,000 kr problem before they speak to anyone, that is the single largest conversion leak on the site. Baymard's work on price transparency is unambiguous here: hidden pricing does not defer the decision, it ends it.
 
-## What the review loop revealed about my judgement
+**Products are organised by product type, not by problem.** The navigation offers categories like traps and bait stations. Nobody wakes up wanting a bait station. They wake up because they heard something in the wall. The taxonomy asks the visitor to translate their problem into the vocabulary of a supplier before they can find anything.
 
-### Where I am fast and reliable
+**Nothing connects the shop to the service.** A DIY buyer never learns the shop is curated by a professional who could come out. A service customer never sees that they might solve it themselves for 49 kr. Each site quietly withholds the other's option.
 
-**Visual defect detection, at a level I had not consciously credited myself with.** I caught a twelve-pixel gap at the left end of a slider. I caught that one icon in a set of eight carried visibly less ink than the others. I caught that a badge sat two pixels below its text baseline, and that one item in a four-item row wrapped to one line while its neighbours took two. None of these were flagged by any automated check; several survived multiple rounds of an agent looking directly at them.
+### Problems that break trust
 
-This is worth naming because it is the part of design work that does not survive delegation. An agent can execute a layout. Noticing that the layout is subtly wrong is a different faculty, and mine is quick.
+**Placeholder text in production.** The professional site had Lorem ipsum live on it. Nothing else on this list costs as much credibility per pixel.
 
-**Catching factual contradictions in copy.** The comparison section claimed a visitor could not find out the price without calling. The page it sat on had a working price calculator two sections above. The copy read fluently, which is exactly why it was dangerous. I flagged it in seconds because I was reading the page as a visitor rather than as its author.
+**The two sites contradict each other on facts.** Different street addresses. Different opening hours. If a visitor checks both — and an anxious one will — the business looks like it does not know its own details.
 
-The same instinct caught "gratis inspektion" in the hero while every package listed the inspection as an included line item, and a comparison table row labelled "responstid: 1-2 dage" on a page that promised a response within 24 hours and arrival in 1-2 days. Fluent, confident, and wrong.
+**Professional authorisation is asserted but not checkable.** The site claims the relevant Danish certifications. Those sit in a public register, and nothing links to it. A claim you cannot verify does less work than a claim you can.
 
-**Domain and language authority.** I rejected "priskalkulator" because Danes say "prisberegner". I rejected em dashes because Danish does not use them. I rejected price ranges because a range makes the reader do arithmetic and still leaves them uncertain. These are not preferences; they are the kind of correctness that only someone inside the language and market can supply, and no amount of model capability substitutes for it.
+**The review picture is uneven.** A 4.6 out of 5 sits prominently; a 3.8 out of 5 from a larger, better-known platform is not shown. Hiding the weaker score is the intuitive move and the wrong one, because the reader who finds it independently now distrusts everything else on the page.
+
+### Problems in the interface itself
+
+I measured these rather than eyeballing them, at a desktop and a phone width:
+
+- **The layout overflows the screen.** Two elements push past the viewport on desktop, four on mobile. Horizontal scrolling on a phone is the kind of defect people experience as "this site feels broken" without being able to name it.
+- **Tap targets are too small to hit reliably.** 32 controls under the 44px minimum on the mobile homepage, 36 on the article index. On a site whose primary action is contacting a tradesperson from a phone, that is a real barrier, not a technicality.
+- **The article index is over 10,000 pixels tall on mobile** and unusually heavy, mostly unresized imagery.
+- **The article content is invisible to anything that does not run JavaScript.** I discovered this by accident: when I pulled twelve articles to read them, all twelve came back identical, because the served page contains only the navigation. For a business whose articles are its main organic search asset, that is worth knowing.
+
+That last one is a good example of why I archive and probe a site rather than just screenshotting it. The problem was invisible from the browser and obvious the moment I looked at what the server actually sends.
+
+## The decisions, and the reasoning
+
+**Lead with the fork, not the catalogue.** The first screen asks the only question that matters: do you want to handle this yourself, or do you want someone to come out? Each option states its starting price and how fast it resolves, so the visitor can self-select before scrolling. This is the two-site problem solved as information architecture rather than as a menu.
+
+**Navigate by pest, not by product.** Rats, ants, wasps, bed bugs, silverfish, wood borers, cockroaches, flies. Each routes to whichever path suits it. Recognition over recall — the visitor picks the thing they have seen, rather than recalling what it is called in a catalogue.
+
+**Replace "call for a price" with a number.** A working estimator returns one concrete figure. An earlier version returned a range, and I killed it: a range makes the reader do arithmetic and still leaves them uncertain, which is most of the original problem restated more politely.
+
+**Ask one question, not five.** The estimator originally asked for pest, area, property type and severity before showing anything. Choosing the pest is the only step that must happen; the rest refine a number that is already on screen. They now sit behind one optional control with sensible defaults. On desktop that panel opens as the section scrolls into view, so the controls are present without greeting the visitor as a wall of form fields.
+
+**Make the answer respond to the question.** The "what's included" list used to state the same four promises no matter what you picked. It now derives from the selections: rats list rodent-proofing and bait stations, wasps list nest removal, a commercial property swaps in audit documentation. A list that never changes is decoration; a list that changes is feedback, and feedback is what tells someone their input registered.
+
+**Use one control, not three buttons.** The severity and property choices became segmented controls. Three separated pills read as three independent actions; a single shared outline says "pick one of these", which is what the choice actually is. The form communicates its own constraint.
+
+**Let people undo.** A reset appears as soon as anything is adjusted. Cheap, and it removes the small fear that fiddling will strand you somewhere.
+
+**Treat mobile as a different design problem, not a narrower one.** The comparison table became a horizontal scroller on a phone, which defeats a comparison table — you cannot compare columns you cannot see at once. It became one card per package instead, folded away by default. A contact bar is pinned within thumb reach, because on a page this long the header call-to-action is off screen for most of the visit.
+
+**Show the weaker review score.** Both ratings are displayed with their real counts and a link out. The concept says, in Danish, that it shows the rating as it is even when it is not five stars. That is a design decision, not a copy decision: it is the section deciding to be checkable.
+
+## What the review loop taught me about myself
+
+### Where I am fast
+
+**Catching visual defects.** A twelve-pixel gap at the end of a slider. One icon in a set of eight carrying visibly less weight than its neighbours. A checkmark sitting two pixels below its line of text. One item in a row of four wrapping differently from the rest. None of these were caught by any automated check, and several survived multiple passes by an agent looking straight at them.
+
+This is the part of design work that does not survive delegation, and it is worth knowing that mine is quick.
+
+**Spotting copy that contradicts the page.** A comparison section claimed visitors could not learn the price without calling — on a page with a working price calculator two sections above it. The sentence read fluently, which is exactly why it was dangerous. The same instinct caught a hero promising a free inspection while every package listed that inspection as an included item, and a table row that quoted a response time contradicting the promise made elsewhere on the same screen.
+
+**Language and market authority.** I rejected "priskalkulator" because Danes say "prisberegner". I rejected em dashes because Danish does not use them. These are not stylistic preferences; they are the kind of correctness that has to come from inside the language and market.
 
 ### Where I was slower than I should have been
 
-**I reviewed output instead of setting constraints.** Almost every correction I made could have been a line in the brief. "Single price, never a range." "Danish, no em dashes." "Email before phone everywhere." "44px minimum touch targets, verified by script, not by eye." I supplied each of these reactively, after seeing it violated, one at a time, across thirty rounds.
+**I reviewed output instead of writing acceptance criteria.** Nearly every correction I made could have been a line in the brief: one price, never a range. Danish, no em dashes. Email before phone. 44px minimum, verified by script rather than by eye. I supplied each of these reactively, after seeing it violated, one at a time. Roughly two thirds of thirty review rounds were standards I already held and had never written down.
 
-That is an expensive way to hold a standard. It also means the standard only gets applied where I happened to look. The mobile pass found nine tap targets under 44px that had been there since the first build, in a project whose original handover notes claimed 44px touch targets as a completed requirement.
+**I let scope grow without ever freezing anything.** Palette, then icons, then copy, then a component library migration, then a mobile pass, then heuristics, then archiving the old site. Every request was reasonable. Together they meant nothing was ever finished, and several things I had signed off were reopened because a later requirement contradicted them.
 
-**I let scope grow without freezing anything.** The work expanded continuously: palette, then icons, then copy, then a component-library migration, then a mobile overhaul, then two heuristic frameworks, then a full archive of the old site. Each request was reasonable. Together they meant nothing was ever finished, and several things I had signed off on were later reopened because a new requirement contradicted them.
+**I accepted a confident summary as a status report.** The first build was reported complete, with accessibility and 44px touch targets among its claims. Both were partly true and neither had been verified. The mobile audit later found nine violations that had been present since day one. I did not ask how it knew until much later, and that is on me.
 
-**I accepted a confident summary as a status report.** The agent reported the first build as complete with "WCAG AA, 44px touch targets" among its claims. Both were partly true and neither had been verified. I did not ask how it knew until much later. That is on me: I treated a well-written summary as evidence.
+### The habit I actually changed
 
-## The one incident that changed how I work
+Late in the build the agent stopped and reported that a credential was dead, asking me to issue a new one. I did not take that at face value. I tested it myself, found it working, and told the agent it was wrong.
 
-Late in the autonomous phase, the agent stopped and reported that the credential it needed was dead, and asked me to issue a new one.
+I was half right. The credential was fine; the real cause was that its store held several entries and the wrong one was being matched first. My diagnosis was better than the agent's and still not correct.
 
-I did not take that at face value. I tested the credential myself: it returned a valid identity with the right permissions. I told the agent it was wrong, and explained the likely mechanism — a permission-scoped credential returns "not found", not "forbidden", for a resource it cannot see, so reading a 404 as an authentication failure would produce exactly that false conclusion.
+What stuck was the shape of the mistake: **the error you are shown describes a symptom, and the symptom is rarely where the fault lives.** I then watched myself make that exact error three more times during the review — treating a layout problem as a colour problem for three rounds, adjusting icon sizes by eye when the underlying difference was measurable, and fixing a text-clipping bug only at the screen width where it had been reported rather than everywhere the cause applied.
 
-I was half right. When I looked properly, the real cause was that the credential store held three entries and the tool was matching the first one, which was stale. The credential was fine. The lookup order was not.
+The correction is simple and I now apply it as a rule: **if I have adjusted the same thing twice without it converging, stop and measure.** That turned two multi-round loops into single passes.
 
-Two things came out of that.
+## Before and after, including where the concept is worse
 
-The first is a working principle I now apply everywhere: **an error message describes a symptom, and the symptom is usually not the layer where the fault lives.** A 404 read as an auth failure, a stale first line read as a dead credential — same shape of mistake.
-
-The second is that I watched myself make the identical class of error repeatedly during the review phase, which is what makes it a genuine lesson rather than a complaint about a tool:
-
-- A slider kept rendering a blue segment. Three separate fixes treated it as a colour problem. It was not: the component library draws the filled portion as a twelve-pixel left border on the track. Measuring it settled it immediately — the track began at x=96 and the fill at x=108. Those twelve pixels were the artefact. Recolouring removed the colour and left the gap. Setting the width to zero fixed it.
-- Icons in a set looked mismatched. Nudging sizes by eye never converged, because the densest glyph carried two and a half times the ink of the sparsest, so the dense one needed to shrink while the sparse one grew. Measuring alpha coverage produced the answer in one pass.
-- Text was clipping on mobile. I fixed the mobile case and stopped. The same class was clipping at every desktop width too, and I had to be told twice before I checked across breakpoints instead of only where the complaint came from.
-
-The pattern is the same in all four: **acting on the first plausible explanation, when a measurement was available and cheap.**
-
-## The design decisions, and why
-
-With that lens, the substantive decisions were these.
-
-**Progressive disclosure on the estimator.** The first version asked five questions before showing anything. Choosing the pest is the only step that must happen; area, property type and severity refine a number that is already on screen. They now sit behind one control with sensible defaults. On desktop the panel opens as the section scrolls into view — and the trigger point had to be moved twice, because firing it too early meant the panel had finished opening before the visitor's eye arrived, which defeats the entire signal.
-
-**One number, not a range.** Baymard's comparison-UX work is blunt about hidden and vague pricing being a conversion leak. A range technically discloses more and communicates less.
-
-**A segmented control instead of three separate buttons.** Three detached pills read as three independent actions. A shared outline says "pick one of these", which is what the choice actually is. This is Norman's constraints and mapping doing real work rather than being cited decoratively.
-
-**Feedback tied to input.** The "what's included" list used to state the same four promises regardless of input. It now derives from the selections, so choosing rats lists rodent-proofing and bait stations, and choosing a commercial property swaps the documentation line to audit documentation. Shneiderman's third rule is informative feedback; a list that never changes is not feedback, it is decoration.
-
-**Reversal.** A reset control appears once any refinement is touched. Shneiderman's sixth rule, and about four lines of code.
-
-**Mobile as a separate design problem.** The comparison table was a 560px-wide horizontal scroller on a 390px screen: you cannot compare columns you cannot see simultaneously. It became one card per tier, folded away by default. A contact bar is pinned to the bottom, because on a page this long the header CTA is off screen for most of a visit.
-
-**Selection behaviour.** Controls disable text selection; content does not. Dragging the slider used to smear a highlight across the labels beside it. But phone numbers, email addresses, the price and the address stay selectable, because those are the things people actually copy.
-
-## What the numbers say, including where the concept is worse
-
-Measured with the same scripted audit against both the live site and the concept, at 1440 and 390.
-
-| | Live site | Concept |
+| | Original site | Concept |
 |---|---|---|
-| Elements overflowing the viewport (desktop / mobile) | 2 / 4 | **0 / 0** |
-| Tap targets under 44px, mobile | 32 | **1** |
-| Tap targets under 44px, article index mobile | 36 | — |
-| HTTP requests | 47–61 | **13** |
-| Transferred weight | ~750 KB | 1.27 MB |
+| Elements overflowing the screen (desktop / mobile) | 2 / 4 | **0 / 0** |
+| Tap targets below 44px, mobile | 32 | **1** |
+| Tap targets below 44px, article index | 36 | — |
+| Network requests | 47–61 | **13** |
+| Page weight | ~750 KB | 1.27 MB |
 | Page height, mobile | 3,200px | 13,621px |
 
-The last two rows go the wrong way. The component library and its motion dependency account for most of the weight, and the length is partly genre (a long landing page against a shop grid) and partly mine — adding thirteen article extracts for search coverage cost real height. I am keeping both rows visible. A before/after table where every row favours the redesign is a marketing document, and anyone who has shipped software knows it.
+The last two rows go the wrong way and I am keeping them visible. The concept is heavier, largely from the component library, and much longer — partly because a landing page is a different genre from a shop grid, and partly because I chose to add thirteen article extracts for search coverage, which cost real height. A before/after table where every row flatters the redesign is a marketing document, and anyone who has shipped work knows it.
 
-## What I changed, concretely
+## What I changed in how I work
 
-- **Acceptance criteria go in the brief, not in the review.** Language rules, pricing display, contact hierarchy, touch-target minimums and the verification method are now stated before a build starts. Roughly two thirds of my thirty rounds were criteria I held but had not written down.
-- **Measure before adjusting anything twice.** If I have corrected the same visual property twice without converging, I stop and measure it. Coverage, bounding boxes, computed styles. This turned two multi-round loops into single passes.
-- **Diagnose the layer, not the symptom.** The most valuable thing I learned technically was why my overrides kept losing: the utility framework emits into a CSS layer and the component library does not, and unlayered rules beat layered ones regardless of specificity. Once that was understood, four unrelated bugs collapsed into one cause.
-- **Capture the "before" before touching anything.** I archived the live site to a public web archive and took my own full-page captures at both viewports first. It makes the comparison honest and citable rather than a claim.
-- **Treat agent self-reports as claims, not evidence.** "Verified" now means I can point at the command that verified it.
+- **Acceptance criteria go in the brief, not the review.** Language rules, pricing display, contact hierarchy, touch-target minimums, and how each will be verified.
+- **Measure before adjusting anything a second time.**
+- **Archive the before-state before touching anything,** to a public web archive and as my own captures. It makes the comparison citable instead of a claim.
+- **Treat a collaborator's summary as a claim, not evidence.** "Verified" means I can point at what did the verifying.
 
-## Honest open items
+## Open items I would not hide from the client
 
-- The review quotes on the concept were carried over from an early pass and I have not re-verified them against the live source. The aggregate scores are real and linked; the individual quotes are flagged in the source and should be re-scraped or cut before this is shown to the business. Inventing plausible reviewer names and star ratings would have filled the section and been worthless.
-- The professional prices are market estimates from other Danish firms, labelled as indicative throughout, because this business publishes no professional prices at all. The DIY figures are genuinely theirs, taken from their own shop data.
-- The one-star reviews on the live business are about order fulfilment and support. No redesign fixes that, and it should be fixed first.
+- The review quotes in the concept came from an early pass and I have not re-checked them against the live source. The aggregate scores are real and linked; the quotes are flagged in the source and should be re-collected or removed before this is shown to the business. Inventing plausible reviewer names would have filled the section and been worth nothing.
+- The professional prices are market estimates from other Danish firms, labelled as indicative throughout, because this business publishes none of its own. The DIY prices are genuinely theirs.
+- The weakest reviews on the live business concern order fulfilment and support, not design. No redesign fixes that, and it should be fixed first.
