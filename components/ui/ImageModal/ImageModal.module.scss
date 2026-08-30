@@ -325,3 +325,27 @@
     max-width: 100%;
   }
 }
+
+/* Tall captures (full-page screenshots) are read, not glanced at. The frame
+   keeps a sane height and scrolls; the image sits at full frame width so the
+   type inside it stays legible, which `object-fit: contain` cannot do when
+   the source is fifteen viewports tall. */
+.modalContent.tall .imageWrapper {
+  width: min(1100px, 92vw);
+  height: min(82vh, 900px);
+  max-height: 82vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  align-items: flex-start;
+  justify-content: flex-start;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+.modalContent.tall .image {
+  width: 100%;
+  height: auto;
+  max-width: none;
+  max-height: none;
+  object-fit: fill;
+}

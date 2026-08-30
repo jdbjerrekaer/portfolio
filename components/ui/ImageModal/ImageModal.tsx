@@ -29,6 +29,7 @@ export function ImageModal({
   hasPrev = false,
 }: ImageModalProps): React.ReactElement | null {
   const [isPortrait, setIsPortrait] = useState<boolean>(false);
+  const [isTall, setIsTall] = useState(false);
   const touchStartX = useRef<number>(0);
   const touchEndX = useRef<number>(0);
   const minSwipeDistance = 50;
@@ -84,7 +85,12 @@ export function ImageModal({
     img.onload = () => {
       // Portrait: height > width
       setIsPortrait(img.naturalHeight > img.naturalWidth);
+      // A full-page screenshot fitted to the viewport is a 1:15 reduction:
+      // it shows that the page is long and nothing else. Past 2:1 the image
+      // is scrolled at readable width instead of shrunk to fit.
+      setIsTall(img.naturalHeight > img.naturalWidth * 2);
     };
+    setIsTall(false);
     img.onerror = () => {
       setIsPortrait(false);
     };
@@ -146,7 +152,7 @@ export function ImageModal({
           aria-label="Image modal"
         >
           <div 
-            className={`${styles.modalContent} ${modalIsPortrait ? styles.portrait : ""}`}
+            className={`${styles.modalContent} ${modalIsPortrait ? styles.portrait : ""} ${isTall ? styles.tall : ""}`}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
