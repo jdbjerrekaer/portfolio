@@ -165,6 +165,19 @@ Fix row 1 this week; it costs a day and stops the visible bleeding. But the reas
 
 **Ask one question, not five.** The estimator originally asked for pest, area, property type and severity before showing anything. Choosing the pest is the only step that must happen; the rest refine a number that is already on screen. They now sit behind one optional control with sensible defaults. On desktop that panel opens as the section scrolls into view, so the controls are present without greeting the visitor as a wall of form fields.
 
+**Make the defaults true.** Every field behind that control ships with a value already in it, and a default is an answer the page gives on the visitor's behalf. A flat 100 m² was wrong for almost everybody. The area now presets from the property type, using the real average for the region this business actually covers — Danmarks Statistik 2026, floor area over dwelling counts, for Fyn and the five Jylland regions:
+
+| Property type | Actual regional average | Preset |
+|---|---:|---:|
+| Lejlighed | 79.2 m² | **80 m²** |
+| Hus | 139.9 m² | **140 m²** |
+| Række-/kædehus | 48.4 m² | *discarded* |
+| Erhverv | no meaningful average | *left as set* |
+
+The third row is the one worth explaining. 48 m² is not a plausible average terraced house, so those building records do not line up with their dwelling counts, and a figure I cannot defend is worse than no figure. Commercial premises have no average worth quoting at all, so that option changes nothing. Two rows of real data beat four rows of confident ones.
+
+The rule underneath it: **a preset must never overwrite a number the visitor set themselves.** Move the slider to 95 and it stays at 95 through every later change of property type. Reset brings the presets back. A form that quietly undoes your input teaches you not to trust anything else it says.
+
 **Make the answer respond to the question.** The "what's included" list used to state the same four promises no matter what you picked. It now derives from the selections: rats list rodent-proofing and bait stations, wasps list nest removal, a commercial property swaps in audit documentation. A list that never changes is decoration; a list that changes is feedback, and feedback is what tells someone their input registered.
 
 **Use one control, not three buttons.** The severity and property choices became segmented controls. Three separated pills read as three independent actions; a single shared outline says "pick one of these", which is what the choice actually is. The form communicates its own constraint.
