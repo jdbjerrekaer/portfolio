@@ -49,58 +49,76 @@ A visitor has to already know which of those they need before they land on eithe
 
 ## Auditing the existing shop
 
-I audited this as a webshop rather than as a homepage: I walked the real purchase path at desktop and phone widths, added a product to the basket, went to checkout, and separately measured the craft of the interface itself. Baymard's e-commerce guidance is the reference for the funnel, because it is built on observed purchase sessions rather than opinion.
+I audited this as a webshop, not as a homepage. I walked the real purchase path at desktop and phone widths, put a product in the basket, went to checkout, and separately measured the craft of the interface itself. Baymard's e-commerce guidance is the reference for the funnel because it is built on observed purchase sessions rather than opinion.
 
-Before any of it, the honest question a client should ask: **does this need a redesign, or does it need a few tickets?** Most of what an audit turns up is the second thing. So I sorted the findings by that test, and the answer changed how I wrote this section.
+Before any of it, the question a client is entitled to ask: **does this need a redesign, or does it need a few tickets?** Most audit findings are the second thing. Sorting by that test is what shaped this section, and it changed which finding leads.
 
-**Credit where it is due.** Category pages have working faceted filters and a sort control. Checkout allows guest purchase, which plenty of Danish shops still get wrong. Payment covers Apple Pay, MobilePay, card and EAN invoicing, which is real coverage for a Danish audience including business customers. And the site is genuinely fast, which I will come back to, because it cost me a favourite argument.
+**Credit where it is due.** Category pages have working faceted filters and a sort control. Checkout allows guest purchase, which plenty of Danish shops still get wrong. Payment covers Apple Pay, MobilePay, card and EAN invoicing, which is real coverage for a Danish audience including business customers. The site is also genuinely fast, which cost me my favourite argument. None of what follows is a theme complaint.
 
-### The finding that actually justifies a redesign: it does not look like a business
+### The finding that justifies a redesign: nothing here was designed
 
-The strongest case against this site is not a defect list. It is that the interface reads as unmaintained, and people extend that judgement to the company. Stanford's web credibility work found visual design to be the single most frequently cited reason people gave for trusting or distrusting a site — ahead of the information itself. This matters more here than in most categories, because a visitor is deciding whether to let a stranger into their home, or whether to put poison near their children.
+The strongest case against this site is not a defect list, because a defect list argues for a sprint. It is that the interface reads as unmaintained, and visitors extend that judgement to the company. Stanford's web credibility research found visual design to be the most frequently cited reason people gave for trusting or distrusting a site, ahead of the content itself. That matters more here than in most categories: the visitor is deciding whether to let a stranger into their home, or to put poison down near their children.
 
-That is easy to assert and easy to dismiss as taste, so I measured it. Craft leaves fingerprints:
+Easy to assert, easy to dismiss as taste. So I measured it instead. Craft leaves fingerprints.
 
-| Signal | Homepage | What it indicates |
-|---|---|---|
-| Distinct corner radii in use | **9** — including 3px, 7px, 8px, 9px, 15px, 25px, 28.5px | No shared design decisions; every component styled alone |
-| Distinct text sizes | **10**, with no consistent ratio between them | Not a type scale, a pile of one-offs |
-| Font families on one page | **4** (Lato, Arial, and Blinker loaded twice as two separate families) | Webfont wired up wrong, system font leaking through |
-| Inline `style` attributes | **136** | Design overridden ad hoc rather than owned centrally |
-| CSS vs JavaScript shipped | **3 KB** of CSS against **547 KB** of JavaScript | Almost nothing is deliberately designed; the look is plugin defaults |
-| Dominant body text size on mobile | **12px** (with 10px and 11px also present) | Below comfortable reading size on a phone |
+| Signal | Measured on the homepage | What it means |
+|---|---:|---|
+| Distinct corner radii in use | **8** | No shared decisions; each component styled alone |
+| Distinct text sizes | **9** | Not a type scale, a pile of one-offs |
+| Font families on one page | **4** | Webfont wired up wrong, system font leaking in |
+| Inline `style` attributes | **136** | Design overridden ad hoc, not owned centrally |
+| CSS shipped | **3 KB** | — |
+| JavaScript shipped | **547 KB** | The look is plugin defaults, not design |
+| Most common body text size, mobile | **12px** | Below comfortable reading size on a phone |
 
-That last row is the one I would put in front of the owner first. The most common text size on the phone version of this site is 12px. Their customers are homeowners, frequently middle-aged and older, often reading in a hallway with a wasp nest above them. And a 28.5px corner radius is not a decision anyone made; it is what happens when a value gets nudged until it looks acceptable in one place and is never reconciled with anything else.
+Here is what those eight radii look like as components rather than as a number:
 
-Individually none of these is a bug. Nothing is broken. That is exactly why they need a redesign rather than a ticket: **there is no system to fix, so there is nothing to patch.** Three kilobytes of stylesheet against half a megabyte of script is not a shop that was designed and then built. It is a shop that was assembled, and it looks assembled, and visitors read that as a company that assembles things.
+![Four components from the live homepage, each captioned with its own computed border-radius: a search form wrapper at 28.5px, a round button at 50%, the search input at 25px, and a link button at 9px.](/images/billigskadedyr/evidence-radii.png)
+
+The first two tiles are the same search field. A wrapper rounded to 28.5px, with the input inside it rounded to 25px. Three and a half pixels apart, nested one inside the other. Nobody chose that, nobody can see it, and nobody will ever file a bug about it, which is precisely the point: it is the residue of a site assembled rather than designed.
+
+The type tells the same story. Nine sizes, following no ratio:
+
+![Nine text sizes rendered at the sizes measured on the live homepage, from 28px down to 10px, each labelled with how many elements use it. 14px is used by 70 elements and 12px by 34.](/images/billigskadedyr/evidence-type.png)
+
+Nine sizes between 10px and 28px with no consistent step is what happens when each size is picked in isolation. And on mobile the single most common text size on the page is **12px**. The audience is homeowners, frequently middle-aged or older, usually reading on a phone in the room with the problem.
+
+None of this is broken. Nothing on this list would ever be reported by a user or caught by a test. **That is exactly why it needs a redesign rather than a ticket: there is no system to correct, so there is nothing to patch.** Three kilobytes of stylesheet against half a megabyte of JavaScript is not a shop that was designed and then built. It is a shop that was assembled, and visitors read that as a company that assembles things.
 
 ### Where the money leaks
 
-The funnel findings, ordered by how close they sit to a completed sale.
+Funnel findings, ordered by how close they sit to a completed sale.
 
-**The category list gives you nothing to decide with.** Zero prices. Zero ratings. No add-to-basket. To compare two rat baits you open one, go back, open the other, and hold the first price in your head. Price is the most consulted attribute when people scan a list; removing it does not simplify the list, it makes the list undecidable.
+**It takes four category screens to reach anything you can buy.** Someone who has just seen a rat in the kitchen has to pass through Rotter og mus, then Rotter, then Rottefælder, then Rottesmækfælder. Only the fourth screen contains products, and only there does a price appear.
 
-**There is no social proof anywhere in the shop.** Every product in the catalogue has a review count of zero, and there is no review section on the product page. This is the gap that struck me hardest, because the business demonstrably has satisfied customers — it displays a certification score and a Trustpilot presence in the footer. The proof exists and is sitting one level away from the moment it would change a decision.
+![Four screens from the live shop side by side. The first three show only further category tiles with no prices; the fourth finally shows eleven products, all with prices and add-to-basket buttons.](/images/billigskadedyr/evidence-drilldown.png)
 
-**The price is formatted for the wrong country.** It renders as `1,199.00kr.` Danish is `1.199,00 kr.` To a Danish reader that reads as a foreign shop or a broken one, at the exact moment they are weighing whether to trust it with a card number.
+Each of those screens asks the visitor to translate their problem into the supplier's vocabulary before it will help. Nobody wakes up wanting a *rottesmækfælde*. They wake up because they heard something in the wall. Four rounds of that, with no prices and nothing buyable in sight, is a long way to walk on faith.
 
-**Delivery cost never appears.** Not in the basket, not at checkout. The only delivery information in the flow is the marketing line *"Hurtig levering: Vi sender fra dag-til-dag."* Fast, yes; free, unclear. On its own this is a small thing and a cheap fix. It belongs on the list because Baymard's abandonment work puts unexpected cost at the end of checkout at the top of the reasons people leave, and this shop is arranged so that the visitor commits at the product page and finds the total at the last step.
+I want to be exact about the credit here, because my first pass on this was wrong. I originally recorded that the category listing showed no prices at all. It does show them: on the fourth screen every one of the eleven products carries a price and an add-to-basket button, and the page has eleven filters and a sort control. The listing is competent. I had measured a category hub and called it a product list. The defect is not the list, it is the four screens standing in front of it, which is a bigger problem and an entirely different fix.
 
-**Checkout does not say what it requires.** Eleven visible fields, none carrying a programmatic required marker, and no visual indicator in the usual place. A sighted visitor discovers what is mandatory by submitting and failing; a screen reader user is not told at all. The form also asks for professional pesticide authorisation numbers inline with no explanation, which invites a customer buying a 49 kr ant bait to conclude the shop is not meant for them.
+**There is no social proof anywhere in the shop.** Every product in the catalogue has a review count of zero, and there is no review section on the product page. This is the gap that struck me hardest, because the business demonstrably has satisfied customers: it advertises a certification score and a Trustpilot presence in the footer. The proof exists, and it is sitting one level away from the moment it would change a decision.
+
+**The trust seal is wired up and renders nothing.** e-mærket is the certification mark Danish shoppers look for, and this shop is certified. There are three e-mærket widget containers on the homepage. All three are empty and zero pixels tall. I checked before consent, after accepting consent, and after scrolling the page: the script loads with a 200 and draws nothing, every time.
+
+So the single strongest trust signal available to a Danish webshop is present in the markup, absent on the screen, and has been long enough that nobody noticed. This is the whole thesis of the audit in one element.
+
+**The price is formatted for the wrong country.** It renders as `1,199.00kr.` Danish is `1.199,00 kr.` To a Danish reader that reads as a foreign shop or a broken one, at the moment they are deciding whether to trust it with a card number.
+
+**Delivery cost never appears.** Not in the basket, not at checkout. The only delivery information in the flow is a marketing line, *"Hurtig levering: Vi sender fra dag-til-dag."* Fast, yes; free, unclear. On its own this is small and cheap to fix. It earns its place because Baymard's abandonment research puts unexpected cost at the end of checkout at the top of the reasons people leave, and this shop is arranged so the visitor commits at the product page and meets the total at the last step.
+
+**Checkout does not say what it requires.** Eleven visible fields, none carrying a programmatic required marker, and no visual indicator in the usual place. A sighted visitor finds out what is mandatory by submitting and failing; a screen reader user is not told at all. The form also asks for professional pesticide authorisation numbers inline with no explanation, which invites a customer buying a 49 kr ant bait to conclude the shop is not for them.
 
 ### The bucket I would fix on Monday, redesign or not
 
-These are tickets. I am listing them separately rather than inflating the case for a rebuild with them.
+Listing these separately rather than using them to pad the case for a rebuild.
 
-**The consent modal locks the page, and an ad blocker leaves the lock in place.** The dialog is full-viewport and disables scrolling on the document itself, not tied to the banner element. Removing the banner from the page, which is what an ad blocker does, leaves scrolling disabled: no dialog, nothing to dismiss, and no way to move down the page. Those visitors do not report a bug. They leave, and they are recorded as a bounce.
-
-This is a small fix and a significant symptom. It is invisible to anyone testing without an ad blocker — which is to say, invisible to the people who built it — and nobody has looked. It belongs in the argument as evidence of absent quality control, not as an argument for a redesign on its own.
+**The consent modal locks the page, and an ad blocker leaves the lock in place.** The dialog is full-viewport and disables scrolling on the document itself, not on the banner. Remove the banner from the page, which is what an ad blocker does, and scrolling stays disabled: no dialog, nothing to dismiss, no way down the page. Those visitors do not file a bug. They leave, and they are counted as a bounce. Cheap to fix, and a sharp symptom, because it is invisible to anyone testing without an ad blocker.
 
 **Placeholder Lorem ipsum was live in production** on the professional site, the two sites disagree on street address and opening hours, and the certification claims link to nothing despite sitting in a public register. Also cheap. Also nobody has looked.
 
 ### Structural problems that are neither
 
-- **The catalogue is organised by product type, not by problem.** The visitor must translate "I heard something in the wall" into "bait station" before the navigation can help. This is an information architecture problem, which is a redesign question.
 - **The shop and the professional service are separate sites with no route between them.** A DIY buyer never learns a technician exists; a service customer never learns they could solve it for 49 kr.
 - **Only the flattering score is shown.** The higher certification rating is displayed, the lower and better-known Trustpilot rating is not. Hiding it is the intuitive move and the wrong one, because a visitor who finds it independently now discounts everything else on the page.
 - **Article content does not exist without JavaScript.** I found this by accident: pulling twelve articles returned twelve identical pages, because the served HTML contains only navigation. For a business whose guides are its main organic search asset, that is worth knowing.
@@ -108,26 +126,40 @@ This is a small fix and a significant symptom. It is invisible to anyone testing
 ### Measured interface defects
 
 | | Desktop | Mobile |
-|---|---|---|
+|---|---:|---:|
 | Elements overflowing the viewport | 2 | 4 |
 | Tap targets below 44px, homepage | — | 32 |
 | Tap targets below 44px, article index | — | 36 |
 
 ### One argument I had to drop, and why that matters
 
-I expected page speed to be part of this case. The Google and Deloitte work on mobile speed is the most quotable research in the field, and "milliseconds make millions" is a line that closes meetings.
+I expected page speed to carry this case. The Google and Deloitte work on mobile speed is the most quotable research in the field, and "milliseconds make millions" is a line that ends meetings.
 
-Then I measured. Largest contentful paint landed at 156 ms on mobile and 296 ms on desktop, the page finished loading in about four tenths of a second, and cumulative layout shift was zero. The site is fast. The half-megabyte of JavaScript is inelegant and it is not costing this business anything a visitor can feel.
+Then I measured.
 
-So the speed argument is out, and I am leaving the fact that I wanted it in. A statistic that does not describe the site in front of you is not evidence, it is decoration, and a client can tell the difference. I dropped a second one for the same reason: the frequently-quoted figure putting UX return on investment near ten thousand percent traces back to no methodology I can point a client at, and a number I cannot source is a number I cannot defend in the room.
+| | Mobile | Desktop |
+|---|---:|---:|
+| Largest contentful paint | 156 ms | 296 ms |
+| Load complete | 412 ms | 351 ms |
+| Cumulative layout shift | 0 | 0 |
 
-What survives is narrower and holds: design is the most-cited factor in how people judge whether a site can be trusted; companies that treat design as a discipline outgrow the ones that do not by a wide margin over years, not weeks; roughly seven in ten baskets are abandoned, and a large share of that is friction rather than price; and a third of people will leave a brand they actually like after one bad experience.
+The site is fast. The half-megabyte of JavaScript is inelegant and it is not costing this business anything a visitor can feel. So the speed argument is out, and I am leaving in the fact that I wanted it. A statistic that does not describe the site in front of you is not evidence, it is decoration, and a client can tell the difference.
 
-### What I would actually tell the owner
+I dropped a second one for the same reason. The widely-quoted figure putting UX return on investment near ten thousand percent traces back to no methodology I can point a client at, and a number I cannot source is a number I cannot defend in a room.
 
-Fix the cheap things this week — the consent script, the placeholder text, the price format, the delivery line. They cost a day and they stop the visible bleeding.
+What survives is narrower and holds: design is the most-cited factor in how people judge whether a site can be trusted; companies that treat design as a discipline outgrow those that do not by a wide margin measured in years; roughly seven in ten baskets are abandoned, much of it friction rather than price; and about a third of people leave a brand they actually like after a single bad experience.
 
-But the reason to rebuild is not on that list. It is that a shop with no shared type scale, nine unrelated corner radii and 12px body text on mobile is telling every visitor something about the company before they read a word of it, and there is no ticket that fixes the impression of not having been designed.
+### What I would tell the owner
+
+| | Finding | Verdict |
+|---|---|---|
+| 1 | Consent lock, Lorem ipsum, price format, delivery line | **Ticket.** A day's work. Do it this week |
+| 2 | e-mærket seal renders nothing | **Ticket**, and the clearest sign nobody is looking |
+| 3 | No ratings or reviews anywhere in the catalogue | **Template work.** Weeks, not months |
+| 4 | Four category screens before a product, organised by supplier vocabulary | **Redesign.** It is the architecture |
+| 5 | No type scale, 8 radii, 12px body text on mobile | **Redesign.** There is no system to fix |
+
+Fix rows 1 and 2 this week; they cost a day and stop the visible bleeding. But the reason to rebuild is rows 4 and 5. A shop with no shared type scale, eight unrelated corner radii and 12px body text on a phone is telling every visitor something about the company before they have read a word, and no ticket fixes the impression of never having been designed.
 
 ## The decisions, and the reasoning
 
@@ -178,6 +210,8 @@ I was half right. The credential was fine; the real cause was that its store hel
 What stuck was the shape of the mistake: **the error you are shown describes a symptom, and the symptom is rarely where the fault lives.** I then watched myself make that exact error three more times during the review — treating a layout problem as a colour problem for three rounds, adjusting icon sizes by eye when the underlying difference was measurable, and fixing a text-clipping bug only at the screen width where it had been reported rather than everywhere the cause applied.
 
 The correction is simple and I now apply it as a rule: **if I have adjusted the same thing twice without it converging, stop and measure.** That turned two multi-round loops into single passes.
+
+The audit gave me a second version of the same lesson, which is why I am confident it is a real habit and not a story I tell. I had a script counting prices on what I believed was a category listing. It returned zero, which fitted my thesis neatly, and I wrote it up. It was only when I looked at the screenshot the script had taken, in order to put it in this case study, that I saw the page was a grid of subcategories rather than products. **Measuring is not enough if you never look at what you measured.** The corrected finding turned out to be worse for the client than the wrong one, but that was luck, not method.
 
 ## Before and after, including where the concept is worse
 
