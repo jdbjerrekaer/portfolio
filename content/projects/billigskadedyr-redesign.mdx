@@ -220,6 +220,78 @@ answers the browser's colour scheme so it does not vanish on a light tab strip.
 The through-line, and the reason this section exists at all: the audit only has
 authority if the thing making it can survive being pointed at itself.
 
+## Reading the page as the customer, not as the client
+
+Late on, I changed the question. Not "is this page well made?" but "what does a
+Danish homeowner over thirty, anywhere in the country, need to believe before
+they let a stranger into their loft?" That reframe found more than the craft
+audit did, and it found something the craft audit could not have: an error in
+my own concept.
+
+### The finding that cost the most
+
+The concept said the business covers *"i hele Aarhus"*. Their own FAQ says:
+
+> Vi hjælper kunder i **hele Jylland og Fyn** og arbejder løbende på at udvide
+> vores dækningsområde.
+
+So the page was turning away every qualifying homeowner in Aalborg, Esbjerg,
+Odense and Kolding, on behalf of a business that would happily have served
+them. The old site made the same mistake, and I had faithfully carried it
+across, because I was reading the site as a description of the client rather
+than as an answer to a customer.
+
+This is the difference between auditing an interface and auditing a decision.
+Nothing about "i hele Aarhus" is badly designed. It is well-set, legible,
+correctly contrasted, and wrong.
+
+### Almost everything else was already written down
+
+The instinct at this point is to write a list of things to ask the client for.
+Before doing that I read both of their sites properly, and most of the answers
+were already published, just scattered across two domains and, in the FAQ,
+hidden inside collapsed accordions.
+
+| What the customer needs to know | Where the answer already existed |
+|---|---|
+| Do you cover my address? | Prof FAQ: hele Jylland og Fyn, actively expanding |
+| Are you allowed to do this? | Prof FAQ, in their own words on authorisations |
+| Who turns up at my door? | Prof "om os": father founded the firm, Daniel Nemborg took over in the 2017 generationsskifte, first job in the trade at twelve, close to twenty years |
+| What am I agreeing to? | Four live policy pages on the shop, none of them linked from the concept |
+| What if it goes wrong? | 14 dages fuld returret, 2 års reklamationsret efter købeloven |
+| Can I pay the way I pay? | Full accepted-payment list, already on the shop |
+
+Six of seven trust gaps closed with material the business had already paid to
+write. The work was not producing content; it was noticing that the content
+existed and was in the wrong place.
+
+### Two defects that belong to the business, not the design
+
+Reading their FAQ closely turned up a content bug worth more than most design
+notes: the answer under **"Er der garanti på jeres arbejde?"** is wired to the
+wrong text and returns the paragraph about how to spot a pest problem. One of
+the three questions that decide a sale currently answers a different question
+entirely.
+
+Their two sites also disagree about the owner: *"mere end 15 års erfaring"* on
+the shop, *"næsten 20 års praktisk erfaring"* on the professional site. Same
+person, same kind of page. It sits with the address and opening-hours
+contradictions already in this audit, and it is the sort of thing only a
+customer comparing both sites ever notices.
+
+### A method note worth keeping
+
+I nearly filed "no coverage information exists" as a finding. It does exist; it
+sits inside a collapsed accordion, and a text scan of the rendered page does
+not see collapsed content. Reading the underlying document rather than the
+visible text found it immediately.
+
+The transferable version: **absence of evidence in a scrape is not evidence of
+absence.** It is the same failure mode as the trust widget earlier in this
+project, where a slow-loading element read as a missing one, and it argues for
+treating every "the client does not have X" conclusion as provisional until the
+raw source has been read.
+
 ## How I work
 
 **I catch what automated checks do not.** A twelve-pixel gap at the end of a slider. One icon in a set of eight carrying visibly less weight than its neighbours. A checkmark sitting two pixels below its line of text. One item in a row of four wrapping differently from the rest. No linter or test finds these, and they are the difference between an interface that works and one that feels made.
@@ -266,4 +338,6 @@ The last two rows go the wrong way and I am keeping them visible. The concept is
 
 - The review quotes in the concept came from an early pass and I have not re-checked them against the live source. The aggregate scores are real and linked; the quotes are flagged in the source and should be re-collected or removed before this is shown to the business. Inventing plausible reviewer names would have filled the section and been worth nothing.
 - The professional prices are market estimates from other Danish firms, labelled as indicative throughout, because this business publishes none of its own. The DIY prices are genuinely theirs.
+- Still missing and only the business can supply it: a photograph of the owner, before-and-after photographs of real work, the scope of the service guarantee, and whether service is paid after the visit or up front.
+- The authorisation line is presented as the company's own statement rather than as a verified fact, because the register number is not published. With the number it becomes checkable, which is the stronger version.
 - The weakest reviews on the live business concern order fulfilment and support, not design. No redesign fixes that, and it should be fixed first.
