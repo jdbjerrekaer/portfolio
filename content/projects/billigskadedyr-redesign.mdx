@@ -99,10 +99,6 @@ I want to be exact about the credit here, because my first pass on this was wron
 
 **There is no social proof anywhere in the shop.** Every product in the catalogue has a review count of zero, and there is no review section on the product page. This is the gap that struck me hardest, because the business demonstrably has satisfied customers: it advertises a certification score and a Trustpilot presence in the footer. The proof exists, and it is sitting one level away from the moment it would change a decision.
 
-**The trust seal is wired up and renders nothing.** e-mærket is the certification mark Danish shoppers look for, and this shop is certified. There are three e-mærket widget containers on the homepage. All three are empty and zero pixels tall. I checked before consent, after accepting consent, and after scrolling the page: the script loads with a 200 and draws nothing, every time.
-
-So the single strongest trust signal available to a Danish webshop is present in the markup, absent on the screen, and has been long enough that nobody noticed. This is the whole thesis of the audit in one element.
-
 **The price is formatted for the wrong country.** It renders as `1,199.00kr.` Danish is `1.199,00 kr.` To a Danish reader that reads as a foreign shop or a broken one, at the moment they are deciding whether to trust it with a card number.
 
 **Delivery cost never appears.** Not in the basket, not at checkout. The only delivery information in the flow is a marketing line, *"Hurtig levering: Vi sender fra dag-til-dag."* Fast, yes; free, unclear. On its own this is small and cheap to fix. It earns its place because Baymard's abandonment research puts unexpected cost at the end of checkout at the top of the reasons people leave, and this shop is arranged so the visitor commits at the product page and meets the total at the last step.
@@ -154,12 +150,11 @@ What survives is narrower and holds: design is the most-cited factor in how peop
 | | Finding | Verdict |
 |---|---|---|
 | 1 | Consent lock, Lorem ipsum, price format, delivery line | **Ticket.** A day's work. Do it this week |
-| 2 | e-mærket seal renders nothing | **Ticket**, and the clearest sign nobody is looking |
-| 3 | No ratings or reviews anywhere in the catalogue | **Template work.** Weeks, not months |
-| 4 | Four category screens before a product, organised by supplier vocabulary | **Redesign.** It is the architecture |
-| 5 | No type scale, 8 radii, 12px body text on mobile | **Redesign.** There is no system to fix |
+| 2 | No ratings or reviews anywhere in the catalogue | **Template work.** Weeks, not months |
+| 3 | Four category screens before a product, organised by supplier vocabulary | **Redesign.** It is the architecture |
+| 4 | No type scale, 8 radii, 12px body text on mobile | **Redesign.** There is no system to fix |
 
-Fix rows 1 and 2 this week; they cost a day and stop the visible bleeding. But the reason to rebuild is rows 4 and 5. A shop with no shared type scale, eight unrelated corner radii and 12px body text on a phone is telling every visitor something about the company before they have read a word, and no ticket fixes the impression of never having been designed.
+Fix row 1 this week; it costs a day and stops the visible bleeding. But the reason to rebuild is rows 3 and 4. A shop with no shared type scale, eight unrelated corner radii and 12px body text on a phone is telling every visitor something about the company before they have read a word, and no ticket fixes the impression of never having been designed.
 
 ## The decisions, and the reasoning
 
@@ -212,6 +207,10 @@ What stuck was the shape of the mistake: **the error you are shown describes a s
 The correction is simple and I now apply it as a rule: **if I have adjusted the same thing twice without it converging, stop and measure.** That turned two multi-round loops into single passes.
 
 The audit gave me a second version of the same lesson, which is why I am confident it is a real habit and not a story I tell. I had a script counting prices on what I believed was a category listing. It returned zero, which fitted my thesis neatly, and I wrote it up. It was only when I looked at the screenshot the script had taken, in order to put it in this case study, that I saw the page was a grid of subcategories rather than products. **Measuring is not enough if you never look at what you measured.** The corrected finding turned out to be worse for the client than the wrong one, but that was luck, not method.
+
+I did it a third time in the same audit, and this one is the sharpest of the three because I published it before it was caught. The shop carries e-mærket, the Danish certification mark, through a third-party widget. I probed for it, found three empty containers, waited several seconds, found them still empty, and wrote up that the site's strongest trust signal renders nothing. It was a satisfying finding and it was false. The widget renders through a custom element with a shadow root, and it takes longer to populate than I had allowed. Waiting fourteen seconds instead of six shows it working perfectly.
+
+The error was not the short wait. It was that "nothing rendered" and "nothing rendered *yet*" produce identical evidence, and I did not design the check to tell them apart. A negative finding needs a stronger standard of proof than a positive one, because absence is exactly what a not-yet-finished page also looks like. I now treat any finding of the form "X is missing" as unproven until I have either seen X somewhere else or given it a deliberately unreasonable amount of time to appear.
 
 ## Before and after, including where the concept is worse
 
