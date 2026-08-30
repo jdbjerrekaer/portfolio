@@ -50,7 +50,7 @@ A visitor has to already know which of those they need before they land on eithe
 
 I audited this as a webshop, not as a homepage. I walked the real purchase path at desktop and phone widths, put a product in the basket, went to checkout, and separately measured the craft of the interface itself. Baymard's e-commerce guidance is the reference for the funnel because it is built on observed purchase sessions rather than opinion.
 
-Before any of it, the question a client is entitled to ask: **does this need a redesign, or does it need a few tickets?** Most audit findings are the second thing. Sorting by that test is what shaped this section, and it changed which finding leads.
+Before any of it, the question a client is entitled to ask: does this need a redesign, or does it need a few tickets? Most audit findings are the second thing. Sorting by that test is what shaped this section, and it changed which finding leads.
 
 **Credit where it is due.** Category pages have working faceted filters and a sort control. Checkout allows guest purchase, which plenty of Danish shops still get wrong. Payment covers Apple Pay, MobilePay, card and EAN invoicing, which is real coverage for a Danish audience including business customers. The site is also genuinely fast, which cost me my favourite argument. None of what follows is a theme complaint.
 
@@ -62,13 +62,13 @@ Easy to assert, easy to dismiss as taste. So I measured it instead. Craft leaves
 
 | Signal | Measured on the homepage | What it means |
 |---|---:|---|
-| Distinct corner radii in use | **8** | No shared decisions; each component styled alone |
-| Distinct text sizes | **9** | Not a type scale, a pile of one-offs |
-| Font families on one page | **4** | Webfont wired up wrong, system font leaking in |
-| Inline `style` attributes | **136** | Design overridden ad hoc, not owned centrally |
-| CSS shipped | **3 KB** | — |
-| JavaScript shipped | **547 KB** | The look is plugin defaults, not design |
-| Most common body text size, mobile | **12px** | Below comfortable reading size on a phone |
+| Distinct corner radii in use | 8 | No shared decisions; each component styled alone |
+| Distinct text sizes | 9 | Not a type scale, a pile of one-offs |
+| Font families on one page | 4 | Webfont wired up wrong, system font leaking in |
+| Inline `style` attributes | 136 | Design overridden ad hoc, not owned centrally |
+| CSS shipped | 3 KB | — |
+| JavaScript shipped | 547 KB | The look is plugin defaults, not design |
+| Most common body text size, mobile | 12px | Below comfortable reading size on a phone |
 
 Here is what those eight radii look like as components rather than as a number:
 
@@ -80,9 +80,9 @@ The type tells the same story. Nine sizes, following no ratio:
 
 ![Nine text sizes rendered at the sizes measured on the live homepage, from 28px down to 10px, each labelled with how many elements use it. 14px is used by 70 elements and 12px by 34.](/images/billigskadedyr/evidence-type.png)
 
-Nine sizes between 10px and 28px with no consistent step is what happens when each size is picked in isolation. And on mobile the single most common text size on the page is **12px**. The audience is homeowners, frequently middle-aged or older, usually reading on a phone in the room with the problem.
+Nine sizes between 10px and 28px with no consistent step is what happens when each size is picked in isolation. And on mobile the single most common text size on the page is 12px. The audience is homeowners, frequently middle-aged or older, usually reading on a phone in the room with the problem.
 
-None of this is broken. Nothing on this list would ever be reported by a user or caught by a test. **That is exactly why it needs a redesign rather than a ticket: there is no system to correct, so there is nothing to patch.** Three kilobytes of stylesheet against half a megabyte of JavaScript is not a shop that was designed and then built. It is a shop that was assembled, and visitors read that as a company that assembles things.
+None of this is broken. Nothing on this list would ever be reported by a user or caught by a test. That is exactly why it needs a redesign rather than a ticket: there is no system to correct, so there is nothing to patch. Three kilobytes of stylesheet against half a megabyte of JavaScript is not a shop that was designed and then built. It is a shop that was assembled, and visitors read that as a company that assembles things.
 
 ### Where the money leaks
 
@@ -148,10 +148,10 @@ What survives is narrower and holds: design is the most-cited factor in how peop
 
 | | Finding | Verdict |
 |---|---|---|
-| 1 | Consent lock, Lorem ipsum, price format, delivery line | **Ticket.** A day's work. Do it this week |
-| 2 | No ratings or reviews anywhere in the catalogue | **Template work.** Weeks, not months |
-| 3 | Four category screens before a product, organised by supplier vocabulary | **Redesign.** It is the architecture |
-| 4 | No type scale, 8 radii, 12px body text on mobile | **Redesign.** There is no system to fix |
+| 1 | Consent lock, Lorem ipsum, price format, delivery line | Ticket. A day's work. Do it this week |
+| 2 | No ratings or reviews anywhere in the catalogue | Template work. Weeks, not months |
+| 3 | Four category screens before a product, organised by supplier vocabulary | Redesign. It is the architecture |
+| 4 | No type scale, 8 radii, 12px body text on mobile | Redesign. There is no system to fix |
 
 Fix row 1 this week; it costs a day and stops the visible bleeding. But the reason to rebuild is rows 3 and 4. A shop with no shared type scale, eight unrelated corner radii and 12px body text on a phone is telling every visitor something about the company before they have read a word, and no ticket fixes the impression of never having been designed.
 
@@ -169,14 +169,14 @@ Fix row 1 this week; it costs a day and stops the visible bleeding. But the reas
 
 | Property type | Actual regional average | Preset |
 |---|---:|---:|
-| Lejlighed | 79.2 m² | **80 m²** |
-| Hus | 139.9 m² | **140 m²** |
+| Lejlighed | 79.2 m² | 80 m² |
+| Hus | 139.9 m² | 140 m² |
 | Række-/kædehus | 48.4 m² | *discarded* |
 | Erhverv | no meaningful average | *left as set* |
 
 The third row is the one worth explaining. 48 m² is not a plausible average terraced house, so those building records do not line up with their dwelling counts, and a figure I cannot defend is worse than no figure. Commercial premises have no average worth quoting at all, so that option changes nothing. Two rows of real data beat four rows of confident ones.
 
-The rule underneath it: **a preset must never overwrite a number the visitor set themselves.** Move the slider to 95 and it stays at 95 through every later change of property type. Reset brings the presets back. A form that quietly undoes your input teaches you not to trust anything else it says.
+The rule underneath it: a preset must never overwrite a number the visitor set themselves. Move the slider to 95 and it stays at 95 through every later change of property type. Reset brings the presets back. A form that quietly undoes your input teaches you not to trust anything else it says.
 
 **Make the answer respond to the question.** The "what's included" list used to state the same four promises no matter what you picked. It now derives from the selections: rats list rodent-proofing and bait stations, wasps list nest removal, a commercial property swaps in audit documentation. A list that never changes is decoration; a list that changes is feedback, and feedback is what tells someone their input registered.
 
@@ -200,9 +200,9 @@ tick marks and the disclosure chevrons.
 
 | | Before | After |
 |---|---:|---:|
-| Text failing WCAG AA | 8 elements | **0** |
-| Lime on white | 1.79:1 | **6.2:1** |
-| Lime on cream | 1.65:1 | **5.7:1** |
+| Text failing WCAG AA | 8 elements | 0 |
+| Lime on white | 1.79:1 | 6.2:1 |
+| Lime on cream | 1.65:1 | 5.7:1 |
 
 The fix was one token: the same hue taken dark enough to read, used on light
 sections only. Dark sections keep the bright lime, which already clears 10:1 on
@@ -245,7 +245,7 @@ my own concept.
 
 The concept said the business covers *"i hele Aarhus"*. Their own FAQ says:
 
-> Vi hjælper kunder i **hele Jylland og Fyn** og arbejder løbende på at udvide
+> Vi hjælper kunder i hele Jylland og Fyn og arbejder løbende på at udvide
 > vores dækningsområde.
 
 So the page was turning away every qualifying homeowner in Aalborg, Esbjerg,
@@ -281,7 +281,7 @@ existed and was in the wrong place.
 ### Two defects that belong to the business, not the design
 
 Reading their FAQ closely turned up a content bug worth more than most design
-notes: the answer under **"Er der garanti på jeres arbejde?"** is wired to the
+notes: the answer under "Er der garanti på jeres arbejde?" is wired to the
 wrong text and returns the paragraph about how to spot a pest problem. One of
 the three questions that decide a sale currently answers a different question
 entirely.
@@ -299,8 +299,8 @@ sits inside a collapsed accordion, and a text scan of the rendered page does
 not see collapsed content. Reading the underlying document rather than the
 visible text found it immediately.
 
-The transferable version: **absence of evidence in a scrape is not evidence of
-absence.** It is the same failure mode as the trust widget earlier in this
+The transferable version: absence of evidence in a scrape is not evidence of
+absence. It is the same failure mode as the trust widget earlier in this
 project, where a slow-loading element read as a missing one, and it argues for
 treating every "the client does not have X" conclusion as provisional until the
 raw source has been read.
@@ -315,7 +315,7 @@ raw source has been read.
 
 ### Measurement over opinion
 
-The working rule this project sharpened: **if I have adjusted the same thing twice without it converging, I stop and measure.**
+The working rule this project sharpened: if I have adjusted the same thing twice without it converging, I stop and measure.
 
 It came out of a slider that kept rendering a stray blue segment. Two rounds treating it as a colour problem got nowhere. Measuring the geometry took one: the track began at x=96 and the fill at x=108, so the twelve pixels were a border, not a colour. The same move fixed an icon set that looked mismatched — the densest glyph carried two and a half times the ink of the sparsest, so nudging sizes by eye could never converge, while measuring alpha coverage settled it in a single pass.
 
@@ -331,10 +331,10 @@ Both of these are why the audit in this piece is worth reading: the findings tha
 
 | | Original site | Concept |
 |---|---|---|
-| Elements overflowing the screen (desktop / mobile) | 2 / 4 | **0 / 0** |
-| Tap targets below 44px, mobile | 32 | **1** |
+| Elements overflowing the screen (desktop / mobile) | 2 / 4 | 0 / 0 |
+| Tap targets below 44px, mobile | 32 | 1 |
 | Tap targets below 44px, article index | 36 | — |
-| Network requests | 47–61 | **13** |
+| Network requests | 47–61 | 13 |
 | Page weight | ~750 KB | 1.27 MB |
 | Page height, mobile | 3,200px | 13,621px |
 
