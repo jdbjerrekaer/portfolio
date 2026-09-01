@@ -127,7 +127,7 @@ export const roleCards: RoleCardData[] = [
     items: [
       "Designed and improved internal staff, partner, and brand tools",
       "Worked closely with engineering on implementation details, QA, and design-to-code handoff",
-      "Shipped YADL, a Figma plugin now used by 400+ teams globally, with 60+ frequent daily users, to standardize design-system QA",
+      "Shipped YADL, a Figma plugin now used by 500+ users globally, with 60+ frequent daily users, to standardize design-system QA",
       "Contributed to LeadPlatform product work after Adservice merged into Adtraction",
     ],
   },
