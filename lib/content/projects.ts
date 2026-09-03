@@ -100,17 +100,17 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
  */
 export const PROJECT_PRIORITY_ORDER = [
   "yadl",
-  "adtraction-brands",
-  "yet-another-countdown",
+  "iriz",
   "leadplatform",
+  "adtraction-brands",
   "billigskadedyr-redesign",
+  "yet-another-countdown",
   "aha-adaptive-home-audio",
   "openclaw-ai-assistant",
   "biombrane",
   // Above the coming-soon entries below, but not promoted to featured.
   "hermes-migration",
   "indkob-grocery-agent",
-  "iriz",
 ];
 
 /**
