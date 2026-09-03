@@ -99,6 +99,7 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
  * Single source of truth shared by the projects listing and the home page.
  */
 export const PROJECT_PRIORITY_ORDER = [
+  "leadplatform",
   "yadl",
   "billigskadedyr-redesign",
   "yet-another-countdown",
