@@ -1,28 +1,102 @@
 ---
-title: "Iriz: Influencer Affiliate Marketing"
-summary: "A port of our desktop and mobile partner platform for affiliate marketing, focused exclusively on dynamic CPC pricing for influencers to connect with exclusive brands."
+title: "Iriz: Affiliate Marketing for Influencers"
+summary: "A mobile-first port of Adtraction's partner platform for influencers, built around per-click pricing. Discover brands, search deals, paste a product link, and see what every link earns. Designed in Figma as a real product that sits behind a login."
 date: "2024-06-01"
 role: "Design Engineer"
+outcome: "A three-tab app (Discover, Link, Account) where an influencer can go from a product URL to a tracked, channel-tagged link in one paste, and see clicks and earnings per link without opening a report."
 tags:
-  - Affiliate Marketing
   - Mobile App
-  - Dynamic CPC Pricing
+  - UI Design
+  - Affiliate Marketing
+  - Design System
+  - Interaction Design
 coverImage: "/projects/iriz/cover.png"
-featured: false
-comingSoon: true
 gallery:
-  - src: "/projects/iriz/home.png"
-    alt: "Iriz home page"
-  - src: "/projects/iriz/brand-link-share.png"
-    alt: "Iriz brand link share interface"
-  - src: "/projects/iriz/product-link-1.png"
-    alt: "Iriz product link interface 1"
-  - src: "/projects/iriz/product-link-2.png"
-    alt: "Iriz product link interface 2"
+  - src: "/projects/iriz/home.jpg"
+    alt: "Discover: brand stories, an editorial card, recently viewed brands, deals right now, a Fashion row with per-click rates, and a Most linked from row with product thumbnails"
+  - src: "/projects/iriz/search-start.jpg"
+    alt: "Search before typing: a new-brand banner, deals right now, brands you love, and a category grid"
+  - src: "/projects/iriz/search-category.jpg"
+    alt: "Search inside the Fashion category: promos on top, then a grid of brand cards with the per-click rate under each"
+  - src: "/projects/iriz/search-loved.jpg"
+    alt: "Brands you love: filter chips with counts, deals from loved brands, and the brand grid"
+  - src: "/projects/iriz/search-typing.jpg"
+    alt: "Searching for Hello: a single matching brand card and the keyboard-adjacent search field"
+  - src: "/projects/iriz/link-input.jpg"
+    alt: "Create link: an empty paste field over a soft photographic background, with My links folded below"
+  - src: "/projects/iriz/link-apply.jpg"
+    alt: "Create link with a bubbleroom.se product URL pasted in, ready to apply"
+  - src: "/projects/iriz/link-product.jpg"
+    alt: "Link created: My links grouped into folders and channel tabs, each link with a product image, channel, earnings, and a copy button; one link flagged for low audience engagement"
+featured: false
+comingSoon: false
+hidden: false
 ---
 
+## What this is
 
-> **Note:** The images shown are Figma screenshots, but this is a real product behind a login page.
-## Overview
+Iriz is Adtraction's affiliate platform reduced to what an influencer actually does with it. The desktop partner platform is built for publishers who run reports. An influencer runs a phone, posts a link, and wants to know two things: which brands pay per click, and what did my last link make.
 
-Iriz is a specialized port of our desktop and mobile partner platform for affiliate marketing, designed exclusively for dynamic CPC (Cost Per Click) pricing. The platform enables influencers to connect with exclusive brands through a streamlined, performance-based affiliate marketing system.
+So the app has three tabs. Discover, Link, Account. Everything else was cut.
+
+The screens below are Figma, not screenshots. The product is real and sits behind a login, so the design files are the honest way to show it.
+
+## Discover
+
+![Discover feed: stories, an editorial card, recently viewed, deals, a Fashion row, and Most linked from](/projects/iriz/home.jpg)
+
+The feed borrows the grammar influencers already live in. Brands appear as stories at the top, the same circle-and-ring pattern as Instagram, so a new brand reads as new content rather than as a database entry. Under it, an editorial card with a headline over a photograph, because the platform's own content ("10 Instagram friendly meals we love right now") is what gets someone to open the app when nothing is earning.
+
+Then the rows: recently viewed, deals right now, a category row, and "Most linked from". Each row is a reason to scroll, not a filter.
+
+**The rate is the label.** Every brand card carries one number under the logo, in a small sparkle-tagged line: *0.50 kr/click*. Not commission percentages, not EPC, not tiers. The whole product is per-click pricing, so the price per click is the only number an influencer needs to compare two brands, and it sits in the same place on every card.
+
+**Deals are chips with a deadline.** "24% in sunscreen" with a red *Last chance* tag, "3 for 2 on socks" with a yellow *5 days left*. Urgency is a colour, not a sentence.
+
+**Products, not just brands.** The "Most linked from" row shows a brand with four product thumbnails under it. A brand is abstract; a pair of sandals is something you can post tonight.
+
+## Search
+
+![Search before typing: new-brand banner, deals, loved brands, category grid](/projects/iriz/search-start.jpg)
+
+Search is a page before it is a field. Opening the tab shows a new-brand banner, current deals, the brands you have hearted, and a category grid of photographs with a single word on each. Most searches on a discovery app are browsing, so the empty state does the browsing for you.
+
+![Fashion category: promos on top, then a grid of brand cards](/projects/iriz/search-category.jpg)
+
+Inside a category, promos come first as small list cards, then a two-column brand grid. The same card, the same rate line, the same position, whether the brand was reached from the feed, a category or a search result.
+
+![Brands you love: filter chips with counts](/projects/iriz/search-loved.jpg)
+
+"Brands you love" gets its own view with chips that carry counts: *All 27, Fashion 2, Travel 2, Food 2*. The count tells you whether the filter is worth tapping before you tap it. The chip itself was redesigned for this app and went back into the Iriz design system.
+
+![Searching for Hello: one matching brand](/projects/iriz/search-typing.jpg)
+
+Typing collapses everything to results, with the search field pushed down to sit just above the keyboard where the thumb already is. One result is shown as one card, not a list row, so the rate stays visible.
+
+## Create link
+
+This is the tab the product exists for.
+
+![Create link: empty paste field over a soft photographic background](/projects/iriz/link-input.jpg)
+
+**One field, one instruction.** The screen is a photograph, a paste field, and the line "Insert a product to create your link". No brand picker, no campaign selector, no link type. The influencer has already found the product on the brand's site; the app's job is to turn that URL into a tracked one.
+
+![A bubbleroom.se product URL pasted into the field](/projects/iriz/link-apply.jpg)
+
+**Paste, and the brand is detected.** The URL identifies the brand and the product. If the brand is not on the platform, the app says so in one line rather than failing quietly. If the link is a homepage rather than a product, it says that too. Those error states were designed as first-class screens, because a paste that goes wrong is the moment someone decides whether to try again.
+
+![Link created: My links grouped into folders and channel tabs with earnings per link](/projects/iriz/link-product.jpg)
+
+**The link lands in a folder and a channel.** "My links" is organised two ways at once: folders the influencer names (*Skincare favs*, *Must haves*) and the channel the link is for (*Instagram*, *Tiktok*, *Pinterest*). Both are chips with counts. A link is copied with the button on the right, and the earnings sit on the card: *15 498 kr* on one, *0.00 kr/click* in red on another with a *Low audience engagement* warning above it. The dashboard is the list itself. There is no separate reporting screen to learn.
+
+**The status dot.** Each product thumbnail carries a small dot, green or red, in its corner. It is the smallest possible way to say "this one is working" across a list of twenty links.
+
+## What I would defend
+
+- Showing the per-click rate on every card in the same spot. It turns the whole app into a price comparison, which is what the product is.
+- The paste-first link flow. Every step removed from "found a product" to "have a link" is a step an influencer would otherwise do in a browser.
+- Errors as designed screens. Unsupported brand, broken link, homepage instead of product, general failure: four states, each with one line of copy.
+
+## What is not here
+
+No usage numbers. The app is a real product behind a login, but I do not have adoption or earnings data I can cite, and a made-up figure would be worse than none. The screens are the case.
