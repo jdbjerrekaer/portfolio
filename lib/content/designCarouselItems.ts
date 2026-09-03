@@ -97,7 +97,7 @@ export const designCarouselItems: CarouselItem[] = [
     kind: "iphone", 
     label: "Product Link", 
     tooltip: "IRIZ: Link Generation", 
-    image: resolveAssetSrc("/projects/iriz/product-link-1.png"),
+    image: resolveAssetSrc("/projects/iriz/link-apply.jpg"),
     description: "Product link generation interface allowing influencers to create and copy affiliate links for different social media platforms with platform-specific commission rates."
   },
   { 
@@ -118,7 +118,7 @@ export const designCarouselItems: CarouselItem[] = [
     kind: "iphone", 
     label: "Product Detail", 
     tooltip: "IRIZ: Product Page", 
-    image: resolveAssetSrc("/projects/iriz/product-link-2.png"),
+    image: resolveAssetSrc("/projects/iriz/link-product.jpg"),
     description: "Product detail page showing brand information, product details, and options to generate affiliate links for sharing on social media platforms."
   },
   { 
