@@ -1,9 +1,9 @@
 ---
 title: "Iriz: Affiliate Marketing for Influencers"
-summary: "A mobile-first port of Adtraction's partner platform for influencers, built around per-click pricing. Positioned against six competitors as muted, serious, app-first and invite-only, then designed in Figma: discover brands, search deals, paste a product link, see what every link earns."
+summary: "Adtraction's affiliate network repackaged as a phone app for influencers, paid per click. I took a product spec and a competitor board and designed the Discover, Search and Create-link flows in Figma. The app is live on iOS and Android at iriz.app."
 date: "2024-06-01"
 role: "Design Engineer"
-outcome: "A three-tab app (Discover, Link, Account) where an influencer can go from a product URL to a tracked, channel-tagged link in one paste, and see clicks and earnings per link without opening a report."
+outcome: "A three-tab app where an influencer pastes a product URL and gets a tracked, channel-tagged link in one step, with clicks and earnings on the link itself. Adtraction's Q2 2026 report lists the technology as validated and the app in its scaling phase."
 tags:
   - Mobile App
   - UI Design
@@ -36,70 +36,80 @@ hidden: false
 
 ## What this is
 
-Iriz is Adtraction's affiliate platform reduced to what an influencer actually does with it. The desktop partner platform is built for publishers who run reports. An influencer runs a phone, posts a link, and wants to know two things: which brands pay per click, and what did my last link make.
+Iriz is Adtraction's affiliate network with a different front door. The partner platform is built for publishers who run reports on a desktop. An influencer works from a phone, posts a link, and wants two things: which brands pay per click, and what the last link made.
 
-So the app has three tabs. Discover, Link, Account. Everything else was cut.
+Adtraction's CEO described it on the Q2 2026 earnings call as "a way for influencers to access Adtraction's great brands through a new user interface that is the Iriz app," and "essentially a packaging of Adtraction's influencer offering." The product spec said the same thing in fewer words: a skin on the Adtraction platform, aimed at influencers, showing only the brands that pay per click.
 
-The screens below are Figma, not screenshots. The product is real and sits behind a login, so the design files are the honest way to show it.
+The app is live on iOS and Android. Its tagline at iriz.app is "Earn on every click with instant access to campaigns." The screens on this page are the Figma files, because the app sits behind a login and the design files are the honest way to show it.
 
-## Positioning first
+## The brief
 
-Before any screen, a colleague and I mapped the field. Six platforms an influencer in the Nordics might already be using, each pulled apart on a board: who it is for, how a link gets made, what it pays on, which markets it is in.
+The spec came with a short list of assumptions. They read as bets, and most of the design follows from them.
+
+| Assumption in the spec | What it did to the design |
+|---|---|
+| Influencers are mobile first; no desktop interface needed | One phone app, no responsive web version |
+| Influencers always prefer pay per click over pay per sale | Only CPC brands are shown, and the per-click rate is the number on every card |
+| Influencers find applying to each program annoying; Metapic and Klarna do not require it | Pasting a link auto-applies to the brand for that channel |
+| Gifting is very important | A three-step gifting request flow, with terms up front |
+| Connecting an Instagram account is no longer a big ask | Sign-up requires a social channel, and Instagram connects via Meta |
+
+Two more lines in the spec shaped the feel of the thing. Sign-up was to be gated by an invite code, distributed through deals with a few macro influencers, "to create a feeling of exclusivity." And the home tab needed a reason to open the app when nothing was earning, which became the editorial content and brand stories in Discover.
+
+## Positioning
+
+Before any screen, a colleague and I mapped the field on a board: six platforms an influencer in the Nordics might already use, each pulled apart by who it is for, how a link gets made, what it pays on and where it operates.
 
 | Platform | Pays on | Aimed at | What we noted |
 |---|---|---|---|
 | Metapic (Tradedoubler) | Per click | Micro to macro, Nordics | Link flow is open the store in a new window, copy the URL, paste it into a converter. Just launched Zezam, a link-in-bio profile |
-| LTK Creator | Commission | Mid to top tier, fashion and beauty | Invite-gated. The influencer app everyone else is compared to |
-| Klarna Creator | Per sale | Micro to macro, Klarna merchants | Strong on merchant reach, tied to Klarna's checkout |
+| LTK Creator | Commission | Mid to top tier, fashion and beauty | Invite-gated. The influencer app the others get compared to |
+| Klarna Creator | Per sale | Micro to macro, Klarna merchants | Strong merchant reach, tied to Klarna's checkout |
 | Stylink | Per click | Nano and micro | Fast small payouts, low barrier. Not in Norway |
-| Make Influence | Performance | Micro to mid tier, Denmark | Brand-led campaigns, matchmaking |
+| Make Influence | Performance | Micro to mid tier, Denmark | Brand-led campaigns and matchmaking |
 | Upfluence | Brand tool | Brands, not creators | No open marketplace; creators do not sign up themselves |
 
-Two of those are per-click and both are the closest to Iriz. Metapic's link flow was the most useful finding on the board: three steps across two windows for the one thing the product exists to do.
+Metapic and Stylink are the two per-click platforms, so they are the closest comparison. Metapic's link flow was the most useful thing on the board: three steps across two windows for the one action the product exists for.
 
 ![Two positioning maps from the board. Design aesthetics: muted to bright, playful to serious. Technical: platform to app, open to exclusive. Iriz is placed muted and serious, and app and exclusive.](/projects/iriz/positioning-maps.jpg)
 
-Then two maps. On design aesthetics, the field clusters playful and bright (Upfluence, Klarna, Make Influence). Iriz was placed muted and serious, next to LTK, which is where the influencers in our personas already live: neutral palettes, editorial photography, no confetti. On the technical map, most of the field is a web platform open to anyone. Iriz was placed as an app, and exclusive. That second placement drove more decisions than the first.
-
-**Exclusive on purpose.** The brief on the board says it directly: "the feeling of being very exclusive, only available for a selective few, relying on word of mouth and invite only." That is why the app has no public sign-up screen in these files, why brands appear as stories rather than as a catalogue, and why the visual register is closer to a fashion magazine than to a dashboard.
+On design aesthetics, the field clusters playful and bright: Upfluence, Klarna, Make Influence. Iriz went muted and serious, next to LTK, which is also where the personas we drafted already lived. Five of the six describe their look as minimal, soft or neutral. On the technical map, most of the field is a web platform open to anyone. Iriz went app, and exclusive, which matched the invite-code decision in the spec.
 
 ![The brainstorm brief from the board: context, features, problems the app will solve, and other values](/projects/iriz/brief.jpg)
 
-**A skin, not a new platform.** The other line that mattered: "a slim version of the Adtraction UI, with the relevant features for influencers extracted." Iriz runs on the same network, the same brands, the same tracking. The design job was subtraction: decide which five things an influencer needs and make everything else disappear.
-
-We also drafted six personas to argue with (a luxury aesthetic influencer, a tech trendsetter, a wellness creator, a Gen Z chaos account, a mom-fluencer, a trendy beauty creator). They were written with an AI assistant and used as a checklist for taste, not as research. Where they earned their keep was the aesthetics map: five of the six describe their look as minimal, soft or neutral, which settled the muted end of the axis.
+The board's own brief put it as "a slim version of the Adtraction UI, with the relevant features for influencers extracted." Same network, same brands, same tracking. The design work was mostly subtraction.
 
 ## Discover
 
 ![Discover feed: stories, an editorial card, recently viewed, deals, a Fashion row, and Most linked from](/projects/iriz/home.jpg)
 
-The feed borrows the grammar influencers already live in. Brands appear as stories at the top, the same circle-and-ring pattern as Instagram, so a new brand reads as new content rather than as a database entry. Under it, an editorial card with a headline over a photograph, because the platform's own content ("10 Instagram friendly meals we love right now") is what gets someone to open the app when nothing is earning.
+The feed uses the grammar influencers already know. Brands appear as stories at the top, the same circle-and-ring pattern as Instagram, so a new brand reads as new content. Under it sits an editorial card with a headline over a photograph, because the spec asked for activity in the app between earnings, and a post like "10 Instagram friendly meals we love right now" is what gets someone to open it on a slow day.
 
-Then the rows: recently viewed, deals right now, a category row, and "Most linked from". Each row is a reason to scroll, not a filter.
+Then the rows: recently viewed, deals right now, a category row, and "Most linked from". Each is a horizontal slider showing the first few brands, with the title as the way into the full list. The spec cites the Apple Podcasts app as the reference for that pattern.
 
-**The rate is the label.** Every brand card carries one number under the logo, in a small sparkle-tagged line: *0.50 kr/click*. Not commission percentages, not EPC, not tiers. The whole product is per-click pricing, so the price per click is the only number an influencer needs to compare two brands, and it sits in the same place on every card.
+The rate is the label. Every brand card has one number under the logo, on a small sparkle-tagged line: 0.50 kr/click. No commission tiers, no EPC. The spec ranks brands within each category by average CPC, descending, so the number on the card is also the sort order.
 
-**Deals are chips with a deadline.** "24% in sunscreen" with a red *Last chance* tag, "3 for 2 on socks" with a yellow *5 days left*. Urgency is a colour, not a sentence.
+Deals are chips with a deadline. "24% in sunscreen" with a red Last chance tag, "3 for 2 on socks" with a yellow 5 days left. The spec puts any brand with a promo into its own category at the top of the list, and that is what the deals row is.
 
-**Products, not just brands.** The "Most linked from" row shows a brand with four product thumbnails under it. A brand is abstract; a pair of sandals is something you can post tonight.
+"Most linked from" shows a brand with four product thumbnails under it. A brand is abstract. A pair of sandals is something you can post tonight.
 
 ## Search
 
 ![Search before typing: new-brand banner, deals, loved brands, category grid](/projects/iriz/search-start.jpg)
 
-Search is a page before it is a field. Opening the tab shows a new-brand banner, current deals, the brands you have hearted, and a category grid of photographs with a single word on each. Most searches on a discovery app are browsing, so the empty state does the browsing for you.
+Search is a page before it is a field. Opening the tab shows a new-brand banner, current deals, the brands you have hearted, and a category grid of photographs with a single word on each. Most searches in a discovery app are browsing, so the empty state does the browsing for you.
 
 ![Fashion category: promos on top, then a grid of brand cards](/projects/iriz/search-category.jpg)
 
-Inside a category, promos come first as small list cards, then a two-column brand grid. The same card, the same rate line, the same position, whether the brand was reached from the feed, a category or a search result.
+Inside a category, promos come first as small list cards, then a two-column brand grid. The card, the rate line and its position stay the same whether the brand was reached from the feed, a category or a search.
 
 ![Brands you love: filter chips with counts](/projects/iriz/search-loved.jpg)
 
-"Brands you love" gets its own view with chips that carry counts: *All 27, Fashion 2, Travel 2, Food 2*. The count tells you whether the filter is worth tapping before you tap it. The chip itself was redesigned for this app and went back into the Iriz design system.
+"Brands you love" has chips that carry counts: All 27, Fashion 2, Travel 2, Food 2. The count tells you whether a filter is worth tapping before you tap it. The chip was redesigned for this app and went back into the Iriz design system.
 
 ![Searching for Hello: one matching brand](/projects/iriz/search-typing.jpg)
 
-Typing collapses everything to results, with the search field pushed down to sit just above the keyboard where the thumb already is. One result is shown as one card, not a list row, so the rate stays visible.
+Typing collapses everything to results, with the search field pushed down to sit just above the keyboard where the thumb already is. A single result is shown as a card, so the rate stays visible.
 
 ## Create link
 
@@ -107,24 +117,22 @@ This is the tab the product exists for.
 
 ![Create link: empty paste field over a soft photographic background](/projects/iriz/link-input.jpg)
 
-**One field, one instruction.** The screen is a photograph, a paste field, and the line "Insert a product to create your link". No brand picker, no campaign selector, no link type. The influencer has already found the product on the brand's site; the app's job is to turn that URL into a tracked one.
+One field, one instruction. The screen is a photograph, a paste field, and the line "Insert a product to create your link". No brand picker, no campaign selector, no link type. The spec is explicit that for per-click campaigns the app should only ever link to actual products, to protect conversion rate, so there are no ready-made brand links anywhere in the app. The influencer finds the product on the store's site; the app's job is to turn that URL into a tracked one.
 
 ![A bubbleroom.se product URL pasted into the field](/projects/iriz/link-apply.jpg)
 
-**Paste, and the brand is detected.** The URL identifies the brand and the product. If the brand is not on the platform, the app says so in one line rather than failing quietly. If the link is a homepage rather than a product, it says that too. Those error states were designed as first-class screens, because a paste that goes wrong is the moment someone decides whether to try again.
+Paste, and the brand is detected. The URL identifies the brand and the product. If the influencer's channel is not yet approved for that brand, the app applies on their behalf rather than stopping them. If the store is not on Iriz, the app says so and offers to request it, with a nudge to tag the store on social media. Broken link, homepage instead of product, and a general failure each got their own screen, because a paste that goes wrong is the moment someone decides whether to try again.
 
 ![Link created: My links grouped into folders and channel tabs with earnings per link](/projects/iriz/link-product.jpg)
 
-**The link lands in a folder and a channel.** "My links" is organised two ways at once: folders the influencer names (*Skincare favs*, *Must haves*) and the channel the link is for (*Instagram*, *Tiktok*, *Pinterest*). Both are chips with counts. A link is copied with the button on the right, and the earnings sit on the card: *15 498 kr* on one, *0.00 kr/click* in red on another with a *Low audience engagement* warning above it. The dashboard is the list itself. There is no separate reporting screen to learn.
+The link lands in a folder and a channel. My links is organised two ways at once: folders the influencer names (Skincare favs, Must haves) and the channel the link is for (Instagram, Tiktok, Pinterest). Both are chips with counts. The copy button sits on the right. Earnings sit on the card: 15 498 kr on one, 0.00 kr/click in red on another with a Low audience engagement warning above it. The list is the dashboard. There is no separate reporting screen to learn.
 
-**The status dot.** Each product thumbnail carries a small dot, green or red, in its corner. It is the smallest possible way to say "this one is working" across a list of twenty links.
+Two details from the spec that are easy to miss in the screens. The real product URL is never shown, so nobody can copy it instead of the tracking link. And each thumbnail carries a small green or red dot in its corner, the smallest possible way to say "this one is working" across a list of twenty links.
+
+The live app adds one more mechanic on top of this: in its onboarding copy, "you start in the middle and your earnings per click move up as your audience shops the links you share." The rate on the card is a rung, not a fixed price.
 
 ## What I would defend
 
-- Showing the per-click rate on every card in the same spot. It turns the whole app into a price comparison, which is what the product is.
-- The paste-first link flow. Every step removed from "found a product" to "have a link" is a step an influencer would otherwise do in a browser.
-- Errors as designed screens. Unsupported brand, broken link, homepage instead of product, general failure: four states, each with one line of copy.
+The per-click rate in the same spot on every card, which turns the whole app into a price comparison. The paste-first link flow, where every step removed between "found a product" and "have a link" is a step an influencer would otherwise do in a browser. And the error states as designed screens, four of them, each with one line of copy.
 
-## What is not here
-
-No usage numbers. The app is a real product behind a login, but I do not have adoption or earnings data I can cite, and a made-up figure would be worse than none. The screens are the case.
+There are no usage numbers on this page. The app is live, but I do not have adoption or earnings data I can cite, and a made-up figure would be worse than none.
