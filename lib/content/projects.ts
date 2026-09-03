@@ -100,6 +100,7 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
  */
 export const PROJECT_PRIORITY_ORDER = [
   "yadl",
+  "adtraction-brands",
   "billigskadedyr-redesign",
   "yet-another-countdown",
   "leadplatform",
@@ -110,7 +111,6 @@ export const PROJECT_PRIORITY_ORDER = [
   "hermes-migration",
   "indkob-grocery-agent",
   "iriz",
-  "figma-component-library",
 ];
 
 /**

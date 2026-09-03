@@ -1,0 +1,133 @@
+---
+title: "Adtraction Brands: From Directory to Storefront"
+summary: "The partner-facing brand discovery pages of Adtraction's platform, redesigned from a text table into a visual storefront. Designed in Figma, built in React, and measured against the old platform running side by side."
+date: "2026-09-03"
+role: "Design Engineer, design and front-end"
+outcome: "Quick backs on the brand page fell from 68% to 29% and dead clicks from 22% to 17%, measured on the same 90 days against partners still on the old platform."
+tags:
+  - Visual Design
+  - UI Design
+  - Design System
+  - React
+  - Design-to-Code
+links:
+  live: "https://platform.adtraction.com/brands"
+coverImage: "/projects/adtraction-brands/new-brands.jpg"
+gallery:
+  - src: "/projects/adtraction-brands/before-after-brands.jpg"
+    alt: "Before and after: the old advertiser table on the left, the new brands storefront on the right"
+  - src: "/projects/adtraction-brands/new-brands.jpg"
+    alt: "The new brands page: category icon strip, filter chips, and curated rows of image cards"
+  - src: "/projects/adtraction-brands/new-brand-profile.jpg"
+    alt: "The new brand page for Coffee Friend: cover image, feature chips, three headline metrics, and a tracking-link rail"
+  - src: "/projects/adtraction-brands/new-brands-scrolled.jpg"
+    alt: "Further down the brands page: promo codes, promotions and commission-increase rows"
+  - src: "/projects/adtraction-brands/new-features.jpg"
+    alt: "The features overview: a bento grid of illustrated cards for the mobile app, Chrome extension, smart feeds and link tools"
+galleryLayout: "landscape"
+featured: true
+comingSoon: false
+hidden: false
+---
+
+## What this case study is about
+
+This one is about visual design. Most of my case studies are about research or systems. This is the piece where the argument is made by the surface: hierarchy, colour, imagery, spacing, and what a partner sees in the first second.
+
+Adtraction is a Nordic affiliate network. Partners (publishers, influencers, comparison sites) log in to find brands to promote, read the terms, and grab a tracking link. The brands directory is the front door to that whole business, and for years it was a table.
+
+## Before
+
+The old platform served brands as a database listing. Pick a category from a sidebar, get a table: logo in the left column, name and a one-line pitch in Swedish, two square badges, EPC, commission. Every row the same height, every brand the same weight, no picture of what the brand actually sells.
+
+![The old advertiser directory: a category heading, then a plain table of logos, one-line descriptions, EPC and commission](/projects/adtraction-brands/old-brands.jpg)
+
+The brand page had the same shape. A greeting, a channel dropdown with an "Apply to advertiser" button, tabs for the presentation text, and a commission table down the right side. All the information was there. None of it was ranked.
+
+![The old brand page for Albert: a greeting, an apply button, a long presentation text, and a commission table down the right](/projects/adtraction-brands/old-brand-profile.jpg)
+
+The deeper problem was the mental model. A partner choosing a brand is doing something closer to shopping than to querying a database. They want to see what the brand looks like, whether it fits their audience, what it pays, and whether anything is going on right now (a promo code, a commission increase). The table answered the third question and ignored the rest.
+
+## After
+
+The new brands page is a storefront. That decision drives every visual choice on it.
+
+![The new brands page: a category icon strip, filter chips, then rows of image cards under "For you" and "New brands"](/projects/adtraction-brands/new-brands.jpg)
+
+**Rows, not a table.** Brands are grouped into horizontal rows a partner can scan sideways: For you, New brands, Promo codes, Promotions, Commission increase. Each row is a reason to look, not a bucket. The table still exists for people who want it, behind "View all" and the list view, but it is no longer the first thing you meet.
+
+**Every brand gets a picture.** Each card carries a campaign image with the logo on a white plate over it. The plate does the work a table row could not: a black wordmark and a pastel logo sit at the same visual weight because the plate normalises the background behind them. Brands that only supplied a logo still get a card that reads as a card.
+
+**The commission is the headline.** On each card the number is set large and the unit small: *10% per sale*, *40.13 EUR per lead*. The EPC sits in a quiet grey pill beside it, and brands with no history yet say so ("No EPC yet") rather than showing a dash. The old table gave EPC and commission equal typographic weight, and partners read the wrong one first.
+
+**Status is a coloured tag, not a column.** New, For You, Commission Increase each have their own colour and icon, pinned to the top-left of the image where the eye lands. A tiny green dot on the tag means the increase is active right now.
+
+**Categories are icons.** The sidebar list of categories became a strip of outline icons across the top. It is faster to scan, it uses the horizontal space a wide dashboard has plenty of, and it lets the filter chips underneath stay on one line.
+
+![Further down: Promo codes, Promotions and Commission increase rows, each card with its own campaign photograph](/projects/adtraction-brands/new-brands-scrolled.jpg)
+
+### The brand page
+
+![The new Coffee Friend brand page: cover photo with the logo on a plate, a row of feature chips, the brand name with market flags, three headline metrics, and a tracking-link rail on the right](/projects/adtraction-brands/new-brand-profile.jpg)
+
+The brand page follows the same logic and adds a single rule: the partner should be able to act without scrolling.
+
+**A cover, then the chips.** The page opens on the campaign image with the logo plated on top, exactly as it appeared on the card. Continuity between card and page is a small thing that makes the navigation feel like opening a thing rather than loading a different one. Directly under it, a row of chips states what is on offer: Fair Tracking, Commission Increase, Promo Code, Promotions, Product Feed, and the category. The two that matter most are filled in colour; the rest are outlined.
+
+**Sister markets in one line.** Coffee Friend runs in six markets. They used to be six separate programs to find one by one. Now they sit under the title as flag-and-name links, so a Danish partner who landed on the Swedish page is one click from the right one.
+
+**Three numbers, large.** Earnings per click, conversion rate, and average order value for the last 60 days. The old page had no performance numbers at all on the profile; you had to go to a report. These are the three a partner uses to decide, so they get the biggest type on the page after the brand name.
+
+**The action rail.** Everything a partner needs to start promoting sits in a card on the right: logo download, channel selector, and the tracking link in a green pill with a copy button. Green is used for exactly one thing on this page, and it is the thing you came for.
+
+**Rules stay readable.** Brand-specific promotional rules are long and legally important. They are folded behind "View full description" with a count badge, so the count is always visible and the text is one click away instead of pushing the metrics below the fold.
+
+### Features overview
+
+![The features overview: illustrated cards for Mobile app, Chrome extension, Smart feeds, Create links, and smaller cards for fallback links, claims, API and Google Ads](/projects/adtraction-brands/new-features.jpg)
+
+The features page is where the storefront idea is applied to the platform itself. Each capability is a card in a bento grid, sized by importance, with a pastel background and a flat illustration in the platform's palette. The mobile app gets a phone render with real screens. Smaller features get a title, one line and a link. Unavailable features (Claims) stay in the grid but at reduced contrast, so the page also works as a map of what is coming.
+
+## The system underneath
+
+None of this is one-off styling. The brand pages are built from the shared Adtraction UI toolkit, which I also work on: the chips, pills, cards, filter buttons and the outline icon set are all toolkit components. The card image plate, the commission typography and the tag colours were designed as reusable patterns first, in Figma, and then built as components, so the same card renders on the dashboard and on the brands page.
+
+On the brands micro-frontend, 154 of the 260 commits on the partner-facing brand pages are mine, covering the brand page structure, the header and policy sections, the category filters and the sort logic. Colleagues built the micro-frontend composition and later added the "For you" row.
+
+## Measured against the old platform
+
+Adtraction runs Microsoft Clarity on both platforms, and both are live at the same time: some partners have moved to the new platform and some have not. That makes for an unusually clean comparison. Same 90 days, same product, two interfaces.
+
+These are session-level numbers for sessions that visited the relevant pages, last 90 days to 3 September 2026.
+
+| Brand page | Old platform | New platform |
+|---|---:|---:|
+| Sessions | 15,019 | 58,873 |
+| Quick backs | 68.0% | 28.9% |
+| Dead clicks | 21.7% | 17.4% |
+| Rage clicks | 0.23% | 0.62% |
+| Pages per session | 8.1 | 6.7 |
+| Active time per session | 3.6 min | 3.0 min |
+
+| Brands directory and brand pages together | Old platform | New platform |
+|---|---:|---:|
+| Sessions | 17,220 | 100,236 |
+| Quick backs | 67.1% | 22.7% |
+| Dead clicks | 21.3% | 12.7% |
+| Rage clicks | 0.20% | 0.42% |
+| Pages per session | 7.7 | 4.9 |
+| Active time per session | 3.4 min | 2.1 min |
+
+Quick backs are the number I care about. Clarity counts one when a user opens a page and leaves it almost immediately, which on a brand page means "this was not what I wanted". Two thirds of old brand-page sessions had at least one. On the new page it is under a third. Dead clicks (clicks that did nothing) fell too, which is what you would expect when the whole card is the link instead of one blue name in a table.
+
+Fewer pages and less time per session read as wins to me on a discovery surface: the partner found the brand and the link in fewer hops. I would not claim that without the quick-back number next to it, because on its own "less time" could mean either.
+
+**Where it went the wrong way.** Rage clicks roughly tripled on the brand page, from 0.23% to 0.62%. Still small, but a real regression and I am not hiding it. I have not yet gone through the recordings to find where, but the two places the new design invites a click and answers slowly are the copy button on the tracking link and the folded description. That is where I would look first.
+
+**Caveats a reader should have.** These are sessions, not page views, so a session counts once no matter how many brand pages it opened. The two groups are different partners, not the same partners before and after, and partners who opted into the new platform early may be more engaged than average. The gap is large enough that I do not think any of that explains it, but it is a comparison, not an experiment.
+
+## What I would do next
+
+- Fix the rage-click hotspots on the brand page: give the copy button an immediate state change, and open the description inline instead of in a modal.
+- Bring the three headline metrics onto the card, at least for the "For you" row, so the decision can happen before the click.
+- The new page scrolls to 99% depth on average, which tells me the rows below the fold are being read but also that the page may be too long. Test cutting one row.
