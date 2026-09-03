@@ -1,90 +1,157 @@
 ---
 title: "LeadPlatform"
-summary: "Adtraction's lead-generation platform: an Angular app for spinning up branded quiz, prize-wheel, contest, scratcher and advent-calendar campaigns that turn form-filling into a game."
+summary: "Adtraction's lead-generation product: 60+ branded campaign sites across four Nordic markets, designed so a campaign pays for itself at small budgets by raising conversion, cutting junk leads, and taking launch from weeks to hours."
 date: "2021-06-01"
 role: "Design Engineer"
+outcome: "60+ campaigns for UNICEF, Telia, DNA, Fortum and others, with +31% average conversion on quiz formats"
 tags:
-  - Angular
-  - TypeScript
-  - Front-End
-  - Lead Generation
-  - Gamification
+  - Product Design
+  - Conversion Design
   - Design Systems
+  - Interaction Design
+  - Gamification
   - B2B
 links:
   Website: "https://www.adservice.com/en/leadplatform/"
 coverImage: "/projects/leadplatform/hero.png"
 featured: true
+sectionNav:
+  - title: "The commercial problem"
+    id: "the-commercial-problem"
+  - title: "At a glance"
+    id: "at-a-glance"
+  - title: "Three levers"
+    id: "three-levers"
+  - title: "Lever 1: conversion, choosing the trade"
+    id: "lever-1-conversion-choosing-the-trade"
+  - title: "Lungeforeningen: making an unsellable category sellable"
+    id: "lungeforeningen-making-an-unsellable-category-sellable"
+  - title: "Connect: one lead, three advertisers"
+    id: "connect-one-lead-three-advertisers"
+  - title: "Lever 2: lead quality"
+    id: "lever-2-lead-quality"
+  - title: "Lever 3: cost to launch"
+    id: "lever-3-cost-to-launch"
+  - title: "Impact"
+    id: "impact"
 gallery:
-  - src: "/projects/leadplatform/hero.png"
-    alt: "LeadPlatform hero section showing the all-in-one lead generation platform with gamification features"
+  - src: "/projects/leadplatform/lungeforeningen-hero.jpg"
+    alt: "Lungeforeningen campaign hero: a broken-down car in a field, exhaust smoke spelling out HIV, HOST, HVÆS, with the headline PUST NU!"
+  - src: "/projects/leadplatform/lungeforeningen-form.jpg"
+    alt: "Lungeforeningen sign-up card over the blurred hero video, with a Who are you answering for? choice between yourself and a relative"
+  - src: "/projects/leadplatform/connect-form-desktop.jpg"
+    alt: "LeadPlatform Connect desktop: a single white form card centred over a green health-themed photograph"
+  - src: "/projects/leadplatform/connect-form-mobile.jpg"
+    alt: "LeadPlatform Connect on mobile: full-bleed single-column form with large tap targets and one consent checkbox"
   - src: "/projects/leadplatform/gamification.png"
-    alt: "Gamification examples including Christmas Calendar, Contest signup, Memory Game, and Quiz"
-  - src: "/projects/leadplatform/stats.png"
-    alt: "Statistics showing +31% average conversion rate for the Quiz gamification microsite"
+    alt: "Campaign formats: Christmas calendar, contest signup, memory game and quiz"
 ---
 
-## What LeadPlatform is
+## The commercial problem
 
-LeadPlatform is Adtraction's lead-generation system, built for campaigns where the conversion is a *lead* (someone submitting their name, phone or email) rather than an e-commerce sale. Instead of a plain newsletter form, brands run interactive, gamified microsites that entertain people while collecting qualified leads, distributed through the Nordic affiliate network. The system began at Adservice and is now a standalone Angular service that I design and build.
+LeadPlatform is a product with a P&L, not a portfolio of microsites. Advertisers pay per qualified lead, so the business only works if three numbers stay in the right place.
 
-## What I built
+| Lever | What it costs when it goes wrong |
+| --- | --- |
+| Conversion rate | Traffic is bought. A form converting at 2% instead of 3% raises the cost per lead by 50% on identical spend. |
+| Lead quality | A lead the advertiser rejects, whether junk data, a duplicate, or no valid consent, is traffic already paid for and revenue never billed. |
+| Cost to launch | If a campaign takes weeks of design and development, only large budgets are worth taking. Everything smaller gets declined. |
 
-This is a design-engineering project, not a design hand-off. I work across the Angular front-end and the tooling around it:
+Design moves all three, and that is the job here. I have owned it since 2021, first at Adservice and now at Adtraction, across concept, UX, visual design and front-end.
 
-- **Angular platform.** The campaign microsites are built in Angular 19 (TypeScript, pnpm), with a shared component and theming layer so every new campaign inherits a consistent, on-brand system.
-- **Shared form & UI component library.** A reusable set of form primitives (inputs, selects, checkboxes, date and birthdate pickers, buttons) with a live preview page, so every campaign's forms behave and look the same without being rebuilt each time.
-- **`create-leadplatform` scaffolding CLI.** A generator that spins up a new branded campaign (quiz, wheel, contest, scratcher) from a template, themes it to the client's brand, wires up routing and state, and configures the campaign settings in a single command.
-- **Automated banner pipeline.** A Satori → resvg → sharp toolchain that renders ad banners, prize tiles and social/OG share images to WebP from templates, so campaign creatives don't have to be cut by hand.
-- **Hub previews.** Auto-captured screenshot tiles for the platform hub, kept in sync as new campaigns are added.
+## At a glance
 
-## The lead flow
+- Role: Design Engineer, covering concept, UX, visual design, front-end and campaign tooling
+- Scale: 60+ live campaigns across Denmark, Sweden, Norway and Finland
+- Clients: UNICEF, Telia, DNA, Talkmore, Fortum, Plan BørneFonden, Lungeforeningen
+- Business model: pay per campaign site, no annual licence, with traffic distributed through the Nordic affiliate network
+- Context: around 87% of sessions are mobile
+- Result: +31% average conversion rate on quiz-based campaigns
 
-Behind the interactive front-end is a real lead pipeline:
+## Three levers
 
-- a user completes a quiz, wheel or contest on an affiliate's landing page and submits their details;
-- the submission is validated and de-duplicated: required fields present, no repeat entries, the affiliate authorised for the campaign;
-- qualified leads are forwarded to each advertiser's own integration;
-- the lead receives a GDPR consent and confirmation email, with a self-service flow to withdraw consent at any time.
+Conversion, lead quality and cost to launch. Two campaigns carry the first two, and the platform tooling carries the third.
 
-The service is containerised and deployed to AWS behind a CDN and WAF.
+## Lever 1: conversion, choosing the trade
 
-## Campaign formats
+Nobody wants to fill in a form. They want the thing on the other side of it. So the first decision on any brief is not visual. It is what the brand can offer that is worth someone's phone number, and the format follows from that.
 
-LeadPlatform ships several gamified formats, each a value exchange that makes people *want* to share their details:
+| Format | What the visitor gets | Best when the advertiser has |
+| --- | --- | --- |
+| Quiz | Curiosity, and an answer about themselves | Knowledge worth sharing |
+| Prize wheel | An immediate, visible reward | A prize but no story |
+| Contest | A shot at something big | Budget for a prize that justifies the ask |
+| Scratcher | Instant resolution, nothing to read | The lowest-attention traffic |
+| Advent calendar | A reason to return tomorrow | A long campaign window to fill |
 
-### Quiz
+Getting this wrong is expensive before a single pixel is drawn. A charity with real expertise running a scratcher wastes the only asset it has.
 
-Interactive questionnaires that capture curiosity along with contact details, instead of asking people to fill in a static form.
+## Lungeforeningen: making an unsellable category sellable
 
-### Prize Wheel
+The Danish Lung Association needed people to self-check for early COPD symptoms. Commercially that is close to unadvertisable. Nobody clicks *you may be seriously ill*, and a symptom checklist reads as a diagnosis nobody asked for. Low click-through and low completion together mean the cost per lead never clears.
 
-Spin-to-win mechanics with a clear, immediate reward for entering.
+![Lungeforeningen campaign hero: a broken-down car in a field, its exhaust smoke spelling out HIV, HOST, HVÆS](/projects/leadplatform/lungeforeningen-hero.jpg)
 
-### Contest
+The answer was a car. One broken down on a dirt road, steam pouring from the bonnet, and the steam spells the symptoms: *hiv, host, hvæs*, or gasp, cough, wheeze. The headline is **Pust nu!**, meaning *breathe now*, and the invitation is a question with a shrug in it: *do your lungs need a trip to the workshop?*
 
-Raffle signups where the prize justifies sharing information, a clean value exchange that motivates people to opt in.
+The metaphor is the commercial unlock, and it holds all the way through.
 
-### Scratcher
+- The three questions have no wrong answers. Breathlessness, coughing and wheezing, each answered *no*, *recently*, or *for a long time*. Nothing can be failed, so nobody abandons out of anxiety. Underneath, each option carries a weight of 0, 1 or 3.
+- The result is a car verdict rather than a diagnosis. Under 1: *roll the window down and drive on*. Under 3: *pull over and check if you need an oil change*. Above that: *hard shoulder, handbrake*. It is real triage, in language that lets someone take it seriously without panicking.
+- Only the most serious verdict names the disease. The gentle results talk about cars. The severe one says asthma and COPD and tells you to call your doctor. The metaphor earns the right to break exactly where it matters.
 
-Instant-win scratch cards for fast, low-friction entry.
+![The Lungeforeningen sign-up card over the blurred hero, including the choice to answer for yourself or for a relative](/projects/leadplatform/lungeforeningen-form.jpg)
 
-### Advent Calendar
+The detail with the clearest commercial effect is the smallest one. The form asks *who are you answering for, yourself or a relative?* A large share of the people worried about a cough are worried about a parent's. Without that option they either lie or leave. With it, the campaign's addressable audience roughly doubles and the leads stay accurate about who the person actually is. One radio group, and it changed who the campaign was for.
 
-Seasonal day-by-day calendars that bring people back to open a new door, and a new chance to enter, across a whole campaign period.
+## Connect: one lead, three advertisers
+
+Connect is co-sponsored. A single sign-up feeds three advertisers, Det Faglige Hus, Idényt and Grøn Elforsyning, under one consent. That triples the revenue per lead, and it puts the entire commercial value of the campaign on one checkbox. If the consent is ambiguous, every lead collected is unusable and the campaign becomes a liability instead of an asset.
+
+There is also no concept to hide behind. No metaphor, no illustration, just a general-interest health quiz where the only thing to design is the form. On 87% mobile traffic, the form is the landing page.
+
+![LeadPlatform Connect on desktop: one white card centred over a green health photograph](/projects/leadplatform/connect-form-desktop.jpg)
+
+Each decision, and what it is worth:
+
+- One column, always. The only paired row is city and postcode, because they are one thought. Fewer eye jumps, fewer abandons.
+- Placeholders do the work of labels, at full input height. Large tap targets, nothing above each field competing for space, and the whole form in a thumb's reach instead of a scroll.
+- The offer sits directly above field one. *Win a 4,000 kr Netto gift card*, in italics. The reason to type is never scrolled off-screen, which is the most common and most expensive mistake in this format.
+- One consent checkbox, full text, never behind a "read more". Naming all three companies in plain sight is slower to read and converts slightly worse. It is also the only version where the lead is legally sellable to all three. Hiding it behind an accordion is a dark pattern with extra steps, and it would risk the whole campaign to buy a fraction of a percent.
+- A wheel picker for the birth date. Typing a date of birth is the worst field on any mobile form and a reliable abandon point. Three scrollable columns, iOS-style, answered by thumb with no keyboard.
+
+![The same form on mobile: full-bleed, single column, large targets](/projects/leadplatform/connect-form-mobile.jpg)
+
+After submitting, the quiz is a swipe-card deck, one statement per card, left for false and right for true. It exists to make the post-submit moment worth staying for, which is what makes the format re-runnable. Three details do the work. The first card nudges itself on entry so nobody needs instructions. Each answer flips to a fact whose display time is calculated from its length rather than a fixed timer, with tap-to-skip for faster readers. And the cards are height-normalised so the deck never jumps.
+
+## Lever 2: lead quality
+
+A lead the advertiser rejects costs more than a lead never collected, because the traffic was already bought. So validation is a design surface, not a back-end afterthought.
+
+- Junk gets caught at the keyboard rather than at the invoice. Name fields reject gibberish and repeated-character patterns, alongside email, address, postcode and age checks. Errors surface inline, in the campaign's language, while the person is still on the page and willing to fix them.
+- Duplicates and unauthorised traffic are filtered before a lead reaches the advertiser, so partners cannot resubmit the same person for another payout.
+- Consent is a deliverable. Every lead carries a documented consent, a confirmation email and a self-service withdrawal flow. That is what makes a lead billable in four regulated markets rather than merely collected.
+- Leads are forwarded into each advertiser's own system, so the client works in the CRM they already use and nothing sits waiting to be exported.
+
+## Lever 3: cost to launch
+
+This lever decides which campaigns the business can afford to say yes to. All of it moves work off the critical path.
+
+- The campaign builder is aimed at campaign managers, not developers. An in-product admin panel edits headlines, prize, offer copy, which fields appear, quiz questions and answers, exit pages and language across Danish, Swedish, Norwegian and Finnish, with live preview. Changing an offer mid-flight is a campaign-manager task rather than a developer ticket, which means underperforming campaigns get fixed instead of finished.
+- Campaigns are configuration. Format, fields, copy and prize are settings, so a new campaign is a config change rather than a codebase.
+- One command scaffolds a new branded campaign from a template, with the brand applied, routing wired and settings written. Brief to live in hours.
+- A shared, themed component library covers inputs, selects, checkboxes, date and birthdate pickers and buttons, with a live preview page. Every campaign inherits the conversion work already done on the last one, and only the brand layer changes.
+- Banners, prize tiles and share images render from templates instead of being cut by hand, so ads never drift from the page they point at.
+
+The compounding effect matters more than any single piece. A conversion improvement designed once is inherited by all 60 campaigns, and the fixed cost per campaign is low enough that small and mid-size budgets become profitable inventory instead of declined briefs.
 
 ## Impact
 
-The gamified approach delivers measurable results:
+- 60+ live branded campaigns across four Nordic markets, from one templated platform
+- +31% average conversion rate on quiz-based lead capture
+- 207,992 clicks in one 20-day period, up from 42,892 in the preceding period
+- 7,553 conversions in the same window, up 43.5%
+- Brief to live in hours, with no per-campaign design or build cycle
+- Design, traffic and integration handled by one partner, priced per site with no annual licence
 
-- **60+ live branded campaigns** shipped across the Nordic market for brands including UNICEF, Telia, DNA, Talkmore, Fortum and Plan BørneFonden, all from a single templated platform
-- **207,992 clicks** in a 20-day period, a 384.92% increase versus the preceding period (from 42,892 clicks)
-- **7,553 conversions** captured, a 43.51% increase versus the preceding period (from 5,263 conversions)
-- **+31% average conversion rate** for quiz-based lead capture
-- **Full-service.** Design, traffic driving and integration handled by one partner
-- **Distribution** through the Nordic affiliate network
-- **Pay-per-site pricing**, with no yearly licensing
-
-## Why it works
-
-LeadPlatform turns lead generation from a passive form-filling exercise into something people actually want to play. Just as important, the engineering around it (a scaffolding CLI, a templated component system, an automated creative pipeline) means a new branded campaign can go from brief to live in a fraction of the usual time, without sacrificing brand consistency or quality.
+Lead generation is usually designed as an obstacle standing between someone and a prize. It performs better as an exchange, and the numbers above are what that difference is worth.
