@@ -106,7 +106,6 @@ export const PROJECT_PRIORITY_ORDER = [
   "aha-adaptive-home-audio",
   "openclaw-ai-assistant",
   "biombrane",
-  "leadplatform",
   // Above the coming-soon entries below, but not promoted to featured.
   "hermes-migration",
   "indkob-grocery-agent",
