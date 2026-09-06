@@ -17,6 +17,13 @@ export const designCarouselItems: CarouselItem[] = [
     description: "The current App Store presentation showing upcoming moments and the time remaining for each event."
   },
   {
+    kind: "iphone", 
+    label: "Brand Page", 
+    tooltip: "IRIZ: Brand Page", 
+    image: resolveAssetSrc("/projects/iriz/cover.jpg"),
+    description: "Mobile brand page interface for Iriz influencer affiliate marketing platform, featuring social media platform integration and earnings display."
+  },
+  {
     kind: "desktop",
     label: "YADL Features",
     tooltip: "YADL: Yet Another Design Linter",
@@ -64,13 +71,6 @@ export const designCarouselItems: CarouselItem[] = [
     tooltip: "COUNTDOWN: Count Up",
     image: resolveAssetSrc("/projects/yet-another-countdown/appstore-count-up.png"),
     description: "The current App Store presentation showing a home screen widget counting up a meaningful milestone."
-  },
-  { 
-    kind: "iphone", 
-    label: "Brand Page", 
-    tooltip: "IRIZ: Brand Page", 
-    image: resolveAssetSrc("/projects/iriz/cover.jpg"),
-    description: "Mobile brand page interface for Iriz influencer affiliate marketing platform, featuring social media platform integration and earnings display."
   },
   { 
     kind: "desktop", 
