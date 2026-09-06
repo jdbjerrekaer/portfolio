@@ -44,13 +44,6 @@ export const designCarouselItems: CarouselItem[] = [
     image: resolveAssetSrc("/projects/yet-another-countdown/appstore-style-it.png"),
     description: "The current App Store presentation showing contextual emoji suggestions and color customization."
   },
-  {
-    kind: "desktop",
-    label: "YADL Variable Collections",
-    tooltip: "YADL: Variable Collections",
-    image: resolveAssetSrc("/projects/yadl/variable-collections.jpg"),
-    description: "YADL’s Figma Community presentation showing variable collections, modes, libraries, and collection controls."
-  },
   { 
     kind: "iphone", 
     label: "Mobile Dashboard", 
@@ -86,13 +79,6 @@ export const designCarouselItems: CarouselItem[] = [
     image: resolveAssetSrc("/projects/yet-another-countdown/appstore-shape-it.png"),
     description: "The current App Store presentation showing the available icon container shapes for each countdown."
   },
-  {
-    kind: "desktop",
-    label: "YADL Welcome",
-    tooltip: "YADL: Getting Started",
-    image: resolveAssetSrc("/projects/yadl/welcome.jpg"),
-    description: "YADL’s Figma Community presentation showing the three-step getting-started flow."
-  },
   { 
     kind: "iphone", 
     label: "Product Link", 
@@ -108,13 +94,6 @@ export const designCarouselItems: CarouselItem[] = [
     description: "Web-based dashboard for managing affiliate programs, tracking conversions, and analyzing marketing performance with real-time metrics."
   },
   { 
-    kind: "desktop",
-    label: "YADL Errors",
-    tooltip: "YADL: Errors List",
-    image: resolveAssetSrc("/projects/yadl/errors-list.jpg"),
-    description: "YADL’s Figma Community presentation showing grouped issues, smart suggestions, and responsive labels."
-  },
-  { 
     kind: "iphone", 
     label: "Product Detail", 
     tooltip: "IRIZ: Product Page", 
@@ -127,20 +106,6 @@ export const designCarouselItems: CarouselItem[] = [
     tooltip: "COUNTDOWN: Lock Screen Widget", 
     image: resolveAssetSrc("/projects/yet-another-countdown/appstore-lock-screen.png"),
     description: "The current App Store presentation showing a countdown kept visible on the lock screen."
-  },
-  {
-    kind: "desktop",
-    label: "YADL Responsive Layout",
-    tooltip: "YADL: Small Screen Compatible",
-    image: resolveAssetSrc("/projects/yadl/small-screen-compatible.jpg"),
-    description: "YADL’s Figma Community presentation showing the linting interface at narrow and wide plugin sizes."
-  },
-  {
-    kind: "desktop",
-    label: "YADL Enabled Variables",
-    tooltip: "YADL: View Enabled Variables",
-    image: resolveAssetSrc("/projects/yadl/enabled-variables.jpg"),
-    description: "YADL’s Figma Community presentation showing enabled variables, category filters, and token swatches."
   },
   {
     kind: "desktop",
