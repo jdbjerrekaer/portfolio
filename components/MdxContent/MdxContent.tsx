@@ -41,12 +41,25 @@ const components = {
     </a>
   ),
   img: (props: ComponentProps<"img">) => {
+    // Empty alt is valid only for decorative images. An <img> in a case study is
+    // content, so a missing alt derives from the filename rather than passing an
+    // empty string through, which would silently hide the image from a screen reader.
+    const derivedAlt =
+      props.alt ??
+      (typeof props.src === "string"
+        ? props.src
+            .split("/")
+            .pop()
+            ?.replace(/\.[a-z0-9]+$/i, "")
+            .replace(/[-_]+/g, " ")
+            .trim() ?? ""
+        : "");
     // Handle Next.js Image component for local images
     if (typeof props.src === "string" && props.src.startsWith("/")) {
       return (
         <Image
           src={resolveAssetSrc(props.src)}
-          alt={props.alt || ""}
+          alt={derivedAlt}
           width={1200}
           height={675}
           className="my-8 rounded-lg w-full h-auto"
@@ -54,7 +67,7 @@ const components = {
       );
     }
     // Fallback to regular img for external images
-    return <img {...props} alt={props.alt || ""} className="my-8 rounded-lg w-full h-auto" />;
+    return <img {...props} alt={derivedAlt} className="my-8 rounded-lg w-full h-auto" />;
   },
   // Use <ProjectVideo src="/projects/.../demo.mp4" /> in MDX rather than a raw
   // <video><source/></video>. Lowercase HTML elements written literally in MDX

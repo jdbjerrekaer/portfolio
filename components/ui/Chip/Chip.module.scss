@@ -6,16 +6,19 @@
   min-height: 28px;
   padding: 0.3rem 0.65rem;
   border: 1px solid transparent;
+  // Not in the DESIGN.md radii scale (6/8/10/14); kept for the pill look,
+  // documented rather than silently off-scale.
   border-radius: var(--radius-full);
   font-size: 0.8125rem;
   font-weight: 500;
   line-height: 1.2;
   white-space: nowrap;
-  user-select: none;
 }
 
 .default {
-  color: var(--color-text-secondary);
+  // Chips sit on a blended ink wash; the plain secondary token lands at 3.8:1
+  // there, so this carries one step darker to clear 4.5:1 at 13px.
+  color: #5b6272;
   background: rgba(29, 29, 31, 0.065);
 }
 

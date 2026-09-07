@@ -57,7 +57,7 @@ export function ProjectCard({
       </div>
       <div className={styles.content}>
         <div className={styles.headingRow}>
-          <h3 className={styles.title}>{title}</h3>
+          <h2 className={styles.title}>{title}</h2>
           <span className={styles.role}>{role}</span>
         </div>
         {outcome && <p className={styles.proofLine}>{outcome}</p>}

@@ -146,13 +146,11 @@ export async function getAllProjects(): Promise<Project[]> {
  * Includes all projects marked as featured (may include comingSoon projects)
  */
 export async function getFeaturedProjects(): Promise<Project[]> {
+  // getAllProjects() already applies PROJECT_PRIORITY_ORDER as the curated
+  // single source of truth. Re-sorting by date here used to undo that curation
+  // on the home page, so what a hiring manager saw first was chosen by date.
   const projects = await getAllProjects();
-  const featured = projects.filter((project) => project.featured);
-  
-  // Sort featured projects by date (newest first)
-  return featured.sort((a, b) => {
-    return new Date(b.date).getTime() - new Date(a.date).getTime();
-  });
+  return projects.filter((project) => project.featured);
 }
 
 /**

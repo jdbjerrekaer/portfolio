@@ -12,8 +12,8 @@
   --color-background-muted: #f9f9fb;
   --color-foreground: #1d1d1f;
   --color-text-primary: #1d1d1f;
-  --color-text-secondary: #6b7280;
-  --color-text-tertiary: #8b919c;
+  --color-text-secondary: #5e6574;
+  --color-text-tertiary: #6b7280;
   --color-border: rgba(0, 0, 0, 0.08);
   --color-border-strong: rgba(0, 0, 0, 0.16);
   --color-accent: #0071e3;
@@ -24,8 +24,11 @@
   --color-danger: #86190b;
 
   // Typography
-  --font-sans: var(--font-open-runde), -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
-    "Helvetica Neue", Helvetica, Arial, sans-serif;
+  // Unquoted, the comma-separated chain parses as a single invalid custom-ident,
+  // any var(--font-sans) usage then falls back to unset and the page renders in
+  // the browser default. Each family with digits/quotes must be a quoted string.
+  --font-sans: var(--font-open-runde), "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica,
+    Arial, sans-serif;
   --font-mono: "SF Mono", SFMono-Regular, ui-monospace, Menlo, Monaco, Consolas,
     monospace;
 
@@ -65,15 +68,21 @@
   --transition-slow: 280ms var(--ease-out);
 }
 
-// Tailwind v4 theme integration
+// Tailwind v4 theme integration. These re-export the root tokens as Tailwind's
+// theme namespace. Written as var(--color-background) inside :root they would be
+// a cyclic self-reference and compute to the guaranteed-invalid value, so the
+// values are repeated here verbatim from :root.
 @theme inline {
-  --color-background: var(--color-background);
-  --color-foreground: var(--color-foreground);
-  --color-accent: var(--color-accent);
-  --color-accent-hover: var(--color-accent-hover);
-  --color-border: var(--color-border);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
+  --color-background: #ffffff;
+  --color-foreground: #1d1d1f;
+  --color-accent: #0071e3;
+  --color-accent-hover: #0062c4;
+  --color-accent-light: rgba(0, 113, 227, 0.1);
+  --color-border: rgba(0, 0, 0, 0.08);
+  --font-sans: var(--font-open-runde), "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica,
+    Arial, sans-serif;
+  --font-mono: "SF Mono", SFMono-Regular, ui-monospace, Menlo, Monaco, Consolas,
+    monospace;
 }
 
 // =============================================================================
@@ -311,11 +320,14 @@ a {
   }
 
   blockquote {
+    // A thick accent border on one side is the most recognisable AI-UI tell, and
+    // it competes with the accent rule the section headers already own. Pull the
+    // quote back with indent and tone instead.
     margin: 0;
     padding-left: var(--space-lg);
-    border-left: 3px solid var(--color-accent);
     color: var(--color-text-secondary);
     font-style: italic;
+    border-left: 1px solid var(--color-border);
   }
 
   video {

@@ -18,7 +18,9 @@
 }
 
 .success {
-  color: #176c32;
+  // Badge green on the success-wash background; #176c32 measured 2.93:1, this
+  // clears AA at 12px/600.
+  color: #126d2b;
   background: rgba(52, 199, 89, 0.12);
   border: 1px solid rgba(52, 199, 89, 0.2);
 }

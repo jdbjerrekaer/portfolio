@@ -5,6 +5,32 @@
   position: relative;
 }
 
+.pauseRow {
+  display: flex;
+  justify-content: flex-end;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+.pauseButton {
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-background);
+  color: var(--color-text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  padding: 0.35rem 0.8rem;
+  min-height: 28px;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+
+  &:hover {
+    color: var(--color-text-primary);
+    border-color: var(--color-border-strong);
+  }
+}
+
 .container {
   position: relative;
   width: 100%;

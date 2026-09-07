@@ -8,7 +8,7 @@ export interface Testimonial {
   company: string;
 }
 
-const placeholderTestimonials: Testimonial[] = [
+const sourcedTestimonials: Testimonial[] = [
   {
     quote:
       "A great thing about how he works is how his designs are structured. It is easy for me as a developer to follow his idea of how the UI should be built and which components to use.",
@@ -39,7 +39,7 @@ const placeholderTestimonials: Testimonial[] = [
   },
 ];
 
-export function Testimonials({ testimonials = placeholderTestimonials }: { testimonials?: Testimonial[] }) {
+export function Testimonials({ testimonials = sourcedTestimonials }: { testimonials?: Testimonial[] }) {
   return (
     <Section variant="subtle" className={styles.testimonials}>
       <SectionHeader

@@ -67,8 +67,9 @@ export function AnchoredPopover({
     <div
       ref={popoverRef}
       popover="manual"
-      role={role}
-      aria-live={ariaLive}
+      role={isOpen ? role : undefined}
+      aria-live={isOpen ? ariaLive : undefined}
+      aria-hidden={isOpen ? undefined : true}
       className={`tooltip-glass ${styles.popover} ${className}`}
     >
       {children}

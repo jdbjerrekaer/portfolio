@@ -18,7 +18,7 @@ export const designCarouselItems: CarouselItem[] = [
   },
   {
     kind: "iphone", 
-    label: "Brand Page", 
+    label: "Iriz Brand Page", 
     tooltip: "IRIZ: Brand Page", 
     image: resolveAssetSrc("/projects/iriz/cover.jpg"),
     description: "Mobile brand page interface for Iriz influencer affiliate marketing platform, featuring social media platform integration and earnings display."
@@ -32,7 +32,7 @@ export const designCarouselItems: CarouselItem[] = [
   },
   { 
     kind: "desktop", 
-    label: "Brand Page", 
+    label: "Adtraction Brand Page", 
     tooltip: "ADTRACTION: Brand Page", 
     image: resolveAssetSrc("/projects/adtraction/brand-page-desktop.png"),
     description: "Detailed brand page showing commission rates, tracking links, and performance metrics for affiliate partners."

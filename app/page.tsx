@@ -34,7 +34,7 @@ export default async function HomePage() {
             I design interfaces that developers actually want to build.
           </h1>
           <p className={styles.heroSubtitle}>
-            10+ years of full-contact discipline applied to product design, bridging the gap between Figma and the codebase.
+            10+ years of full-stack discipline applied to product design, bridging the gap between Figma and the codebase.
           </p>
           <div className={styles.heroCta}>
             <Button href="/projects/" variant="primary" size="lg" icon="folder" iconPosition="right">

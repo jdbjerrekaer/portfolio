@@ -139,7 +139,7 @@ export const roleCards: RoleCardData[] = [
     items: [
       "Built and maintained design systems for 4 products",
       "Designed and coded Angular web experiences",
-      "Led LeadPlatform — gamified lead generation product (quizzes, contests, calendars) used by brands to capture marketing leads",
+      "Led LeadPlatform, gamified lead generation product (quizzes, contests, calendars) used by brands to capture marketing leads",
       "Wrote technical guides that help partners integrate with our platform",
       "Improved email engagement (+22%) and lead generation",
     ],

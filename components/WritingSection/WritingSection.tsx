@@ -7,8 +7,8 @@ export function WritingSection() {
   return (
     <Section className={styles.writing}>
       <SectionHeader
-        title="Writing & Thinking"
-        description="How I approach complex technical problems and bridge the gap between design and engineering."
+        title="Technical guides I wrote for Adservice partners"
+        description="Implementation guides for tracking, integrations, and campaign tooling, written for partners wiring the platform up themselves."
       />
 
       <div className={styles.grid}>

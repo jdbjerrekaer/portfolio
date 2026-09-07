@@ -1,6 +1,6 @@
 "use client";
 
-import { TransitionEvent, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import Image from "next/image";
 import type { ClientLogo } from "@/lib/content/clientLogos";
 import { Button, SectionHeader } from "@/components/ui";
@@ -28,42 +28,21 @@ export function LogoGrid({
   align = "center",
 }: LogoGridProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const isAnimatingRef = useRef(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   const visibleLogos = isExpanded ? logos : logos.slice(0, maxVisible);
   const hasMore = logos.length > maxVisible;
 
   const handleToggle = () => {
-    if (!wrapperRef.current || !containerRef.current || isAnimatingRef.current) return;
-
-    const wrapper = wrapperRef.current;
-    isAnimatingRef.current = true;
-    wrapper.style.height = `${wrapper.getBoundingClientRect().height}px`;
-
-    requestAnimationFrame(() => {
-      setIsExpanded((current) => !current);
-    });
+    setIsExpanded((current) => !current);
+    setIsAnimating(true);
   };
 
+  // Clear the fade class once it is done so repeated toggles retrigger it.
   useLayoutEffect(() => {
-    if (!wrapperRef.current || !containerRef.current || !isAnimatingRef.current) return;
-    const wrapper = wrapperRef.current;
-    const nextHeight = containerRef.current.scrollHeight;
-
-    requestAnimationFrame(() => {
-      wrapper.style.height = `${nextHeight}px`;
-    });
-  }, [isExpanded, logos.length, maxVisible]);
-
-  const handleHeightTransitionEnd = (event: TransitionEvent<HTMLDivElement>) => {
-    if (event.target !== event.currentTarget || event.propertyName !== "height" || !wrapperRef.current) {
-      return;
-    }
-
-    wrapperRef.current.style.height = "auto";
-    isAnimatingRef.current = false;
-  };
+    if (!isAnimating) return;
+    const timeout = window.setTimeout(() => setIsAnimating(false), 200);
+    return () => window.clearTimeout(timeout);
+  }, [isAnimating]);
 
   const alignmentClass = align === "left" ? styles.alignLeft : styles.alignCenter;
 
@@ -80,11 +59,9 @@ export function LogoGrid({
         />
       )}
       <div 
-        ref={wrapperRef}
-        className={`${styles.logoContainerWrapper} ${isExpanded ? styles.expanded : ""}`}
-        onTransitionEnd={handleHeightTransitionEnd}
+        className={`${styles.logoContainerWrapper} ${isAnimating ? styles.animating : ""}`}
       >
-        <div ref={containerRef} className={styles.logoContainer}>
+        <div className={styles.logoContainer}>
         {visibleLogos.map((logo, index) => {
           const LogoContent = (
             <div className={styles.logoItem}>

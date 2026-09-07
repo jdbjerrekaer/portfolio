@@ -31,11 +31,25 @@
   -ms-user-select: none;
 }
 
+@keyframes logosFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .logoContainerWrapper {
   overflow: hidden;
-  transition: height var(--transition-slow);
   margin-bottom: var(--space-xl);
-  will-change: height;
+
+  // Expand/collapse fades instead of animating height: animating height forces
+  // layout every frame. Children are keyed, so React preserves the existing
+  // image nodes when the visible slice grows.
+  &.animating {
+    animation: logosFadeIn var(--transition-base);
+  }
 }
 
 .logoContainer {

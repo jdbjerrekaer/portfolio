@@ -50,7 +50,9 @@ export function AvailabilityCTA() {
         <p className={styles.description}>
           I bridge product strategy, UX, design systems, and engineering feasibility so teams can move from messy problems to shipped product quality.
         </p>
-        <p className={styles.email}>{emailAddress}</p>
+        <a className={styles.email} href={`mailto:${emailAddress}?subject=Hello%20Jonatan`} rel="noopener">
+          {emailAddress}
+        </a>
         <div className={styles.actions}>
           <Button
             ref={copyButtonRef}

@@ -28,6 +28,7 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
   const offsetRef = useRef<number>(0);
   const lastTimeRef = useRef<number>(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [isFocusWithin, setIsFocusWithin] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [halfWidth, setHalfWidth] = useState(0);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => {
@@ -37,6 +38,9 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
 
     return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   });
+  // One deliberate pause for every deliberate motion. A visible control because
+  // prefers-reduced-motion is an OS preference, not an in-the-moment need.
+  const [isPausedByUser, setIsPausedByUser] = useState(false);
   const [isManuallyScrolling, setIsManuallyScrolling] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMobileCarousel, setIsMobileCarousel] = useState(false);
@@ -302,7 +306,7 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
   }, [halfWidth, isMobileCarousel]);
 
   useEffect(() => {
-    if (isMobileCarousel || prefersReducedMotion || isManuallyScrolling || isModalOpen) {
+    if (isMobileCarousel || prefersReducedMotion || isManuallyScrolling || isModalOpen || isFocusWithin || isPausedByUser) {
       return;
     }
 
@@ -312,8 +316,9 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
       const deltaTime = (currentTime - lastTimeRef.current) / 1000; // Convert to seconds
       lastTimeRef.current = currentTime;
 
-      // Smoothly interpolate speed based on hover state
-      const targetSpeed = isHovered ? crawlSpeed : baseSpeed;
+      // Hold still while the reader is engaged with the marquee (hover, focus,
+      // or the pause control) instead of only slowing it.
+      const targetSpeed = isHovered || isFocusWithin || isPausedByUser ? 0 : baseSpeed;
       currentSpeedRef.current += (targetSpeed - currentSpeedRef.current) * 0.08; // Lerp factor
 
       // Update offset
@@ -342,7 +347,7 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
         clearTimeout(manualScrollTimeoutRef.current);
       }
     };
-  }, [halfWidth, isHovered, prefersReducedMotion, isManuallyScrolling, isModalOpen, baseSpeed, crawlSpeed, isMobileCarousel]);
+  }, [halfWidth, isHovered, prefersReducedMotion, isManuallyScrolling, isModalOpen, isFocusWithin, isPausedByUser, baseSpeed, crawlSpeed, isMobileCarousel]);
 
   useEffect(() => {
     const autoScroll = emblaApi?.plugins().autoScroll;
@@ -363,7 +368,7 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
     const width = kind === "desktop" ? 580 : 165;
     const height = 360;
     const bgColor = kind === "desktop" ? "#f5f5f7" : "#e5e5e7";
-    const textColor = "#86868b";
+    const textColor = "#5f6673";
 
     const svg = `
       <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
@@ -524,15 +529,36 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
   return (
     <>
       <section className={styles.carouselSection} aria-label="Design carousel">
+        <div className={styles.pauseRow}>
+          <button
+            type="button"
+            className={styles.pauseButton}
+            onClick={() => setIsPausedByUser((current) => !current)}
+            aria-pressed={isPausedByUser}
+            aria-label={isPausedByUser ? "Resume design carousel" : "Pause design carousel"}
+          >
+            {isPausedByUser ? "Resume" : "Pause"}
+          </button>
+        </div>
         <div
           ref={containerRef}
           className={styles.container}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
+          // Pausing on focus is the keyboard and screen-reader equivalent of the
+          // hover pause: a reader tabbing through the marquee needs the motion to
+          // hold still, not only slow.
+          onFocusCapture={() => setIsFocusWithin(true)}
+          onBlurCapture={(e) => {
+            if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+              setIsFocusWithin(false);
+            }
+          }}
         >
           <div ref={trackRef} className={styles.track}>
             {duplicatedItems.map((item, index) => {
               const isItemHovered = hoveredIndex === index;
+              const isDuplicatedItem = index >= items.length;
               
               return (
                 <div
@@ -562,6 +588,10 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
                       type="button"
                       className={styles.imageWrapper}
                       onClick={(e) => handleImageClick(e, item.kind, index)}
+                      // The seamless-loop copy is decorative duplication, not extra
+                      // content: it stays out of the tab order so a keyboard reader
+                      // meets 16 carousel items, not 32.
+                      tabIndex={isDuplicatedItem ? -1 : 0}
                       aria-label={`Open ${item.label} ${item.kind === "desktop" ? "desktop" : "iPhone"} design ${(index % items.length) + 1}`}
                     >
                       <img
