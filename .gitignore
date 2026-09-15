@@ -41,3 +41,6 @@ yarn-error.log*
 next-env.d.ts
 *.bak-*
 serve.log
+
+# Local-only design reference assets (third-party, never commit/deploy)
+public/dev-refs/
