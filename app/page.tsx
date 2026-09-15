@@ -56,12 +56,11 @@ export default async function HomePage() {
               GitHub
             </Button>
           </div>
-          {/* PLACEHOLDER: hand + keyboard are unlicensed refs in public/dev-refs (gitignored). */}
           <PointerParallax className={styles.heroStage}>
             <img className={styles.heroPanel} src={withBasePath("/projects/yadl/errors.jpg")} alt="" />
             <img className={styles.heroShipped} src={withBasePath("/projects/adtraction-brands/new-brands.jpg")} alt="" />
-            <img className={styles.heroKeyboard} src={withBasePath("/dev-refs/apple-keyboard.png")} alt="" />
-            <img className={styles.heroHand} src={withBasePath("/dev-refs/ipad-hand.png")} alt="" />
+            <img className={styles.heroKeyboard} src={withBasePath("/images/hero/apple-keyboard.png")} alt="" />
+            <img className={styles.heroHand} src={withBasePath("/images/hero/ipad-hand.png")} alt="" />
           </PointerParallax>
       </Section>
 
