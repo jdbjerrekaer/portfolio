@@ -122,7 +122,7 @@ export const roleCards: RoleCardData[] = [
   },
   {
     title: "UX Engineer, Adtraction",
-    years: "2022 - 2026",
+    years: "2023 - 2026",
     icon: "briefcase",
     items: [
       "Designed and improved internal staff, partner, and brand tools",
@@ -133,7 +133,7 @@ export const roleCards: RoleCardData[] = [
   },
   {
     title: "Lead UI/UX Designer, Adservice",
-    years: "2020 - 2022",
+    years: "2022 - 2024",
     icon: "briefcase",
     badge: "merged",
     items: [
@@ -146,7 +146,7 @@ export const roleCards: RoleCardData[] = [
   },
   {
     title: "UI/UX Associate, No Zebra",
-    years: "2019 - 2020",
+    years: "2021 - 2022",
     icon: "briefcase",
     items: [
       "Conducted benchmarks and UX reviews",
