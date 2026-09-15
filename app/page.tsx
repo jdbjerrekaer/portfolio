@@ -9,6 +9,8 @@ import { hasCaseStudy, getProjectBySlug } from "@/lib/content/projects";
 import { AvailabilityCTA } from "@/components/AvailabilityCTA";
 import { Testimonials } from "@/components/Testimonials";
 import { WritingSection } from "@/components/WritingSection";
+import { PointerParallax } from "@/components/PointerParallax";
+import { withBasePath } from "@/lib/utils/paths";
 import styles from "./page.module.scss";
 
 export default async function HomePage() {
@@ -54,6 +56,13 @@ export default async function HomePage() {
               GitHub
             </Button>
           </div>
+          {/* PLACEHOLDER: hand + keyboard are unlicensed refs in public/dev-refs (gitignored). */}
+          <PointerParallax className={styles.heroStage}>
+            <img className={styles.heroPanel} src={withBasePath("/projects/yadl/errors.jpg")} alt="" />
+            <img className={styles.heroShipped} src={withBasePath("/projects/adtraction-brands/new-brands.jpg")} alt="" />
+            <img className={styles.heroKeyboard} src={withBasePath("/dev-refs/apple-keyboard.png")} alt="" />
+            <img className={styles.heroHand} src={withBasePath("/dev-refs/ipad-hand.png")} alt="" />
+          </PointerParallax>
       </Section>
 
       {/* Featured Projects Section */}

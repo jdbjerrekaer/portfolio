@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local-only design reference assets (third-party, never commit/deploy)
+public/dev-refs/
