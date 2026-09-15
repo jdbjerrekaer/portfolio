@@ -31,34 +31,31 @@ export function ProjectImageGrid({ images, layout = "mosaic", onOpenImage }: Pro
 
   return (
     <div className={`${styles.grid} ${layout === "landscape" ? styles.landscape : ""}`.trim()}>
-      {processedImages.map((image, index) => {
-        // Only apply positional class for items 1–5 (defined in SCSS); others get base gridItem only
-        const positionalClass = index < 5 ? styles[`item${index + 1}`] : "";
-
-        return (
-          <button
-            key={image.src}
-            type="button"
-            className={`${styles.gridItem} ${positionalClass}`.trim()}
-            onClick={() => onOpenImage(index)}
-            aria-label={`Open gallery image ${index + 1} of ${processedImages.length}: ${image.alt}`}
-          >
-            <Image
-              src={image.src}
-              alt={image.alt}
-              fill
-              className={styles.image}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-            />
-            <div className={styles.overlay}>
-              <div className={styles.icon}>
-                <Icon name="search" size={14} />
-              </div>
-              <span className={styles.overlayLabel}>Open image</span>
+      {processedImages.map((image, index) => (
+        <button
+          key={image.src}
+          type="button"
+          className={styles.gridItem}
+          onClick={() => onOpenImage(index)}
+          aria-label={`Open gallery image ${index + 1} of ${processedImages.length}: ${image.alt}`}
+        >
+          {/* ponytail: width/height 0 + CSS height:auto keeps each image's own aspect ratio, no size lookup */}
+          <Image
+            src={image.src}
+            alt={image.alt}
+            width={0}
+            height={0}
+            className={styles.image}
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+          <div className={styles.overlay}>
+            <div className={styles.icon}>
+              <Icon name="search" size={14} />
             </div>
-          </button>
-        );
-      })}
+            <span className={styles.overlayLabel}>Open image</span>
+          </div>
+        </button>
+      ))}
     </div>
   );
 }

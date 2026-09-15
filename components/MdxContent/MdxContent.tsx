@@ -1,4 +1,5 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
+import remarkGfm from "remark-gfm";
 import { ComponentProps } from "react";
 import type React from "react";
 import Image from "next/image";
@@ -69,6 +70,12 @@ const components = {
     // Fallback to regular img for external images
     return <img {...props} alt={derivedAlt} className="my-8 rounded-lg w-full h-auto" />;
   },
+  // Wide tables scroll sideways instead of stretching the page on mobile.
+  table: (props: ComponentProps<"table">) => (
+    <div className="prose-table">
+      <table {...props} />
+    </div>
+  ),
   // Use <ProjectVideo src="/projects/.../demo.mp4" /> in MDX rather than a raw
   // <video><source/></video>. Lowercase HTML elements written literally in MDX
   // compile to plain intrinsic tags and bypass this components map, so a custom
@@ -95,7 +102,7 @@ interface MdxContentProps {
 export function MdxContent({ source }: MdxContentProps) {
   return (
     <div className="prose">
-      <MDXRemote source={source} components={components} />
+      <MDXRemote source={source} components={components} options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }} />
     </div>
   );
 }
