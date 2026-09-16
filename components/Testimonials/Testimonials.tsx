@@ -11,6 +11,20 @@ export interface Testimonial {
 const sourcedTestimonials: Testimonial[] = [
   {
     quote:
+      "I've been looking around, and honestly, your platform is undoubtedly the best on the market, by far. And I've studied several.",
+    author: "Affiliate partner",
+    role: "Spain",
+    company: "2026",
+  },
+  {
+    quote:
+      "First of all, I think the rework was really well done and an actual upgrade.",
+    author: "Affiliate partner",
+    role: "Germany",
+    company: "2026",
+  },
+  {
+    quote:
       "A great thing about how he works is how his designs are structured. It is easy for me as a developer to follow his idea of how the UI should be built and which components to use.",
     author: "Johannes Pedersen",
     role: "Software Developer",
@@ -44,13 +58,13 @@ export function Testimonials({ testimonials = sourcedTestimonials }: { testimoni
     <Section variant="subtle" className={styles.testimonials}>
       <SectionHeader
         title="What People Say"
-        description="Feedback from developers, designers, and collaborators."
+        description="Feedback from developers, designers, collaborators, and partners using the platform."
         variant="centered"
       />
 
       <div className={styles.grid}>
         {testimonials.map((testimonial) => (
-          <Card key={`${testimonial.author}-${testimonial.company}`} variant="surface" className={styles.card}>
+          <Card key={testimonial.quote} variant="surface" className={styles.card}>
             <span className={styles.quoteIcon} aria-hidden="true">“</span>
             <p className={styles.quoteText}>{testimonial.quote}</p>
             <div className={styles.authorInfo}>
