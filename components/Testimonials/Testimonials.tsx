@@ -11,6 +11,13 @@ export interface Testimonial {
 const sourcedTestimonials: Testimonial[] = [
   {
     quote:
+      "Jonatan's Figma files are the ones I don't have to ask questions about. The details and layering are already resolved when they reach me.",
+    author: "Oscar Ternevid",
+    role: "Senior Software Developer",
+    company: "Adtraction",
+  },
+  {
+    quote:
       "I've been looking around, and honestly, your platform is undoubtedly the best on the market, by far. And I've studied several.",
     author: "Affiliate partner",
     role: "Spain",
