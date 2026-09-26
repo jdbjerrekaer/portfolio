@@ -138,6 +138,7 @@ h6 {
   line-height: 1.2;
   letter-spacing: -0.02em;
   color: var(--color-text-primary);
+  text-wrap: balance;
 }
 
 h1 {
@@ -159,6 +160,7 @@ h4 {
 
 p {
   margin: 0;
+  text-wrap: pretty;
   color: var(--color-text-secondary);
 }
 
