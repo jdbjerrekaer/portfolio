@@ -15,7 +15,9 @@ import InsightsOverviewTable from "./original/components/partnerPlatform/insight
 const PERIOD = [new Date(2026, 8, 1), new Date(2026, 8, 30)];
 const PREVIOUS = [new Date(2026, 7, 1), new Date(2026, 7, 31)];
 const COUNTRIES = [{ countryCode: "DK", countryName: "Denmark" }];
-const DEFAULT_FILTERS = { country: "DK", compensation: "cps" };
+// Starts unfiltered by commission so every metric has a value; the commission chip (and the
+// warning panel it triggers, since clicks are not tied to a commission type) is one click away.
+const DEFAULT_FILTERS = { country: "DK", compensation: null };
 
 export function TableDemo() {
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
@@ -26,11 +28,16 @@ export function TableDemo() {
   return (
     <DemoStage
       wide
-      caption="The partner Insights overview table. Toggle Show comparison, open the column chooser (edit table), remove a filter chip, sort, hover and right-click cells."
+      caption="The partner Insights overview table. Toggle Show comparison, open the column chooser (edit table), filter by commission to see which metrics drop out and why, remove a filter chip, sort, hover and right-click cells."
       controls={
         <>
           <DemoButton onClick={() => setShowCompare((v) => !v)}>
             {showCompare ? "Hide comparison" : "Compare with August"}
+          </DemoButton>
+          <DemoButton
+            pressed={filters.compensation === "cps"}
+            onClick={() => setFilters((prev) => ({ ...prev, compensation: prev.compensation ? null : "cps" }))}>
+            Filter by commission
           </DemoButton>
           <DemoButton onClick={() => setFilters(DEFAULT_FILTERS)}>Reset filters</DemoButton>
         </>

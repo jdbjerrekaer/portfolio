@@ -68,7 +68,7 @@ Copy buttons confirm with a short morph to "Copied". The shipped version snapped
 
 ## Tooltip timing
 
-The first tooltip in a toolbar waits 600 ms, so it never pops up by accident. Once one has opened, its neighbours open instantly for the next 1.4 s, and each one scales up, lifts and unblurs as it appears.
+Tooltips across the platform share one timing rule: the first waits 600 ms, so it never pops up by accident, and once one has opened its neighbours open instantly for the next 1.4 s. You can feel it on the data table's column headers above, or by sliding down the collapsed sidebar's icons. Every tooltip also scales up, lifts and unblurs as it appears. The selection bar below overrides it with its own, shorter 300 ms delay.
 
 <TooltipTimingDemo />
 
