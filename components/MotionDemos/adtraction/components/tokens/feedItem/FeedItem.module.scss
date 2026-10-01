@@ -1,0 +1,72 @@
+.feedItem {
+  display: flex;
+  align-items: flex-start;
+  min-height: 4rem;
+  width: 100%;
+  padding-bottom: var(--size-space-100);
+}
+
+.rail {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+  flex-shrink: 0;
+}
+
+.line {
+  position: absolute;
+  top: 0;
+  bottom: calc(-1 * var(--size-space-100));
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  background: var(--grayscale-200);
+}
+
+.feedItem[data-last="true"] .line {
+  display: none;
+}
+
+.marker {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: var(--size-radius-full);
+  background: var(--grayscale-100);
+}
+
+.feedItem[data-size="small"] .marker {
+  padding: 0.1667rem;
+}
+
+.feedItem[data-size="default"] .marker,
+.feedItem[data-size="large"] .marker {
+  padding: var(--size-space-100);
+}
+
+.content {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Feed rows are read-only — kill ListItem interactive chrome. */
+.content :global(.list_item_container) {
+  cursor: default;
+  border-color: transparent;
+  background: transparent;
+}
+
+.content :global(.list_item_container[data-hoverable="false"]) {
+  transform: none !important;
+}
+
+.content :global(.list_item_container[data-hoverable="false"]:hover),
+.content :global(.list_item_container[data-hoverable="false"]:active) {
+  transform: none !important;
+  background: transparent;
+}

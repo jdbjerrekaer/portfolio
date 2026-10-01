@@ -1,0 +1,124 @@
+$global-search-morph-ease: cubic-bezier(0.23, 1, 0.32, 1);
+
+.global_search_bar {
+  width: 100%;
+  overflow: hidden;
+  transition: width var(--transition-speed-slow) $global-search-morph-ease;
+
+  > div {
+    width: 100%;
+    overflow: hidden;
+    transition:
+      width var(--transition-speed-slow) $global-search-morph-ease,
+      min-width var(--transition-speed-slow) $global-search-morph-ease;
+  }
+
+  > div > div {
+    border-radius: var(--size-radius-full);
+    overflow: hidden;
+    transition:
+      width var(--transition-speed-slow) $global-search-morph-ease,
+      min-width var(--transition-speed-slow) $global-search-morph-ease,
+      padding var(--transition-speed-slow) $global-search-morph-ease;
+  }
+
+  > div > div > div {
+    transition: gap var(--transition-speed-slow) $global-search-morph-ease;
+  }
+
+  > div > div > div > div:first-child {
+    flex: 0 0 var(--size-icon-medium);
+    width: var(--size-icon-medium);
+    min-width: var(--size-icon-medium);
+    transition:
+      flex-basis var(--transition-speed-slow) $global-search-morph-ease,
+      width var(--transition-speed-slow) $global-search-morph-ease;
+  }
+
+  input {
+    flex: 1 1 auto;
+    min-width: 0;
+    transition:
+      opacity var(--transition-speed-default) $global-search-morph-ease,
+      max-width var(--transition-speed-slow) $global-search-morph-ease,
+      flex-basis var(--transition-speed-slow) $global-search-morph-ease,
+      width var(--transition-speed-slow) $global-search-morph-ease,
+      padding var(--transition-speed-slow) $global-search-morph-ease;
+  }
+
+  span > svg {
+    color: var(--grayscale-500) !important;
+  }
+
+  .global_search_bar_icon_right {
+    display: flex;
+    align-items: center;
+    gap: var(--size-space-150);
+    overflow: hidden;
+    flex: 0 0 auto;
+    max-width: 4.5rem;
+    transition:
+      opacity var(--transition-speed-default) $global-search-morph-ease,
+      max-width var(--transition-speed-slow) $global-search-morph-ease,
+      flex-basis var(--transition-speed-slow) $global-search-morph-ease,
+      width var(--transition-speed-slow) $global-search-morph-ease,
+      gap var(--transition-speed-slow) $global-search-morph-ease,
+      transform var(--transition-speed-slow) $global-search-morph-ease;
+  }
+
+  &.compact {
+    width: 56px;
+
+    > div,
+    > div > div {
+      width: 56px !important;
+      min-width: 56px !important;
+    }
+
+    > div > div > div {
+      justify-content: center;
+      gap: 0;
+    }
+
+    input {
+      flex: 0 0 0 !important;
+      width: 0 !important;
+      min-width: 0 !important;
+      max-width: 0 !important;
+      padding: 0 !important;
+      margin: 0;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .global_search_bar_icon_right {
+      flex: 0 0 0 !important;
+      width: 0 !important;
+      min-width: 0 !important;
+      max-width: 0 !important;
+      gap: 0;
+      opacity: 0;
+      transform: translateX(4px);
+      pointer-events: none;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .global_search_bar {
+    transition: none !important;
+
+    > div,
+    > div > div,
+    input,
+    .global_search_bar_icon_right {
+      transition: none !important;
+    }
+  }
+}

@@ -1,0 +1,65 @@
+@use "sass:map";
+
+.account_type_indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  user-select: none;
+  white-space: nowrap;
+  min-width: 55px; // figma baseline
+
+  // sizing
+  padding: var(--size-space-050, 3px) var(--size-space-300, 12px);
+  border-radius: var(--size-radius-150, 6px);
+
+  // outline as in figma. We use current color variable so variant controls both
+  outline: 2px solid var(--staff-badge-color, var(--grayscale-500));
+  outline-offset: -2px;
+
+  // text
+  font-family: var(--font-family-default, Lexend), system-ui, -apple-system, Segoe UI, Roboto,
+    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  font-weight: var(--font-weight-regular, 400);
+  font-size: var(--font-size-small, 14px);
+  line-height: 1.2;
+  color: var(--staff-badge-color, var(--grayscale-600));
+
+  &[data-size="small"] {
+    padding: var(--size-space-025, 2px) var(--size-space-200, 8px);
+    font-size: var(--font-size-2X-small, 12px);
+    min-width: 44px;
+  }
+
+  // Variants control the color variable used by outline and text
+  &[data-variant="program"] {
+    --staff-badge-color: var(--brand-500);
+  }
+
+  &[data-variant="channel"] {
+    --staff-badge-color: var(--channel-500);
+  }
+
+  &[data-variant="partner"] {
+    --staff-badge-color: var(--partner-500);
+  }
+
+  &[data-variant="agency"] {
+    --staff-badge-color: var(--agency-500);
+  }
+
+  &[data-variant="invoice"] {
+    --staff-badge-color: var(--invoice-500);
+  }
+
+  &[data-variant="product"] {
+    --staff-badge-color: var(--invoice-500);
+  }
+}
+
+.account_type_indicator_text {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}

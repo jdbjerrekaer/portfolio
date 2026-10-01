@@ -1,0 +1,27 @@
+.tier_badge {
+  /* Base appearance aligns to Badge; override background and outline per tier */
+  min-width: 55px;
+  max-height: 24px;
+  border-radius: var(--size-radius-150, 6px);
+  overflow: hidden;
+
+  /* figma baseline uses an outline ring */
+  outline: 2px solid var(--primary-blue-500---primary);
+  outline-offset: -2px;
+
+  /* color variants via modifier classes */
+  &.basic {
+    background: var(--accent-colors-lilac-0) !important;
+    color: var(--text-body-default) !important;
+  }
+
+  &.growth {
+    background: var(--accent-colors-lilac-500) !important;
+    color: var(--text-body-default) !important;
+  }
+
+  &.premium {
+    background: var(--primary-blue-500---primary) !important;
+    color: var(--text-label-alt) !important;
+  }
+}

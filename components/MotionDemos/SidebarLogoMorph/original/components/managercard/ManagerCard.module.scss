@@ -1,0 +1,175 @@
+.manager_card_large {
+  display: flex;
+  width: 10.625rem;
+  padding: var(--size-space-300) 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--size-space-200);
+  border-radius: var(--radius-200, 0.5rem);
+  background: var(--accent-colors-sky-blue-0, #eff5fc);
+}
+
+.manager_card_small {
+  display: flex;
+  width: 10.625rem;
+  padding: var(--size-space-150);
+  align-items: center;
+  gap: var(--size-space-200);
+  border-radius: var(--radius-200, 0.5rem);
+  background: var(--accent-colors-sky-blue-0, #eff5fc);
+}
+
+.profile_image {
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--size-radius-150);
+  background-color: lightgray;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  flex-shrink: 0;
+}
+
+.info_container {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+}
+
+.title {
+  align-self: stretch;
+  color: var(--text-body-default, #0b0c24);
+  font-family: var(--font-family-default, Lexend);
+  font-size: var(--font-size-2x-small, 0.75rem);
+  font-style: normal;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: normal;
+}
+
+.name {
+  min-width: 0;
+  flex: 1 1 auto;
+  align-self: stretch;
+  color: var(--text-body-default, #0b0c24);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--font-family-default, Lexend);
+  font-size: var(--font-size-regular, 1rem);
+  font-style: normal;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.icons_container {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  gap: 0.5rem var(--size-space-200);
+  align-self: stretch;
+  flex-wrap: wrap;
+
+  svg {
+    width: var(--size-icon-medium) !important;
+    height: 1.5rem !important;
+    aspect-ratio: 1/1 !important;
+  }
+}
+
+.icons_container_small {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--size-space-300);
+  flex: 1 0 0;
+
+  svg {
+    width: var(--size-icon-medium) !important;
+    height: 1.5rem !important;
+    aspect-ratio: 1/1 !important;
+  }
+}
+
+.info_container_small {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--size-space-100);
+}
+
+.name_small {
+  min-width: 0;
+  flex: 1 1 auto;
+  color: var(--text-body-default, #0b0c24);
+  font-family: var(--font-family-default, Lexend);
+  font-size: var(--font-size-small, 0.875rem);
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.name_copy {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-150);
+  min-width: 0;
+  max-width: 100%;
+  cursor: pointer;
+  transition:
+    color var(--transition-speed-default) ease-in-out,
+    transform var(--transition-speed-default) ease-in-out;
+  will-change: transform;
+
+  &:hover,
+  &:focus-visible {
+    transform: scale(1.01);
+
+    .copy_icon {
+      opacity: 1;
+    }
+  }
+
+  &:active {
+    transform: scale(0.99);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--primary-blue-500---primary);
+    outline-offset: 2px;
+    border-radius: var(--size-radius-100);
+  }
+}
+
+.copy_icon {
+  flex-shrink: 0;
+  color: var(--text-commentary-description);
+  opacity: 0;
+  transition: opacity var(--transition-speed-default) ease-in-out;
+}
+
+.manager_card_small_vertical {
+  display: flex;
+  padding: var(--size-space-150);
+  flex-direction: column;
+  align-items: center;
+  gap: var(--size-space-200);
+  border-radius: var(--radius-200, 0.5rem);
+  background: var(--accent-colors-sky-blue-0, #eff5fc);
+}
+
+.icons_container_small_vertical {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--size-space-200);
+  flex-wrap: wrap;
+
+  svg {
+    width: var(--size-icon-medium) !important;
+    height: 1.5rem !important;
+    aspect-ratio: 1/1 !important;
+  }
+}

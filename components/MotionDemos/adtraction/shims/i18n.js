@@ -7,6 +7,7 @@ const interpolate = (s, vars) =>
 export const i18n = {
   language: "en",
   isInitialized: true,
+  getResourceBundle: () => en,
   t: (key, vars) => interpolate(en[key] ?? (vars && vars.defaultValue) ?? key, vars),
   on() {},
   off() {}

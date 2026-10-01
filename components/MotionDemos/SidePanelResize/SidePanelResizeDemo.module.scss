@@ -1,0 +1,11 @@
+// Demo framing only: a menu-sized column for the History trigger.
+.menu {
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 15rem);
+  margin: 0 auto;
+  padding: var(--size-space-100);
+  border: 1px solid var(--grayscale-25);
+  border-radius: var(--size-radius-200);
+  background: var(--grayscale-0);
+}

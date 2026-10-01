@@ -8,3 +8,4 @@ export const Link = forwardRef(function Link({ to, onClick, ...props }, ref) {
   );
 });
 export const useHistory = () => ({ push() {} });
+export const useLocation = () => ({ pathname: "/", search: "", hash: "" });

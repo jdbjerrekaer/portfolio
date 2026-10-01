@@ -1,0 +1,126 @@
+.row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-400);
+  width: 100%;
+  min-width: 0;
+  min-height: 3rem;
+  padding: var(--size-space-200);
+  box-sizing: border-box;
+  border-radius: var(--size-radius-150);
+  background: transparent;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--transition-speed-default) ease,
+    box-shadow var(--transition-speed-default) ease-out,
+    transform var(--transition-speed-default) ease-out;
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: var(--grayscale-50);
+      box-shadow: 0 0.1875rem 0.375rem var(--opacity-box-shadow---5);
+      transform: scale(1.01);
+      z-index: var(--z-index-base);
+    }
+  }
+
+  &:focus-visible {
+    background-color: var(--grayscale-50);
+    outline: 2px solid var(--primary-blue-500---primary);
+    outline-offset: 2px;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &[data-selected="true"] {
+    background-color: var(--grayscale-50);
+  }
+}
+
+.channel {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  width: 14rem;
+  flex-shrink: 0;
+
+  // Fill the fixed column so ChannelName markets/flags align with PartnerName rows.
+  > :first-child {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+.details {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-200);
+  flex: 1 1 0;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.segmentBadgeWrap {
+  display: inline-flex;
+  max-width: 10rem;
+  min-width: 0;
+  cursor: help;
+}
+
+.segmentBadge {
+  max-width: 100%;
+  overflow: hidden;
+
+  svg {
+    color: var(--badge-text);
+    flex-shrink: 0;
+  }
+
+  p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.commissionTag {
+  display: inline-flex;
+  max-width: 6rem;
+  min-width: 0;
+  cursor: help;
+  flex-shrink: 0;
+}
+
+.status {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.chevron {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-commentary-description);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row {
+    transition: background-color var(--transition-speed-default) ease;
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        transform: none;
+      }
+    }
+
+    &:active {
+      transform: none;
+    }
+  }
+}

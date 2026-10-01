@@ -1,0 +1,35 @@
+/* Match brands ApplicationStatus badge tones (success / warning / danger). */
+.statusBadge {
+  background-color: var(--status-background) !important;
+  border: none !important;
+  width: max-content;
+
+  p {
+    color: var(--status-text) !important;
+  }
+
+  svg {
+    color: var(--status-text) !important;
+  }
+}
+
+/* Soft ground + strong text/icon (inverted from filled ApplicationStatus chips). */
+.tone_approved {
+  --status-background: var(--status-background-success-alt);
+  --status-text: var(--status-text-success-alt);
+}
+
+.tone_pending {
+  --status-background: var(--status-background-warning-alt);
+  --status-text: var(--status-text-warning-alt);
+}
+
+.tone_rejected {
+  --status-background: var(--status-background-danger-alt);
+  --status-text: var(--status-text-danger-alt);
+}
+
+.tone_invited {
+  --status-background: var(--grayscale-100);
+  --status-text: var(--text-body-default);
+}

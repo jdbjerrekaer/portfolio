@@ -20,6 +20,16 @@ function lazy(importFn: ImportFunction) {
 
 // All icons grouped by category
 export const Icons = {
+  Weather: {
+    CloudMoon: lazy(() => import("./media/weather/cloud-moon.svg")),
+    Sun: lazy(() => import("./media/weather/sun.svg"))
+  },
+  Shape: {
+    Circle: lazy(() => import("./media/shapes/circle.svg"))
+  },
+  Chart: {
+    Pie02: lazy(() => import("./media/charts/pie-chart-02.svg")),
+  },
   Security: {
     Lock03: lazy(() => import("./media/security/lock-03.svg"))
   },
@@ -33,6 +43,8 @@ export const Icons = {
   },
 
   Custom: {
+    HourGlass02Filled: lazy(() => import("./media/custom/hourglass-02-filled.svg")),
+    NotificationDot: lazy(() => import("./media/custom/notification-dot.svg")),
     Brand: lazy(() => import("./media/custom/brand.svg")),
     AdtractionOutline: lazy(() => import("./media/custom/adtraction-outline.svg")),
     BrandClose: lazy(() => import("./media/custom/brand-close.svg")),
@@ -40,6 +52,12 @@ export const Icons = {
     Flower: lazy(() => import("./media/custom/flower.svg")),
     Seedling: lazy(() => import("./media/custom/seedling.svg")),
     Tree: lazy(() => import("./media/custom/tree.svg")),
+    Adtraction: lazy(() => import("./media/custom/adtraction.svg")),
+    BoxFilled: lazy(() => import("./media/custom/box-filled.svg")),
+    ClockSnoozeFill: lazy(() => import("./media/custom/clock-snooze-filled.svg")),
+    MinusSquareAngleFilled: lazy(() => import("./media/custom/minus-square-angle-filled.svg")),
+    Tool02Filled: lazy(() => import("./media/custom/tool-02-filled.svg")),
+    XSquareFilled: lazy(() => import("./media/custom/x-square-filled.svg"))
   },
 
 
@@ -69,6 +87,7 @@ export const Icons = {
   },
 
   Alert: {
+    Announcement01: lazy(() => import("./media/alerts/announcement-01.svg")),
     Circle: lazy(() => import("./media/alerts/alert-circle.svg")),
     Triangle: lazy(() => import("./media/alerts/alert-triangle.svg")),
     TriangleFilled: lazy(() => import("./media/alerts/alert-triangle-filled.svg")),
@@ -78,6 +97,7 @@ export const Icons = {
 
 
     OctagonFilled: lazy(() => import("./media/alerts/alert-octagon-filled.svg")),
+    Bell01: lazy(() => import("./media/alerts/bell-01.svg"))
   },
 
 
@@ -91,9 +111,12 @@ export const Icons = {
     Hourglass02: lazy(() => import("./media/time/hourglass-02.svg")),
     Hourglass03: lazy(() => import("./media/time/hourglass-03.svg")),
 
+    Clock: lazy(() => import("./media/time/clock.svg")),
+    ClockRewind: lazy(() => import("./media/time/clock-rewind.svg"))
   },
 
   User: {
+    FaceFrown: lazy(() => import("./media/users/face-frown.svg")),
 
     User01: lazy(() => import("./media/users/user-01.svg")),
 
@@ -120,6 +143,8 @@ export const Icons = {
 
 
     Rows01: lazy(() => import("./media/layout/rows-01.svg")),
+    LayoutLeft: lazy(() => import("./media/layout/layout-left.svg")),
+    LayoutRight: lazy(() => import("./media/layout/layout-right.svg"))
   },
 
   Map: {
@@ -135,6 +160,11 @@ export const Icons = {
   },
 
   General: {
+    CheckVerified03: lazy(() => import("./media/general/check-verified-03.svg")),
+    FilterLines: lazy(() => import("./media/general/filter-lines.svg")),
+    HelpCircle: lazy(() => import("./media/general/help-circle.svg")),
+    Home05: lazy(() => import("./media/general/home-05.svg")),
+    Settings01: lazy(() => import("./media/general/settings-01.svg")),
 
 
 
@@ -200,11 +230,17 @@ export const Icons = {
     Pin02: lazy(() => import("./media/general/pin-02.svg")),
     SearchMd: lazy(() => import("./media/general/search-md.svg")),
     X: lazy(() => import("./media/general/x.svg")),
+    LinkExternal01: lazy(() => import("./media/general/link-external-01.svg")),
+    LogIn02: lazy(() => import("./media/general/log-in-02.svg")),
+    LogOut03: lazy(() => import("./media/general/log-out-03.svg"))
   },
 
 
 
   Files: {
+    File02: lazy(() => import("./media/files/file-02.svg")),
+    FileCheck02: lazy(() => import("./media/files/file-check-02.svg")),
+    FileX02: lazy(() => import("./media/files/file-x-02.svg")),
     File05: lazy(() => import("./media/files/file-05.svg")),
 
 
@@ -214,6 +250,8 @@ export const Icons = {
   },
 
   Finance: {
+    BankNote01: lazy(() => import("./media/finance/bank-note-01.svg")),
+    ShoppingBag03: lazy(() => import("./media/finance/shopping-bag-03.svg")),
 
     CoinsHand: lazy(() => import("./media/finance/coins-hand.svg")),
     CoinsStacked01: lazy(() => import("./media/finance/coins-stacked-01.svg")),
@@ -228,6 +266,7 @@ export const Icons = {
 
 
   Communication: {
+    Send01: lazy(() => import("./media/communication/send-01.svg")),
     MessageNotificationCircle: lazy(
       () => import("./media/communication/message-notification-circle.svg")
     ),
@@ -244,6 +283,7 @@ export const Icons = {
     ConversionApproved: lazy(() => import("./media/communication/conversion-confirm.svg")),
     ConversionPending: lazy(() => import("./media/communication/conversion-missing.svg")),
     ConversionRejected: lazy(() => import("./media/communication/conversion-reject.svg")),
+    Phone: lazy(() => import("./media/communication/phone.svg"))
   },
   Brand: {
     Automotive: lazy(() => import("./media/brand_categories/automotive.svg")),

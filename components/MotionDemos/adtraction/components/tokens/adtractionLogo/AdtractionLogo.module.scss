@@ -1,0 +1,307 @@
+.logo_container {
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  box-sizing: border-box;
+  transition: all var(--transition-speed-default) ease-in-out;
+
+  &.icon_only {
+    justify-content: center;
+  }
+
+  &.with_tooltip {
+    cursor: help;
+  }
+
+  &.small {
+    gap: var(--size-space-100);
+    line-height: 0;
+
+    .logo {
+      width: var(--size-icon-medium);
+      height: var(--size-icon-medium);
+    }
+
+    .tagline svg {
+      width: 40px;
+    }
+  }
+
+  &.medium {
+    gap: var(--size-space-200);
+
+    .logo {
+      width: var(--size-space-800);
+      height: var(--size-space-800);
+    }
+
+    .tagline svg {
+      width: 80px;
+    }
+  }
+
+  &.large {
+    gap: var(--size-space-400);
+
+    .logo {
+      width: 90px;
+      height: 90px;
+    }
+
+    .tagline svg {
+      width: 160px;
+    }
+  }
+}
+
+.logo {
+  display: inline-block;
+  transition: all var(--transition-speed-default) ease-in-out;
+
+  .small & svg {
+    width: var(--size-icon-medium) !important;
+    height: var(--size-icon-medium) !important;
+  }
+
+  .medium & svg {
+    width: var(--size-space-800) !important;
+    height: var(--size-space-800) !important;
+  }
+
+  .large & svg {
+    width: 90px !important;
+    height: 90px !important;
+  }
+}
+
+.text_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  max-width: 186px;
+
+  .small & {
+    gap: var(--size-space-050);
+  }
+
+  .medium & {
+    gap: var(--size-space-100);
+  }
+
+  .large & {
+    gap: var(--size-space-100);
+  }
+}
+
+.text_logo {
+  display: block;
+  height: auto;
+
+  .small & {
+    width: 70px;
+  }
+
+  .medium & {
+    width: 140px;
+  }
+
+  .large & {
+    width: 280px;
+  }
+}
+
+.tagline {
+  margin-top: var(--size-space-050);
+  line-height: 0;
+
+  .small & {
+    width: 40px;
+  }
+
+  .medium & {
+    width: 80px;
+  }
+
+  .large & {
+    width: 160px;
+  }
+}
+
+.takeover_tagline {
+  margin-top: var(--size-space-050);
+  color: var(--text-body-default);
+  font-size: inherit;
+  line-height: normal;
+  user-select: none;
+  max-width: 186px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-space-075);
+  cursor: help;
+}
+
+.takeover_icon {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  color: currentColor;
+}
+
+.takeover_text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.tagline_svg {
+  display: block;
+  height: auto;
+
+  .small & {
+    width: 40px;
+  }
+
+  .medium & {
+    width: 80px;
+  }
+
+  .large & {
+    width: 160px;
+  }
+}
+
+// Default variant
+.default {
+  color: var(--primary-blue-500---primary);
+
+  path {
+    fill: var(--primary-blue-500---primary);
+  }
+
+  .logo_circle {
+    fill: var(--primary-blue-500---primary);
+  }
+
+  .logo_path {
+    fill: var(--grayscale-0);
+  }
+}
+
+.container_default {
+  .text_path {
+    fill: var(--primary-blue-500---primary);
+  }
+
+  .tagline {
+    color: var(--primary-blue-500---primary);
+  }
+}
+
+.white {
+  color: var(--grayscale-0);
+
+  path {
+    fill: var(--grayscale-0);
+  }
+
+  .logo_circle {
+    fill: var(--grayscale-0);
+  }
+
+  .logo_path {
+    fill: var(--primary-blue-500---primary);
+  }
+}
+
+.container_white {
+  .text_path {
+    fill: var(--grayscale-0);
+  }
+
+  .tagline {
+    color: var(--grayscale-0);
+  }
+}
+
+.black {
+  color: var(--grayscale-1000);
+
+  path {
+    fill: var(--grayscale-1000);
+  }
+
+  .logo_circle {
+    fill: var(--grayscale-1000);
+  }
+
+  .logo_path {
+    fill: var(--grayscale-0);
+  }
+}
+
+.container_black {
+  .text_path {
+    fill: var(--grayscale-1000);
+  }
+
+  .tagline {
+    color: var(--grayscale-1000);
+  }
+}
+
+// Staging variant (red-600)
+.staging {
+  color: var(--ui-colors-red-600);
+
+  path {
+    fill: var(--ui-colors-red-600);
+  }
+
+  .logo_circle {
+    fill: var(--ui-colors-red-600);
+  }
+
+  .logo_path {
+    fill: var(--grayscale-0);
+  }
+}
+
+.container_staging {
+  .text_path {
+    fill: var(--ui-colors-red-600);
+  }
+
+  .tagline {
+    color: var(--ui-colors-red-600);
+  }
+}
+
+// Localhost variant (gray-600)
+.localhost {
+  color: var(--grayscale-600);
+
+  path {
+    fill: var(--grayscale-600);
+  }
+
+  .logo_circle {
+    fill: var(--grayscale-600);
+  }
+
+  .logo_path {
+    fill: var(--grayscale-0);
+  }
+}
+
+.container_localhost {
+  .text_path {
+    fill: var(--grayscale-600);
+  }
+
+  .tagline {
+    color: var(--grayscale-600);
+  }
+}

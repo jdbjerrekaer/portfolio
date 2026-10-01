@@ -1,0 +1,128 @@
+@use "sass:map";
+
+.account_status_badge {
+  /* rely on base Badge for layout, spacing and typography */
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  position: relative;
+}
+
+.text {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Draft */
+.icon[data-variant="draft"]::before {
+  content: "";
+  position: absolute;
+  left: 1.33px;
+  top: 1.33px;
+  width: 13.33px;
+  height: 12.75px;
+  background: var(--primary-blue-400);
+  outline: 1.3px solid var(--grayscale-0);
+  outline-offset: -0.65px;
+}
+
+.icon[data-variant="draft"]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 4px;
+  background: var(--primary-blue-400);
+  outline: 1.3px solid var(--grayscale-0);
+  outline-offset: -0.65px;
+}
+
+/* Live hidden */
+.icon[data-variant="live-hidden"]::before {
+  content: "";
+  position: absolute;
+  left: 1.44px;
+  top: 2px;
+  width: 13.13px;
+  height: 12px;
+  background: transparent;
+  outline: 1.3px solid var(--ui-colors-green-600);
+  outline-offset: -0.65px;
+}
+
+/* Paused */
+.icon[data-variant="paused"]::before {
+  content: "";
+  position: absolute;
+  left: 1.33px;
+  top: 1.33px;
+  width: 13.33px;
+  height: 13.33px;
+  background: var(--status-background-warning);
+  border-radius: 9999px;
+  border: 1.3px solid var(--status-background-warning);
+}
+
+.icon[data-variant="paused"]::after {
+  /* inner dot (bottom-right) */
+  content: "";
+  position: absolute;
+  left: 9.33px;
+  top: 9.33px;
+  width: 6.67px;
+  height: 6.67px;
+  border-radius: 9999px;
+  background: var(--grayscale-0);
+  box-shadow: inset 0 0 0 1px var(--status-background-warning);
+}
+
+/* Archived */
+.icon[data-variant="archived"] {
+  overflow: hidden;
+}
+
+.icon[data-variant="archived"]::before {
+  /* top bar */
+  content: "";
+  position: absolute;
+  left: 1.33px;
+  top: 2px;
+  width: 13.33px;
+  height: 3.33px;
+  background: var(--text-commentary-description);
+  border-radius: 1px;
+}
+
+.icon[data-variant="archived"]::after {
+  /* folder body */
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 5px;
+  width: 12px;
+  height: 9.33px;
+  background: var(--text-commentary-description);
+  border-top-left-radius: 1px;
+  border-top-right-radius: 1px;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+/* Closed / Closing */
+.icon[data-variant="closed"]::before,
+.icon[data-variant="closing"]::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 12px;
+  height: 12px;
+  background: var(--status-background-danger);
+  outline: 1.3px solid var(--grayscale-0);
+  outline-offset: -0.65px;
+}

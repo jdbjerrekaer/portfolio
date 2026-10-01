@@ -62,3 +62,27 @@ export const TableDemo = dynamic(() => import("./TableDemo/TableDemo").then((m) 
   ssr: false,
   loading: placeholder(600),
 });
+export const TooltipTimingDemo = dynamic(() => import("./TooltipTiming/TooltipTimingDemo").then((m) => m.TooltipTimingDemo), {
+  ssr: false,
+  loading: placeholder(200),
+});
+export const BrandPeekDemo = dynamic(() => import("./BrandPeek/BrandPeekDemo").then((m) => m.BrandPeekDemo), {
+  ssr: false,
+  loading: placeholder(260),
+});
+export const MultiSelectBadgesDemo = dynamic(
+  () => import("./MultiSelectBadges/MultiSelectBadgesDemo").then((m) => m.MultiSelectBadgesDemo),
+  { ssr: false, loading: placeholder(160) }
+);
+export const GlobalSearchDemo = dynamic(() => import("./GlobalSearch/GlobalSearchDemo").then((m) => m.GlobalSearchDemo), {
+  ssr: false,
+  loading: placeholder(220),
+});
+export const SidePanelResizeDemo = dynamic(() => import("./SidePanelResize/SidePanelResizeDemo").then((m) => m.SidePanelResizeDemo), {
+  ssr: false,
+  loading: placeholder(120),
+});
+export const SidebarLogoMorphDemo = dynamic(() => import("./SidebarLogoMorph/SidebarLogoMorphDemo").then((m) => m.SidebarLogoMorphDemo), {
+  ssr: false,
+  loading: placeholder(680),
+});

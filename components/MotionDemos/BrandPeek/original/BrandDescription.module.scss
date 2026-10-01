@@ -1,0 +1,401 @@
+.brandDescription_container {
+  display: flex;
+  width: 100%;
+  padding: var(--size-space-0);
+  flex-direction: column;
+  gap: var(--size-space-400);
+
+  .brandDescription_text {
+    cursor: pointer;
+    max-height: 6.6875rem;
+    color: var(--text-body-default);
+    font-size: var(--font-size-regular);
+    line-height: var(--line-height-paragraph-regular);
+    font-weight: var(--font-weight-light);
+    font-family: Lexend;
+    margin: 0;
+    overflow-y: hidden;
+    position: relative;
+    transition: max-height 300ms ease;
+
+    // Ensure all nested elements use Lexend as well, overriding global heading styles
+    * {
+      font-family: inherit !important;
+      line-height: inherit !important;
+    }
+
+    .brandDescription_overlay {
+      cursor: pointer;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 5rem;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, var(--grayscale-0) 100%);
+      pointer-events: auto;
+      transition: height 300ms ease, opacity 300ms ease;
+    }
+
+    &.brandDescription_text_hovered,
+    &.brandDescription_text_active {
+      max-height: 8.5rem;
+
+      .brandDescription_overlay {
+        height: 2rem;
+        opacity: 0.85;
+      }
+    }
+  }
+}
+
+.brandDescription_button_container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--size-space-400);
+  user-select: none;
+
+  .button_wrapper {
+    position: relative;
+    display: inline-block;
+    overflow: visible;
+    user-select: none;
+  }
+
+  .badge_circle {
+    user-select: none;
+    position: absolute;
+    top: var(--size-space-negative-200);
+    right: var(--size-space-negative-300);
+    width: 1.375rem;
+    height: 1.375rem;
+    background-color: var(--peach-color-0);
+    border-radius: 50%;
+    border: var(--size-space-050) solid var(--grayscale-0);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 0.0625rem;
+    color: var(--maroon-colors-1000);
+    font-size: 0.625rem;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1;
+  }
+
+  .extra_info_container {
+    user-select: none;
+    padding: 0.1875rem var(--size-space-200);
+    border-radius: var(--size-radius-200);
+    font-size: var(--font-size-2X-small);
+    color: var(--text-commentary-description);
+  }
+}
+
+.description_snippets_divider {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-200);
+  margin: var(--size-space-400) 0;
+  width: 100%;
+
+  .divider_line {
+    flex: 1;
+    border: none;
+    height: 1px;
+    background-color: var(--grayscale-200);
+  }
+
+  .divider_text_container {
+    display: flex;
+    align-items: center;
+    gap: var(--size-space-200);
+  }
+
+  .divider_badge_circle {
+    user-select: none;
+    width: 1.375rem;
+    height: 1.375rem;
+    background-color: var(--peach-color-0);
+    border-radius: 50%;
+    border: var(--size-space-050) solid var(--grayscale-0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 0.0625rem;
+    color: var(--maroon-colors-1000);
+    font-size: 0.625rem;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .divider_text {
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-commentary-description);
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+  }
+}
+
+.snippets_outer_container {
+  display: flex;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: var(--size-space-100) var(--size-space-400);
+  align-self: stretch;
+  flex-wrap: wrap;
+
+  .snippet_container {
+    display: flex;
+    flex-direction: column;
+    padding: var(--size-space-200);
+    align-items: flex-start;
+    gap: var(--size-space-200);
+    border-radius: var(--size-radius-400);
+    background: var(--grayscale-50);
+    width: 100%;
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    position: relative;
+    contain: layout;
+    margin-right: calc(-1.375rem - var(--size-space-300));
+
+    .snippet_badge_circle {
+      user-select: none;
+      position: absolute;
+      top: var(--size-space-negative-200);
+      right: var(--size-space-negative-300);
+      width: 1.375rem;
+      height: 1.375rem;
+      background-color: var(--peach-color-0);
+      border-radius: 50%;
+      border: var(--size-space-050) solid var(--grayscale-0);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 0.0625rem;
+      color: var(--maroon-colors-1000);
+      font-size: 0.625rem;
+      font-weight: var(--font-weight-semibold);
+      line-height: 1;
+    }
+
+    .snippet_name {
+      font-size: var(--font-size-regular);
+      font-weight: var(--font-weight-semibold);
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+
+    .snippet_text {
+      p {
+        max-height: clamp(25rem, 50vh, 90vh);
+        margin-bottom: 0;
+        padding-bottom: var(--size-space-200);
+        text-align: left;
+        color: var(--text-body-default);
+        font-size: var(--font-size-regular);
+        line-height: var(--line-height-paragraph-regular);
+        font-weight: var(--font-weight-light);
+        font-family: Lexend;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: underline;
+      }
+
+      * {
+        color: inherit;
+        overflow-wrap: break-word;
+        word-break: break-word;
+      }
+    }
+  }
+}
+
+.brandDescription_modal_container {
+  display: flex;
+  max-width: 60vw;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--size-space-400);
+  background: var(--grayscale-0);
+
+  @media (max-width: 768px) {
+    max-width: none;
+  }
+
+  .brandDescription_modal_title {
+    color: var(--text-label-default);
+    text-align: center;
+    font-size: var(--font-size-2X-large);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .brandDescription_modal_wrapper {
+    position: relative;
+    width: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+
+  .scroll_hint_badge {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 2rem;
+    z-index: 999;
+    transition: opacity 300ms ease, filter 300ms ease;
+    pointer-events: none;
+    max-width: calc(100% - var(--size-space-400));
+    width: max-content;
+
+    &.scroll_hint_badge_visible {
+      opacity: 1;
+      filter: blur(0);
+      pointer-events: auto;
+    }
+
+    &.scroll_hint_badge_hidden {
+      opacity: 0;
+      filter: blur(4px);
+      pointer-events: none;
+    }
+
+    .scroll_hint_badge_content {
+      background-color: var(--peach-color-0);
+      border-color: var(--peach-color-0);
+      color: var(--maroon-colors-1000);
+      max-height: none;
+      white-space: normal;
+      word-wrap: break-word;
+
+      @media (max-width: 768px) {
+        max-height: 5rem;
+        overflow-y: auto;
+      }
+
+      &:hover {
+        background-color: var(--peach-color-100) !important;
+        border-color: var(--peach-color-100) !important;
+        color: var(--maroon-colors-1000);
+      }
+    }
+  }
+
+  .brandDescription_modal_text {
+    max-height: 100%;
+    height: 100%;
+    margin-bottom: 0;
+    padding-bottom: var(--size-space-200);
+    padding-right: calc(1.375rem + var(--size-space-300));
+    overflow-y: scroll;
+    overflow-x: visible;
+    scrollbar-gutter: stable;
+    overscroll-behavior: contain;
+    background: var(--grayscale-0);
+    text-align: left;
+    color: var(--text-body-default);
+    font-size: var(--font-size-regular);
+    line-height: var(--line-height-paragraph-regular);
+    font-weight: var(--font-weight-light);
+    font-family: Lexend;
+
+    @media (max-width: 768px) {
+      max-height: 100%;
+    }
+
+    // Ensure all nested elements (e.g., h1-h6, p, li) inherit Lexend inside the modal
+    * {
+      font-family: inherit !important;
+      line-height: inherit !important;
+    }
+
+    p,
+    ul,
+    ol {
+      margin: 0 0 var(--size-space-300);
+    }
+
+    p:last-child,
+    ul:last-child,
+    ol:last-child {
+      margin-bottom: 0;
+    }
+
+    ul,
+    ol {
+      padding-left: var(--size-space-500);
+    }
+
+    li + li {
+      margin-top: var(--size-space-200);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin: var(--size-space-400) 0 var(--size-space-200);
+      font-weight: var(--font-weight-semibold);
+      line-height: 1.3 !important;
+      color: var(--text-body-default);
+    }
+
+    h1:first-child,
+    h2:first-child,
+    h3:first-child,
+    h4:first-child,
+    h5:first-child,
+    h6:first-child {
+      margin-top: 0;
+    }
+  }
+}
+
+@mixin description-caption-dark {
+  color: var(--text-body-default);
+}
+
+.brandDescription_button_container .extra_info_container,
+.description_snippets_divider .divider_text {
+  :global(:root[data-theme="dark"]) & {
+    @include description-caption-dark;
+  }
+
+  :global(:root:not([data-theme="light"]):not(.force-light-mode)) & {
+    @media (prefers-color-scheme: dark) {
+      @include description-caption-dark;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brandDescription_container {
+    .brandDescription_text {
+      transition: none;
+
+      .brandDescription_overlay {
+        transition: none;
+      }
+    }
+  }
+
+  .brandDescription_modal_container {
+    .scroll_hint_badge {
+      transition: none;
+    }
+  }
+}

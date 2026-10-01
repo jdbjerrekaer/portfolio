@@ -21,6 +21,18 @@ hidden: false
 
 <TableDemo />
 
+## Resizable side panel
+
+Side panels open over the page, and you can drag the pill on their left edge to resize them. The pill follows the pointer up and down and grows while you drag. It stops at its minimum width; drag past the maximum and it stretches with resistance, then snaps back to the limit when you let go. A double-click resets the width.
+
+<SidePanelResizeDemo />
+
+## Sidebar logo morph
+
+In the collapsed sidebar the logo doubles as the expand button. Hover it and the logo blurs and shrinks away while the button fades in, and clicking it widens the menu.
+
+<SidebarLogoMorphDemo />
+
 ## Error state
 
 <ErrorStateDemo />
@@ -33,6 +45,24 @@ hidden: false
 
 <CopyMorphDemo />
 
+## Tooltip timing
+
+The first tooltip in a toolbar waits 600 ms, so it never pops up by accident. Once one has opened, its neighbours open instantly for the next 1.4 s, and each one scales up, lifts and unblurs as it appears.
+
+<TooltipTimingDemo />
+
+## Description peek
+
+Resting on a clamped brand description opens it a little, and holding near the bottom edge reveals more in steps. A short grace period and a cooldown stop it flickering when the cursor only passes over.
+
+<BrandPeekDemo />
+
+## Multi-select badges
+
+Picking options shows a count badge that slides open to its exact measured width and pops in, so the control grows smoothly instead of jumping.
+
+<MultiSelectBadgesDemo />
+
 ## Get started checklist
 
 <GetStartedChecklistDemo />
@@ -44,6 +74,12 @@ hidden: false
 ## Staggered entrances
 
 <StaggerDemo />
+
+## Global search
+
+The platform-wide search opens with ⌘K and stays quiet on fast searches: no loader at all under 400 ms, a thin progress bar after that, and a short "Still searching…" line only once a request passes 2.5 seconds. Results group pages above partners and channels, and the arrow keys, Enter and Escape drive the whole thing.
+
+<GlobalSearchDemo />
 
 ## Load reveal
 

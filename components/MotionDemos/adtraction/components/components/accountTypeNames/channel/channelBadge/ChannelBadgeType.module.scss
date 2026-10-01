@@ -1,0 +1,159 @@
+@use "../../../../../styles/variables/colorvariables";
+@use "../../../../../styles/variables/sizevariables";
+
+@mixin dark-channel-badge-type {
+  .channel-badge-type {
+    &--savingsAndRewards {
+      background-color: var(--supplemental-colors-brown-500) !important;
+      border-color: var(--supplemental-colors-brown-500) !important;
+
+      &[data-ghost-type="true"],
+      &[data-ghost-type="false"] {
+        background-color: var(--supplemental-colors-brown-500) !important;
+        border-color: var(--supplemental-colors-brown-500) !important;
+      }
+    }
+
+    &--other {
+      background-color: var(--accent-colors-lilac-1000) !important;
+      border-color: var(--accent-colors-lilac-1000) !important;
+
+      &[data-ghost-type="true"],
+      &[data-ghost-type="false"] {
+        background-color: var(--accent-colors-lilac-1000) !important;
+        border-color: var(--accent-colors-lilac-1000) !important;
+      }
+    }
+  }
+}
+
+.channel-badge-wrapper {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+
+  &.has-alert {
+    gap: var(--size-space-100); // 4px
+  }
+}
+
+// Channel badge type styling using className-based approach
+.channel-badge-type {
+  // Ensure proper border radius for channel badges
+  border-radius: var(--size-radius-100) !important; // 4px
+
+  // Prefer the subtler 1.01 scale when this badge is used as a filter chip
+  // (Badge default interactable hover is 1.02). Match Badge's attr selectors for specificity.
+  &[data-interactable="true"][data-ghost-type="false"] {
+    &:hover:not([data-disabled="true"]),
+    &:focus:not([data-disabled="true"]) {
+      transform: scale(1.01);
+    }
+
+    &:active:not([data-disabled="true"]) {
+      transform: scale(0.98);
+    }
+  }
+
+  // Ensure text and icons have proper contrast
+  color: var(--text-body-alt) !important;
+
+  // Override any Badge default text color with highest specificity
+  p.badge-text {
+    color: var(--text-body-alt) !important;
+  }
+
+  // Make sure icons also have proper contrast
+  svg {
+    color: var(--text-body-alt) !important;
+  }
+
+  // Override ghost type styles if they're being applied
+  &[data-ghost-type="true"],
+  &[data-ghost-type="false"] {
+    p.badge-text {
+      color: var(--text-body-alt) !important;
+    }
+
+    svg {
+      color: var(--text-body-alt) !important;
+    }
+  }
+
+  // Type-specific colors using className modifiers
+  &--content {
+    background-color: var(--primary-blue-300) !important;
+    border-color: var(--primary-blue-300) !important;
+
+    &[data-ghost-type="true"],
+    &[data-ghost-type="false"] {
+      background-color: var(--primary-blue-300) !important;
+      border-color: var(--primary-blue-300) !important;
+    }
+  }
+
+  &--paid {
+    background-color: var(--peach-color-500) !important;
+    border-color: var(--peach-color-500) !important;
+
+    &[data-ghost-type="true"],
+    &[data-ghost-type="false"] {
+      background-color: var(--peach-color-500) !important;
+      border-color: var(--peach-color-500) !important;
+    }
+  }
+
+  &--direct {
+    background-color: var(--primary-blue-200) !important;
+    border-color: var(--primary-blue-200) !important;
+
+    &[data-ghost-type="true"],
+    &[data-ghost-type="false"] {
+      background-color: var(--primary-blue-200) !important;
+      border-color: var(--primary-blue-200) !important;
+    }
+  }
+
+  &--creators {
+    background-color: var(--maroon-colors-500) !important;
+    border-color: var(--maroon-colors-500) !important;
+
+    &[data-ghost-type="true"],
+    &[data-ghost-type="false"] {
+      background-color: var(--maroon-colors-500) !important;
+      border-color: var(--maroon-colors-500) !important;
+    }
+  }
+
+  &--savingsAndRewards {
+    background-color: var(--grayscale-800) !important;
+    border-color: var(--grayscale-800) !important;
+
+    &[data-ghost-type="true"],
+    &[data-ghost-type="false"] {
+      background-color: var(--grayscale-800) !important;
+      border-color: var(--grayscale-800) !important;
+    }
+  }
+
+  &--other {
+    background-color: var(--grayscale-550) !important;
+    border-color: var(--grayscale-550) !important;
+
+    &[data-ghost-type="true"],
+    &[data-ghost-type="false"] {
+      background-color: var(--grayscale-550) !important;
+      border-color: var(--grayscale-550) !important;
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(:root:not([data-theme="light"])) {
+    @include dark-channel-badge-type;
+  }
+}
+
+:global(:root[data-theme="dark"]) {
+  @include dark-channel-badge-type;
+}

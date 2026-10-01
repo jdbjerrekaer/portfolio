@@ -1,0 +1,143 @@
+.suggestions {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  gap: 0;
+  background-color: var(--grayscale-0);
+  border-radius: var(--size-radius-large, 12px);
+
+  @media (max-width: 768px) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.card {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--size-space-200);
+  padding: var(--size-space-400) var(--size-space-300);
+  min-width: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--size-radius-large, 12px);
+  transition:
+    background-color var(--transition-speed-default) ease,
+    transform var(--transition-speed-default) ease-out;
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: var(--grayscale-50);
+      transform: scale(1.01);
+    }
+  }
+
+  &[data-keyboard-active="true"] {
+    background-color: var(--grayscale-50);
+    transform: scale(1.01);
+  }
+
+  &:focus-visible {
+    background-color: var(--grayscale-50);
+    outline: 2px solid var(--primary-blue-500---primary);
+    outline-offset: 2px;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  @media (max-width: 768px) {
+    padding: var(--size-space-300) var(--size-space-200);
+  }
+}
+
+.divider {
+  flex: 0 0 1px;
+  align-self: center;
+  width: 1px;
+  height: 5.5rem;
+  background-color: var(--grayscale-100);
+  transition: opacity var(--transition-speed-default) ease;
+  pointer-events: none;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+/* Hide dividers that touch the hovered / focused / keyboard-selected / pressed card */
+@media (hover: hover) and (pointer: fine) {
+  .card:hover + .divider,
+  .divider:has(+ .card:hover) {
+    opacity: 0;
+  }
+}
+
+.card:focus-visible + .divider,
+.divider:has(+ .card:focus-visible),
+.card[data-keyboard-active="true"] + .divider,
+.divider:has(+ .card[data-keyboard-active="true"]),
+.card:active + .divider,
+.divider:has(+ .card:active) {
+  opacity: 0;
+}
+
+.icon_circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 999px;
+  flex-shrink: 0;
+  background-color: var(--accent-colors-sky-blue-500);
+  color: var(--accent-colors-sky-blue-foreground);
+
+  svg {
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+    color: var(--accent-colors-sky-blue-foreground) !important;
+  }
+}
+
+.label {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--grayscale-1000);
+  line-height: 1.2;
+  text-align: center;
+  overflow-wrap: break-word;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: background-color var(--transition-speed-default) ease;
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        transform: none;
+      }
+    }
+
+    &[data-keyboard-active="true"] {
+      transform: none;
+    }
+
+    &:active {
+      transform: none;
+    }
+  }
+
+  .divider {
+    transition: none;
+  }
+}

@@ -1,0 +1,189 @@
+.button_group {
+  height: 2rem;
+  position: relative;
+  display: inline-flex;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  color: var(--text-body-default);
+  background-color: var(--grayscale-100);
+  border-radius: 1rem;
+  overflow: visible;
+  user-select: none;
+  min-width: fit-content;
+
+  &[data-loading="true"] {
+    pointer-events: none;
+  }
+
+  &.small {
+    font-size: 0.75rem;
+    height: 1.5rem;
+
+    .selection_background,
+    .hover_background {
+      height: 1.5rem;
+    }
+  }
+
+  &.squircle {
+    border-radius: var(--size-radius-150);
+  }
+
+  &.fit-content {
+    width: fit-content;
+  }
+}
+
+.selection_background,
+.hover_background {
+  position: absolute !important;
+  top: 0 !important;
+  display: flex;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 2rem;
+  border-radius: 1.5rem;
+  transition: all 0.3s ease;
+  opacity: 1 !important;
+  pointer-events: none !important;
+  white-space: nowrap;
+
+  &.squircle {
+    border-radius: var(--size-space-100);
+  }
+}
+
+.selection_background {
+  z-index: 4;
+  background: var(--button-primary-default-background);
+  box-shadow: 0 -0.1875rem 0 0 rgba(0, 0, 0, 0.04) inset;
+  transition: all 0.4s cubic-bezier(0.74, 0, 0.33, 1.32);
+  cursor: default;
+  &.hover {
+    background: var(--button-primary-hover-background);
+    box-shadow: 0 0.1875rem 0 0 rgba(0, 0, 0, 0.03) inset;
+    transition: all 0.3s ease;
+  }
+
+  &.active {
+    box-shadow: 0 0.1875rem 0 0 rgba(0, 0, 0, 0.06) inset;
+    transition: all 0.3s ease;
+  }
+
+  &.loading {
+    background-color: var(--primary-blue-200);
+    box-shadow: none;
+  }
+
+  &.disabled {
+    background-color: var(--grayscale-300);
+    box-shadow: none;
+  }
+
+  &.no-transition {
+    transition: none;
+  }
+}
+
+.hover_background {
+  background-color: var(--grayscale-200);
+  box-shadow: 0 0.1875rem 0 0 rgba(0, 0, 0, 0.03) inset;
+  z-index: 0;
+}
+
+// Responsive padding for mobile devices - simplified approach
+@media (max-width: 768px) {
+  .button_group > .item {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .button_group > .item {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+}
+
+.button_group > .item {
+  display: flex;
+  position: relative;
+  text-align: center;
+  align-self: center;
+  white-space: nowrap;
+  align-items: center;
+  padding: 0 1.5rem;
+  justify-content: center;
+  height: 2rem;
+  cursor: pointer;
+  color: var(--button-secondary-default-text);
+  transition: color 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 5;
+  &:last-child {
+    &:before {
+      background-color: transparent;
+    }
+  }
+
+  &.disabled {
+    color: var(--text-commentary-description);
+    cursor: not-allowed !important;
+  }
+
+  &.loading-state {
+    cursor: not-allowed !important;
+    color: transparent;
+  }
+
+  &.selected {
+    color: white;
+    z-index: 5;
+    transition: color 0.52s cubic-bezier(0.79, -0.08, 0, 1.06);
+  }
+
+  &.was-selected {
+    color: white;
+    z-index: 5;
+    transition: color 0.15s ease;
+  }
+
+  &.before-selected {
+    &:before {
+      background-color: transparent;
+    }
+  }
+}
+
+.selection_text {
+  position: absolute !important;
+  opacity: 0 !important;
+}
+
+.visible {
+  opacity: 1;
+}
+
+.button_group.flex {
+  display: flex;
+}
+
+.button_group.flex > div {
+  flex: 1;
+}
+
+.loader_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  color: white;
+}
+
+// Inline content for icon + label with specified gap
+.content {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-space-300);
+}

@@ -1,0 +1,30 @@
+// Demo frame only: the search bar sits at sidemenu width, as it does in the platform.
+.stage {
+  display: flex;
+  justify-content: center;
+  padding: var(--size-space-600) 0;
+}
+
+.bar {
+  width: 100%;
+  max-width: 17.5rem;
+}
+
+// The modal portals to <body>, outside .adtraction-demo: give it the platform body defaults.
+:global(#global-search-modal) {
+  font-family: "Lexend", sans-serif;
+  font-size: 16px;
+  line-height: 119%;
+  color: var(--text-body-default);
+  -webkit-font-smoothing: antialiased;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  p {
+    margin: 0;
+  }
+}
