@@ -1,0 +1,146 @@
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-200);
+  width: 100%;
+  padding: var(--size-space-300) var(--size-space-400);
+  border: 0;
+  border-top: 1px solid var(--grayscale-100);
+  background: var(--grayscale-0);
+  color: var(--text-body-default);
+  text-align: left;
+  cursor: pointer;
+  user-select: none;
+  animation: rowIn var(--transition-speed-slow) ease-out both;
+  animation-delay: calc(var(--index) * 60ms);
+
+  &:hover:not([data-completed="true"]):not([data-locked="true"]) {
+    background: var(--grayscale-25);
+  }
+
+  &:hover:not([data-completed="true"]):not([data-locked="true"]) .chevron {
+    transform: translateX(0.125rem);
+    color: var(--text-body-default);
+  }
+
+  &[data-completed="true"],
+  &[data-locked="true"] {
+    cursor: default;
+    color: var(--text-commentary-description);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--primary-blue-500---primary);
+    outline-offset: -2px;
+  }
+
+  &:active:not([data-completed="true"]):not([data-locked="true"]) {
+    transform: scale(0.98);
+  }
+}
+
+.marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.375rem;
+  height: 1.375rem;
+}
+
+.circle {
+  width: 1.375rem;
+  height: 1.375rem;
+  border: 2px solid var(--grayscale-200);
+  border-radius: var(--size-radius-full);
+  background: var(--grayscale-0);
+}
+
+.tick {
+  flex-shrink: 0;
+  animation: iconMorphIn var(--transition-speed-slow) ease-out;
+}
+
+.labelWrap {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+}
+
+.label {
+  position: relative;
+  display: inline-block;
+}
+
+.strike {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1.2px;
+  background: var(--grayscale-500);
+  transform: scaleX(0);
+  transform-origin: left;
+  pointer-events: none;
+
+  [data-completed="true"] & {
+    transform: scaleX(1);
+    transition: transform 0.7s ease-in-out;
+  }
+}
+
+.chevron {
+  flex-shrink: 0;
+  color: var(--grayscale-300);
+  transition:
+    transform var(--transition-speed-slow) ease-out,
+    color var(--transition-speed-slow) ease-out;
+}
+
+@keyframes rowIn {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes iconMorphIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+    filter: blur(4px);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row {
+    animation: none;
+
+    &:active:not([data-completed="true"]):not([data-locked="true"]) {
+      transform: none;
+    }
+  }
+
+  .tick {
+    animation: none;
+  }
+
+  .strike,
+  .chevron {
+    transition: none;
+  }
+}

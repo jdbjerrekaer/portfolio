@@ -1,0 +1,139 @@
+.checkbox {
+  width: fit-content;
+  display: inline-flex;
+  line-height: 0;
+  position: relative;
+  will-change: transform;
+  transition: transform var(--transition-speed-default) ease-in-out;
+  contain: layout style;
+
+  &:after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    z-index: 1;
+    cursor: pointer;
+  }
+
+  &:hover:not([data-disabled="true"]) {
+    transform: scale(1.02);
+  }
+
+  &:active:not([data-disabled="true"]) {
+    transform: scale(0.98);
+  }
+
+  .form_check_input {
+    appearance: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 1.5rem;
+    min-height: 1.5rem;
+    padding: 0.125rem;
+    border-radius: var(--size-radius-100);
+    border: 0.833px solid var(--grayscale-200);
+    background: var(--grayscale-100);
+    margin: 0;
+    transition:
+      border-color var(--transition-speed-default) ease-in-out,
+      background-color var(--transition-speed-default) ease-in-out,
+      box-shadow var(--transition-speed-default) ease-in-out;
+    position: relative;
+    overflow: hidden;
+
+    &[data-size="small"] {
+      min-width: 1rem;
+      min-height: 1rem;
+      padding: 0.1rem;
+      border: 1.333px solid var(--grayscale-200);
+    }
+
+    &[data-size="default"] {
+      min-width: 1.25rem;
+      min-height: 1.25rem;
+      padding: 0.1125rem;
+      border: 1.083px solid var(--grayscale-200);
+    }
+
+    &[data-size="large"] {
+      min-width: 1.5rem;
+      min-height: 1.5rem;
+      padding: 0.125rem;
+      border: 0.833px solid var(--grayscale-200);
+    }
+
+    &[data-disabled="true"] {
+      border: 1.25px solid var(--grayscale-400);
+      background: var(--grayscale-300);
+      cursor: not-allowed !important;
+
+      .checkmark {
+        opacity: 0.5;
+      }
+    }
+
+    &[data-hovered="true"]:not([data-disabled="true"]) {
+      border-radius: var(--size-radius-100);
+      border: 1.67px solid var(--primary-blue-200);
+    }
+
+    &.checked {
+      width: var(--size-icon-xsmall);
+      height: var(--size-icon-xsmall);
+      border: none;
+      background-color: var(--primary-blue-400);
+      box-shadow:
+        0px -0.667px 2.667px 0px rgba(0, 0, 0, 0.25) inset,
+        0px 0.667px 2.667px 0px rgba(0, 0, 0, 0.25) inset;
+      transition:
+        border-color var(--transition-speed-default) ease-in-out,
+        background-color var(--transition-speed-default) ease-in-out,
+        box-shadow var(--transition-speed-default) ease-in-out;
+
+      &[data-hovered="true"]:not([data-disabled="true"]) {
+        border-radius: var(--size-radius-100);
+        border: 1.667px solid var(--primary-blue-200);
+        background: var(--primary-blue-400);
+        box-shadow:
+          0px -1.333px 5.333px 0px rgba(0, 0, 0, 0.25) inset,
+          0px 1.333px 5.333px 0px rgba(0, 0, 0, 0.25) inset;
+      }
+    }
+  }
+
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    pointer-events: none;
+    transition: opacity var(--transition-speed-default) ease-in-out;
+  }
+
+  &:has([data-size="small"]):after {
+    inset: -12px;
+    cursor: pointer;
+  }
+
+  &:has([data-size="default"]):after {
+    inset: -8px;
+    cursor: pointer;
+  }
+
+  &:has([data-size="large"]):after {
+    inset: -4px;
+    cursor: pointer;
+  }
+}
+
+// The card handles the click; the box inside it is only an indicator.
+.card_indicator {
+  display: inline-flex;
+  pointer-events: none;
+}

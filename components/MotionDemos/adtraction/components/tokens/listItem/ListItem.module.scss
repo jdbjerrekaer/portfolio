@@ -1,0 +1,365 @@
+:global(.list_item_container) {
+  display: flex;
+  width: 100%;
+  padding: var(--size-space-100) var(--size-space-200);
+  align-items: center;
+  gap: var(--size-space-200);
+  border-radius: var(--size-radius-100);
+  border: 1px solid var(--grayscale-0);
+  outline: none;
+  transition:
+    transform var(--transition-speed-default) ease,
+    background-color var(--transition-speed-default) ease,
+    border-color var(--transition-speed-default) ease;
+  cursor: pointer;
+
+  &[data-focused="true"]:not([data-disabled="true"], [data-hoverable="false"]),
+  &:hover:not([data-disabled="true"], [data-hoverable="false"]) {
+    transform: scale(1.01) !important;
+  }
+
+  .list_item_wrapper_container
+    &:hover:not([data-disabled="true"], [data-hoverable="false"]):not([data-focused="true"]) {
+    transform: scale(0.98) !important;
+  }
+
+  &[data-focused="true"]:not([data-disabled="true"], [data-hoverable="false"]),
+  &:active:not([data-disabled="true"], [data-hoverable="false"]) {
+    transform: scale(0.98) !important;
+  }
+
+  &[data-fit-content="true"] {
+    width: fit-content;
+    min-width: fit-content;
+  }
+
+  &[data-multiselect="true"] {
+    user-select: none;
+  }
+
+  &[data-type="delete"] {
+    background: var(--ui-colors-red-100);
+
+    &[data-hovered="true"] {
+      background: var(--ui-colors-red-200) !important;
+    }
+
+    .list_item_delete_container span svg {
+      color: var(--ui-colors-red-600) !important;
+    }
+
+    &[data-active="true"] {
+      background: var(--ui-colors-red-200) !important;
+      border-color: var(--ui-colors-red-800) !important;
+
+      &[data-hovered="true"] {
+        background: var(--ui-colors-red-300) !important;
+        border-color: var(--ui-colors-red-800) !important;
+      }
+    }
+  }
+
+  &[data-type="reject"] {
+    background: var(--ui-colors-red-100);
+
+    &[data-hovered="true"] {
+      background: var(--ui-colors-red-200) !important;
+    }
+
+    .list_item_reject_container span svg {
+      color: var(--ui-colors-red-600) !important;
+    }
+
+    &[data-active="true"] {
+      background: var(--ui-colors-red-200) !important;
+      border-color: var(--ui-colors-red-800) !important;
+
+      &[data-hovered="true"] {
+        background: var(--ui-colors-red-300) !important;
+        border-color: var(--ui-colors-red-800) !important;
+      }
+    }
+  }
+
+  &[data-type="approve"] {
+    background: var(--ui-colors-green-100);
+
+    &[data-hovered="true"] {
+      background: var(--ui-colors-green-200) !important;
+    }
+
+    .list_item_approve_container span svg {
+      color: var(--ui-colors-green-600) !important;
+    }
+
+    &[data-active="true"] {
+      background: var(--ui-colors-green-200) !important;
+      border-color: var(--ui-colors-green-800) !important;
+
+      &[data-hovered="true"] {
+        background: var(--ui-colors-green-300) !important;
+        border-color: var(--ui-colors-green-800) !important;
+      }
+    }
+  }
+
+  &[data-type="pause"] {
+    background: var(--ui-colors-yellow-100);
+
+    &[data-hovered="true"] {
+      background: var(--ui-colors-yellow-200) !important;
+    }
+
+    .list_item_pause_container span svg {
+      color: var(--ui-colors-yellow-600) !important;
+    }
+
+    &[data-active="true"] {
+      background: var(--ui-colors-yellow-200) !important;
+      border-color: var(--ui-colors-yellow-800) !important;
+
+      &[data-hovered="true"] {
+        background: var(--ui-colors-yellow-300) !important;
+        border-color: var(--ui-colors-yellow-800) !important;
+      }
+    }
+  }
+
+  &[data-active="true"]:not([data-type="delete"]):not([data-type="reject"]):not([data-type="approve"]):not([data-type="pause"]) {
+    border: 1px solid var(--primary-blue-100);
+    background: var(--accent-colors-lilac-500);
+
+    &[data-hovered="true"] {
+      border: 1px solid var(--primary-blue-100) !important;
+      background: var(--accent-colors-lilac-0) !important;
+    }
+  }
+
+  &[data-focused="true"] {
+    border: 1px solid var(--primary-blue-100);
+    background: var(--accent-colors-lilac-0);
+
+    &:not([data-active="true"]) {
+      background: var(--grayscale-100);
+      border: 1px solid var(--grayscale-100);
+    }
+
+    &[data-type="delete"]:not([data-active="true"]) {
+      background: var(--ui-colors-red-200) !important;
+      border: 1px solid var(--ui-colors-red-300) !important;
+    }
+
+    &[data-type="reject"]:not([data-active="true"]) {
+      background: var(--ui-colors-red-200) !important;
+      border: 1px solid var(--ui-colors-red-300) !important;
+    }
+
+    &[data-type="approve"]:not([data-active="true"]) {
+      background: var(--ui-colors-green-200) !important;
+      border: 1px solid var(--ui-colors-green-300) !important;
+    }
+
+    &[data-type="pause"]:not([data-active="true"]) {
+      background: var(--ui-colors-yellow-200) !important;
+      border: 1px solid var(--ui-colors-yellow-300) !important;
+    }
+  }
+
+  &[data-hoverable="false"] {
+    cursor: default;
+  }
+
+  &[data-hovered="true"]:not([data-disabled="true"]):not([data-hoverable="false"]) {
+    background: var(--grayscale-100);
+    border: 1px solid var(--grayscale-100);
+  }
+
+  &[data-disabled="true"] {
+    cursor: not-allowed;
+    user-select: none;
+    .list_item_text {
+      color: var(--text-commentary-description);
+    }
+  }
+
+  &.small {
+    padding: 0.1875rem var(--size-space-200);
+  }
+
+  &.large {
+    font-size: var(--font-size-regular);
+    padding: var(--size-space-100) var(--size-space-200);
+  }
+}
+
+.list_item_content_container {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-150);
+  flex: 1 0 0;
+}
+
+.list_item_content_right_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--size-space-150);
+}
+
+.list_item_text_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: var(--size-space-negative-100);
+  flex: 1 0 0;
+}
+
+.list_item_text {
+  overflow: hidden;
+  color: var(--text-body-default);
+  text-overflow: ellipsis;
+  font-size: var(--font-size-small);
+  font-style: normal;
+  font-weight: var(--font-weight-regular);
+
+  &.small {
+    font-size: var(--font-size-small);
+  }
+
+  &.large {
+    font-size: var(--font-size-regular);
+  }
+}
+
+.list_item_description {
+  user-select: none;
+  overflow: hidden;
+  word-break: break-word;
+  color: var(--text-commentary-description);
+  text-overflow: ellipsis;
+  font-size: var(--font-size-small);
+  font-style: normal;
+  font-weight: var(--font-weight-light);
+
+  &.small {
+    font-size: var(--font-size-2X-small);
+  }
+
+  &.large {
+    font-size: var(--font-size-regular);
+  }
+}
+
+.list_item_caption {
+  user-select: none;
+  overflow: hidden;
+  color: var(--grayscale-500);
+  text-overflow: ellipsis;
+  font-size: var(--font-size-small);
+  font-style: normal;
+  font-weight: var(--font-weight-regular);
+
+  &.small {
+    font-size: var(--font-size-2X-small);
+  }
+
+  &.large {
+    font-size: var(--font-size-regular);
+  }
+}
+
+.list_item_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--list-item-gap, var(--size-space-100));
+  height: 100%;
+  overflow: scroll;
+
+  // Hide scrollbars
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+// Staggered fade-in with pure CSS when wrapper becomes visible
+@keyframes listItemFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.list_item_wrapper[data-animation-enabled="true"] > * {
+  opacity: 0;
+}
+
+.list_item_wrapper[data-animation-enabled="true"][data-visible="true"] > * {
+  animation: listItemFadeIn 180ms ease-out forwards;
+}
+
+// 30ms stagger per item (generated via SCSS loop)
+$stagger-step: 30ms;
+$stagger-max: 50;
+@for $i from 1 through $stagger-max {
+  .list_item_wrapper[data-animation-enabled="true"][data-visible="true"] > *:nth-child(#{$i}) {
+    animation-delay: ($i - 1) * $stagger-step;
+  }
+}
+
+.list_item_icon_container {
+  display: flex;
+  z-index: 10;
+}
+
+.list_item_delete_container,
+.list_item_reject_container,
+.list_item_approve_container,
+.list_item_pause_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.list_item_wrapper_container {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+// A footnote sits outside the scroll area, so the list has to give up the fixed
+// height it otherwise claims.
+.list_item_wrapper_container[data-has-footnote="true"] {
+  display: flex;
+  flex-direction: column;
+}
+
+// Positioning context for the scroll shadows, so they frame the list rather than the footnote.
+.list_item_scroll_area {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+
+  > .list_item_wrapper {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+  }
+}
+
+.list_item_footnote {
+  flex: 0 0 auto;
+  margin-top: var(--size-space-200);
+  padding: var(--size-space-300);
+  border-radius: var(--size-radius-200);
+  background-color: var(--grayscale-25);
+  color: var(--text-commentary-description);
+  font-size: var(--font-size-2x-small);
+}

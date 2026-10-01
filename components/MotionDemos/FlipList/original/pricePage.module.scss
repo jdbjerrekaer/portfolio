@@ -1,0 +1,463 @@
+// Verbatim copy of adtraction-web-brands .../pages/price/pricePage.module.scss (all lines 1-end).
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-400, 16px);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+
+  span {
+    user-select: none;
+  }
+}
+
+.contentLayout {
+  display: flex;
+  gap: var(--size-space-400, 16px);
+  align-items: start;
+  width: 100%;
+  min-width: 0;
+}
+
+.segmentListContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-400);
+  max-height: 100%;
+  height: 40.0625rem;
+  min-width: 17.875rem;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.segmentPanel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  position: sticky;
+  top: var(--size-space-400, 16px);
+  overflow: hidden;
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+// Groups "Segments" with the card list so the label reads as list chrome, not the search field.
+.segmentListBody {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  gap: var(--size-space-200, 8px);
+}
+
+.segmentListHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-100, 4px);
+
+  span {
+    color: var(--text-commentary-description);
+    font-size: var(--font-size-2x-small);
+    font-style: normal;
+    font-weight: var(--font-weight-light);
+    line-height: normal;
+
+    pointer-events: none;
+    user-select: none;
+  }
+}
+
+.segmentHelpButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  cursor: help !important;
+  line-height: 0;
+
+  * {
+    cursor: help !important;
+  }
+}
+
+.segmentSearchRow {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-200, 8px);
+}
+
+.segmentSearchInput {
+  flex: 1;
+  min-width: 0;
+}
+
+.filterPopover {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-400, 16px);
+  width: max-content;
+  max-width: min(20rem, calc(100vw - 2rem));
+}
+
+.segmentList {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  gap: var(--size-space-400);
+  overflow-y: auto;
+  // Gutter so SegmentCard hover shadow + scale(1.01) aren't clipped by the scrollport.
+  padding: 6px 10px 16px;
+
+  span {
+    user-select: none;
+    pointer-events: none;
+  }
+}
+
+.loadingList {
+  composes: segmentList;
+  overflow-y: hidden;
+}
+
+.compensationPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-400, 16px);
+  min-height: 300px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+  margin-left: -10px;
+  margin-right: -10px;
+  box-sizing: border-box;
+}
+
+.sortGroup,
+.orderByGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--size-space-200, 8px);
+}
+
+.sortLabel,
+.orderByLabel {
+  font-size: var(--font-size-small, 14px);
+  color: var(--text-commentary-description, #aaaab3);
+  white-space: nowrap;
+}
+
+.sortOptions,
+.orderByOptions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--size-space-200, 8px);
+}
+
+.orderByOptions {
+  button[role="radio"] {
+    gap: 0;
+  }
+}
+
+.bannerSlot {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.channelMatchBanner,
+.unusedPricesBanner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--size-space-200);
+  padding: var(--size-space-200) var(--size-space-300);
+  border-radius: var(--size-radius-200);
+}
+
+.channelMatchBanner {
+  background: var(--accent-colors-lilac-500);
+}
+
+.unusedPricesBanner {
+  background: var(--grayscale-100);
+}
+
+.bannerText {
+  flex: 1 1 12rem;
+  min-width: 0;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.4;
+}
+
+.channelMatchBanner .bannerText {
+  color: var(--text-body-default);
+}
+
+.unusedPricesBanner .bannerText {
+  color: var(--text-commentary-description);
+}
+
+.compensationListWrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  gap: 0;
+}
+
+// Current prices: fills remaining space and scrolls; scheduled stays pinned below.
+.compensationListScrollRegion {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.compensationListContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-200, 8px);
+  overflow-x: hidden;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  // Gutter so PriceCard hover shadow + scale(1.01) aren't clipped by the scrollport.
+  padding: 6px 10px 16px;
+}
+
+.compensationList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-200, 8px);
+}
+
+.flipItem {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+// One SegmentCard (88px) + list gap — breathing room when selection auto-scrolls into view.
+.segmentList .flipItem {
+  scroll-margin-top: calc(88px + var(--size-space-400, 16px));
+  scroll-margin-bottom: calc(88px + var(--size-space-400, 16px));
+}
+
+// Pinned under the price list — always on screen; scrolls itself if many scheduled items.
+.scheduledSectionWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 auto;
+  min-height: 0;
+  max-height: 45%;
+  overflow: hidden;
+  border-top: 1px solid var(--grayscale-100, #ececee);
+  background: var(--status-background-default, #fff);
+}
+
+.scheduledSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-200, 8px);
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: var(--size-space-400, 16px) 10px 16px;
+  // Enter: ease-out, under 300ms — same curve/offset as useFlipList list enters.
+  // No fill-mode: a lingering transform would clip child PriceCard hover shadows.
+  animation: scheduledSectionEnter 180ms cubic-bezier(0.23, 1, 0.32, 1);
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes scheduledSectionEnter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scheduledSectionTitle {
+  margin: 0;
+  font-size: var(--font-size-small, 14px);
+  font-weight: var(--font-weight-medium, 500);
+  color: var(--text-commentary-description, #aaaab3);
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--size-space-600, 24px);
+  color: var(--text-commentary-description, #aaaab3);
+  font-size: var(--font-size-regular, 16px);
+}
+
+.loadingState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Compact segment list inside tablet SegmentPickerBar Tippy.
+// Keep list padding gutters so SegmentCard hover shadow isn't clipped.
+.segmentListContainerEmbedded {
+  height: auto;
+  max-height: min(24rem, 60vh);
+  min-width: 0;
+
+  .segmentPanel {
+    position: relative;
+    top: auto;
+    // Tippy panel is the outer edge — drop negative gutter so cards stay inside.
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+.mobilePricesHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-200, 8px);
+  width: 100%;
+  min-width: 0;
+  flex-shrink: 0;
+  // Match compensation list horizontal inset (hover gutter).
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.mobilePricesTitle {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--font-size-small, 14px);
+  font-weight: var(--font-weight-medium, 500);
+  color: var(--text-body-default, #0b0c24);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.paneEnter {
+  animation: pricePaneEnter 180ms cubic-bezier(0.23, 1, 0.32, 1);
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes pricePaneEnter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.layoutPicker,
+.layoutTwoStep {
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+}
+
+// Align picker bar with prices column (drop compensationPanel -10px shift).
+// Keep list/banner padding so PriceCard hover shadow still has room.
+// Height: viewport minus page chrome so the list scrolls inside (not page-length).
+.layoutPicker {
+  .compensationPanel {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    min-width: 0;
+    height: calc(100vh - 12.5rem);
+    height: calc(100dvh - 12.5rem);
+    max-height: none;
+    min-height: 18rem;
+  }
+}
+
+// Two-step mobile: one pane at a time, viewport-capped so inner scroll + hover gutters work.
+.layoutTwoStep {
+  .segmentListContainer {
+    width: 100%;
+    min-width: 0;
+    height: calc(100vh - 12.5rem);
+    height: calc(100dvh - 12.5rem);
+    max-height: none;
+    min-height: 18rem;
+  }
+
+  .compensationPanel {
+    width: 100%;
+    min-width: 0;
+    height: calc(100vh - 12.5rem);
+    height: calc(100dvh - 12.5rem);
+    max-height: none;
+    min-height: 18rem;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .segmentPanel {
+    position: relative;
+    top: auto;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .segmentListBody {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+}
+
+// Narrow desktop: keep side-by-side (no stack) but allow the segment column to shrink.
+@media (max-width: 900px) {
+  .contentLayout:not(.layoutPicker):not(.layoutTwoStep) {
+    .segmentListContainer {
+      min-width: 0;
+      flex: 0 1 15rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .channelMatchBanner,
+  .unusedPricesBanner {
+    align-items: flex-start;
+  }
+
+  .bannerText {
+    flex: 1 1 100%;
+  }
+}

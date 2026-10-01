@@ -1,0 +1,35 @@
+.placeholder_wave {
+  mask-image: linear-gradient(130deg, #f1f1f1 55%, rgba(255, 255, 255, 0.2) 75%, #f1f1f1 95%);
+  mask-size: 500% 100%;
+  animation: placeholder_wave 4.5s linear infinite;
+}
+
+@keyframes placeholder_wave {
+  100% {
+    mask-position: -500% 0%;
+  }
+}
+
+.placeholder {
+  position: relative;
+  display: inline-block;
+  width: auto;
+  vertical-align: middle;
+  cursor: wait;
+  background-color: var(--grayscale-100);
+  mix-blend-mode: multiply;
+  opacity: 1;
+  border-radius: 4px;
+
+  &::before {
+    content: "\00a0";
+    color: transparent;
+    font-size: 0;
+    line-height: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}

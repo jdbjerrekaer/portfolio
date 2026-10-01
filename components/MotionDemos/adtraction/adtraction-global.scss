@@ -1,0 +1,186 @@
+// Generated from the toolkit's styles.module.scss (variables + global tippy motion).
+@use "./styles/variables/colorvariables";
+@use "./styles/variables/sizevariables";
+@use "./styles/variables/fontvariables";
+@use "./styles/variables/transitions";
+@use "./styles/variables/zindexvariables";
+
+// Platform body defaults, scoped to demo stages instead of <body>.
+.adtraction-demo {
+  font-family: "Lexend", sans-serif;
+  font-size: 16px;
+  line-height: 119%;
+  color: var(--text-body-default);
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+
+  *, *::before, *::after { box-sizing: border-box; }
+  p { margin: 0; }
+}
+
+// GLOBAL TIPPY ANIMATIONS
+// ============================================================================
+
+// Global tippy root z-index - ensures tooltips appear above content, including modals
+[data-tippy-root] {
+  z-index: var(--z-index-tooltip-above-modal) !important;
+}
+
+@mixin tippy-motion($scale: 0.96, $distance: 4px) {
+  opacity: 0;
+  transform: scale($scale) translateY(-$distance);
+  transform-origin: top center;
+  filter: blur(2px);
+  transition:
+    opacity var(--transition-speed-default) cubic-bezier(0.23, 1, 0.32, 1),
+    transform var(--transition-speed-default) cubic-bezier(0.23, 1, 0.32, 1),
+    filter var(--transition-speed-default) cubic-bezier(0.23, 1, 0.32, 1);
+
+  &[data-state="visible"] {
+    opacity: 1;
+    transform: scale(1) translate(0, 0);
+    filter: blur(0);
+  }
+
+  &[data-state="hidden"] {
+    opacity: 0;
+    transform: scale($scale) translateY(-$distance);
+    filter: blur(2px);
+  }
+
+  &[data-placement^="top"] {
+    transform: scale($scale) translateY($distance);
+    transform-origin: bottom center;
+
+    &[data-state="visible"] {
+      transform: scale(1) translate(0, 0);
+    }
+
+    &[data-state="hidden"] {
+      transform: scale($scale) translateY($distance);
+    }
+  }
+
+  &[data-placement^="bottom"] {
+    transform: scale($scale) translateY(-$distance);
+    transform-origin: top center;
+
+    &[data-state="visible"] {
+      transform: scale(1) translate(0, 0);
+    }
+
+    &[data-state="hidden"] {
+      transform: scale($scale) translateY(-$distance);
+    }
+  }
+
+  &[data-placement^="left"] {
+    transform: scale($scale) translateX($distance);
+    transform-origin: center right;
+
+    &[data-state="visible"] {
+      transform: scale(1) translate(0, 0);
+    }
+
+    &[data-state="hidden"] {
+      transform: scale($scale) translateX($distance);
+    }
+  }
+
+  &[data-placement^="right"] {
+    transform: scale($scale) translateX(-$distance);
+    transform-origin: center left;
+
+    &[data-state="visible"] {
+      transform: scale(1) translate(0, 0);
+    }
+
+    &[data-state="hidden"] {
+      transform: scale($scale) translateX(-$distance);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transform: none !important;
+    filter: none !important;
+    transition: opacity var(--transition-duration-fast) ease-out;
+
+    &[data-state="visible"],
+    &[data-state="hidden"],
+    &[data-placement^="top"],
+    &[data-placement^="bottom"],
+    &[data-placement^="left"],
+    &[data-placement^="right"] {
+      transform: none !important;
+      filter: none !important;
+    }
+  }
+}
+
+// Global tippy animation - applies to all tippy tooltips
+.tippy-box {
+  @include tippy-motion;
+
+  padding: var(--size-space-200);
+  background: var(--grayscale-0);
+  border: 1px solid var(--status-border-default);
+  border-radius: var(--size-radius-200);
+  color: var(--text-body-default);
+  box-shadow:
+    0 0.0625rem 0.1875rem 0 var(--opacity-popover-popover-shadow---6),
+    0 0.3125rem 0.3125rem 0 var(--opacity-popover-popover-shadow---5),
+    0 0.625rem 0.375rem 0 var(--opacity-popover-popover-shadow---3);
+}
+
+// Override for any custom tippy animations
+.tippy-box[data-animation="fade"] {
+  @include tippy-motion;
+}
+
+// Special handling for DatePicker theme - ensure animations work even with duration=0
+.tippy-box[data-theme="date_picker"] {
+  @include tippy-motion(0.98, 6px);
+}
+
+// Context menus (ChannelName copy ID, CellContextMenu): hug content, clip to radius
+.tippy-box[data-theme="context_menu"] {
+  padding: var(--size-space-100);
+  overflow: hidden;
+  width: max-content !important;
+  max-width: none !important;
+
+  .tippy-content {
+    padding: 0;
+    width: max-content;
+  }
+}
+
+// ============================================================================
+// Portfolio addition: popover enter motion for context menus.
+// The toolkit has no generic popover animation; tippy-motion above only runs when the
+// box itself shows. KeyMetric's right-click menu swaps into an already-visible hover
+// tooltip, so the menu content animates on its own mount with the same feel.
+// ============================================================================
+@keyframes adtraction-popover-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(-4px);
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+}
+
+.tippy-box[data-theme="context_menu"] .tippy-content > * {
+  transform-origin: top left;
+  animation: adtraction-popover-enter var(--transition-speed-default) cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tippy-box[data-theme="context_menu"] .tippy-content > * {
+    animation: none;
+  }
+}

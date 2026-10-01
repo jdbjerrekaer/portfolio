@@ -1,0 +1,21 @@
+.icon_outer_container {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  line-height: 0;
+  font-size: 0;
+  position: relative;
+  bottom: 0px;
+
+  &.round_background {
+    border-radius: 50%;
+    padding: var(--icon-padding);
+    background-color: var(--icon-background-color);
+  }
+
+  > svg {
+    display: block;
+  }
+}

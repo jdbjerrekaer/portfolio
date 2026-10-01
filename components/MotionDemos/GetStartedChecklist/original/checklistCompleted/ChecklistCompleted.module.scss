@@ -1,0 +1,106 @@
+.completed {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--size-space-600) var(--size-space-400) var(--size-space-400);
+  animation: viewIn var(--transition-speed-slow) ease-out;
+}
+
+.close {
+  position: absolute;
+  top: var(--size-space-400);
+  right: var(--size-space-400);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--size-radius-150);
+  background: transparent;
+  color: var(--text-commentary-description);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--grayscale-50);
+    color: var(--text-body-default);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--primary-blue-500---primary);
+    outline-offset: 2px;
+  }
+}
+
+.medallion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--size-radius-full);
+  background: var(--primary-blue-500---primary);
+  color: var(--grayscale-0);
+  animation: iconMorphIn var(--transition-speed-slow) ease-out;
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--size-space-100);
+  padding: var(--size-space-400) 0 var(--size-space-600);
+  text-align: center;
+}
+
+.title {
+  font-size: var(--font-size-regular);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-headers);
+}
+
+.description {
+  font-size: var(--font-size-small);
+  color: var(--text-commentary-description);
+}
+
+.action {
+  width: 100%;
+}
+
+@keyframes viewIn {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes iconMorphIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+    filter: blur(4px);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .completed,
+  .medallion {
+    animation: none;
+  }
+}

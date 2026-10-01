@@ -1,0 +1,300 @@
+.profile_container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--size-space-800);
+  width: 100%;
+  max-width: 100%;
+}
+
+.profile_sections {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--size-space-800);
+  width: 100%;
+  max-width: 100%;
+}
+
+.identity_section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--size-space-400);
+  width: 100%;
+  min-width: 0;
+}
+
+.highlights_row {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  gap: var(--size-space-100) var(--size-space-400);
+  align-self: stretch;
+  flex-wrap: wrap;
+}
+
+.category_chip {
+  flex-shrink: 0;
+}
+
+.edit_actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--size-space-200);
+}
+
+.description_section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--size-space-400);
+  width: 100%;
+  min-width: 0;
+}
+
+.attribution_section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--size-space-400);
+  width: 100%;
+  min-width: 0;
+}
+
+.empty_state {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--size-space-200);
+  width: 100%;
+  padding: var(--size-space-600);
+  border-radius: var(--size-radius-200);
+  background: var(--grayscale-25);
+}
+
+.empty_state_title {
+  margin: 0;
+  color: var(--text-body-default);
+  font-size: var(--font-size-regular);
+  font-weight: var(--font-weight-medium);
+}
+
+.empty_state_body {
+  margin: 0;
+  color: var(--text-commentary-description);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-paragraph-small);
+}
+
+.panel_content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--size-space-400);
+  width: 100%;
+  min-width: 0;
+}
+
+.disclaimer_container {
+  display: flex;
+  width: 100%;
+  padding: var(--size-space-200);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--size-space-100);
+  border-radius: var(--size-radius-200);
+  background: var(--accent-colors-sky-blue-0);
+
+  .inner_container {
+    display: flex;
+    align-items: center;
+    gap: var(--size-space-200);
+    align-self: stretch;
+
+    .disclaimer_text {
+      color: var(--text-body-default);
+      font-family: var(--font-family-default);
+      font-size: var(--font-size-2x-small);
+      font-weight: var(--font-weight-light);
+      user-select: none;
+    }
+  }
+}
+
+.text_editor_container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--size-space-100);
+  align-self: stretch;
+  width: 100%;
+  min-width: 0;
+
+  .editor_text {
+    color: var(--text-commentary-description);
+    font-family: var(--font-family-default);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-paragraph-small);
+    user-select: none;
+  }
+}
+
+.banner_container {
+  width: 100%;
+}
+
+.upload_container {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--size-space-400);
+  align-self: stretch;
+  flex-wrap: wrap;
+  width: 100%;
+
+  .upload_wrapper_width {
+    width: 100%;
+    min-width: 0;
+    flex: 1 1 20rem;
+  }
+
+  .tools_container {
+    display: flex;
+    max-width: 16.5625rem;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--size-space-100);
+    flex: 0 0 auto;
+
+    .tools_text {
+      color: var(--text-commentary-description);
+      font-family: var(--font-family-default);
+      font-size: var(--font-size-2x-small);
+      font-weight: var(--font-weight-regular);
+      line-height: normal;
+      user-select: none;
+    }
+  }
+
+  .upload_info_row {
+    display: flex;
+    align-items: center;
+    gap: var(--size-space-200);
+
+    .upload_info_details {
+      display: flex;
+      flex-direction: column;
+      gap: var(--size-space-100);
+
+      .upload_info_text {
+        color: var(--text-commentary-description);
+        font-size: var(--font-size-small);
+        font-family: var(--font-family-default);
+        font-weight: var(--font-weight-light);
+      }
+    }
+  }
+}
+
+.category_images_container {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: var(--size-space-400);
+  align-self: stretch;
+  flex-wrap: wrap;
+
+  .category_image {
+    cursor: pointer;
+    position: relative;
+    width: 10.5rem;
+    height: 6.6875rem;
+    box-sizing: content-box;
+    border-radius: var(--size-radius-150);
+    overflow: hidden;
+    border: 4px solid transparent;
+    transition: border-color var(--transition-speed-default) ease;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--image-url);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: transform var(--transition-speed-slow) ease;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.24);
+      transition: opacity var(--transition-speed-slow) ease;
+      pointer-events: none;
+    }
+
+    &:hover,
+    &:focus-visible {
+      outline: none;
+
+      &::before {
+        transform: scale(1.08);
+      }
+
+      &::after {
+        opacity: 0;
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--primary-blue-500---primary);
+      outline-offset: 2px;
+    }
+  }
+
+  .active_image {
+    border-color: var(--brand-500);
+
+    &::after {
+      opacity: 0;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .profile_container {
+    gap: var(--size-space-600);
+  }
+
+  .identity_section {
+    gap: var(--size-space-300);
+  }
+
+  .highlights_row {
+    gap: var(--size-space-100) var(--size-space-200);
+  }
+
+  .edit_actions {
+    width: 100%;
+
+    > * {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+  }
+
+  .attribution_section {
+    gap: var(--size-space-300);
+  }
+
+  .upload_container {
+    flex-direction: column;
+  }
+}

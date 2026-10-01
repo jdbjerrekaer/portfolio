@@ -1,0 +1,25 @@
+:root {
+  /*
+   * Z-index scale
+   * Keep values centralized to avoid per-component "z-index arms race".
+   * NOTE: table column chooser currently uses a very high AG Grid layer.
+   * 
+   * Layering order (lowest to highest):
+   * - base/dropdown/sticky: 1-1100
+   * - popover/tooltip (normal context): 1200-1300
+   * - modal overlay: 10000001+ (dynamic stacking)
+   * - popover/tooltip (modal context): 10000020 (above modals)
+   * - toast: 10000030 (above everything)
+   */
+  --z-index-base: 1;
+  --z-index-dropdown: 1000;
+  --z-index-sticky: 1100;
+  --z-index-popover: 1200;
+  --z-index-tooltip: 1300;
+  --z-index-modal-overlay: 10000001;
+  --z-index-popover-above-modal: 10000020;
+  --z-index-tooltip-above-modal: 10000020;
+  --z-index-toast: 10000030;
+  --z-index-table-column-dialog: 10000000;
+  --z-index-table-drag-overlay: 10000021;
+}

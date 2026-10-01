@@ -1,0 +1,346 @@
+// Sized by the slot it renders in, not the viewport: the same boundary wraps
+// small dashboard widgets and whole pages.
+.errorState {
+  container: error-state / inline-size;
+  display: flex;
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+// Base, narrow slots: illustration beside the title; description and actions
+// span the full width so both buttons fit side by side.
+.content {
+  --error-state-illustration-size: 2.5rem;
+
+  display: grid;
+  flex: 1;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-content: center;
+  align-items: center;
+  column-gap: var(--size-space-300);
+  row-gap: var(--size-space-200);
+  padding: var(--size-space-400);
+  border-radius: var(--size-radius-400);
+  background: var(--grayscale-25);
+  text-align: left;
+}
+
+// A page failure owns the whole content area, so it drops the panel.
+[data-scope="page"] > .content {
+  background: transparent;
+}
+
+.illustration {
+  display: block;
+  border-radius: var(--size-radius-300);
+  user-select: none;
+  pointer-events: none;
+}
+
+// The illustration is a toy: tilts toward the cursor, squishes on press,
+// and each click is a "tug" (WAAPI keyframes in ErrorStateIllustration).
+.toy {
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+  --toy-scale: 1;
+
+  position: relative;
+  display: block;
+  user-select: none;
+  flex-shrink: 0;
+  cursor: pointer;
+  transform: perspective(40rem) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) scale(var(--toy-scale));
+  transition: transform 450ms cubic-bezier(0.23, 1, 0.32, 1);
+  -webkit-tap-highlight-color: transparent;
+
+  &:active {
+    --toy-scale: 0.93;
+
+    transition-duration: 120ms;
+  }
+}
+
+.toyMotion {
+  position: relative;
+  display: block;
+  animation: error-state-hint 900ms 1.6s cubic-bezier(0.77, 0, 0.175, 1) both;
+}
+
+.shine {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--size-radius-300);
+  background: radial-gradient(circle at var(--shine-x, 50%) var(--shine-y, 0%), rgb(255 255 255 / 0.45), transparent 60%);
+  mix-blend-mode: soft-light;
+  opacity: 0;
+  transition: opacity var(--transition-speed-slow) ease;
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .toy:hover {
+    --toy-scale: 1.05;
+
+    .shine {
+      opacity: 1;
+    }
+  }
+
+  .toy:hover:active {
+    --toy-scale: 0.93;
+  }
+}
+
+// Retrying: the yarn untangles itself.
+[data-retrying="true"] .toy {
+  cursor: progress;
+}
+
+[data-retrying="true"] .toyMotion {
+  animation: error-state-untangle 2.4s linear infinite;
+}
+
+.shakeHint {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--text-body-default);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-instruction-small);
+  animation: error-state-in var(--transition-speed-slow) ease-out both;
+}
+
+.actions[data-nudge="true"] > :first-child {
+  animation: error-state-nudge 700ms 200ms cubic-bezier(0.23, 1, 0.32, 1) 2;
+}
+
+.text {
+  display: contents;
+}
+
+.title {
+  margin: 0;
+  color: var(--text-headers);
+  font-size: var(--font-size-regular);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-title-regular);
+  text-wrap: balance;
+}
+
+.description {
+  margin: 0;
+  color: var(--text-commentary-description);
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-instruction-small);
+  text-wrap: pretty;
+}
+
+.description,
+.actions,
+.escape {
+  grid-column: 1 / -1;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--size-space-200);
+  margin-top: var(--size-space-100);
+}
+
+// The loading bar stretches to its container.
+[data-retrying="true"] .actions {
+  width: 100%;
+  max-width: 12rem;
+}
+
+// Smallest widgets: title and actions carry the message on their own.
+@container error-state (max-width: 21.99rem) {
+  .content {
+    padding: var(--size-space-300);
+  }
+
+  .description {
+    display: none;
+  }
+}
+
+// Cards, panels and phones: centred stack.
+@container error-state (min-width: 22rem) {
+  .content {
+    --error-state-illustration-size: 4rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--size-space-400);
+    padding: var(--size-space-600) var(--size-space-500);
+    text-align: center;
+  }
+
+  .text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--size-space-200);
+    max-width: 26rem;
+  }
+
+  .title {
+    font-size: var(--font-size-large);
+    line-height: var(--line-height-title-large);
+  }
+
+  .actions {
+    justify-content: center;
+    margin-top: var(--size-space-200);
+  }
+
+  [data-retrying="true"] .actions {
+    margin-top: var(--size-space-400);
+  }
+
+  .escape {
+    margin-top: var(--size-space-200);
+  }
+}
+
+// Roomier panels.
+@container error-state (min-width: 32rem) {
+  .content {
+    --error-state-illustration-size: 5rem;
+
+    gap: var(--size-space-500);
+    padding: var(--size-space-800) var(--size-space-600);
+  }
+
+  .description {
+    font-size: var(--font-size-regular);
+    line-height: var(--line-height-instruction-regular);
+  }
+}
+
+// Full content area: a larger, more present composition.
+@container error-state (min-width: 40rem) {
+  [data-scope="page"] > .content {
+    --error-state-illustration-size: 8rem;
+
+    justify-content: flex-start;
+    padding-top: var(--size-space-2400);
+  }
+
+  [data-scope="page"] .title {
+    font-size: var(--font-size-3x-large);
+    line-height: var(--line-height-title-3x-large);
+  }
+}
+
+// Staggered blur-in: the illustration resolves first, then the copy, then the actions.
+// Entrance sits on the <img> so it never pins the tilt (.toy) or tug (.toyMotion) transforms.
+.illustration,
+.title,
+.description,
+.actions,
+.escape {
+  animation: error-state-in var(--transition-speed-slow) ease-out both;
+}
+
+.illustration {
+  animation-name: error-state-illustration-in;
+}
+
+.title {
+  animation-delay: 60ms;
+}
+
+.description {
+  animation-delay: 110ms;
+}
+
+.actions {
+  animation-delay: 160ms;
+}
+
+.escape {
+  animation-delay: 210ms;
+}
+
+@keyframes error-state-in {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+}
+
+@keyframes error-state-illustration-in {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+}
+
+@keyframes error-state-hint {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  30% {
+    transform: rotate(-6deg);
+  }
+  60% {
+    transform: rotate(4deg);
+  }
+}
+
+@keyframes error-state-untangle {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes error-state-nudge {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.07);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .illustration,
+  .toyMotion,
+  .title,
+  .description,
+  .actions,
+  .escape,
+  .shakeHint,
+  .actions[data-nudge="true"] > :first-child,
+  [data-retrying="true"] .toyMotion {
+    animation: none;
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+
+  .toy {
+    transform: none;
+    transition: none;
+  }
+}

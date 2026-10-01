@@ -1,0 +1,83 @@
+.card {
+  width: 21.25rem;
+  overflow: hidden;
+  border: 1px solid var(--grayscale-150);
+  border-radius: var(--size-radius-400);
+  background: var(--grayscale-0);
+  box-shadow: 0 0.125rem 0.5rem 0 var(--opacity-box-shadow---5);
+}
+
+.expand {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--transition-speed-slow) ease-in-out;
+
+  &[data-open="true"] {
+    grid-template-rows: 1fr;
+  }
+}
+
+.expandInner {
+  overflow: hidden;
+}
+
+.panel {
+  overflow: hidden;
+  border-bottom-left-radius: var(--size-radius-400);
+  border-bottom-right-radius: var(--size-radius-400);
+  background: var(--grayscale-0);
+  box-shadow: 0 0.0625rem 0.1875rem 0 var(--opacity-box-shadow---5);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  padding: var(--size-space-150) var(--size-space-500) var(--size-space-200);
+  background: var(--grayscale-50);
+  user-select: none;
+}
+
+.encouragement {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.3em;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-commentary-description);
+}
+
+.word {
+  display: inline-block;
+  animation: wordIn var(--transition-speed-slow) ease-out both;
+  animation-delay: calc(var(--index) * 60ms);
+}
+
+@keyframes wordIn {
+  from {
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .expand {
+    transition: none;
+  }
+
+  .word {
+    animation: none;
+  }
+}

@@ -1,0 +1,137 @@
+// Portfolio edit: the :global {} block from Toaster.module.scss, moved to a plain
+// global stylesheet because Turbopack CSS modules reject the block form.
+
+  .Toastify__toast-container {
+    z-index: var(--z-index-toast) !important;
+  }
+
+  .Toastify__toast {
+    padding: var(--size-space-400) !important;
+    border-radius: var(--size-radius-200) !important;
+    box-shadow:
+      0px 29px 8px 0px var(--Opacity-Popover-Popover-shadow---0, rgba(0, 0, 0, 0)),
+      0px 19px 7px 0px var(--Opacity-Popover-Popover-shadow---1, rgba(0, 0, 0, 0.01)),
+      0px 10px 6px 0px var(--Opacity-Popover-Popover-shadow---3, rgba(0, 0, 0, 0.03)),
+      0px 5px 5px 0px var(--Opacity-Popover-Popover-shadow---5, rgba(0, 0, 0, 0.05)),
+      0px 1px 3px 0px var(--Opacity-Popover-Popover-shadow---6, rgba(0, 0, 0, 0.06));
+
+    font-family: "Lexend" !important;
+    .Toastify__toast-body {
+      padding: 0 !important;
+    }
+
+    &:hover {
+      [class*="closeButton"] {
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  .Toastify__toast--default {
+    background-color: var(--grayscale-0) !important;
+  }
+  .Toastify__toast--info {
+    background-color: var(--grayscale-0) !important;
+  }
+
+  .Toastify__toast--success {
+    background-color: var(--ui-colors-green-100) !important;
+  }
+
+  .Toastify__toast--warning {
+    background-color: var(--ui-colors-yellow-100) !important;
+  }
+
+  .Toastify__toast--error {
+    background-color: var(--ui-colors-red-100) !important;
+  }
+
+  // progress bar
+  .Toastify__progress-bar {
+    border-radius: var(--size-radius-full) !important;
+
+    background-color: var(--primary-blue-300) !important;
+  }
+  .Toastify__progress-bar--info {
+    background-color: var(--primary-blue-300) !important;
+  }
+  .Toastify__progress-bar--success {
+    background-color: var(--ui-colors-green-400) !important;
+  }
+  .Toastify__progress-bar--warning {
+    background-color: var(--ui-colors-yellow-400) !important;
+  }
+  .Toastify__progress-bar--error {
+    background-color: var(--text-danger) !important;
+  }
+
+  .Toastify__progress-bar--wrp {
+    bottom: 0.25rem !important;
+    left: var(--size-space-400) !important;
+    width: calc(100% - var(--size-space-400) * 2) !important;
+    height: 0.125rem !important;
+  }
+
+  .Toastify__progress-bar--bg {
+    border-radius: var(--size-radius-full) !important;
+  }
+
+  // Mobile animations - slide in from top
+  @media (max-width: 768px) {
+    .Toastify__toast-container--top-center {
+      top: 0 !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      padding: var(--size-space-200) !important;
+      width: calc(100% - var(--size-space-400)) !important;
+      max-width: 100% !important;
+    }
+
+    .Toastify__toast {
+      margin-bottom: var(--size-space-200) !important;
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+
+    // Override default animations with slide-down from top
+    @keyframes Toastify__slideInDown {
+      from {
+        transform: translate3d(0, -100%, 0);
+        opacity: 0;
+      }
+      to {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes Toastify__slideOutUp {
+      from {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+      }
+      to {
+        transform: translate3d(0, -100%, 0);
+        opacity: 0;
+      }
+    }
+
+    // Apply animations to toast enter/exit states
+    .Toastify__toast--enter {
+      animation: Toastify__slideInDown 0.3s ease-out !important;
+    }
+
+    .Toastify__toast--exit {
+      animation: Toastify__slideOutUp 0.2s ease-in !important;
+    }
+
+    // Also handle the default animation classes react-toastify uses
+    .Toastify__toast-container--top-center .Toastify__toast--enter {
+      animation: Toastify__slideInDown 0.3s ease-out !important;
+    }
+
+    .Toastify__toast-container--top-center .Toastify__toast--exit {
+      animation: Toastify__slideOutUp 0.2s ease-in !important;
+    }
+  }
+

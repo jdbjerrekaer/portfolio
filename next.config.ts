@@ -24,6 +24,13 @@ const nextConfig: NextConfig = {
     ],
   },
 
+  // Adtraction toolkit icons import SVGs as React components (named ReactComponent export).
+  turbopack: {
+    rules: {
+      "*.svg": { loaders: [{ loader: "@svgr/webpack", options: { exportType: "named" } }], as: "*.js" },
+    },
+  },
+
   // SCSS support is built-in with sass package installed
   sassOptions: {
     silenceDeprecations: ["legacy-js-api"],

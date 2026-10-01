@@ -1,0 +1,164 @@
+.value {
+  display: inline-block;
+  text-align: left;
+  filter: blur(0);
+  opacity: 1;
+  transition:
+    filter 0.35s ease,
+    opacity 0.35s ease;
+
+  &.loading {
+    width: 100px;
+    filter: blur(0.65px);
+    opacity: 0.55;
+  }
+
+  &.transitioning {
+    filter: blur(0.2px);
+    opacity: 0.85;
+  }
+}
+
+.valueContainer {
+  font-variant-numeric: tabular-nums;
+  position: relative;
+}
+
+.valueWrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  overflow: visible;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum", "lnum";
+}
+
+.valueBase {
+  transition: opacity 0.24s ease-in-out;
+
+  :global(.slot-text) {
+    font: inherit;
+    font-variant-numeric: inherit;
+    font-feature-settings: inherit;
+  }
+}
+
+.valueBaseHidden {
+  opacity: 0;
+}
+
+.valueShimmerLayer {
+  position: absolute;
+  inset: 0;
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.24s ease-in-out,
+    filter 0.24s ease-in-out;
+  filter: blur(0.4px);
+
+  .value {
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    background: linear-gradient(
+      130deg,
+      var(--grayscale-300, #f1f1f1) 0%,
+      rgba(255, 255, 255, 0.42) 45%,
+      var(--grayscale-300, #f1f1f1) 90%
+    );
+    background-size: 400% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: animated-number-shimmer 1.8s ease-in-out infinite;
+  }
+}
+
+.valueShimmerLayerActive {
+  opacity: 1;
+}
+
+.affixTransition {
+  transition:
+    opacity 0.24s ease-in-out,
+    filter 0.24s ease-in-out;
+}
+
+.affixTransitionHidden {
+  opacity: 0;
+  filter: blur(0.6px);
+}
+
+.valueWrapper {
+  &.valueWrapperShimmer {
+    .valueBase {
+      opacity: 0;
+    }
+
+    .valueShimmerLayer {
+      opacity: 1;
+    }
+  }
+}
+
+/* Container and currency/unit styles merged from AnimatedNumberWithCurrency.module.scss */
+.animatedNumberWithCurrency {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--size-space-100);
+  min-height: 40px;
+  overflow: hidden;
+
+  .valueWrapper,
+  .value {
+    font-size: var(--font-size-4X-large);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-label-default);
+    line-height: 40px;
+    letter-spacing: 0px;
+    text-align: left;
+    flex-shrink: 0;
+    min-width: 0;
+
+    div[data-hoverable="true"] {
+      cursor: help !important;
+    }
+  }
+
+  .loadingContainer {
+    cursor: wait;
+  }
+
+  .currencyContainer {
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    flex-shrink: 0;
+    min-width: 0;
+  }
+}
+
+.animatedNumberWithCurrency[data-variant="currency"] .value {
+  font-size: var(--font-size-4X-large);
+  font-weight: var(--font-weight-semibold);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .valueBase {
+    :global(.slot-text),
+    :global(.slot-text *) {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+
+  .valueShimmerLayer {
+    .value {
+      animation: none;
+    }
+  }
+}

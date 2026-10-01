@@ -1,0 +1,74 @@
+/* typography */
+:root {
+  /* Adtraction */
+  /* number */
+  --font-size-2x-small: 0.75rem;
+  --font-size-small: 0.875rem;
+  --font-size-regular: 1rem;
+  --font-size-large: 1.25rem;
+  --font-size-2x-large: 1.5rem;
+  --font-size-3x-large: 1.75rem;
+  --font-size-4x-large: 2rem;
+  --font-size-5x-large: 2.5rem;
+  --font-size-numbers-medium: 1.875rem;
+  --font-size-numbers-large: 3.75rem;
+
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-extrabold: 800;
+
+  --line-height-component: 1.12rem;
+  --line-height-paragraph: 1.7rem;
+  --line-height-component-2x-small: 0.84rem;
+  --line-height-component-small: 0.98rem;
+  --line-height-component-regular: 1.12rem;
+  --line-height-component-large: 1.4rem;
+  --line-height-component-2x-large: 1.68rem;
+  --line-height-component-3x-large: 1.96rem;
+  --line-height-component-4x-large: 2.24rem;
+  --line-height-component-5x-large: 2.8rem;
+
+  --line-height-instruction-2x-small: 0.975rem;
+  --line-height-instruction-small: 1.1375rem;
+  --line-height-instruction-regular: 1.3rem;
+  --line-height-instruction-large: 1.625rem;
+  --line-height-instruction-2x-large: 1.95rem;
+  --line-height-instruction-3x-large: 2.275rem;
+  --line-height-instruction-4x-large: 2.6rem;
+  --line-height-instruction-5x-large: 3.25rem;
+
+  --line-height-paragraph-2x-small: 1.275rem;
+  --line-height-paragraph-small: 1.4875rem;
+  --line-height-paragraph-regular: 1.7rem;
+  --line-height-paragraph-large: 2.125rem;
+  --line-height-paragraph-2x-large: 2.55rem;
+  --line-height-paragraph-3x-large: 2.975rem;
+  --line-height-paragraph-4x-large: 3.4rem;
+  --line-height-paragraph-5x-large: 4.25rem;
+
+  --line-height-title-2x-small: 0.825rem;
+  --line-height-title-small: 0.9625rem;
+  --line-height-title-regular: 1.1rem;
+  --line-height-title-large: 1.375rem;
+  --line-height-title-2x-large: 1.65rem;
+  --line-height-title-3x-large: 1.925rem;
+  --line-height-title-4x-large: 2.2rem;
+  --line-height-title-5x-large: 2.75rem;
+
+  /* string */
+  --font-family-default: Lexend;
+
+  /* Backwards compatibility aliases */
+  --font-size-2X-small: var(--font-size-2x-small);
+  --font-size-2X-large: var(--font-size-2x-large);
+  --font-size-3X-large: var(--font-size-3x-large);
+  --font-size-4X-large: var(--font-size-4x-large);
+  --font-size-5X-large: var(--font-size-5x-large);
+
+  /* Existing monospace family preserved */
+  --font-family-monospace:
+    "SF Mono", Consolas, "Roboto Mono", "Droid Sans Mono", "Liberation Mono", Menlo, Courier,
+    monospace;
+}

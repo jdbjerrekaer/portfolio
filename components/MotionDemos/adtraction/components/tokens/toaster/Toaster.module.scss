@@ -1,0 +1,69 @@
+
+
+.wrapper {
+  display: flex;
+  gap: var(--size-space-200);
+  align-items: flex-start;
+
+  .contentContainer {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1;
+    gap: var(--size-space-200);
+    align-items: flex-start;
+
+    .textContainer {
+      display: flex;
+      flex-direction: column;
+      gap: var(--size-space-100);
+    }
+  }
+}
+
+.info {
+  .titleText {
+    color: var(--text-label-default);
+  }
+  .descriptionText {
+    color: var(--text-body-default);
+  }
+}
+
+.success {
+  background-color: var(--ui-colors-green-100);
+  .titleText,
+  .descriptionText {
+    color: var(--ui-colors-green-800);
+  }
+}
+
+.warning {
+  background-color: var(--ui-colors-yellow-100);
+  .titleText,
+  .descriptionText {
+    color: var(--ui-colors-yellow-800);
+  }
+}
+
+.error {
+  background-color: var(--ui-colors-red-100);
+  .titleText,
+  .descriptionText {
+    color: var(--ui-colors-red-800);
+  }
+}
+
+.titleText {
+  font-weight: var(--font-weight-semibold);
+  display: block;
+}
+
+.descriptionText {
+  display: block;
+}
+
+.closeButton {
+  cursor: pointer;
+  height: fit-content;
+  transition: transform 0.2s ease-in-out;
+}

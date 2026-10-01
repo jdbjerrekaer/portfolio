@@ -1,0 +1,479 @@
+.swiper-container-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+
+  &.disabled,
+  &[data-disabled="true"] {
+    cursor: not-allowed;
+  }
+
+  // Wait cursor for processing states
+  &[data-unlocked="true"][data-unlocked-state="application-sent"],
+  &[data-unlocked="true"][data-unlocked-state="processing-application"],
+  &[data-unlocked="true"][data-unlocked-state="processing-application-manager"],
+  &[data-unlocked="true"][data-unlocked-state="processing-application-brand"] {
+    cursor: wait;
+
+    // Apply wait cursor to all text elements within processing states
+    .swiper-text,
+    .swiper-text-before,
+    .swiper-text-after,
+    .swiper-text-before-text,
+    .swiper-text-after-text {
+      cursor: wait !important;
+    }
+  }
+
+  &[data-interactable="true"]:not([data-disabled="true"]):not([data-unlocked="true"]) {
+    &:hover .swiper-thumb {
+      transform: scale(1.05) translateX(1rem);
+      transition: transform 0.2s ease;
+    }
+
+    &:active .swiper-thumb {
+      transform: scale(0.95);
+      transition: transform 0.1s ease;
+    }
+  }
+
+  // Interactive states that should have hover/active effects (only clickable states)
+  &[data-interactable="true"][data-unlocked="true"]:not([data-disabled="true"]) {
+    // Only allow hover/active effects for truly interactive states
+    // Exclude: application-sent (confirmation), rejected (error), all processing states (wait)
+    &:not([data-unlocked-state="application-sent"]):not([data-unlocked-state="rejected"]):not(
+        [data-unlocked-state="processing-application"]
+      ):not([data-unlocked-state="processing-application-manager"]):not(
+        [data-unlocked-state="processing-application-brand"]
+      ) {
+      &:hover .swiper-thumb {
+        transform: scale(1.05);
+        transition: transform 0.2s ease;
+      }
+
+      &:active .swiper-thumb {
+        transform: scale(0.95);
+        transition: transform 0.1s ease;
+      }
+    }
+  }
+
+  .swiper-container {
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 3rem;
+    padding: 0.25rem;
+    box-sizing: border-box;
+    border-radius: 2.625rem;
+    overflow: hidden;
+
+    &.disabled {
+      background-color: var(--grayscale-300) !important;
+      pointer-events: none;
+
+      .swiper-overlay {
+        z-index: 100;
+        opacity: 1 !important;
+        background-color: var(--grayscale-300) !important;
+      }
+
+      .swiper-text,
+      .swiper-text-before-text {
+        display: none;
+        color: var(--text-commentary-description);
+      }
+
+      .swiper-disabled-text {
+        color: var(--text-commentary-description);
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+        align-items: center;
+        z-index: 1000;
+      }
+    }
+
+    .swiper-overlay {
+      border-radius: inherit;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      transition: background-color 150ms ease-in;
+    }
+
+    .thumb-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      background-color: transparent;
+      border-radius: inherit;
+    }
+  }
+
+  .swiper-thumb-container {
+    display: flex;
+    position: relative;
+    width: 100%;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 3;
+    transform-origin: 50% 50%;
+    transition: transform 150ms ease-out;
+    overflow: visible;
+  }
+
+  .swiper-thumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 2.5rem;
+    height: 2.5rem;
+    min-width: 2.5rem;
+    min-height: 2.5rem;
+    border-radius: 50%;
+    background-position: center;
+    background-size: 1.5rem;
+    background-repeat: no-repeat;
+    overflow: visible;
+    transition: transform 150ms ease-in;
+    box-shadow:
+      0px 1px 3px 0px var(--opacity-popover-popover-shadow---6),
+      0px 5px 5px 0px var(--opacity-popover-popover-shadow---5),
+      0px 10px 6px 0px var(--opacity-popover-popover-shadow---3),
+      0px 19px 7px 0px var(--opacity-popover-popover-shadow---1),
+      0px 29px 8px 0px var(--opacity-popover-popover-shadow---0);
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: -0.75rem;
+      bottom: -0.75rem;
+      left: -1.5rem;
+      right: -0.75rem;
+      background: transparent;
+    }
+  }
+
+  .swiper-text,
+  .swiper-disabled-text {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    color: var(--text-body-default);
+    white-space: nowrap;
+    font-family: Lexend;
+    font-size: var(--font-size-small, 0.875rem);
+    font-weight: var(--font-weight-regular, 400);
+    overflow: hidden;
+    user-select: none;
+    opacity: 1;
+    transition:
+      color 150ms ease-in,
+      opacity 150ms ease-in;
+  }
+
+  .swiper-text-after {
+    display: flex;
+    justify-content: center;
+  }
+
+  .swiper-text-after-container {
+    display: flex;
+    overflow: hidden;
+    width: fit-content;
+  }
+
+  .swiper-text-after-text {
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .swiper-text-before {
+    position: absolute;
+    display: flex;
+    overflow: hidden;
+    right: 100%;
+    width: calc(100% - 50px);
+    text-overflow: ellipsis;
+  }
+
+  .swiper-text-before-container {
+    display: flex;
+    overflow: hidden;
+    width: fit-content;
+  }
+
+  .swiper-text-before-text {
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    background-color: transparent !important;
+  }
+
+  .thumb_icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    svg {
+      path {
+        stroke-width: 1.73px !important;
+      }
+    }
+  }
+
+  // Gamification effect when application is sent
+  &[data-unlocked-state="application-sent"]:not([data-transitioning="true"]) {
+    .swiper-container {
+      animation: celebrate-pulse 0.8s ease-out;
+    }
+
+    .swiper-thumb {
+      animation: celebrate-bounce 0.6s ease-out;
+
+      .thumb_icon {
+        animation: celebrate-icon-spin 0.8s linear;
+      }
+    }
+
+    .swiper-overlay {
+      animation: celebrate-glow 1.2s ease-out;
+    }
+
+    .swiper-text,
+    .swiper-text-before-text,
+    .swiper-text-after-text {
+      animation: celebrate-text-pop 0.5s ease-out 0.2s both;
+    }
+  }
+
+  // State transition animations
+  &[data-transitioning="true"] {
+    .swiper-overlay {
+      transition:
+        background-color 600ms ease-in-out,
+        opacity 600ms ease-in-out;
+    }
+
+    .swiper-text,
+    .swiper-text-before-text,
+    .swiper-text-after-text {
+      opacity: 0.6;
+      transition:
+        opacity 600ms ease-in-out,
+        color 600ms ease-in-out;
+    }
+
+    .swiper-thumb {
+      .thumb-overlay {
+        transition:
+          background-color 600ms ease-in-out,
+          opacity 600ms ease-in-out;
+      }
+    }
+
+    // Icon morphing effect
+    .thumb_icon {
+      transition:
+        transform 600ms ease-in-out,
+        opacity 600ms ease-in-out;
+
+      svg {
+        transition:
+          transform 600ms ease-in-out,
+          opacity 600ms ease-in-out;
+      }
+    }
+  }
+
+  // Copy icon animation wrapper
+  .thumb-overlay.icon_morphing {
+    animation: iconMorphIn 300ms ease-out;
+  }
+
+  .thumb-overlay.icon_morphing_out {
+    animation: iconMorphOut 300ms ease-out;
+  }
+
+  // Copied text styling
+  .swiper-text-copied {
+    font-size: var(--font-size-2x-small, 0.75rem);
+    transition:
+      color 150ms ease-in,
+      font-size 300ms ease-out,
+      filter 300ms ease-out;
+  }
+
+  .swiper-text-before-text[data-copy-animating="true"].swiper-text-copied,
+  .swiper-text-after-text[data-copy-animating="true"].swiper-text-copied {
+    animation: textMorphIn 300ms ease-out;
+  }
+
+  .swiper-text-before-text[data-copy-animating="true"]:not(.swiper-text-copied),
+  .swiper-text-after-text[data-copy-animating="true"]:not(.swiper-text-copied) {
+    animation: textMorphOut 300ms ease-out;
+  }
+}
+
+// Gamification keyframe animations
+@keyframes celebrate-pulse {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.02);
+  }
+  60% {
+    transform: scale(1.01);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes celebrate-bounce {
+  0% {
+    transform: scale(1) translateY(0);
+  }
+  25% {
+    transform: scale(1.1) translateY(-2px);
+  }
+  50% {
+    transform: scale(1.05) translateY(-1px);
+  }
+  75% {
+    transform: scale(1.02) translateY(-0.5px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes celebrate-icon-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes celebrate-glow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+  }
+  25% {
+    box-shadow: 0 0 0 8px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(59, 130, 246, 0.2);
+  }
+  75% {
+    box-shadow: 0 0 0 8px rgba(59, 130, 246, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
+@keyframes celebrate-text-pop {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes iconMorphIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+    filter: blur(4px);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+@keyframes iconMorphOut {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+    filter: blur(0px);
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+    filter: blur(4px);
+  }
+}
+
+@keyframes textMorphIn {
+  0% {
+    filter: blur(4px);
+    opacity: 0.5;
+  }
+  100% {
+    filter: blur(0px);
+    opacity: 1;
+  }
+}
+
+@keyframes textMorphOut {
+  0% {
+    filter: blur(0px);
+    opacity: 1;
+  }
+  100% {
+    filter: blur(4px);
+    opacity: 0.5;
+  }
+}
+
+// ============================================================================
+// TOOLTIP STYLES
+// ============================================================================
+
+.swiper-tooltip {
+  display: flex;
+  padding: var(--size-space-300);
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: var(--size-radius-200);
+  border: 1px solid var(--grayscale-25);
+  background: var(--grayscale-0);
+  color: var(--text-body-default);
+  font-size: var(--size-font-100);
+  line-height: 1.4;
+  min-width: 300px;
+  max-width: 100vw;
+  box-sizing: border-box;
+  box-shadow:
+    0px 29px 8px 0px var(--opacity-popover-popover-shadow---0, rgba(0, 0, 0, 0)),
+    0px 19px 7px 0px var(--opacity-popover-popover-shadow---1, rgba(0, 0, 0, 0.01)),
+    0px 10px 6px 0px var(--opacity-popover-popover-shadow---3, rgba(0, 0, 0, 0.03)),
+    0px 5px 5px 0px var(--opacity-popover-popover-shadow---5, rgba(0, 0, 0, 0.05)),
+    0px 1px 3px 0px var(--opacity-popover-popover-shadow---6, rgba(0, 0, 0, 0.06));
+}
