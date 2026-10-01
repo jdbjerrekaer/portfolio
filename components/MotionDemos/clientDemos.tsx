@@ -50,3 +50,15 @@ export const ScrollShadowDemo = dynamic(() => import("./ScrollShadow/ScrollShado
   ssr: false,
   loading: placeholder(420),
 });
+export const CopyMorphDemo = dynamic(() => import("./CopyMorph/CopyMorphDemo").then((m) => m.CopyMorphDemo), {
+  ssr: false,
+  loading: placeholder(260),
+});
+export const StaggerDemo = dynamic(() => import("./StaggerEntrances/StaggerDemo").then((m) => m.StaggerDemo), {
+  ssr: false,
+  loading: placeholder(420),
+});
+export const TableDemo = dynamic(() => import("./TableDemo/TableDemo").then((m) => m.TableDemo), {
+  ssr: false,
+  loading: placeholder(600),
+});

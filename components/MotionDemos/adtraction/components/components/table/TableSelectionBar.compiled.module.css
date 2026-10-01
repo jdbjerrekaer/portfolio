@@ -1,0 +1,209 @@
+/* portfolio edit: generated from TableSelectionBar.module.scss by a sass compile. Turbopack's CSS-module
+   parser rejects the :global { } block form, so the purely global rules live in the .global.css sibling. Rules and values are unchanged. */
+.selection_bar_shell {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: var(--size-space-400);
+  z-index: 1200;
+  padding: 0 var(--size-space-600);
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  animation: selectionBarSlideUp 0.18s ease-out;
+}
+
+.selection_bar {
+  width: fit-content;
+  max-width: calc(100% - var(--size-space-1200));
+  padding: var(--size-space-600);
+  border: 1px solid var(--grayscale-100);
+  border-radius: var(--size-radius-400);
+  background: var(--grayscale-0);
+  box-shadow: 0px 1px 3px 0px var(--opacity-popover-popover-shadow---6), 0px 5px 5px 0px var(--opacity-popover-popover-shadow---5), 0px 10px 6px 0px var(--opacity-popover-popover-shadow---3), 0px 19px 7px 0px var(--opacity-popover-popover-shadow---1), 0px 29px 8px 0px var(--opacity-popover-popover-shadow---0);
+  pointer-events: auto;
+  overflow: hidden;
+  transition: padding 0.22s ease, gap 0.22s ease;
+}
+
+.selection_bar_content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: var(--size-space-1600);
+  row-gap: var(--size-space-300);
+  flex-wrap: wrap;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.selection_metrics {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--size-space-600);
+  flex: 0 1 auto;
+  min-width: 0;
+  cursor: default;
+}
+
+.selection_metric {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-space-200);
+  min-width: 0;
+  max-width: 100%;
+  flex: 0 1 auto;
+  white-space: nowrap;
+}
+
+.selection_metric_value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--text-body-default);
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-component-small);
+  white-space: nowrap;
+}
+
+.selection_metric_label {
+  color: var(--text-commentary-description);
+  font-family: var(--font-family-default);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-component-small);
+  user-select: none;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.selection_actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--size-space-300);
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  margin-left: auto;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.selection_export_button {
+  flex-shrink: 0;
+}
+
+.export_button_container {
+  position: relative;
+}
+
+.export_popover {
+  width: 220px;
+  box-sizing: border-box;
+}
+.export_popover :global(.export-popover-list-item-wrapper) {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--size-space-200);
+  align-self: stretch;
+}
+.export_popover :global(.export-popover-list-item-wrapper) > div {
+  width: 100%;
+}
+
+.selection_icon_button {
+  flex-shrink: 0;
+}
+
+@keyframes selectionBarSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 1024px) {
+  .selection_bar_shell {
+    bottom: calc(var(--size-space-400) + env(safe-area-inset-bottom));
+    padding: 0 var(--size-space-400);
+  }
+  .selection_bar {
+    width: fit-content;
+    max-width: calc(100vw - var(--size-space-800));
+    padding: var(--size-space-400);
+    border: 1px solid var(--grayscale-100);
+    border-radius: var(--size-radius-400);
+    background: var(--grayscale-0);
+    box-shadow: 0px 1px 3px 0px var(--opacity-popover-popover-shadow---6), 0px 5px 5px 0px var(--opacity-popover-popover-shadow---5), 0px 10px 6px 0px var(--opacity-popover-popover-shadow---3), 0px 19px 7px 0px var(--opacity-popover-popover-shadow---1), 0px 29px 8px 0px var(--opacity-popover-popover-shadow---0);
+    align-items: flex-start;
+    overflow: hidden;
+    will-change: auto;
+  }
+  .selection_bar_content {
+    width: 100%;
+    min-width: 0;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: var(--size-space-500);
+    row-gap: var(--size-space-200);
+    flex-wrap: nowrap;
+    padding: var(--size-space-200) var(--size-space-200);
+  }
+  .selection_metrics {
+    flex: 1 1 auto;
+    min-width: 0;
+    gap: var(--size-space-300);
+  }
+  .selection_actions {
+    width: auto;
+    justify-content: flex-end;
+    margin-left: auto;
+    flex: 0 0 auto;
+    flex-wrap: nowrap;
+    min-width: max-content;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .selection_bar_shell {
+    animation: none;
+  }
+}
+@media (max-width: 640px) {
+  .selection_bar_shell {
+    padding: var(--size-space-250) var(--size-space-300) calc(var(--size-space-250) + env(safe-area-inset-bottom));
+  }
+  .selection_bar {
+    padding: 0 var(--size-space-300);
+  }
+  .selection_bar_content {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: var(--size-space-200);
+    flex-wrap: wrap;
+    padding: var(--size-space-150) 0;
+  }
+  .selection_metrics {
+    flex-wrap: wrap;
+    min-width: 0;
+    gap: var(--size-space-200);
+  }
+  .selection_actions {
+    gap: var(--size-space-100);
+    flex-wrap: wrap;
+  }
+}

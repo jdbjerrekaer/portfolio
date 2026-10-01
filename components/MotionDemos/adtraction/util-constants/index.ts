@@ -97,3 +97,7 @@ export type Privilege =
   | (typeof ADMIN_PRIVILEGES)[keyof typeof ADMIN_PRIVILEGES]
   | (typeof PARTNER_PRIVILEGES)[keyof typeof PARTNER_PRIVILEGES]
   | (typeof SUBPARTNER_PRIVILEGES)[keyof typeof SUBPARTNER_PRIVILEGES];
+
+// portfolio edit: the toolkit barrel re-exports every lib/* module; these are the ones the table needs.
+export * from "./roles";
+export * from "./brand";

@@ -32,6 +32,8 @@
       "@adtraction/ui-components": [
         "./components/MotionDemos/adtraction/ui-components.js"
       ],
+      "@adtraction/ui-flags": ["./components/MotionDemos/adtraction/flags/index.ts"],
+      "react-i18next": ["./components/MotionDemos/adtraction/shims/react-i18next.js"],
       "@adtraction/shared-i18n": [
         "./components/MotionDemos/adtraction/shims/i18n.js"
       ],

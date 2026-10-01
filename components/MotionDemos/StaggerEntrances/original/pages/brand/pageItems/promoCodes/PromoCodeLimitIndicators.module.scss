@@ -1,0 +1,52 @@
+.strip {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--size-space-200);
+}
+
+// Entrance: soft settle beside Create (not a hard pop). Stagger keeps the pair readable.
+.item {
+  display: inline-flex;
+  opacity: 0;
+  transform: translateY(4px) scale(0.96);
+  animation: limitEnter 200ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+
+  &:nth-child(2) {
+    animation-delay: 45ms;
+  }
+}
+
+@keyframes limitEnter {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item {
+    transform: none;
+    animation: limitEnterFade 120ms ease forwards;
+
+    &:nth-child(2) {
+      animation-delay: 0ms;
+    }
+  }
+
+  @keyframes limitEnterFade {
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+.warning_badge {
+  background-color: var(--status-background-warning-alt) !important;
+  // Match fill — warning outline reads as a hard edge next to borderless Tags.
+  border-color: var(--status-background-warning-alt) !important;
+
+  p {
+    color: var(--status-text-warning-alt) !important;
+  }
+}

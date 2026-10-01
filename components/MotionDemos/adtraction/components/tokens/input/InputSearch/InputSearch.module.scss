@@ -1,0 +1,79 @@
+.search_icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+
+.shimmer_overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  border-radius: var(--size-radius-150);
+  background-color: rgba(241, 241, 241, 0.4);
+  mask-image: linear-gradient(130deg, #f1f1f1 55%, rgba(255, 255, 255, 0.2) 75%, #f1f1f1 95%);
+  mask-size: 500% 100%;
+  animation: shimmer_wave 4.5s linear infinite;
+}
+
+@keyframes shimmer_wave {
+  100% {
+    mask-position: -500% 0%;
+  }
+}
+
+.loading {
+  cursor: progress;
+}
+
+.clear_button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  border-radius: var(--size-radius-100);
+  cursor: pointer;
+  color: var(--text-label-default);
+  transition:
+    background-color var(--transition-duration-fast) ease-in-out,
+    color var(--transition-duration-fast) ease-in-out,
+    transform var(--transition-speed-default) ease-in-out;
+
+  &:hover {
+    background: var(--primary-blue-100);
+    color: var(--primary-blue-500---primary);
+  }
+
+  &:active {
+    transform: scale(0.94);
+  }
+
+  &.small {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  &.animate_in {
+    animation: clear_button_appear var(--transition-speed-default) ease-out forwards;
+  }
+}
+
+@keyframes clear_button_appear {
+  0% {
+    filter: blur(4px);
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    filter: blur(0);
+    opacity: 1;
+    transform: scale(1);
+  }
+}

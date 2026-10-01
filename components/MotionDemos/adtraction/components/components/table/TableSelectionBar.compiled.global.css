@@ -1,0 +1,14 @@
+/* portfolio edit: generated from TableSelectionBar.module.scss by a sass compile. Turbopack's CSS-module
+   parser rejects the :global { } block form, so these are the original's :global rules, loaded as plain global CSS. Rules and values are unchanged. */
+
+
+@keyframes selectionBarSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

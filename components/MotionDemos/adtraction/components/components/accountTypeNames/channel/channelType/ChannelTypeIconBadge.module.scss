@@ -1,0 +1,75 @@
+@use "../../../../../styles/variables/colorvariables";
+@use "../../../../../styles/variables/sizevariables";
+
+@mixin dark-channel-type-icon-badge {
+  &--savingsAndRewards {
+    background-color: var(--supplemental-colors-brown-500);
+  }
+
+  &--other {
+    background-color: var(--accent-colors-lilac-1000);
+  }
+}
+
+.channel-type-icon-badge {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--size-radius-150);
+  cursor: help;
+
+  &--content {
+    background-color: var(--primary-blue-300);
+  }
+
+  &--paid {
+    background-color: var(--peach-color-500);
+  }
+
+  &--direct {
+    background-color: var(--primary-blue-200);
+  }
+
+  &--creators {
+    background-color: var(--maroon-colors-500);
+  }
+
+  &--savingsAndRewards {
+    background-color: var(--grayscale-800);
+  }
+
+  &--other {
+    background-color: var(--grayscale-550);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme="light"])) & {
+      @include dark-channel-type-icon-badge;
+    }
+  }
+
+  :global(:root[data-theme="dark"]) & {
+    @include dark-channel-type-icon-badge;
+  }
+
+  // Large size - 40x40px container
+  &.large {
+    width: 2.5rem; // 40px
+    height: 2.5rem; // 40px
+    border-radius: var(--size-radius-150); // 6px
+  }
+
+  // Medium size - 32x32px container
+  &.medium {
+    width: 2rem; // 32px
+    height: 2rem; // 32px
+    border-radius: var(--size-radius-150); // 6px
+  }
+
+  // Small size - 24x24px container
+  &.small {
+    width: 1.5rem; // 24px
+    height: 1.5rem; // 24px
+    border-radius: var(--size-radius-100); // 4px
+  }
+}

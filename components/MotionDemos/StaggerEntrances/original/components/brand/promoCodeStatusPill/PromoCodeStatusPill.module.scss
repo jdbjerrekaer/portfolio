@@ -1,0 +1,27 @@
+.pill {
+  border: none !important;
+
+  p {
+    color: var(--pill-text) !important;
+  }
+}
+
+.active {
+  background-color: var(--status-background-success-alt) !important;
+  --pill-text: var(--ui-colors-green-800);
+}
+
+.inactive {
+  background-color: var(--grayscale-100) !important;
+  --pill-text: var(--text-commentary-description);
+}
+
+.expired {
+  background-color: var(--status-background-danger-alt) !important;
+  --pill-text: var(--ui-colors-red-800);
+}
+
+.scheduled {
+  background-color: var(--status-background-warning-alt) !important;
+  --pill-text: var(--ui-colors-yellow-800);
+}

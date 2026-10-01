@@ -1,0 +1,147 @@
+.modal_inner_container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--size-space-400);
+  width: 100%;
+
+  .modal_header_text {
+    color: var(--text-body-default);
+    font-family: var(--font-family-default);
+    font-size: var(--font-size-regular);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .controls_container {
+    display: flex;
+    align-items: flex-start;
+    align-content: flex-start;
+    gap: var(--size-space-100) var(--size-space-400);
+    align-self: stretch;
+    flex-wrap: wrap;
+  }
+
+  .channel_select_tippy_wrap,
+  .create_button_tippy_wrap {
+    display: inline-flex;
+  }
+
+  // Limit InfoBox: soft settle in/out (ease-out, <300ms). Never scale from 0.
+  .limit_notice {
+    align-self: stretch;
+    width: 100%;
+    transform-origin: top center;
+    animation: limitNoticeEnter 200ms cubic-bezier(0.23, 1, 0.32, 1) both;
+  }
+
+  .limit_notice_exit {
+    animation: limitNoticeExit 160ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    pointer-events: none;
+  }
+
+  @keyframes limitNoticeEnter {
+    from {
+      opacity: 0;
+      transform: translateY(-4px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes limitNoticeExit {
+    from {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-4px) scale(0.98);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .limit_notice {
+      animation: limitNoticeEnterFade 120ms ease both;
+    }
+
+    .limit_notice_exit {
+      animation: limitNoticeExitFade 100ms ease forwards;
+    }
+
+    @keyframes limitNoticeEnterFade {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes limitNoticeExitFade {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+  }
+
+  .modal_date_container {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--size-space-400);
+    align-self: stretch;
+  }
+
+  .date_picker_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-space-100);
+    flex: 1;
+
+    > div {
+      width: 100%;
+
+      > div {
+        max-width: 100%;
+        width: 100%;
+      }
+    }
+  }
+
+  .date_picker_label {
+    color: var(--text-label-default);
+    font-family: var(--font-family-default);
+    font-size: var(--font-size-regular);
+    font-weight: var(--font-weight-medium);
+    user-select: none;
+  }
+
+  .buttons_container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: var(--size-space-200);
+    align-self: stretch;
+  }
+
+  .modal_promo_code_container {
+    display: flex;
+    width: 100%;
+    max-width: 16.5rem;
+  }
+
+  .disclaimer_button_container {
+    display: flex;
+    align-items: baseline;
+    gap: var(--size-space-100);
+  }
+
+  .hidden_date_picker {
+    opacity: 0;
+    pointer-events: none;
+  }
+}

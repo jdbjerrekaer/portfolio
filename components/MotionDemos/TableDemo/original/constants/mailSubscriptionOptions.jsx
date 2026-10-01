@@ -1,0 +1,8 @@
+export const MAIL_REPORT_TYPE_TRANSACTION = 1;
+export const MAIL_REPORT_TYPE_COMMISSION = 2;
+export const MAIL_REPORT_TYPE_CHANNEL = 3;
+export const MAIL_REPORT_TYPE_PROGRAM = 4;
+export const MAIL_REPORT_TYPE_TREND = 5;
+export const MAIL_REPORT_TYPE_COMPARISON = 6;
+export const MAIL_REPORT_TYPE_ADVERT = 7;
+export const MAIL_REPORT_TYPE_EPI = 8;

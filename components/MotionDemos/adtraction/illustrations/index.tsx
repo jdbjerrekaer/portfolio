@@ -58,5 +58,6 @@ function lazy(importFn: ImportFunction) {
 // Lazy loaded components with built-in Suspense
 export const Illustrations = {
   Plugin: lazy(() => Promise.resolve(resolveAssetSrc("/projects/adtraction-motion/illustrations/plugin.svg"))),
-  Trassel2: lazy(() => Promise.resolve(resolveAssetSrc("/projects/adtraction-motion/illustrations/trassel-2.svg")))
+  Trassel2: lazy(() => Promise.resolve(resolveAssetSrc("/projects/adtraction-motion/illustrations/trassel-2.svg"))),
+  SearchNotFound: lazy(() => Promise.resolve(resolveAssetSrc("/projects/adtraction-motion/illustrations/SearchNotFound2.gif")))
 } as const;

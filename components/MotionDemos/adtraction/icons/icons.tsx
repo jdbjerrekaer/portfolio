@@ -1,4 +1,4 @@
-// @ts-nocheck -- portfolio edit: trimmed to the icons the demos use; portfolio edit: vendored toolkit file; Next types *.svg as image URLs, the toolkit uses SVGR ReactComponent.
+// @ts-nocheck -- portfolio edit: trimmed to the icons the demos use; portfolio edit: trimmed to the icons the demos use; portfolio edit: vendored toolkit file; Next types *.svg as image URLs, the toolkit uses SVGR ReactComponent.
 import { lazy as _lazy } from "react";
 import type { ComponentType, SVGProps } from "react";
 import { Icon } from "./Icon";
@@ -20,9 +20,26 @@ function lazy(importFn: ImportFunction) {
 
 // All icons grouped by category
 export const Icons = {
+  Security: {
+    Lock03: lazy(() => import("./media/security/lock-03.svg"))
+  },
+  Channel: {
+    Content: lazy(() => import("./media/channel_types/content.svg")),
+    Paid: lazy(() => import("./media/channel_types/paid.svg")),
+    Direct: lazy(() => import("./media/channel_types/direct.svg")),
+    Creators: lazy(() => import("./media/channel_types/creators.svg")),
+    SavingsAndRewards: lazy(() => import("./media/channel_types/savings-and-rewards.svg")),
+    Other: lazy(() => import("./media/channel_types/other.svg"))
+  },
 
   Custom: {
     Brand: lazy(() => import("./media/custom/brand.svg")),
+    AdtractionOutline: lazy(() => import("./media/custom/adtraction-outline.svg")),
+    BrandClose: lazy(() => import("./media/custom/brand-close.svg")),
+    BrandSearch: lazy(() => import("./media/custom/brand-search.svg")),
+    Flower: lazy(() => import("./media/custom/flower.svg")),
+    Seedling: lazy(() => import("./media/custom/seedling.svg")),
+    Tree: lazy(() => import("./media/custom/tree.svg")),
   },
 
 
@@ -44,6 +61,11 @@ export const Icons = {
 
 
 
+    NarrowUpRight: lazy(() => import("./media/arrows/arrow-narrow-up-right.svg")),
+    ChevronDown: lazy(() => import("./media/arrows/chevron-down.svg")),
+    Expand01: lazy(() => import("./media/arrows/expand-01.svg")),
+    ArrowsDown: lazy(() => import("./media/arrows/arrows-down.svg")),
+    ArrowsUp: lazy(() => import("./media/arrows/arrows-up.svg")),
   },
 
   Alert: {
@@ -55,6 +77,7 @@ export const Icons = {
 
 
 
+    OctagonFilled: lazy(() => import("./media/alerts/alert-octagon-filled.svg")),
   },
 
 
@@ -96,6 +119,7 @@ export const Icons = {
 
 
 
+    Rows01: lazy(() => import("./media/layout/rows-01.svg")),
   },
 
   Map: {
@@ -170,6 +194,12 @@ export const Icons = {
 
     XClose: lazy(() => import("./media/general/x-close.svg")),
 
+    EyeOff: lazy(() => import("./media/general/eye-off.svg")),
+    Menu01: lazy(() => import("./media/general/menu-01.svg")),
+    Pin01: lazy(() => import("./media/general/pin-01.svg")),
+    Pin02: lazy(() => import("./media/general/pin-02.svg")),
+    SearchMd: lazy(() => import("./media/general/search-md.svg")),
+    X: lazy(() => import("./media/general/x.svg")),
   },
 
 
@@ -180,6 +210,7 @@ export const Icons = {
 
 
 
+    FileDownload03: lazy(() => import("./media/files/file-download-03.svg")),
   },
 
   Finance: {
@@ -192,6 +223,7 @@ export const Icons = {
 
 
 
+    Scales01: lazy(() => import("./media/finance/scales-01.svg")),
   },
 
 
@@ -208,7 +240,31 @@ export const Icons = {
 
 
 
+    Mail01: lazy(() => import("./media/communication/mail-01.svg")),
+    ConversionApproved: lazy(() => import("./media/communication/conversion-confirm.svg")),
+    ConversionPending: lazy(() => import("./media/communication/conversion-missing.svg")),
+    ConversionRejected: lazy(() => import("./media/communication/conversion-reject.svg")),
   },
-
-
+  Brand: {
+    Automotive: lazy(() => import("./media/brand_categories/automotive.svg")),
+    Electronics: lazy(() => import("./media/brand_categories/electronics.svg")),
+    Family: lazy(() => import("./media/brand_categories/family.svg")),
+    Fashion: lazy(() => import("./media/brand_categories/fashion.svg")),
+    Finance: lazy(() => import("./media/brand_categories/finance.svg")),
+    Food: lazy(() => import("./media/brand_categories/food.svg")),
+    HealthAndBeauty: lazy(() => import("./media/brand_categories/health-and-beauty.svg")),
+    HobbiesAndGifts: lazy(() => import("./media/brand_categories/hobbies-and-gifts.svg")),
+    HomeAndGarden: lazy(() => import("./media/brand_categories/home-and-garden.svg")),
+    Insurance: lazy(() => import("./media/brand_categories/insurance.svg")),
+    Marketing: lazy(() => import("./media/brand_categories/marketing.svg")),
+    Media: lazy(() => import("./media/brand_categories/media.svg")),
+    OnlineServices: lazy(() => import("./media/brand_categories/online-services.svg")),
+    SportsAndOutdoor: lazy(() => import("./media/brand_categories/sports-and-outdoor.svg")),
+    Travel: lazy(() => import("./media/brand_categories/travel.svg")),
+    Utilities: lazy(() => import("./media/brand_categories/utilities.svg")),
+    Other: lazy(() => import("./media/brand_categories/other.svg")),
+  },
+  Media: {
+    PauseCircle: lazy(() => import("./media/media/pause-circle.svg")),
+  }
 } as const;
