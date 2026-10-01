@@ -25,6 +25,7 @@ export function TableDemo() {
 
   return (
     <DemoStage
+      wide
       caption="The partner Insights overview table. Toggle Show comparison, open the column chooser (edit table), remove a filter chip, sort, hover and right-click cells."
       controls={
         <>

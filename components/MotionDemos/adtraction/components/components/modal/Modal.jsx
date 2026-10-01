@@ -272,7 +272,8 @@ export const Modal = ({
   }, [isOpen, variant]);
 
   useEffect(() => {
-    if (isOpen && modalRef.current) {
+    // portfolio edit: keep focus a child already took (the search input), otherwise focus the dialog
+    if (isOpen && modalRef.current && !modalRef.current.contains(document.activeElement)) {
       modalRef.current.focus();
     }
   }, [isOpen]);

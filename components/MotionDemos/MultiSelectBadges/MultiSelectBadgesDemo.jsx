@@ -44,8 +44,8 @@ export function MultiSelectBadgesDemo() {
           display: "flex",
           flexWrap: "wrap",
           gap: "var(--size-space-400)",
-          alignItems: "center",
-          minHeight: "4rem",
+          alignItems: "flex-start",
+          minHeight: "21rem", // fits the open option list
         }}>
         <DropdownSelect multiSelect search text="Categories" options={CATEGORY_OPTIONS} />
         <DropdownSelect multiSelect text="Markets" options={MARKET_OPTIONS} />

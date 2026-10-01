@@ -3,6 +3,7 @@ title: "Motion at Adtraction"
 summary: "Micro-interactions and motion design I built into Adtraction's platform, rebuilt here as live demos."
 date: "2026-10-01"
 role: "Design Engineer"
+outcome: "16 live demos running the original production components, not recordings."
 tags:
   - Motion Design
   - Micro-interactions
@@ -13,11 +14,25 @@ comingSoon: false
 hidden: false
 ---
 
+## Recruiter takeaway
+
+Sixteen interactions I designed and built into Adtraction's partner and brand platform. Every demo below runs the original React components and styles from the product, not a recording or a rebuild; only the data is fake. Together they show how I work as a design engineer: motion that explains a change of state, timing tuned per interaction, and the same care in the code as in the Figma file.
+
+## What you are looking at
+
+Adtraction is a Nordic affiliate network. Partners use the platform to find brands, apply to them and follow their earnings; brands use it to manage prices and partners. Over four years I designed and built much of its interface layer, including the shared UI toolkit these demos draw from.
+
+The components were copied from the codebase with Adtraction's permission. Imports were rewired and the backend replaced with small fake agents; any other change is marked in the code as a portfolio edit. Hover, click, drag and use the keyboard: the states are all there.
+
 ## Key metrics
+
+The headline numbers on the dashboard. Each card tells you where it leads before you click, offers shortcuts on right-click, and updates its comparison badge when the period changes.
 
 <KeyMetricDemo />
 
 ## Data table
+
+The table behind Insights, and the piece I am proudest of. I built it from the ground up: filter chips, a comparison mode that adds the previous period and a delta to every metric, a column chooser with pinning and drag-to-reorder whose rows enter in a stagger, and warning panels that slide in when a filter makes some metrics meaningless. Here it runs on the free edition of AG Grid, so a few enterprise-only features are off.
 
 <TableDemo />
 
@@ -35,13 +50,19 @@ In the collapsed sidebar the logo doubles as the expand button. Hover it and the
 
 ## Error state
 
+When a section fails it gets an illustrated error state with a clear way out instead of a blank box. A little play keeps a broken moment from feeling hostile, and the load error deliberately points at Reload rather than letting you poke it forever.
+
 <ErrorStateDemo />
 
 ## Slide to apply
 
+Applying to a brand is a commitment, so it takes a deliberate slide rather than a click that can happen by accident. The same control then shows the application as sent, pending and finally approved.
+
 <LargeSwiperDemo />
 
 ## Copy feedback
+
+Copy buttons confirm with a short morph to "Copied". The shipped version snapped between its two states; the refined one crossfades them and eases the width, which is the version I would ship today.
 
 <CopyMorphDemo />
 
@@ -65,13 +86,19 @@ Picking options shows a count badge that slides open to its exact measured width
 
 ## Get started checklist
 
+New partners get a short checklist of first steps. Finishing a step ticks it off and fills the progress ring, so the onboarding has a visible end.
+
 <GetStartedChecklistDemo />
 
 ## List reorder
 
+On the price page, segments re-sort as you edit them. Cards slide from their old position to the new one instead of jumping, so you never lose the one you just changed.
+
 <FlipListDemo />
 
 ## Staggered entrances
+
+Lists enter as a quick cascade rather than all at once. The cap matters as much as the delay: past a handful of items every card shares the last delay, so a long list never feels slow.
 
 <StaggerDemo />
 
@@ -83,8 +110,12 @@ The platform-wide search opens with ⌘K and stays quiet on fast searches: no lo
 
 ## Load reveal
 
+Brand pages load into a skeleton of the same layout. When the data arrives the skeleton blurs out, the content blurs in and the container eases to its real height, so nothing below it jumps.
+
 <LoadRevealDemo />
 
 ## Scroll shadow
+
+Scrollable lists show a shadow on the edge where more is hidden. If you have not scrolled for a while, a small hint nudges toward the rows you have not seen.
 
 <ScrollShadowDemo />

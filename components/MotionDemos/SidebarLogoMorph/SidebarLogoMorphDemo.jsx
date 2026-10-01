@@ -16,7 +16,10 @@ import { Icons } from "@adtraction/ui-icons";
 import { DemoButton, DemoStage } from "../DemoStage";
 import BrandSidemenu from "./original/components/brand/sidemenu/BrandSidemenu";
 import { PARTNER_SIDEMENU_COLLAPSED_STORAGE_KEY } from "./original/utils/partnerSidemenuPreference";
+import { filterSearchableBrandPages } from "../GlobalSearch/original/search/searchableBrandPages";
 import styles from "./SidebarLogoMorphDemo.module.scss";
+
+const SEARCHABLE_PAGES = filterSearchableBrandPages({ canAccessDiscover: true, hasPriceAccess: true, canEditPrice: true });
 
 // Verbatim from adtraction-web-main BrandLayout.jsx (brand user with Discover access).
 const brandMenuItems = [
@@ -81,7 +84,7 @@ export function SidebarLogoMorphDemo() {
                 programName="Nordic Outdoor"
                 status={{ description: "All systems operational", indicator: "none" }}
                 userID={100200}
-                searchablePages={[]}
+                searchablePages={SEARCHABLE_PAGES}
                 entitySearchEnabled={false}
               />
             </div>

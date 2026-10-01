@@ -6,13 +6,15 @@ export function DemoStage({
   children,
   controls,
   caption,
+  wide = false,
 }: {
   children: ReactNode;
   controls?: ReactNode;
   caption?: string;
+  wide?: boolean;
 }) {
   return (
-    <figure className={styles.figure}>
+    <figure className={wide ? `${styles.figure} ${styles.wide}` : styles.figure}>
       <div className={styles.stage}>{children}</div>
       {controls && <div className={styles.controls}>{controls}</div>}
       {caption && <figcaption className={styles.caption}>{caption}</figcaption>}
