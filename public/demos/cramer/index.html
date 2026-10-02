@@ -1449,6 +1449,7 @@ html {
   display: flex;
   justify-content: center;
 }
+#inputBar.passthrough * { pointer-events: none; }
 .msg.assistant p {
   margin: 0 0 10px;
 }
@@ -2328,11 +2329,6 @@ html {
   }
 }
 </style>
-<style>
-/* portfolio edit: #mainArea is a size container, so the toolkit table selection bar (position: fixed)
-   lands at the bottom of the main area, behind #inputBar. Lift it above the composer. */
-#mainArea [class*="selection_bar_shell"] { bottom: calc(var(--composer-h, 150px) + 8px) !important; }
-</style>
 </head>
 <body data-env="production" data-debug-page-enabled="false">
 
@@ -2775,6 +2771,42 @@ function formatMessageTime(ms) {
   return `${dd}/${mm}/${yy} ${time}`;
 }
 const chatLog = document.getElementById("chatLog");
+
+(() => {
+  const bar = document.getElementById("inputBar");
+  const EDGE = 40;
+  let pointer = null;
+  let frame = 0;
+  const stop = () => { pointer = null; bar.classList.remove("passthrough"); };
+  const step = () => {
+    frame = 0;
+    if (!pointer) return;
+    const top = chatLog.getBoundingClientRect().top + EDGE;
+    const bottom = (bar.firstElementChild || bar).getBoundingClientRect().top - EDGE;
+    const delta = pointer.y > bottom ? pointer.y - bottom : pointer.y < top ? pointer.y - top : 0;
+    const before = chatLog.scrollTop;
+    chatLog.scrollTop += Math.max(-20, Math.min(20, delta / 3));
+    if (chatLog.scrollTop === before) return;
+    document.elementFromPoint(pointer.x, pointer.y)?.dispatchEvent(new MouseEvent("mousemove", {
+      bubbles: true, clientX: pointer.x, clientY: pointer.y, buttons: 1,
+    }));
+    frame = requestAnimationFrame(step);
+  };
+  chatLog.addEventListener("pointerdown", (e) => {
+    if (e.pointerType !== "mouse" || e.button !== 0) return;
+    pointer = { x: e.clientX, y: e.clientY };
+    bar.classList.add("passthrough");
+  });
+  document.addEventListener("pointermove", (e) => {
+    if (!pointer) return;
+    if (!(e.buttons & 1)) return stop();
+    pointer = { x: e.clientX, y: e.clientY };
+    if (!frame) frame = requestAnimationFrame(step);
+  });
+  document.addEventListener("pointerup", stop);
+  document.addEventListener("pointercancel", stop);
+  window.addEventListener("blur", stop);
+})();
 const CRAMER_QUIPS = [
   "Hey, that tickles",
   "I count conversions, not clicks. Okay, I counted that one too",
@@ -4740,9 +4772,16 @@ function bindScrollShadow(el) {
 }
 {
   const bar = document.getElementById("inputBar");
-  new ResizeObserver(() => {
-    document.getElementById("mainArea").style.setProperty("--composer-h", bar.offsetHeight + "px");
-  }).observe(bar);
+  const main = document.getElementById("mainArea");
+  const measure = () => {
+    const card = (bar.firstElementChild || bar).getBoundingClientRect();
+    main.style.setProperty("--composer-h", bar.offsetHeight + "px");
+    main.style.setProperty("--composer-viewport-h", Math.max(0, innerHeight - bar.getBoundingClientRect().top) + "px");
+    main.style.setProperty("--composer-viewport-left", card.left + "px");
+    main.style.setProperty("--composer-viewport-w", card.width + "px");
+  };
+  new ResizeObserver(measure).observe(bar, { box: "border-box" });
+  addEventListener("resize", measure);
 }
 bindScrollShadow(document.querySelector("#sidebar .sidebar-scroll"));
 bindScrollShadow(document.querySelector(".tab-nav"));
