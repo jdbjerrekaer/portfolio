@@ -22,6 +22,7 @@ import {
   getRowMetrics,
   getSkeletonRowCount
 } from "./tableLoadingHeight";
+import { attachCellRangeShim } from "./cellRangeShim"; // portfolio edit: community stand-in for Enterprise cell selection
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -91,6 +92,9 @@ export const Table = ({
   );
   const gridRef = useRef();
   const containerRef = useRef();
+  // portfolio edit: the original value of the cellSelection grid option, read by cellRangeShim.js
+  const cellSelectionEnabledRef = useRef(false);
+  cellSelectionEnabledRef.current = Boolean(cellSelection != null ? cellSelection : showColumnHeaders);
   const updateShadowOpacitiesRef = useRef();
   const scheduleShadowRecalcRef = useRef(null);
   const pendingShadowRecalcRef = useRef(false);
@@ -624,6 +628,7 @@ export const Table = ({
   };
 
   const onGridReady = (params) => {
+    attachCellRangeShim(params.api, containerRef.current, () => cellSelectionEnabledRef.current); // portfolio edit
     onGridApiReady?.(params);
 
     // Header refresh logic for client-side tables
@@ -1627,7 +1632,7 @@ export const Table = ({
         suppressRowDeselection={false}
         suppressRowClickSelection={true}
         suppressCellFocus={false}
-        cellSelection={false} // portfolio edit: CellSelectionModule is AG Grid Enterprise (not licensed here)
+        cellSelection={false} // portfolio edit: CellSelectionModule is AG Grid Enterprise (not licensed here); cellRangeShim.js stands in
         onRangeSelectionChanged={handleInternalRangeSelectionChanged}
         onCellMouseDown={handleCellMouseDown}
         onCellDoubleClicked={handleCellDoubleClicked}

@@ -2,10 +2,10 @@
   margin: 2rem 0;
 }
 
-// Breaks out of the prose column to up to 1120px, keeping a 16px gutter on small screens.
-// Margins, not transform, so fixed-position descendants (fullscreen, modals) still anchor to the viewport.
+// Wide stages start at the text column and grow right (width set in DemoStage.tsx). No transform,
+// so fixed-position descendants (fullscreen, modals) still anchor to the viewport.
 .wide {
-  margin-inline: calc(50% - min(560px, 50vw - 16px));
+  max-width: none; // width is set from DemoStage.tsx
 }
 
 .stage {
