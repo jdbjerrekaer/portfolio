@@ -1,0 +1,57 @@
+.pair {
+  margin-top: var(--space-xl);
+}
+
+.shots {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+
+  @media (min-width: 769px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.mobile .shots {
+  grid-template-columns: 1fr 1fr;
+  max-width: 480px;
+}
+
+.shot {
+  margin: 0;
+  min-width: 0;
+}
+
+.link {
+  display: block;
+  width: 100%;
+  padding: 0;
+  cursor: zoom-in;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background: var(--color-background-secondary);
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+// .prose img adds its own radius; the frame owns the rounding here.
+.link .image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0;
+}
+
+.caption {
+  margin-top: var(--space-xs);
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+
+.note {
+  margin-top: var(--space-sm);
+}

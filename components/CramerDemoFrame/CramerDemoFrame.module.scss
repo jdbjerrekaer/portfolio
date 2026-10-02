@@ -1,0 +1,35 @@
+.frame {
+  // Wider than the text column, so the demo gets its desktop layout; centred by useCenteredWide.
+  margin: 2rem 0;
+}
+
+.iframe {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--color-border, rgba(0, 0, 0, 0.1));
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+.caption {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary, inherit);
+}
+
+.open {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .iframe {
+    border-radius: 12px;
+  }
+}

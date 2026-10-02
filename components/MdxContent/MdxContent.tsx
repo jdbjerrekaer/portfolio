@@ -3,6 +3,8 @@ import { ComponentProps } from "react";
 import type React from "react";
 import Image from "next/image";
 import { resolveAssetSrc } from "@/lib/utils/paths";
+import { CramerDemoFrame } from "@/components/CramerDemoFrame";
+import { BeforeAfter } from "@/components/BeforeAfter";
 import { KeyMetricDemo, ErrorStateDemo, LargeSwiperDemo, GetStartedChecklistDemo, FlipListDemo, LoadRevealDemo, ScrollShadowDemo, StaggerDemo, CopyMorphDemo, TooltipTimingDemo, BrandPeekDemo, MultiSelectBadgesDemo, TableDemo, GlobalSearchDemo, SidePanelResizeDemo, SidebarLogoMorphDemo } from "@/components/MotionDemos";
 
 function getTextFromNode(node: React.ReactNode): string {
@@ -26,6 +28,8 @@ function slugifyHeading(children: React.ReactNode) {
 }
 
 const components = {
+  CramerDemoFrame,
+  BeforeAfter,
   KeyMetricDemo, ErrorStateDemo, LargeSwiperDemo, GetStartedChecklistDemo, FlipListDemo, LoadRevealDemo, ScrollShadowDemo, StaggerDemo, CopyMorphDemo, TooltipTimingDemo, BrandPeekDemo, MultiSelectBadgesDemo, TableDemo, GlobalSearchDemo, SidePanelResizeDemo, SidebarLogoMorphDemo,
   h2: ({ children, className, id, ...props }: ComponentProps<"h2">) => (
     <h2 {...props} id={id ?? slugifyHeading(children)} className={`scroll-mt-20 ${className ?? ""}`.trim()}>

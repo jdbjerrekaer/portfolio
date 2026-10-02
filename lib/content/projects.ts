@@ -104,6 +104,7 @@ export const PROJECT_PRIORITY_ORDER = [
   "yet-another-countdown",
   "leadplatform",
   "adtraction-motion",
+  "cramer-ai-assistant",
   "adtraction-brands",
   "billigskadedyr-redesign",
   "aha-adaptive-home-audio",
