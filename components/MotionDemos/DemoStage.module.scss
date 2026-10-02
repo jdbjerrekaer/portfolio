@@ -2,8 +2,7 @@
   margin: 2rem 0;
 }
 
-// Wide stages start at the text column and grow right (width set in DemoStage.tsx). No transform,
-// so fixed-position descendants (fullscreen, modals) still anchor to the viewport.
+// Wide stages are centred on the viewport by useCenteredWide (width and margin set from JS).
 .wide {
   max-width: none; // width is set from DemoStage.tsx
 }
