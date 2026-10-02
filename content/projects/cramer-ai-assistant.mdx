@@ -40,15 +40,15 @@ The same screens in the production app before the rebuild and in my version. Cli
   before="/projects/cramer-ai-assistant/before-after/before-overview.jpg"
   after="/projects/cramer-ai-assistant/before-after/after-overview.jpg"
   beforeAlt="Old Cramer new-chat screen: dark top nav, a sidebar of chat cards and an empty chat area"
-  afterAlt="New Cramer new-chat screen: platform side nav, a chat list column and a floating composer"
+  afterAlt="New Cramer new-chat screen: platform side nav, a chat list with Pinned and Recent groups, and a floating composer"
   note="The top nav and card list became the platform's side nav plus a quieter chat list with Pinned and Recent groups."
 />
 
 <BeforeAfter
   before="/projects/cramer-ai-assistant/before-after/before-thinking.jpg"
   after="/projects/cramer-ai-assistant/before-after/after-thinking.jpg"
-  beforeAlt="Old thought process: a long list of raw tool names such as Searching: mariadb, each marked done"
-  afterAlt="New thought process: short narration lines with plain-language steps like Queried the database"
+  beforeAlt="Old thought process: a long list of raw tool steps, each marked done"
+  afterAlt="New thought process: short narration lines with plain-language steps like Queried the database and a failed step"
   note="Raw tool names and a column of 'done' labels became short narration with plain-language steps and a clear failed state."
 />
 
@@ -64,16 +64,24 @@ The same screens in the production app before the rebuild and in my version. Cli
   before="/projects/cramer-ai-assistant/before-after/before-skills-menu.jpg"
   after="/projects/cramer-ai-assistant/before-after/after-skills-menu.jpg"
   beforeAlt="Old composer with separate paperclip and sparkle buttons and an orange skills list"
-  afterAlt="New composer with a single plus button opening a menu of files and grouped skills"
+  afterAlt="New composer with a single plus menu holding Files and images plus grouped skills"
   note="Two icon buttons became one + menu that holds both attachments and skills, in the toolkit's menu styling."
+/>
+
+<BeforeAfter
+  before="/projects/cramer-ai-assistant/before-after/before-queued.jpg"
+  after="/projects/cramer-ai-assistant/before-after/after-queued.jpg"
+  beforeAlt="Old live turn: a red Thinking label and a raw running-step line, with a queued message above the composer"
+  afterAlt="New live turn: the answer bubble shows Thinking and finished steps, and the queued follow-up sits as a chip with send and delete"
+  note="While an answer streams, a follow-up waits as a chip you can send early or delete, and the live steps sit inside the answer."
 />
 
 <BeforeAfter
   before="/projects/cramer-ai-assistant/before-after/before-feedback.jpg"
   after="/projects/cramer-ai-assistant/before-after/after-feedback.jpg"
   beforeAlt="Old thumbs-down feedback form with outlined tags under the answer"
-  afterAlt="New thumbs-down panel inside the answer with check chips, a labelled textarea and Send feedback"
-  note="The thumbs-down form moved into the answer, uses toolkit check chips and asks a clearer question."
+  afterAlt="New thumbs-down panel with check chips, a labelled textarea and Send feedback"
+  note="The thumbs-down form uses toolkit check chips, groups them by issue type and asks a clearer question."
 />
 
 <BeforeAfter
@@ -81,7 +89,23 @@ The same screens in the production app before the rebuild and in my version. Cli
   after="/projects/cramer-ai-assistant/before-after/after-files.jpg"
   beforeAlt="Old files pane: a file tree of downloads and uploads with long file names"
   afterAlt="New My files pane: downloads with type icons and uploads shown as thumbnails grouped by chat"
-  note="The file tree became a My files pane with type icons, image thumbnails grouped by chat and a resizable edge."
+  note="The file tree became a My files pane with type icons and image thumbnails grouped by the chat they came from."
+/>
+
+<BeforeAfter
+  before="/projects/cramer-ai-assistant/before-after/before-schedules.jpg"
+  after="/projects/cramer-ai-assistant/before-after/after-schedules.jpg"
+  beforeAlt="Old sidebar with a small Schedules section stacked above the chat list"
+  afterAlt="New Schedules view opened from the side nav, with its own searchable list and unread dots"
+  note="Schedules moved out of the chat sidebar into their own view in the side nav, with search and unread markers."
+/>
+
+<BeforeAfter
+  before="/projects/cramer-ai-assistant/before-after/before-dark.jpg"
+  after="/projects/cramer-ai-assistant/before-after/after-dark.jpg"
+  beforeAlt="Old dark mode: near-black page with a purple accent"
+  afterAlt="New dark mode: the platform's dark theme across side nav, chat list, table and info box"
+  note="Dark mode now follows the platform's dark theme, including the toolkit table and info boxes, and survives a reload."
 />
 
 <BeforeAfter

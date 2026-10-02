@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ImageModal } from "@/components/ui";
+import { Icon } from "@/components/ui/Icon";
 import { resolveAssetSrc } from "@/lib/utils/paths";
 import styles from "./BeforeAfter.module.scss";
 
@@ -36,6 +37,13 @@ export function BeforeAfter({ before, after, beforeAlt, afterAlt, note, variant 
               onClick={() => setOpenIndex(index)}
               aria-label={`Open ${shot.label.toLowerCase()} screenshot: ${shot.alt}`}>
               <img src={shot.src} alt={shot.alt} loading="lazy" decoding="async" className={styles.image} />
+              {/* Same hover overlay as ProjectImageGrid, so every case study image reads as openable. */}
+              <span className={styles.overlay} aria-hidden="true">
+                <span className={styles.icon}>
+                  <Icon name="search" size={14} />
+                </span>
+                <span className={styles.overlayLabel}>Open image</span>
+              </span>
             </button>
             <figcaption className={styles.caption}>{shot.label}</figcaption>
           </figure>

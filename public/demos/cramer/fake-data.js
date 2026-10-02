@@ -282,7 +282,7 @@ window.CRAMER_DEMO_DATA = {
 "content": [
 {
 "type": "text",
-"text": "Sales by device over the last 12 months:\n\n| Device | Revenue (SEK) | Share |\n| --- | ---: | ---: |\n| Mobile | 31,240,000 | 64% |\n| Desktop | 15,380,000 | 31% |\n| Tablet | 2,440,000 | 5% |\n\nMobile's share is up from 57% a year ago."
+"text": "Sales by device over the last 12 months:\n\n| Device | Revenue (SEK) | Share (%) |\n| --- | ---: | ---: |\n| Mobile | 31,240,000 | 64% |\n| Desktop | 15,380,000 | 31% |\n| Tablet | 2,440,000 | 5% |\n\nMobile's share is up from 57% a year ago."
 }
 ],
 "timestamp": "2026-09-29T00:00:00+00:00",

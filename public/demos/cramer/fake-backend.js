@@ -483,13 +483,20 @@
     return json({ detail: "Not available in the demo" }, 404);
   }
 
+  const domReady = new Promise((resolve) => {
+    if (document.readyState !== "loading") resolve();
+    else document.addEventListener("DOMContentLoaded", () => setTimeout(resolve, 0), { once: true });
+  });
   const API = /^\/(auth|api|users|query|task)(\/|$)/;
   window.fetch = function (input, init) {
     const url = new URL(typeof input === "string" || input instanceof URL ? input : input.url, location.href);
     if (url.origin !== location.origin || !API.test(url.pathname)) return realFetch(input, init);
     const method = (init?.method || (input instanceof Request ? input.method : "GET")).toUpperCase();
     if (init?.signal?.aborted) return Promise.reject(abortError());
-    return route(method, url, init);
+    // A real request cannot answer before the page has parsed; answering in a microtask
+    // let the chat restore ?session= before the phone layout read the URL, so phones
+    // opened on the chat instead of the thread list.
+    return domReady.then(() => route(method, url, init));
   };
 
   // ---- The notifications channel: open, quiet. ----

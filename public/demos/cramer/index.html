@@ -20,11 +20,20 @@
       return "light";
     }
   }
+  var TOOLKIT_KEY = "adtraction-allow-dark-mode";
+  function mirror(pref) {
+    var want = resolve(pref, systemPrefersDark()) === "dark" ? "on" : "off";
+    try {
+      if ((localStorage.getItem(TOOLKIT_KEY) || "off") !== want) localStorage.setItem(TOOLKIT_KEY, want);
+    } catch (_) {
+    }
+  }
   function write(pref) {
     try {
       localStorage.setItem(KEY, pref);
     } catch (_) {
     }
+    mirror(pref);
   }
   function systemPrefersDark() {
     return !!(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
@@ -45,6 +54,7 @@
     systemPrefersDark,
     apply
   };
+  mirror(read());
   apply(read());
 })();
 </script>
@@ -840,6 +850,9 @@ html {
     --ov-b .15s,
     --ov-l .15s,
     --ov-r .15s;
+}
+.mobile-list-header {
+  display: none;
 }
 .scroll-shadow.ov-top {
   --ov-t: 32px;
@@ -2093,6 +2106,17 @@ html {
   .tab-nav::-webkit-scrollbar {
     display: none;
   }
+  .tab-nav,
+  .tab-nav[data-collapsed] {
+    display: none;
+  }
+  .mobile-list-header {
+    display: block;
+  }
+  #newChatSlot,
+  #routinesSection > .section-header {
+    display: none;
+  }
   .tab-nav .meta {
     display: none;
   }
@@ -2304,6 +2328,11 @@ html {
   }
 }
 </style>
+<style>
+/* portfolio edit: #mainArea is a size container, so the toolkit table selection bar (position: fixed)
+   lands at the bottom of the main area, behind #inputBar. Lift it above the composer. */
+#mainArea [class*="selection_bar_shell"] { bottom: calc(var(--composer-h, 150px) + 8px) !important; }
+</style>
 </head>
 <body data-env="production" data-debug-page-enabled="false">
 
@@ -2403,7 +2432,7 @@ function publishHeader(patch) {
   const apply = () => {
     const body = document.querySelector(".app-body");
     if (!body) return false;
-    const collapsed = isMobile() ? true : localStorage.getItem(KEY) === "1";
+    const collapsed = isMobile() ? new URLSearchParams(location.search).has("session") : localStorage.getItem(KEY) === "1";
     body.classList.toggle("sidebar-collapsed", collapsed);
     syncBtn(collapsed);
     return true;
@@ -2430,7 +2459,7 @@ function publishHeader(patch) {
     const closeOnMobileNav = (e) => {
       if (!isMobile()) return;
       if (e.target.closest(".row-actions-cluster")) return;
-      if (e.target.closest("#sessionList [data-session-id]") || e.target.closest("[data-new-chat]")) {
+      if (e.target.closest("#sessionList [data-session-id]") || e.target.closest("#routinesList [data-session-id]") || e.target.closest("#routinesList [data-opens-chat]") || e.target.closest("[data-new-chat]")) {
         body.classList.add("sidebar-collapsed");
         syncBtn(true);
       }
@@ -2448,6 +2477,8 @@ function publishHeader(patch) {
 
 <div id="sidebar">
   
+  
+  <div class="mobile-list-header" id="mobileListHeader"></div>
   <div class="list-header" id="newChatSlot"></div>
   <div class="chat-search" id="chatSearch"></div>
   <div class="sidebar-scroll">
@@ -2933,7 +2964,8 @@ window.AAMP_CHAT_HOST = {
     toggleSidebar: () => window.aampToggleSidebar?.()
   },
   files: {
-    close: () => filePane.close()
+    close: () => filePane.close(),
+    openBrowser: () => filePane.openBrowser()
   },
   schedules: {
     open: (sessionId) => switchSession(sessionId),
