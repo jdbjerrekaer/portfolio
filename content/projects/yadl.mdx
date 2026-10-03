@@ -22,6 +22,8 @@ sectionNav:
     id: "why-this-matters"
   - title: "At a glance"
     id: "at-a-glance"
+  - title: "Try it"
+    id: "try-it"
   - title: "Outcome"
     id: "outcome"
   - title: "What YADL does"
@@ -63,6 +65,14 @@ The project crosses the parts of design engineering I want to be judged on:
 - Adoption: 500+ users globally, with 60+ frequent daily users
 - Core value: Makes design-system QA repeatable before developer handoff
 - Skills shown: UX design, design systems, Figma plugin API, React, product tooling, visual polish
+
+## Try it
+
+This is the real YADL plugin UI, built from the plugin source and running in your browser. Only the Figma side is simulated: a small fake backend stands in for the plugin sandbox and answers the same messages Figma would, against a mock checkout screen and a made-up design system.
+
+Run a lint, click an issue to see the layer highlighted on the canvas, then apply a suggestion or apply them all and watch the screen snap to its tokens. Undo, the Variables tab and Settings all work too.
+
+<CramerDemoFrame src="../../demos/yadl/" title="YADL running against a simulated Figma file" height={720} note="Simulated Figma file · fictional design system" />
 
 ## Outcome
 

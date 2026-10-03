@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+/* portfolio edit: embedded in a case study, the demo must not grab focus on load (the browser would
+   scroll the host page down to it). Programmatic focus is ignored until the visitor clicks or types here. */
+(function () {
+  if (window.self === window.top) return;
+  var focus = HTMLElement.prototype.focus, armed = false;
+  HTMLElement.prototype.focus = function () { if (armed) return focus.apply(this, arguments); };
+  function arm() { armed = true; }
+  addEventListener('pointerdown', arm, true);
+  addEventListener('keydown', arm, true);
+})();
+</script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cramer demo</title><!-- portfolio edit: title -->

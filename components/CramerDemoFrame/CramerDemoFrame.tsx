@@ -9,12 +9,14 @@ interface CramerDemoFrameProps {
   src?: string;
   title?: string;
   height?: number;
+  note?: string;
 }
 
 export function CramerDemoFrame({
   src = "../../demos/cramer/",
   title = "Cramer, running on fake data",
   height = 720,
+  note = "Mock data · scripted answers",
 }: CramerDemoFrameProps) {
   const ref = useRef<HTMLElement>(null);
   useCenteredWide(ref, 1200);
@@ -29,7 +31,7 @@ export function CramerDemoFrame({
         loading="lazy"
       />
       <figcaption className={styles.caption}>
-        <span>Mock data · scripted answers</span>
+        <span>{note}</span>
         <a href={src} target="_blank" rel="noreferrer" className={styles.open}>
           Open full screen
         </a>

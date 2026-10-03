@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YADL Live Demo</title>
+<link rel="icon" href="yadl-icon.png">
+<meta name="description" content="The real Yet Another Design Linter plugin UI, running against a simulated Figma file.">
+<style>
+  :root {
+    --canvas: #f5f5f5;
+    --canvas-dot: rgba(0, 0, 0, 0.07);
+    --chrome: #ffffff;
+    --chrome-text: #1e1e1e;
+    --chrome-muted: #757575;
+    --hairline: rgba(0, 0, 0, 0.1);
+    --select: #0d99ff;
+    --fix: #14ae5c;
+    --page: #ececec;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--page);
+    color: var(--chrome-text);
+    font: 13px/1.4 Inter, -apple-system, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .stage {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 24px;
+    min-height: 100vh;
+  }
+
+  /* ---- mock canvas ---- */
+  .canvas-wrap {
+    position: relative;
+    flex: 1 1 auto;
+    max-width: 640px;
+    min-width: 0;
+    border-radius: 12px;
+    border: 1px solid var(--hairline);
+    background: var(--canvas);
+    background-image: radial-gradient(var(--canvas-dot) 1px, transparent 1px);
+    background-size: 16px 16px;
+    overflow: hidden;
+  }
+  .canvas-bar {
+    display: flex; align-items: center; gap: 8px;
+    height: 40px; padding: 0 12px;
+    background: var(--chrome);
+    border-bottom: 1px solid var(--hairline);
+    font-size: 12px; color: var(--chrome-muted);
+  }
+  .canvas-bar strong { color: var(--chrome-text); font-weight: 600; }
+  .canvas-bar .spacer { flex: 1; }
+  .canvas-bar button {
+    font: inherit; font-size: 12px; color: var(--chrome-text);
+    background: transparent; border: 1px solid var(--hairline); border-radius: 6px;
+    padding: 4px 10px; cursor: pointer;
+  }
+  .canvas-bar button:hover { background: rgba(0,0,0,0.04); }
+  .canvas-scroll {
+    position: relative;
+    display: flex; justify-content: center;
+    padding: 48px 24px 56px;
+  }
+  .cv-root { position: relative; font-family: Inter, -apple-system, system-ui, sans-serif; font-size: 14px; }
+  .cv-frame-label {
+    position: absolute; top: -20px; left: 0;
+    font-size: 11px; color: var(--chrome-muted); white-space: nowrap;
+  }
+  .cv-root > .cv-frame { box-shadow: 0 0 0 1px rgba(0,0,0,0.04); }
+  .cv-node { transition: gap .35s ease, padding .35s ease, border-radius .35s ease, background-color .35s ease, color .35s ease, box-shadow .35s ease, border-color .35s ease, font-size .35s ease, letter-spacing .35s ease; }
+  .cv-overlay { position: absolute; inset: 0; pointer-events: none; }
+  .cv-layer { position: absolute; inset: 0; }
+  .cv-select {
+    position: absolute;
+    outline: 1.5px solid var(--select);
+    outline-offset: 0;
+  }
+  .cv-select-tag {
+    position: absolute;
+    background: var(--select); color: #fff;
+    font-size: 10px; font-weight: 500; line-height: 16px;
+    padding: 0 5px; border-radius: 3px; white-space: pre;
+  }
+  .cv-flash {
+    position: absolute;
+    outline: 2px solid var(--fix);
+    border-radius: 2px;
+    animation: cvFlash 1.4s ease forwards;
+  }
+  .cv-flash.is-undo { outline-color: #f24822; }
+  .cv-token {
+    position: absolute; right: -2px; top: -20px;
+    background: var(--fix); color: #fff;
+    font-size: 10px; font-weight: 600; line-height: 16px;
+    padding: 0 6px; border-radius: 3px; white-space: nowrap;
+  }
+  @keyframes cvFlash {
+    0% { opacity: 0; transform: scale(1.04); }
+    12% { opacity: 1; transform: scale(1); }
+    75% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  /* ---- plugin window ---- */
+  .plugin-win {
+    flex: 0 0 auto;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08), 0 12px 32px rgba(0,0,0,0.14);
+    border: 1px solid var(--hairline);
+  }
+  .plugin-title {
+    display: flex; align-items: center; gap: 8px;
+    height: 40px; padding: 0 12px;
+    border-bottom: 1px solid var(--hairline);
+    font-size: 12px; font-weight: 600;
+  }
+  .plugin-title .dot { width: 16px; height: 16px; display: block; }
+  .plugin-title .spacer { flex: 1; }
+  .plugin-title .x { color: var(--chrome-muted); font-weight: 400; font-size: 16px; line-height: 1; }
+  #plugin { display: block; border: 0; width: 400px; height: 600px; background: #fff; }
+
+  .hint {
+    padding: 0 12px 10px;
+    font-size: 11px; color: var(--chrome-muted);
+  }
+
+  @media (max-width: 1000px) {
+    .stage { flex-direction: column; align-items: center; padding: 16px; gap: 16px; }
+    .canvas-wrap { width: 100%; max-width: 560px; }
+    .canvas-scroll { padding: 40px 12px 44px; }
+  }
+  @media (max-width: 480px) {
+    .canvas-scroll { padding: 36px 0 40px; }
+    .cv-root { transform: scale(0.86); transform-origin: top center; margin-bottom: -60px; }
+    .plugin-win { width: 100%; }
+    #plugin { width: 100% !important; height: 600px; }
+  }
+</style>
+</head>
+<body>
+  <main class="stage">
+    <section class="canvas-wrap" aria-label="Mock Figma canvas">
+      <div class="canvas-bar">
+        <strong>Checkout flow</strong><span>/ Page 1</span>
+        <span class="spacer"></span>
+        <button type="button" id="reset">Reset demo</button>
+      </div>
+      <div class="canvas-scroll">
+        <div class="cv-root" id="cv-root"></div>
+        <div class="cv-overlay" id="cv-overlay"></div>
+      </div>
+      <div class="hint">Simulated file. Fixes from the plugin land here.</div>
+    </section>
+
+    <section class="plugin-win" aria-label="Yet Another Design Linter plugin">
+      <div class="plugin-title">
+        <img class="dot" src="yadl-icon.png" alt="" aria-hidden="true">
+        <span>Yet Another Design Linter</span>
+        <span class="spacer"></span>
+        <span class="x" aria-hidden="true">×</span>
+      </div>
+      <iframe id="plugin" title="Yet Another Design Linter plugin UI" src="plugin.html"></iframe>
+    </section>
+  </main>
+
+  <script src="fake-data.js"></script>
+  <script src="canvas.js"></script>
+  <script src="fake-backend.js"></script>
+  <script>
+  (function () {
+    'use strict';
+    var iframe = document.getElementById('plugin');
+    var canvas = new MockCanvas(document.getElementById('cv-root'), document.getElementById('cv-overlay'));
+
+    var backend = new FakeFigmaBackend({
+      iframe: iframe,
+      hooks: {
+        onSelect: function (ids) { canvas.select(ids); },
+        onApply: function (nodeId, issue) { canvas.flash(nodeId, issue, false); },
+        onUndo: function (nodeId, issue) { canvas.flash(nodeId, issue, true); },
+        onResize: function (w, h) {
+          if (window.matchMedia('(max-width: 480px)').matches) return;
+          iframe.style.width = w + 'px';
+          iframe.style.height = h + 'px';
+        }
+      }
+    });
+    canvas.render(backend.nodes);
+    canvas.select(backend.selection);
+
+    // portfolio edit: .container is height:100% but #root and its child have no height, so the card
+    // stops at its content and the plugin body shows below it. Give the chain a height (demo only).
+    function fillWindow() {
+      var doc = iframe.contentDocument;
+      if (!doc || doc.getElementById('demo-fill')) return;
+      var style = doc.createElement('style');
+      style.id = 'demo-fill';
+      style.textContent = '#root, #root > div { height: 100%; }';
+      doc.head.appendChild(style);
+    }
+    iframe.addEventListener('load', fillWindow);
+    fillWindow();
+
+    // Relay: the plugin UI posts to its parent (this page), exactly as it would to Figma.
+    window.addEventListener('message', function (event) {
+      if (event.source !== iframe.contentWindow) return;
+      var msg = event.data && event.data.pluginMessage;
+      if (msg) backend.handle(msg);
+    });
+
+    document.getElementById('reset').addEventListener('click', function () {
+      backend.reset();
+      canvas.render(backend.nodes);
+      canvas.select(backend.selection);
+      iframe.style.width = '';
+      iframe.style.height = '';
+      iframe.src = 'plugin.html';
+    });
+
+    window.__yadlDemo = { backend: backend, canvas: canvas };
+  })();
+  </script>
+</body>
+</html>
