@@ -29,7 +29,10 @@
   aspect-ratio: 16 / 10;
   background: var(--color-background-secondary);
   overflow: hidden;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  // Uniform corners while the image stands alone; the bottom corners square off on hover,
+  // when the card surface appears around it. Only border-radius moves, so it stays cheap.
+  border-radius: var(--radius-lg);
+  transition: border-radius 240ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .image {
@@ -37,7 +40,6 @@
   transition: 
     transform var(--transition-slow),
     filter var(--transition-fast);
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   transform: scale(1);
   transform-origin: center;
   will-change: transform, filter;
@@ -54,6 +56,11 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
+  .link:hover .imageWrapper,
+  .linkWrapper:hover .imageWrapper {
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
   .link:hover .image {
     transform: scale(1.015);
   }
@@ -61,6 +68,16 @@
   .comingSoon .link:hover .image,
   .comingSoon .linkWrapper:hover .image {
     filter: grayscale(0%);
+  }
+}
+
+.link:focus-visible .imageWrapper {
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .imageWrapper {
+    transition: none;
   }
 }
 
