@@ -81,6 +81,21 @@
   }
 }
 
+// Mirrors .statusBadge in the opposite corner, for case studies with an interactive demo.
+.demoBadge {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  z-index: 1;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  // Same solid chip as "Case study" so it reads on dark and light covers; the green dot says "live".
+  > span:first-child {
+    background: #22a35a;
+  }
+}
+
 // Content section below the image
 .content {
   padding: var(--space-md) var(--space-md) var(--space-lg);

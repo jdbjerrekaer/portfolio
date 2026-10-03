@@ -39,6 +39,7 @@ const projectSchema = z.object({
   coverImage: z.string().optional(),
   featured: z.boolean().optional().default(false),
   comingSoon: z.boolean().optional().default(false),
+  liveDemo: z.boolean().optional().default(false),
   hidden: z.boolean().optional().default(false),
 });
 

@@ -16,6 +16,7 @@ export interface ProjectCardProps {
   coverImage?: string;
   hasCaseStudy?: boolean;
   comingSoon?: boolean;
+  liveDemo?: boolean;
   variant?: "featured" | "catalog";
 }
 
@@ -28,6 +29,7 @@ export function ProjectCard({
   coverImage,
   hasCaseStudy = false,
   comingSoon = false,
+  liveDemo = false,
   variant = "catalog",
 }: ProjectCardProps) {
   const imageSrc = coverImage
@@ -53,6 +55,9 @@ export function ProjectCard({
         />
         {variant === "catalog" && (
           <Badge tone={isUnavailable ? "muted" : "neutral"} className={styles.statusBadge} label={statusLabel} />
+        )}
+        {variant === "catalog" && liveDemo && !isUnavailable && (
+          <Badge tone="neutral" dot className={styles.demoBadge} label="Live demo" />
         )}
       </div>
       <div className={styles.content}>

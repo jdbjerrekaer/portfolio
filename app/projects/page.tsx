@@ -46,6 +46,7 @@ export default async function ProjectsPage() {
                     coverImage={project.coverImage}
                     hasCaseStudy={hasCaseStudy(project)}
                     comingSoon={project.comingSoon}
+                    liveDemo={project.liveDemo}
                     variant="catalog"
                   />
                 ))}
