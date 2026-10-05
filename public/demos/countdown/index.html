@@ -17,6 +17,7 @@
     display: flex; flex-direction: column; align-items: center; gap: 12px;
     padding: 16px;
   }
+  .phones { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; }
   .phone {
     /* A real iPhone-sized screen (376x816) so the app gets its true layout,
        zoomed down so the whole phone fits a laptop screen. */
@@ -44,11 +45,16 @@
 </head>
 <body>
   <main class="stage">
-    <div class="phone">
-      <div class="screen"><iframe id="app" title="Yet Another Countdown app" src="about:blank"></iframe></div>
+    <div class="phones">
+      <div class="phone">
+        <div class="screen"><iframe id="app" title="Yet Another Countdown app" src="about:blank"></iframe></div>
+      </div>
+      <div class="phone">
+        <div class="screen"><iframe id="home" title="Home screen with the Countdown widget" src="about:blank"></iframe></div>
+      </div>
     </div>
     <div class="bar">
-      <span>The real app UI, running in your browser. Data stays on this device.</span>
+      <span>Add a countdown in the app, then tap the widget on the home screen to edit it.</span>
       <button type="button" id="reset">Reset demo</button>
     </div>
   </main>
@@ -75,13 +81,20 @@
     } catch (e) { /* storage blocked: the app still runs, just empty */ }
   }
   var app = document.getElementById('app');
-  var SRC = 'app/';
+  var home = document.getElementById('home');
+  // Bump V on every demo rebuild so browsers don't keep a cached app shell.
+  var V = '5';
+  var SRC = 'app/?v=' + V;
+  var HOME = 'app/homescreen.html?v=' + V;
   try { if (!localStorage.getItem('countdowns')) seed(); } catch (e) {}
   app.src = SRC;
+  home.src = HOME;
   document.getElementById('reset').addEventListener('click', function () {
     seed();
+    try { localStorage.removeItem('demoHomeWidget'); } catch (e) {}
     app.src = 'about:blank';
-    setTimeout(function () { app.src = SRC; }, 30);
+    home.src = 'about:blank';
+    setTimeout(function () { app.src = SRC; home.src = HOME; }, 30);
   });
 })();
 </script>

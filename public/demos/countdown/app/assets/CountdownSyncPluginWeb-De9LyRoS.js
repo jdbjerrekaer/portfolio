@@ -1,1 +1,0 @@
-import{W as s}from"./index-BKfcsy6H.js";class t extends s{async pushCountdowns(n){return{success:!1,reason:"unsupported"}}async pullCountdowns(){return{json:null,updatedAt:null,hasData:!1}}async getRemoveAds(){return{value:!1}}async setRemoveAds(){return{success:!1}}}export{t as CountdownSyncPluginWeb};

@@ -46,11 +46,13 @@ So I stopped waiting for someone else to fix it.
 
 ## Try it
 
-This is the real app UI, built from the same React and Ionic source that ships to the App Store and running in your browser. Only the native parts are missing: widgets, Live Activities, notifications and iCloud sync are written in Swift and need an iPhone.
+On the left is the real app UI, built from the same React and Ionic source that ships to the App Store and running in your browser. On the right is a simulated home screen with the widget, drawn by the app's own widget designs from the same countdowns.
 
-Add a countdown, pick an emoji, colour and shape, drag cards to reorder, or swipe one away and undo. Your countdowns stay in this browser, and Reset demo puts the samples back.
+Add a countdown, pick an emoji, colour and shape, drag cards to reorder, or swipe one away and undo. Then tap the widget to pick which countdown it shows, its size, style and appearance, the same options the real widget offers when you edit it on an iPhone. Your countdowns stay in this browser, and Reset demo puts the samples back.
 
-<CramerDemoFrame src="../../demos/countdown/" title="Yet Another Countdown running in the browser" height={700} note="Web build of the iOS app · sample countdowns" />
+On a phone, the widgets are native WidgetKit, and Live Activities, notifications and iCloud sync are Swift too, so those need the real app.
+
+<CramerDemoFrame src="../../demos/countdown/" title="Yet Another Countdown running in the browser" height={700} note="Web build of the iOS app · simulated home screen · sample countdowns" />
 
 ## Problem
 
