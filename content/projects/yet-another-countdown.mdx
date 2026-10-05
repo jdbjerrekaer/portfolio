@@ -13,6 +13,7 @@ links:
   Web demo: "https://jdbjerrekaer.github.io/yet-another-countdown-app/"
 coverImage: "/projects/yet-another-countdown/countdown-cover.png"
 featured: true
+liveDemo: true
 gallery:
   - src: "/projects/yet-another-countdown/appstore-count-down.png"
     alt: "App Store screenshot: the main event list counting down to real life moments — a birthday, a Taylor Swift concert, summer break, Roskilde Festival — each with an emoji icon and time remaining."
@@ -43,6 +44,14 @@ Every option in the App Store told the same story: cluttered interfaces, outdate
 Meanwhile, iOS kept shipping new capabilities: modern widget APIs, refined design language, better notification handling. And these apps weren't keeping up. The gap between what a native iOS experience *should* feel like and what these apps delivered kept widening.
 
 So I stopped waiting for someone else to fix it.
+
+## Try it
+
+This is the real app UI, built from the same React and Ionic source that ships to the App Store and running in your browser. Only the native parts are missing: widgets, Live Activities, notifications and iCloud sync are written in Swift and need an iPhone.
+
+Add a countdown, pick an emoji, colour and shape, drag cards to reorder, or swipe one away and undo. Your countdowns stay in this browser, and Reset demo puts the samples back.
+
+<CramerDemoFrame src="../../demos/countdown/" title="Yet Another Countdown running in the browser" height={880} note="Web build of the iOS app · sample countdowns" />
 
 ## Problem
 
