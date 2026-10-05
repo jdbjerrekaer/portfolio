@@ -20,7 +20,7 @@ const GROUPS = [
   {
     key: "product",
     title: "Product and client work",
-    description: "Product design and front-end work at Adtraction, plus a redesign for a client.",
+    description: "Product design at Adtraction, from design systems and motion to AI interfaces, plus a UX redesign for a client.",
   },
   {
     key: "ai",
