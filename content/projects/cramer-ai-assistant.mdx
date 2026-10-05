@@ -97,8 +97,32 @@ The same screens in the production app before the rebuild and in my version. Cli
   before="/projects/cramer-ai-assistant/before-after/before-schedules.jpg"
   after="/projects/cramer-ai-assistant/before-after/after-schedules.jpg"
   beforeAlt="Old sidebar with a small Schedules section stacked above the chat list"
-  afterAlt="New Schedules view opened from the side nav, with its own searchable list and unread dots"
-  note="Schedules moved out of the chat sidebar into their own view in the side nav, with search and unread markers."
+  afterAlt="New Schedules view opened from the side nav: schedules grouped by how often they run, and a Schedule a check page with starter cards"
+  note="Schedules moved out of the chat sidebar into their own view in the side nav, grouped by how often they run, with starter checks to set one up in a click."
+/>
+
+<BeforeAfter
+  before="/projects/cramer-ai-assistant/before-after/before-peek.jpg"
+  after="/projects/cramer-ai-assistant/before-after/after-peek.jpg"
+  beforeAlt="Old app with the chat list collapsed: only a small expand button, nothing to hover"
+  afterAlt="New app with the chat list collapsed: holding the pointer on Chat peeks the Pinned and Recent chats in a popover"
+  note="With the list collapsed, the old app only offered a button to bring it back. Now holding the pointer on Chat peeks the list, so you can jump to another chat and keep the room."
+/>
+
+<BeforeAfter
+  before="/projects/cramer-ai-assistant/before-after/before-compact-rail.jpg"
+  after="/projects/cramer-ai-assistant/before-after/after-compact-rail.jpg"
+  beforeAlt="Old app at 1024 by 768: top nav, a wide card sidebar and a squeezed conversation"
+  afterAlt="New app at 1024 by 768: the side nav becomes an icon rail, leaving room for the chat list and the answer"
+  note="On a small laptop the side nav turns into an icon rail on its own, so the chat list and the answer both keep a usable width."
+/>
+
+<BeforeAfter
+  before="/projects/cramer-ai-assistant/before-after/before-account.jpg"
+  after="/projects/cramer-ai-assistant/before-after/after-account.jpg"
+  beforeAlt="Old account footer with a theme toggle icon and a logout icon next to the name"
+  afterAlt="New account popover with name, Dark mode Off, Auto and On, and Logout"
+  note="Two unlabelled icons became an account popover with a labelled Dark mode choice, including Auto, and Logout."
 />
 
 <BeforeAfter
@@ -127,11 +151,11 @@ The same screens in the production app before the rebuild and in my version. Cli
   note="Mobile chats get a header with a way back to the list, and table tools shrink to icons."
 />
 
-*Before images are from the production app; customer names and figures are blurred.*
+*Before images are from the production app; customer names, partner names and figures are blurred.*
 
 ## Side nav and peek
 
-The side nav mirrors the platform's partner side menu: the same nav item styling, collapse behaviour and logo. Collapsing it leaves a 72px icon rail. When the chat list is hidden, holding the pointer on Chat or Schedules for 400ms peeks the list in a popover, so you can jump to another chat without opening the column again. Picking a row from the peek makes that list the active nav item.
+The side nav mirrors the platform's partner side menu: the same nav item styling, collapse behaviour and logo. Collapsing it leaves a 72px icon rail. When the chat list is hidden, holding the pointer on Chat or Schedules for 400ms peeks the list in a popover, so you can jump to another chat without opening the column again. Picking a row from the peek makes that list the active nav item. Between 769 and 1180px wide the nav switches to the icon rail on its own, and the account button opens a popover with the Dark mode choice and Logout.
 
 ## Chat lists
 
