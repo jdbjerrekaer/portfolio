@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1000" role="img" aria-labelledby="title desc">
+  <title id="title">The iMessage ping, recreated</title>
+  <desc id="desc">A recreation of the actual ping format: a list of needs-me senders and subjects in iMessage bubbles, with a thumbs-up tapback on the last bubble grading it all correct.</desc>
+  <defs>
+    <linearGradient id="phonebg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f4f4f6"/>
+      <stop offset="1" stop-color="#e7e8ea"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="1000" rx="36" fill="#0d1626"/>
+  <rect x="24" y="24" width="1152" height="952" rx="28" fill="url(#phonebg)"/>
+  <text x="600" y="84" text-anchor="middle" fill="#1d1d1f" font-family="Inter,Arial,sans-serif" font-size="26" font-weight="700">Hermes (bot)</text>
+  <text x="600" y="112" text-anchor="middle" fill="#8a8f98" font-family="Inter,Arial,sans-serif" font-size="17">iMessage</text>
+  <line x1="24" y1="132" x2="1176" y2="132" stroke="#d7d9dd" stroke-width="2"/>
+
+  <!-- date chip -->
+  <rect x="510" y="156" width="180" height="34" rx="17" fill="#dcdde1"/>
+  <text x="600" y="179" text-anchor="middle" fill="#5a5f68" font-family="Inter,Arial,sans-serif" font-size="16">27 Sep 2026</text>
+
+  <!-- bubble 1 -->
+  <g>
+    <rect x="330" y="214" width="800" height="120" rx="26" fill="#0b93f6"/>
+    <text x="366" y="258" fill="#ffffff" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="600">📬 iCloud: 5 needs-me (27/09)</text>
+    <text x="366" y="296" fill="#e3f0ff" font-family="Inter,Arial,sans-serif" font-size="21">1. Netflix — Your payment was unsuccessful</text>
+  </g>
+
+  <!-- bubble 2 -->
+  <g>
+    <rect x="330" y="354" width="800" height="248" rx="26" fill="#0b93f6"/>
+    <text x="366" y="400" fill="#e3f0ff" font-family="Inter,Arial,sans-serif" font-size="21">2. Temu — Product Safety Recall</text>
+    <text x="366" y="440" fill="#e3f0ff" font-family="Inter,Arial,sans-serif" font-size="21">3. e-Boks — Du har fået ny post fra Topdanmark</text>
+    <text x="366" y="480" fill="#e3f0ff" font-family="Inter,Arial,sans-serif" font-size="21">4. Tina Albretsen Trantel — Mail fra administrator</text>
+    <text x="366" y="520" fill="#e3f0ff" font-family="Inter,Arial,sans-serif" font-size="21">5. e-Boks — Du har fået ny post fra Topdanmark</text>
+    <text x="366" y="566" fill="#cfe5ff" font-family="Inter,Arial,sans-serif" font-size="17">Delivered</text>
+  </g>
+
+  <!-- tapback on the last bubble -->
+  <g transform="translate(306 560)">
+    <circle cx="30" cy="30" r="30" fill="#ffffff" stroke="#c9ccd2" stroke-width="2"/>
+    <text x="13" y="41" font-family="Inter,Arial,sans-serif" font-size="30">👍</text>
+    <text x="76" y="24" fill="#5a5f68" font-family="Inter,Arial,sans-serif" font-size="19" font-weight="600">You reacted</text>
+    <text x="76" y="48" fill="#8a8f98" font-family="Inter,Arial,sans-serif" font-size="17">to the ping — graded: all correct</text>
+  </g>
+
+  <!-- reply hint bubble (from me) -->
+  <g>
+    <rect x="330" y="668" width="800" height="64" rx="26" fill="#e3e4e8"/>
+    <text x="366" y="708" fill="#5a5f68" font-family="Inter,Arial,sans-serif" font-size="21">…or reply “2 forkert: needs-me”</text>
+  </g>
+
+  <text x="600" y="800" text-anchor="middle" fill="#8a8f98" font-family="Inter,Arial,sans-serif" font-size="17">Sender names are decoded from relay aliases and the contact list;</text>
+  <text x="600" y="828" text-anchor="middle" fill="#8a8f98" font-family="Inter,Arial,sans-serif" font-size="17">e-Boks is ping-exempt since official post already texts me.</text>
+
+  <rect x="24" y="880" width="1152" height="96" rx="0" fill="#f8f8fa"/>
+  <text x="600" y="936" text-anchor="middle" fill="#9aa0a8" font-family="Inter,Arial,sans-serif" font-size="20">iMessage</text>
+</svg>

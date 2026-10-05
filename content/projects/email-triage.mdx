@@ -1,0 +1,122 @@
+---
+title: "The Inbox Triage That Grades Itself"
+summary: "A rules-first classifier that triages two real inboxes, pings me on iMessage only when mail genuinely needs me, and stays on probation until my replies and tapbacks say it can be trusted."
+date: "2026-10-05"
+role: "Solo, design through build"
+outcome: "Both inboxes classified every 10 minutes; mail that needs me reaches my phone in about 5 minutes, and every decision carries a written reason I can grade"
+tags:
+  - Personal Project
+  - Agent Design
+  - Automation
+  - Python
+coverImage: "/projects/email-triage/email-triage-cover.svg"
+section: ai
+sectionNav:
+  - title: "Recruiter takeaway"
+    id: "recruiter-takeaway"
+  - title: "The problem"
+    id: "the-problem"
+  - title: "The constraint that shaped everything"
+    id: "the-constraint-that-shaped-everything"
+  - title: "The trial design"
+    id: "the-trial-design"
+  - title: "The miss that taught it about relationships"
+    id: "the-miss-that-taught-it-about-relationships"
+  - title: "The seven-hour delay that never happened"
+    id: "the-seven-hour-delay-that-never-happened"
+  - title: "Knowing when not to ping"
+    id: "knowing-when-not-to-ping"
+  - title: "A thumbs-up is a verdict"
+    id: "a-thumbs-up-is-a-verdict"
+  - title: "What I would do next"
+    id: "what-i-would-do-next"
+---
+
+## Recruiter takeaway
+
+This is a trust story, not an automation story.
+
+I get mail in two places, a Gmail box and an iCloud address on an old MacBook. This system reads both, applies a set of deterministic rules, and sends me one iMessage when something genuinely needs me. Everything it decides carries a written reason. Everything I correct becomes a regression test. It has been wrong about real mail more than once, and every miss is recorded in a ledger it cannot edit.
+
+The trial did not end when the system worked. It ended when I stopped needing to ask for grades.
+
+What this proves:
+
+- I design automation that expects to be audited, with a reason string attached to every decision
+- I can take a classifier from a graded trial to production and keep the grading loop alive after cutover
+- I treat "do not ping" as a designed state: rate limits, quiet hours, read-state checks, and exemptions are rules, not afterthoughts
+- I verify failures against logged evidence before changing anything
+
+## The problem
+
+**A missed invoice and a false alarm cost the same amount of attention, eventually.**
+
+Mail triage fails in two directions. File something important and you find out at the worst time: a landlord invoice for August electricity, sitting unread while the deadline walks by. Ping about everything and the channel dies: the third "urgent" notification in a day is the one you swipe away, and it might have been the one that mattered.
+
+I did not want an assistant that summarizes my inbox. Summaries are how important mail hides in polite prose. I wanted a filter with a bias toward showing up in person when it is unsure, and a way to check its work that takes me less time than the triage itself.
+
+## The constraint that shaped everything
+
+**A filter I cannot grade is just a guess with a cron job.**
+
+Any classifier can label mail. The part that matters is what happens when it is wrong, which it will be, in a language (Danish) that most models handle unevenly. So the central design decision was not which model to use. It was that every classification must come with a reason a human can read in one line, and every wrong reason must become a rule that cannot regress.
+
+I did evaluate a local LLM classifier first, one of the Jev-style open-source triage models, running on my own hardware. It graded 1 of 18 trial items correctly. The rules engine I built instead now decides each mail in microseconds and justifies itself in plain text: `official/digital post - must be seen (G5)`, `known correspondent (34x in your Sent, 180d) - automated-shape suppressed (G12)`. A model that is 94% right and silent about why is worse than a rule that is 90% right and shows its work, because only one of them can be corrected.
+
+## The trial design
+
+The system grew in two phases, and the phases were the safety mechanism.
+
+The first phase ran against Gmail with full label access. Four labels: `needs-me`, `waiting` (replies I owe), `filed` (seen, handled, quiet), and `bot-handling` (verification links and similar self-serve mail). A nightly job unsubscribes from senders the classifier keeps filing, with a manual blacklist for the edge cases where filing did not mean unwanted.
+
+The second phase moved to the iCloud address, and it was deliberately read-only. The Mac's Mail.app is exported over SSH, the rules write a decision file, and nothing touches the mailbox. Each morning I get a review document listing every decision and its reason, and I grade it inline: `rigtig`, or `1 forkert: needs-me` when it missed. Grades land in a ledger that exists on two machines.
+
+Cutover has a numeric gate, agreed before the trial started: at least 20 graded items, at least 85% agreement, and exactly zero wrong-archive verdicts. The gate stayed locked at 18 items when two wrong calls surfaced, and those two calls are why the rules now treat calendar declines and human retries differently than bulk mail.
+
+Every miss follows the same path: grade recorded, rule written, regression test added, suites re-run on both machines before deploy. The engine carries about a dozen named rules today, each one traceable to a real mail I actually received.
+
+## The miss that taught it about relationships
+
+On 30 September at 09:05, my landlord's billing channel sent an invoice: "Strøm august 2026", pay as soon as possible. Real money, real deadline. The system filed it, with the reason `automated sender (Vestergaard Invest)`, and never pinged.
+
+The rule that fired matched the `info@` prefix in the sender address. The shape said "mailer", and the shape won because it ran before any content rule. The problem is that `info@vestergaardinvest.dk` is also the address I have written to 34 times in the last 180 days: move-out logistics, deposit settlement, invoices in both directions. My sent archive proved the relationship. The rules never looked at it at that level, because they only used sent mail to check whether a thread was already answered, never who I actually correspond with.
+
+The fix is a known-correspondent bias: a sender I have personally written to at least twice in 180 days, at an exact address or a non-provider domain, is a correspondent, and the automated-sender demotion does not apply to correspondents. The guardrails matter more than the bias. A `List-Unsubscribe` header still files, because a newsletter from someone I know is still a newsletter. An unsubscribe footer in the body still files. One-off replies do not count, webmail domains are excluded so strangers at gmail.com cannot inherit my trust, and if the sent corpus is missing the bias switches off instead of guessing.
+
+That miss is in the ledger now, and the reason string in the review file says exactly why the invoice reached me.
+
+## The seven-hour delay that never happened
+
+A week earlier I had the opposite complaint. An e-Boks notice about employer post appeared in the e-Boks app at mid-morning; my ping about it arrived at 17:41. I assumed my pipeline had sat on the mail for seven hours, and said so.
+
+The logs disagreed, and I checked before apologizing. The `Date:` header on the mail, which e-Boks's own server stamps, reads 17:36:03. Mail.app had it locally at 17:36:39. The ping went out at 17:41:10. The pipeline's end-to-end latency was 5 minutes 7 seconds. What I saw at mid-morning was e-Boks's own app notification; the email it advertises did not exist yet. Their notification channel and their email channel are separate pipelines with separate delays, and the seven hours lived entirely on their side.
+
+This is the part of the system I would defend first: not the rules, but the evidence habit. Every run writes timestamps for arrival, classification, and ping, so when I accuse it of being slow it can prove otherwise. Most automation arguments end with belief. This one ended with a `Date:` header.
+
+## Knowing when not to ping
+
+**The channel is the product. A ping about mail I have already read is noise with a badge.**
+
+The same landlord invoice exposed a second hole. I read the mail at 09:06 on my phone. iCloud syncs read state back to the MacBook. The 11:44 run still pinged it, because ping selection only asked two questions: is it `needs-me`, and have we pinged it before. The read flag was sitting in the data the whole time. Ping selection now splits needs-me mail into three buckets: unread and ping-worthy, already read (never pinged, slot consumed), and exempt.
+
+The rest of the ping policy is rules all the way down. At most two pings a day, at least three hours apart. Quiet hours defer rather than drop. An empty ping is banned outright; a system that cries wolf once a day gets ignored by Friday. And e-Boks is exempt from pings entirely, because Danish official post already texts me; its mail stays `needs-me` in the review file, it just never burns a slot. The rate limits are not caution for its own sake. They are the reason a ping still means something.
+
+Classification runs every ten minutes, so the worst case from a mail landing to a decision is about ten minutes. Mail.app had the invoice six seconds after it was sent, and the next run classified it five minutes later.
+
+## A thumbs-up is a verdict
+
+Grading has to cost less than triage, or I will stop doing it and the ledger dies. Two ways in, both under five seconds.
+
+Reply inline to the ping with `rigtig` or `2 forkert: filed`, and a gateway plugin parses it, writes the verdicts to the ledger, and confirms in Danish. Or react to the ping with a tapback. A positive reaction (👍, ❤️, 😂, ❗) grades every item in that ping correct; the checker reads reactions straight out of the Mac's Messages database, matched to the ping by message ID. A 👎 or ❓ is logged but never graded, because "wrong" without a correction is just mood.
+
+The ping itself changed on 5 October. It no longer asks for a grade; the footer is gone. The grading loop stays, but the ask went with the trial phase. The system classifies two inboxes, pings when it should, and when it gets a thumbs-up it writes that down too. It graduated the way it should: quietly, with the evidence still on.
+
+![Recreation of the actual iMessage ping format with a thumbs-up tapback grading it. The sender names come from the alias decoder and the contact list, not from the raw relay addresses.](/projects/email-triage/email-triage-ping.svg)
+
+## What I would do next
+
+The read-only phase exists to collect verdicts before any write access, and the next step is the obvious one: after enough graded days, the `filed` mail gets archived for real instead of just labeled, first on the iCloud mailbox and then Gmail. The blacklist for auto-unsubscribe is the second frontier; every filed newsletter that survives a week without a correction is a candidate.
+
+Known gaps, in the order they bother me. The rules are English-tuned on a half-Danish corpus, and the money-cue list only works because I keep adding Danish verbs to it. The correspondent bias counts messages but not recency, so a relationship that went cold last year still counts until it ages out. And the whole system grades itself with my own attention as the validator, which does not scale past one user; a second person would need the gate rebuilt around their verdicts.
+
+The rule the project taught me: automation earns trust by showing its work and keeping the receipts. A filter you cannot grade is worse than no filter; an unfiltered inbox never claimed to know what mattered.
