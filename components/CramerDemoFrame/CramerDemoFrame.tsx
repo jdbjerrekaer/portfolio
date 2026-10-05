@@ -13,7 +13,7 @@ interface CramerDemoFrameProps {
 }
 
 export function CramerDemoFrame({
-  src = "../../demos/cramer/",
+  src = "../../demos/cramer/?v=20261005b", // bump with every demo rebuild so browsers drop the cached shell
   title = "Cramer, running on fake data",
   height = 720,
   note = "Mock data · scripted answers",
