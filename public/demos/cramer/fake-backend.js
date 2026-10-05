@@ -104,9 +104,17 @@
     },
   ];
 
-  const TIP = "\n\n_This demo replays scripted answers. Ask for a **table**, ask me to **ask** you something, name a **brand**, or ask for a **draft** to see the other kinds._";
+  const TIP = "\n\n_This demo replays scripted answers. Ask for a **table**, ask me to **ask** you something, name a **brand**, ask for a **draft**, or ask me to **search the web** to see the other kinds._";
 
   const TURNS = {
+    // A web search, then something worth remembering (Cramer's WebSearch steps and memory chips).
+    web: {
+      steps: [
+        T("WebSearch", "WebSearch", { query: "Black Week 2026 affiliate campaigns home and garden Nordics" }, "Web search results for query: \"Black Week 2026 affiliate campaigns home and garden Nordics\"\n\nLinks: [{\"title\":\"Black Week 2026: what Nordic shoppers plan to buy\",\"url\":\"https://nordic-retail-weekly.example/black-week-2026-shoppers\"},{\"title\":\"Home and garden leads early Black Week deals\",\"url\":\"https://shopfloor-news.example/home-garden-black-week\"},{\"title\":\"Affiliate trends for Q4: longer campaigns, fewer codes\",\"url\":\"https://partner-marketing-digest.example/q4-affiliate-trends\"},{\"title\":\"Why Black Week now starts in early November\",\"url\":\"https://ecommerce-signals.example/black-week-starts-earlier\"}]\n\nRetailers are starting Black Week earlier and running it longer.", "I'll check what has been announced so far."),
+        T("remember", "mcp__aamp__remember", { text: "Looks after the home and garden brands" }, "Saved to memory.", "You look after the home and garden brands, so I'll remember that for next time."),
+      ],
+      answer: "Black Week is starting earlier this year. Most home and garden retailers announced deals from **3 November**, two weeks before Black Friday.\n\n### What others are doing\n\n1. **Longer campaigns.** Two to three weeks instead of one, with a second push on Black Friday itself.\n2. **Fewer discount codes.** Retailers favour site-wide prices, so coupon partners get exclusive bundles instead.\n3. **Content first.** Gift guides and buying guides go live in October to build traffic before the deals.\n\n### For your brands\n\n- Book content partners for gift guides now, before their October slots fill up.\n- Offer coupon partners an exclusive bundle rather than a bigger code.",
+    },
     table: {
       steps: [
         sql("I'll pull September's results per channel.", "SELECT channel, channel_type, count() AS conversions, sum(order_value) AS revenue, sum(commission) / sum(clicks) AS epc FROM demo_report WHERE month = '2026-09' GROUP BY channel, channel_type ORDER BY conversions DESC LIMIT 8", "8 rows"),
@@ -177,6 +185,7 @@
     if (/\berror\b/.test(q)) return TURNS.error;
     if (/\b(ask|question)/.test(q)) return TURNS.ask;
     if (/\btable\b/.test(q)) return TURNS.table;
+    if (/\b(web|search|news|black week|competitors?)\b/.test(q)) return TURNS.web;
     if (/\b(draft|email|note|write)\b/.test(q)) return TURNS.draft;
     if (/\bbrand\b/.test(q)) return TURNS.brand;
     return TURNS.default;

@@ -21,6 +21,15 @@ window.CRAMER_DEMO_DATA = {
 "pinned": true
 },
 {
+"session_id": "mock-chat-web",
+"title": "Black Week ideas for my home and garden brands",
+"summary": "Black Week ideas for my home and garden brands",
+"first_prompt": "Black Week ideas for my home and garden brands",
+"last_modified": 0,
+"updated_at": "2026-10-01T23:30:00+00:00",
+"pinned": false
+},
+{
 "session_id": "mock-chat-entities",
 "title": "Where do Snoozeberry Beds' sales come from?",
 "summary": "Where do Snoozeberry Beds' sales come from?",
@@ -1047,6 +1056,94 @@ window.CRAMER_DEMO_DATA = {
 "total_tokens": 36000,
 "max_tokens": 200000,
 "percentage": 18
+}
+},
+"mock-chat-web": {
+"messages": [
+{
+"role": "user",
+"content": "What are other brands planning for Black Week? I look after our home and garden brands.",
+"timestamp": "2026-10-01T23:30:00+00:00",
+"uuid": "mock-chat-web-0"
+},
+{
+"role": "assistant",
+"content": [
+{
+"type": "text",
+"text": "I'll check what has been announced so far."
+},
+{
+"type": "tool_use",
+"id": "toolu_web_0",
+"name": "WebSearch",
+"input": {
+"query": "Black Week 2026 affiliate campaigns home and garden Nordics"
+}
+}
+],
+"timestamp": "2026-10-01T23:30:00+00:00",
+"uuid": "mock-chat-web-1"
+},
+{
+"role": "user",
+"content": [
+{
+"type": "tool_result",
+"tool_use_id": "toolu_web_0",
+"content": "Web search results for query: \"Black Week 2026 affiliate campaigns home and garden Nordics\"\n\nLinks: [{\"title\":\"Black Week 2026: what Nordic shoppers plan to buy\",\"url\":\"https://nordic-retail-weekly.example/black-week-2026-shoppers\"},{\"title\":\"Home and garden leads early Black Week deals\",\"url\":\"https://shopfloor-news.example/home-garden-black-week\"},{\"title\":\"Affiliate trends for Q4: longer campaigns, fewer codes\",\"url\":\"https://partner-marketing-digest.example/q4-affiliate-trends\"},{\"title\":\"Why Black Week now starts in early November\",\"url\":\"https://ecommerce-signals.example/black-week-starts-earlier\"}]\n\nRetailers are starting Black Week earlier and running it longer."
+}
+],
+"timestamp": "2026-10-01T23:30:00+00:00",
+"uuid": "mock-chat-web-2"
+},
+{
+"role": "assistant",
+"content": [
+{
+"type": "text",
+"text": "You look after the home and garden brands, so I'll remember that for next time."
+},
+{
+"type": "tool_use",
+"id": "toolu_web_1",
+"name": "mcp__aamp__remember",
+"input": {
+"text": "Looks after the home and garden brands"
+}
+}
+],
+"timestamp": "2026-10-01T23:30:00+00:00",
+"uuid": "mock-chat-web-3"
+},
+{
+"role": "user",
+"content": [
+{
+"type": "tool_result",
+"tool_use_id": "toolu_web_1",
+"content": "Saved to memory."
+}
+],
+"timestamp": "2026-10-01T23:30:00+00:00",
+"uuid": "mock-chat-web-4"
+},
+{
+"role": "assistant",
+"content": [
+{
+"type": "text",
+"text": "Black Week is starting earlier this year. Most home and garden retailers announced deals from **3 November**, two weeks before Black Friday.\n\n### What others are doing\n\n1. **Longer campaigns.** Two to three weeks instead of one, with a second push on Black Friday itself.\n2. **Fewer discount codes.** Retailers favour site-wide prices, so coupon partners get exclusive bundles instead.\n3. **Content first.** Gift guides and buying guides go live in October to build traffic before the deals.\n\n### For your brands\n\n- Book content partners for gift guides now, before their October slots fill up.\n- Offer coupon partners an exclusive bundle rather than a bigger code."
+}
+],
+"timestamp": "2026-10-01T23:30:00+00:00",
+"uuid": "mock-chat-web-5"
+}
+],
+"context_usage": {
+"total_tokens": 24000,
+"max_tokens": 200000,
+"percentage": 12
 }
 }
 },

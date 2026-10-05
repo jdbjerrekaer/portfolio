@@ -96,7 +96,7 @@
   --on-primary: #FFFFFF;
   --secondary: #611212;
   --secondary-container: #E38B78;
-  --surface: #FFFFFF;
+  --surface: var(--surface-card, #FFFFFF);
   --surface-dim: #E8E6E4;
   --surface-container: #F5F3F1;
   --surface-container-low: #F7F5F8;
@@ -145,7 +145,7 @@
     0 10px 6px rgba(0,0,0,.03),
     0 19px 7px rgba(0,0,0,.01);
   --lilac-border: #D4DAFA;
-  --shell-bg: #EFF5FC;
+  --shell-bg: var(--surface-page, #EFF5FC);
   --brand-ink: #0D1E79;
   --nav-fg: #65656F;
   --nav-active-fg: #051151;
@@ -157,11 +157,11 @@
   --on-primary: #0B1444;
   --secondary: #F2B8A6;
   --secondary-container: #7A3B2B;
-  --surface: #14151F;
+  --surface: var(--surface-card, #212225);
   --surface-dim: #0E0F17;
-  --surface-container: #1B1D28;
+  --surface-container: var(--surface-subtle, #272A2D);
   --surface-container-low: #181A24;
-  --surface-container-high: #232633;
+  --surface-container-high: var(--surface-hover, #2E3135);
   --surface-container-highest: #2C2F3E;
   --on-surface: #E6E4EC;
   --on-surface-variant: #C3C0CE;
@@ -196,13 +196,13 @@
   --text-body: #E6E4EC;
   --text-muted: #A09CAD;
   --adtraction-blue: #8FA6D6;
-  --sky-0: #17222F;
+  --sky-0: #22303F;
   --dune-0: #1E1C19;
   --field-border: #3A3D4C;
-  --skeleton: #2C2F3E;
+  --skeleton: var(--surface-active, #363A3F);
   --shadow-popover: 0 1px 3px rgba(0,0,0,.5), 0 6px 14px rgba(0,0,0,.35);
   --lilac-border: #3A4170;
-  --shell-bg: #0E0F17;
+  --shell-bg: var(--surface-page, #18191B);
   --brand-ink: #E6E4EC;
   --nav-fg: #A09CAD;
   --nav-active-fg: #E6E4EC;
@@ -353,21 +353,21 @@ h6 {
   border-radius: 24px;
 }
 @media (min-width: 769px) {
-  .tab-nav ~ .app-body {
-    margin-left: 16px;
-    transition: margin-left .3s cubic-bezier(0.23, 1, 0.32, 1);
+  body:has(.tab-nav) {
+    column-gap: 16px;
+    transition: column-gap .3s cubic-bezier(0.23, 1, 0.32, 1);
   }
-  .tab-nav[data-collapsed] ~ .app-body {
-    margin-left: 2px;
+  body:has(.tab-nav[data-collapsed]) {
+    column-gap: 2px;
   }
 }
 @media (min-width: 769px) and (max-width: 1180px) {
-  .tab-nav ~ .app-body {
-    margin-left: 2px;
+  body:has(.tab-nav) {
+    column-gap: 2px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .tab-nav ~ .app-body {
+  body:has(.tab-nav) {
     transition: none;
   }
 }
@@ -403,10 +403,9 @@ html {
   flex: 1;
   overflow-y: auto;
   padding: 0 0 8px;
-}
-.section {
-  padding-bottom: 4px;
-  margin-bottom: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 .section-header {
   padding: 8px 16px 4px 16px;
@@ -466,7 +465,7 @@ html {
 .chat-search {
   padding: 0 16px 8px;
 }
-.app-body:not([data-sidebar-view=schedules]) #routinesSection {
+.app-body:not([data-sidebar-view=schedules]) :is(#routinesSection, #scheduleCollapseSlot, #scheduleSearch) {
   display: none;
 }
 .app-body[data-sidebar-view=schedules] :is(#newChatSlot, #chatSearch, #chatSearchResults, #chatsSection) {
@@ -475,25 +474,86 @@ html {
 .app-body[data-sidebar-view=schedules] #routinesSection {
   display: block !important;
 }
-.app-body[data-sidebar-view=schedules] #routinesSection .section-header {
-  pointer-events: none;
-  padding: 16px 16px 12px;
+.list-switching :is(#newChatSlot, #scheduleCollapseSlot) {
+  view-transition-name: thread-list-header;
 }
-#scheduleCollapseSlot {
-  display: flex;
-  pointer-events: auto;
+.list-switching :is(#chatSearch, #scheduleSearch) {
+  view-transition-name: thread-list-search;
 }
-.app-body[data-sidebar-view=schedules] #routinesSection .caret {
+.list-switching #sidebar .sidebar-scroll {
+  view-transition-name: thread-list;
+}
+.list-switching #chatLogFrame {
+  view-transition-name: thread-main;
+}
+.list-switching #scrollToLatest {
+  view-transition-name: thread-jump;
+}
+.list-switching #inputBar {
+  view-transition-name: thread-composer;
+}
+::view-transition-old(thread-composer),
+::view-transition-old(thread-jump) {
   display: none;
 }
-#routinesSection:has(#routinesList:empty) .chat-search {
+::view-transition-group(thread-composer),
+::view-transition-group(thread-jump),
+::view-transition-new(thread-composer),
+::view-transition-new(thread-jump) {
+  animation: none;
+}
+html.list-switching::view-transition-old(root),
+html.list-switching::view-transition-new(root) {
+  animation: none;
+}
+.list-switching :is(#newChatSlot, #scheduleCollapseSlot, #chatSearch, #scheduleSearch, #sidebar .sidebar-scroll) {
+  background-color: inherit;
+}
+.list-switching #chatLogFrame {
+  background: var(--surface);
+}
+::view-transition-old(thread-list-header),
+::view-transition-old(thread-list-search),
+::view-transition-old(thread-list),
+::view-transition-old(thread-main) {
+  animation: none;
+}
+::view-transition-new(thread-list-header),
+::view-transition-new(thread-list-search),
+::view-transition-new(thread-list),
+::view-transition-new(thread-main) {
+  animation: thread-list-in 220ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+@keyframes thread-list-in {
+  from {
+    opacity: 0;
+    filter: blur(2px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+#routinesSection > .section-header {
+  display: none;
+}
+.app-body:has(#routinesList:empty) #scheduleSearch {
   display: none;
 }
 #sessionList:not(:empty) + #chatsEmpty {
   display: none;
 }
 #chatSearchResults {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   padding: 2px 8px 4px;
+}
+#chatSearchResults:empty {
+  display: none;
 }
 .chat-search-status {
   font-size: 11px;
@@ -537,7 +597,9 @@ html {
   font-size: 18px;
 }
 .search-result {
-  margin: 4px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
   padding: 9px 11px;
   border-radius: 8px;
   cursor: pointer;
@@ -577,7 +639,6 @@ html {
 .search-result .sr-snippet {
   font-size: 11px;
   color: var(--on-surface-variant);
-  margin-top: 3px;
   line-height: 1.35;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -593,213 +654,14 @@ html {
 .search-result .sr-meta {
   font-size: 10px;
   color: var(--outline);
-  margin-top: 3px;
   text-transform: uppercase;
   letter-spacing: 0.4px;
-}
-.sched-modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(11, 12, 36, 0.45);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 200;
-}
-.sched-modal-backdrop.open {
-  display: flex;
-}
-.sched-modal {
-  background: var(--surface);
-  border-radius: 14px;
-  width: 820px;
-  max-width: 94vw;
-  max-height: 90vh;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.28);
-}
-.sched-modal-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 18px 24px 14px;
-  font-size: 16px;
-  font-weight: 600;
-  flex: 0 0 auto;
-}
-.sched-modal-header .material-symbols-outlined {
-  color: var(--primary);
-}
-.sched-modal-header .sched-modal-close {
-  margin-left: auto;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  color: var(--outline);
-  display: inline-flex;
-  padding: 4px;
-  border-radius: 6px;
-}
-.sched-modal-header .sched-modal-close:hover {
-  background: var(--surface-container);
-  color: var(--on-surface);
-}
-.sched-modal-body {
-  padding: 4px 24px 12px;
-  overflow-y: auto;
-  flex: 1 1 auto;
-}
-.sched-field {
-  margin-bottom: 18px;
-}
-.sched-field-label {
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  color: var(--on-surface-variant);
-  font-weight: 600;
-  margin-bottom: 7px;
-}
-.sched-field select,
-.sched-field textarea,
-.sched-field input[type=text],
-.sched-field input[type=time],
-.sched-field input[type=number] {
-  padding: 10px 12px;
-  border: 1px solid var(--outline-variant);
-  border-radius: 8px;
-  font-family: inherit;
-  font-size: 14px;
-  background: var(--surface);
-  color: var(--on-surface);
-}
-.sched-field select,
-.sched-field textarea,
-#schedTitle {
-  width: 100%;
-  box-sizing: border-box;
-}
-.sched-field textarea {
-  min-height: 200px;
-  max-height: 60vh;
-  resize: vertical;
-  line-height: 1.5;
-  overflow-y: auto;
-}
-.sched-field textarea:focus,
-.sched-field input:focus,
-.sched-field select:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px var(--lilac);
-}
-.cron-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 10px;
-}
-.cron-pill {
-  padding: 7px 14px;
-  border: 1px solid var(--outline-variant);
-  border-radius: 16px;
-  cursor: pointer;
-  font-size: 13px;
-  color: var(--on-surface-variant);
-  background: var(--surface);
-  user-select: none;
-}
-.cron-pill input {
-  display: none;
-}
-.cron-pill:has(input:checked) {
-  background: var(--lilac);
-  color: var(--primary);
-  border-color: var(--primary);
-  font-weight: 500;
-}
-.cron-detail-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  flex-wrap: wrap;
-  margin-bottom: 6px;
-}
-.cron-detail-row .lbl {
-  color: var(--on-surface-variant);
-}
-.cron-detail-row > .lbl:first-child {
-  flex: 0 0 auto;
-  white-space: nowrap;
-}
-#schedTimeLabel {
-  display: inline-flex;
-  align-items: center;
-}
-.sched-time-icon {
-  font-size: 18px;
-  color: var(--outline);
-}
-.cron-detail-row input[type=time] {
-  width: 110px;
-}
-.cron-detail-row input[type=number] {
-  width: 72px;
-}
-.cron-detail-row select {
-  width: auto;
-}
-.cron-summary {
-  font-size: 13px;
-  color: var(--primary);
-  background: var(--lilac);
-  border-radius: 8px;
-  padding: 8px 12px;
-  margin-top: 10px;
-  font-weight: 500;
-}
-.sched-field-hint {
-  font-size: 12px;
-  color: var(--outline);
-  margin-top: 6px;
-}
-.sched-modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  padding: 14px 24px 18px;
-  border-top: 1px solid var(--outline-variant);
-  flex: 0 0 auto;
-}
-.sched-modal-footer button {
-  padding: 9px 18px;
-  border-radius: 8px;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  border: 1px solid var(--outline-variant);
-  background: var(--surface);
-  color: var(--on-surface);
-}
-.sched-modal-footer .sched-save {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: var(--on-primary);
-  font-weight: 600;
-}
-.sched-modal-footer .sched-save:hover {
-  background: var(--primary-container);
-}
-.sched-modal-footer .sched-save:disabled {
-  opacity: 0.5;
-  cursor: default;
 }
 #mainArea {
+  --chat-text: clamp(14px, calc(0.45vw + 8px), 18px);
+  --col-max: calc((var(--chat-text) * 41.5 + 32px) / 0.9);
   --col-gutter: clamp(12px, 4%, 40px);
-  --col-left: max(calc(var(--col-gutter) + 44px), calc((100% - 820px) / 2));
+  --col-left: max(calc(var(--col-gutter) + 44px), calc((100% - var(--col-max)) / 2));
   --col-right: var(--col-left);
   flex: 1;
   display: flex;
@@ -873,6 +735,9 @@ html {
 .app-body:not([data-sidebar-view=schedules]) #sidebar .sidebar-scroll.ov-top:has(#sessionList h3) {
   --ov-t: 0px;
 }
+.app-body[data-sidebar-view=schedules] #sidebar .sidebar-scroll.ov-top:has(#routinesList h3) {
+  --ov-t: 0px;
+}
 .scroll-shadow.ov-bottom {
   --ov-b: 32px;
 }
@@ -904,6 +769,24 @@ html {
   display: flex;
   flex-direction: column;
 }
+#scheduleStarters {
+  display: none;
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  padding: var(--size-space-800) var(--col-gutter) var(--size-space-400);
+  align-items: safe center;
+  justify-content: center;
+}
+.app-body.schedules-page #scheduleStarters {
+  display: flex;
+}
+.app-body:not(.schedules-page) #scheduleStartersShadow {
+  visibility: hidden;
+}
+.app-body.schedules-page :is(#chatLog, #chatLogShadow, #chatRail, #inputBar, #scrollToLatest, #convHeader h1, #convHeader [data-conv-day]) {
+  visibility: hidden;
+}
 #chatLog {
   flex: 1;
   min-height: 0;
@@ -924,7 +807,7 @@ html {
   flex-shrink: 0;
 }
 .msg {
-  font-size: 14px;
+  font-size: var(--chat-text, 14px);
   line-height: 1.65;
   word-wrap: break-word;
   overflow-wrap: anywhere;
@@ -932,18 +815,59 @@ html {
 .msg.user {
   max-width: 80%;
   align-self: flex-end;
-  background: var(--lilac);
+  background: var(--sky);
   color: var(--text-body);
   padding: 12px 16px;
   border-radius: 8px;
   white-space: pre-wrap;
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-200);
 }
-.msg.assistant {
-  background: var(--sky);
+.msg.assistant,
+.msg.assistant > .answer-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-300);
   color: var(--text-body);
-  padding: 12px 16px;
-  border-radius: var(--size-radius-100) var(--size-radius-200) var(--size-radius-200) var(--size-radius-200);
-  overflow-x: auto;
+}
+.stream-answer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-300);
+  font-size: var(--chat-text, 14px);
+  line-height: 1.65;
+  color: var(--text-body);
+  overflow-wrap: anywhere;
+}
+.stream-word {
+  animation: stream-ink 700ms ease-out;
+}
+@keyframes stream-ink {
+  from {
+    color: var(--primary-blue-400);
+  }
+}
+.stream-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  vertical-align: -0.15em;
+  translate: 0.2em 0;
+  border-radius: 1px;
+  background: var(--primary-blue-400);
+  animation: stream-caret 1s steps(1) infinite;
+}
+@keyframes stream-caret {
+  50% {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stream-word,
+  .stream-caret {
+    animation: none;
+  }
 }
 .msg.error {
   align-self: flex-start;
@@ -968,27 +892,12 @@ html {
   height: 1px;
   background: var(--skeleton);
 }
-.compact-divider {
-  align-self: stretch;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 12px 4px;
-  font-size: 11px;
-  color: var(--outline);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-.compact-divider::before,
-.compact-divider::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: var(--outline-variant);
+#chatLog > .msg-wrapper:not(:last-child) [data-stopped-continue],
+.stopped-run[data-continuing] [data-stopped-continue] {
+  display: none;
 }
 .compact-box {
   align-self: stretch;
-  margin: 12px 0;
   background: var(--sky-0);
   border: 1px solid var(--sky);
   border-radius: 8px;
@@ -1052,7 +961,6 @@ html {
 }
 .load-older-btn {
   align-self: center;
-  margin: 8px 0 12px;
   padding: 6px 16px;
   background: var(--surface-container);
   border: 1px solid var(--outline-variant);
@@ -1073,19 +981,12 @@ html {
 .thinking-stream-bubble {
   display: flex;
   flex-direction: column;
+  gap: var(--size-space-300);
   min-width: 0;
-  padding: var(--size-space-300) var(--size-space-400);
-  border-radius: var(--size-radius-100) var(--size-radius-200) var(--size-radius-200) var(--size-radius-200);
-  background: var(--sky);
   color: var(--text-body);
   font-size: var(--font-size-small);
   line-height: 1.65;
   overflow-wrap: anywhere;
-}
-@media (max-width: 768px) {
-  .thinking-stream-bubble {
-    padding: 14px var(--size-space-400);
-  }
 }
 .thinking-mark {
   display: inline-flex;
@@ -1104,7 +1005,7 @@ html {
   clip-path: inset(50%);
   white-space: nowrap;
 }
-.thinking-collapsed summary,
+.thinking-toggle,
 .thinking-stream-header {
   display: flex;
   align-items: center;
@@ -1117,10 +1018,10 @@ html {
   background: none;
   font: inherit;
   font-size: var(--font-size-2x-small);
+  font-weight: var(--font-weight-regular);
   line-height: 1.5;
   color: var(--text-muted);
   text-align: left;
-  list-style: none;
   cursor: pointer;
   user-select: none;
   transition: color var(--transition-speed-default) ease-in-out;
@@ -1128,15 +1029,12 @@ html {
 .thinking-stream-header {
   gap: var(--size-space-150);
 }
-.thinking-collapsed summary::-webkit-details-marker {
-  display: none;
-}
-:is(.thinking-collapsed summary, .thinking-stream-header, .tool-card-header):focus-visible {
+:is(.thinking-toggle, .thinking-stream-header, .tool-card-header):focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 @media (hover: hover) and (pointer: fine) {
-  :is(.thinking-collapsed summary, .thinking-stream-header):hover,
+  :is(.thinking-toggle, .thinking-stream-header):hover,
   .tool-card-header:hover .thinking-chevron {
     color: var(--text-body);
   }
@@ -1145,44 +1043,40 @@ html {
   width: 0.875rem;
   transition: color var(--transition-speed-default) ease-in-out, transform var(--transition-speed-default) ease-in-out;
 }
-.thinking-collapsed details[open] > summary .thinking-chevron,
-:is(.thinking-stream-header, .tool-card-header)[aria-expanded=true] .thinking-chevron {
+:is(.thinking-toggle, .thinking-stream-header, .tool-card-header)[aria-expanded=true] .thinking-chevron {
   transform: rotate(90deg);
 }
 .thinking-stream-skills {
   display: flex;
   flex-direction: column;
-  padding-top: var(--size-space-100);
 }
 .thinking-stream-skills:empty,
 .thinking-stream[data-open=true] .thinking-stream-skills {
   display: none;
 }
 .thinking-stream-history-wrap {
-  display: grid;
+  display: none;
   grid-template-rows: 0fr;
   overflow-x: visible;
   overflow-y: clip;
-  visibility: hidden;
-  transition: grid-template-rows var(--transition-speed-slow) ease-in-out, visibility 0s linear var(--transition-speed-slow);
+  transition: grid-template-rows var(--transition-speed-slow) ease-in-out, display var(--transition-speed-slow) allow-discrete;
 }
-.thinking-stream[data-open=true] .thinking-stream-history-wrap {
+.thinking-stream[data-open=true] .thinking-stream-history-wrap:not(:has(> :empty)) {
+  display: grid;
   grid-template-rows: 1fr;
-  visibility: visible;
-  transition: grid-template-rows var(--transition-speed-slow) ease-in-out;
 }
-.thinking-stream-history-wrap:has(> :empty) {
-  display: none;
+@starting-style {
+  .thinking-stream[data-open=true] .thinking-stream-history-wrap {
+    grid-template-rows: 0fr;
+  }
 }
 .thinking-stream-history {
   min-height: 0;
-  padding-top: var(--size-space-200);
 }
 .thinking-stream-current {
   display: none;
   flex-direction: column;
   gap: var(--size-space-100);
-  padding-top: var(--size-space-200);
 }
 .thinking-stream-current:has(> :not(:empty)) {
   display: flex;
@@ -1192,10 +1086,6 @@ html {
 }
 .thinking-stream--compacting > .msg-author {
   display: none;
-}
-.thinking-stream--compacting > .thinking-stream-bubble {
-  padding: 0;
-  background: none;
 }
 .thinking-stream--compacting .thinking-stream-header {
   padding: var(--size-space-100) var(--size-space-300);
@@ -1215,10 +1105,6 @@ html {
   padding: var(--size-space-300);
   border-radius: var(--size-radius-300);
   background: var(--grayscale-50);
-}
-.thinking-collapsed details[open] > summary,
-.thinking-stream[data-open=true]:has(.thinking-stream-history:not(:empty)) .thinking-stream-header {
-  padding-bottom: var(--size-space-200);
 }
 :is(.thinking-stream-history, .thinking-collapsed .thinking-body) .tool-card-details,
 :is(.msg.assistant, .thinking-stream, .thinking-collapsed) :is(.thinking-stream-history, .thinking-body) .thinking-stream-step-text :is(code, pre) {
@@ -1380,19 +1266,12 @@ html {
 .thinking-collapsed {
   width: 100%;
   box-sizing: border-box;
-  padding-bottom: var(--size-space-200);
-  interpolate-size: allow-keywords;
 }
-.thinking-collapsed details::details-content {
-  block-size: 0;
-  overflow-x: visible;
-  overflow-y: clip;
-  transition: block-size var(--transition-speed-slow) ease-in-out, content-visibility var(--transition-speed-slow) allow-discrete;
+.thinking-collapsed:not([data-open=true]) > .thinking-body,
+.thinking-collapsed:not([data-open=true]):not(:has(> .thinking-toggle)) {
+  display: none;
 }
-.thinking-collapsed details[open]::details-content {
-  block-size: auto;
-}
-.thinking-collapsed details[open] .thinking-body {
+.thinking-collapsed[data-open=true] > .thinking-body {
   animation: thinking-reveal var(--transition-speed-slow) ease-out;
 }
 @keyframes thinking-reveal {
@@ -1402,23 +1281,21 @@ html {
   }
 }
 @media (pointer: coarse) {
-  .thinking-collapsed summary,
+  .thinking-toggle,
   .thinking-stream-header,
   .tool-card-header {
     padding-block: var(--size-space-300);
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .thinking-collapsed summary,
+  .thinking-toggle,
   .thinking-stream-header,
   .thinking-chevron,
   .thinking-stream-history-wrap,
-  .tool-card-body,
-  .thinking-collapsed details::details-content {
+  .tool-card-body {
     transition: none !important;
   }
-  .thinking-collapsed details[open] .thinking-body,
-  .thinking-mark .loading_dots span {
+  .thinking-collapsed[data-open=true] > .thinking-body {
     animation: none !important;
   }
 }
@@ -1462,43 +1339,43 @@ html {
   display: flex;
   justify-content: center;
 }
-#inputBar.passthrough * { pointer-events: none; }
-.msg.assistant p {
-  margin: 0 0 10px;
+#inputBar.passthrough * {
+  pointer-events: none;
 }
-.msg.assistant p:last-child {
-  margin-bottom: 0;
+:is(.msg.assistant, .stream-answer) :is(p, ul, ol, h1, h2, h3, h4, h5, h6, pre, table, blockquote, hr) {
+  margin: 0;
 }
-.msg.assistant ul,
-.msg.assistant ol {
-  margin: 6px 0 10px 20px;
+:is(.msg.assistant, .stream-answer) :is(ul, ol) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-100);
+  padding-inline-start: var(--size-space-500);
 }
-.msg.assistant li {
-  margin-bottom: 3px;
+:is(.msg.assistant, .stream-answer) li > * + * {
+  margin-top: var(--size-space-100);
 }
-.msg.assistant h1,
-.msg.assistant h2,
-.msg.assistant h3,
-.msg.assistant h4,
-.msg.assistant h5,
-.msg.assistant h6 {
-  margin: 16px 0 8px;
+:is(.msg.assistant, .stream-answer) h1,
+:is(.msg.assistant, .stream-answer) h2,
+:is(.msg.assistant, .stream-answer) h3,
+:is(.msg.assistant, .stream-answer) h4,
+:is(.msg.assistant, .stream-answer) h5,
+:is(.msg.assistant, .stream-answer) h6 {
   color: var(--primary);
   letter-spacing: -0.01em;
 }
-.msg.assistant h1 {
+:is(.msg.assistant, .stream-answer) h1 {
   font-size: 18px;
   font-weight: 600;
 }
-.msg.assistant h2 {
+:is(.msg.assistant, .stream-answer) h2 {
   font-size: 16px;
   font-weight: 600;
 }
-.msg.assistant h3 {
+:is(.msg.assistant, .stream-answer) h3 {
   font-size: 15px;
   font-weight: 600;
 }
-.msg.assistant code {
+:is(.msg.assistant, .stream-answer) code {
   background: var(--lilac);
   padding: 2px 6px;
   border-radius: 4px;
@@ -1510,41 +1387,39 @@ html {
     monospace;
   color: var(--primary);
 }
-.msg.assistant pre {
+:is(.msg.assistant, .stream-answer) pre {
   border: none;
   border-radius: 6px;
   padding: 14px 16px;
   overflow-x: auto;
-  margin: 8px 0;
 }
-.msg.assistant pre code {
+:is(.msg.assistant, .stream-answer) pre code {
   background: none;
   padding: 0;
   font-size: 13px;
   color: var(--on-surface);
 }
-.msg.assistant table {
+:is(.msg.assistant, .stream-answer) table {
   border-collapse: collapse;
-  margin: 10px 0;
   font-size: 13px;
   width: 100%;
   overflow: hidden;
   border-radius: 6px;
 }
-.msg.assistant th,
-.msg.assistant td {
+:is(.msg.assistant, .stream-answer) th,
+:is(.msg.assistant, .stream-answer) td {
   border-bottom: 1px solid var(--surface-container-highest);
   padding: 8px 12px;
   text-align: left;
   overflow-wrap: normal;
   word-break: normal;
 }
-.msg.assistant table,
-.msg.assistant pre,
-.msg.assistant :not(pre) > code {
-  background: var(--surface);
+:is(.msg.assistant, .stream-answer) table,
+:is(.msg.assistant, .stream-answer) pre,
+:is(.msg.assistant, .stream-answer) :not(pre) > code {
+  background: var(--grayscale-50);
 }
-.msg.assistant th {
+:is(.msg.assistant, .stream-answer) th {
   background: var(--lilac);
   color: var(--primary);
   font-weight: 600;
@@ -1552,10 +1427,12 @@ html {
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
-.msg.assistant :is(blockquote, .answer-card) {
-  margin: var(--size-space-200) 0;
-  padding: var(--size-space-400);
-  border: 0;
+:is(.msg.assistant, .stream-answer) :is(blockquote, .answer-card) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-200);
+  padding: var(--size-space-400) var(--size-space-500);
+  border: 1px solid var(--grayscale-150);
   border-radius: var(--size-radius-300);
   background: var(--grayscale-0);
   color: var(--text-body-default);
@@ -1567,7 +1444,7 @@ html {
 .draft-block {
   position: relative;
 }
-.msg.assistant .draft-block > :is(blockquote, .answer-card) {
+:is(.msg.assistant, .stream-answer) .draft-block > :is(blockquote, .answer-card) {
   padding-right: calc(var(--size-space-400) + 2rem);
 }
 .draft-block > .icon-action {
@@ -1575,27 +1452,23 @@ html {
   top: calc(var(--size-space-200) * 2);
   right: var(--size-space-200);
 }
-.msg.assistant :is(blockquote, .answer-card) > :first-child {
-  margin-top: 0;
-}
-.msg.assistant :is(blockquote, .answer-card) > :last-child {
-  margin-bottom: 0;
-}
-.msg.assistant a {
+:is(.msg.assistant, .stream-answer) a {
   color: var(--primary);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
-.msg.assistant a:hover {
+:is(.msg.assistant, .stream-answer) a:hover {
   color: var(--primary-container);
 }
-.msg.assistant hr {
+:is(.msg.assistant, .stream-answer) hr {
   border: none;
   border-top: 1px solid var(--outline-variant);
-  margin: 14px 0;
 }
 .msg-wrapper {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-150);
   width: fit-content;
   max-width: 90%;
   min-width: 0;
@@ -1614,7 +1487,6 @@ html {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding-bottom: var(--size-space-150);
   font-size: 14px;
   font-weight: 500;
   line-height: normal;
@@ -1634,12 +1506,26 @@ html {
 }
 .msg-wrapper:not(.user-wrapper) > .msg-author {
   position: relative;
+  min-height: calc(var(--font-size-2x-small) * 1.5 + 2 * var(--size-space-100));
+}
+@media (pointer: coarse) {
+  .msg-wrapper:not(.user-wrapper) > .msg-author {
+    min-height: calc(var(--font-size-2x-small) * 1.5 + 2 * var(--size-space-300));
+  }
+}
+@media (max-width: 768px) {
+  .msg-author:has(> :is(.thinking-toggle, .thinking-stream-header)) > .msg-tag {
+    display: none;
+  }
+}
+.msg.assistant:has(> .thinking-collapsed:only-child:not([data-open=true])) {
+  display: none;
 }
 .msg-wrapper:not(.user-wrapper) > .msg-author::before {
   content: "";
   position: absolute;
   left: -44px;
-  top: 100%;
+  top: calc(100% + var(--size-space-150));
   width: 32px;
   height: 32px;
   border-radius: 20%;
@@ -1692,7 +1578,7 @@ html {
   content: "";
   position: absolute;
   left: -44px;
-  top: 100%;
+  top: calc(100% + var(--size-space-150));
   width: 32px;
   height: 32px;
   border-radius: 20%;
@@ -1861,6 +1747,9 @@ html {
     --col-right: var(--col-gutter);
     --gutter-toggle-position: static;
   }
+  #convHeader {
+    --conv-title-align: start;
+  }
   .msg-wrapper:not(.user-wrapper) > .msg-author::before {
     display: none;
   }
@@ -1874,7 +1763,6 @@ html {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding-top: 4px;
   line-height: 16px;
   width: 0;
   min-width: 100%;
@@ -1917,10 +1805,6 @@ html {
 .answer-table-block {
   display: flex;
   flex-direction: column;
-  padding: var(--size-space-200) 0;
-}
-.answer-table-block > table {
-  margin: 0;
 }
 .code-copy-btn {
   position: absolute;
@@ -1970,13 +1854,10 @@ html {
   flex-wrap: wrap;
   align-items: center;
   gap: var(--size-space-100);
-  padding: 6px 16px 2px 0;
 }
 .fb-spacer {
   flex: 1;
-}
-.fb-meta {
-  margin-left: 14px;
+  min-width: var(--size-space-200);
 }
 .fb-meta {
   font-size: 12px;
@@ -2044,7 +1925,6 @@ html {
 }
 .mermaid-container {
   position: relative;
-  margin: 10px 0;
   padding: 16px;
   background: var(--surface);
   border: none;
@@ -2056,10 +1936,43 @@ html {
   max-width: 100%;
   height: auto;
 }
-.mermaid-copy-btn {
+:is(.msg.assistant, .stream-answer) img:not(:is(a, button, .answer-embed, .entity-name) img) {
+  display: block;
+  max-width: 100%;
+  max-height: 16rem;
+  width: auto;
+  border-radius: var(--size-radius-200);
+}
+.answer-zoomable {
+  cursor: zoom-in;
+  transition: transform var(--transition-speed-default) ease-out;
+}
+img.answer-zoomable:hover {
+  transform: scale(1.01);
+}
+img.answer-zoomable:active {
+  transform: scale(0.99);
+}
+.answer-zoomable:focus-visible {
+  outline: 2px solid var(--navigation-focus-ring);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .answer-zoomable {
+    transition: none;
+  }
+  img.answer-zoomable:is(:hover, :active) {
+    transform: none;
+  }
+}
+.mermaid-actions {
   position: absolute;
   top: 8px;
   right: 8px;
+  display: flex;
+  gap: var(--size-space-100);
+}
+.mermaid-copy-btn {
   width: 32px;
   height: 32px;
   border: none;
@@ -2072,7 +1985,7 @@ html {
   opacity: 0;
   transition: opacity 0.15s ease;
 }
-.mermaid-container:hover .mermaid-copy-btn {
+.mermaid-container:is(:hover, :focus-within) .mermaid-copy-btn {
   opacity: 1;
 }
 .mermaid-copy-btn:hover {
@@ -2128,7 +2041,7 @@ html {
     display: block;
   }
   #newChatSlot,
-  #routinesSection > .section-header {
+  #scheduleCollapseSlot {
     display: none;
   }
   .tab-nav .meta {
@@ -2188,9 +2101,6 @@ html {
   .msg.user {
     max-width: 92%;
   }
-  .msg.assistant {
-    padding: 14px 16px;
-  }
   #questionInput {
     font-size: 16px;
   }
@@ -2205,7 +2115,6 @@ html {
   display: flex;
   align-items: center;
   gap: 2px;
-  padding-top: var(--size-space-150);
   font-size: 12px;
   color: var(--primary);
   opacity: .8;
@@ -2490,6 +2399,9 @@ function publishHeader(patch) {
   <div class="mobile-list-header" id="mobileListHeader"></div>
   <div class="list-header" id="newChatSlot"></div>
   <div class="chat-search" id="chatSearch"></div>
+  
+  <div class="list-header" id="scheduleCollapseSlot"></div>
+  <div class="chat-search" id="scheduleSearch"></div>
   <div class="sidebar-scroll">
     <div id="chatSearchResults"></div>
     <div class="section" id="routinesSection">
@@ -2497,11 +2409,9 @@ function publishHeader(patch) {
         <div class="section-title"><span class="caret material-symbols-outlined">expand_more</span>Schedules</div>
         <div class="section-actions">
           <span class="section-count" id="routinesCount">0</span>
-          <span id="scheduleCollapseSlot"></span>
         </div>
       </div>
-      <div class="chat-search" id="scheduleSearch"></div>
-      <div class="section-body" id="routinesList" data-empty="No schedules yet — ask in chat to set one up"></div>
+      <div class="section-body" id="routinesList" data-empty="No schedules yet. Start one with New schedule, or ask Cramer in a chat"></div>
     </div>
     
     <div class="section" id="chatsSection">
@@ -2518,7 +2428,10 @@ function publishHeader(patch) {
   
   <div class="chat-log-frame" id="chatLogFrame">
     <div id="chatLog"></div>
+    
+    <div id="scheduleStarters"></div>
     <span id="chatLogShadow"></span>
+    <span id="scheduleStartersShadow"></span>
     <span id="chatRail"></span>
   </div>
   <span id="scrollToLatest"></span>
@@ -2535,94 +2448,6 @@ function publishHeader(patch) {
   <div id="filePaneContent"></div>
 </aside>
 
-</div>
-
-
-<div class="sched-modal-backdrop" id="schedModalBackdrop">
-  <div class="sched-modal" role="dialog" aria-labelledby="schedModalTitle">
-    <div class="sched-modal-header">
-      <span class="material-symbols-outlined">schedule</span>
-      <span id="schedModalTitle">Schedule this chat</span>
-      <button class="sched-modal-close" id="schedModalClose" aria-label="Close">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-    </div>
-    <div class="sched-modal-body">
-      <div class="sched-field" id="schedTitleField">
-        <div class="sched-field-label" id="schedTitleLabel">Title</div>
-        
-        <input type="text" id="schedTitle" placeholder="Name this schedule" maxlength="200" autocomplete="off">
-      </div>
-      <div class="sched-field">
-        <div class="sched-field-label">When</div>
-        <div class="cron-pills">
-          <label class="cron-pill"><input type="radio" name="schedFreq" value="hourly"><span>Hourly</span></label>
-          <label class="cron-pill"><input type="radio" name="schedFreq" value="daily" checked><span>Daily</span></label>
-          <label class="cron-pill"><input type="radio" name="schedFreq" value="weekdays"><span>Weekdays</span></label>
-          <label class="cron-pill"><input type="radio" name="schedFreq" value="weekly"><span>Weekly</span></label>
-          <label class="cron-pill"><input type="radio" name="schedFreq" value="monthly"><span>Monthly</span></label>
-          <label class="cron-pill"><input type="radio" name="schedFreq" value="custom"><span>Custom</span></label>
-        </div>
-        <div class="cron-detail-row" id="schedWeeklyRow" style="display:none;">
-          <span class="lbl">on</span>
-          <select id="schedDow">
-            <option value="MON" selected>Monday</option><option value="TUE">Tuesday</option>
-            <option value="WED">Wednesday</option><option value="THU">Thursday</option>
-            <option value="FRI">Friday</option><option value="SAT">Saturday</option>
-            <option value="SUN">Sunday</option>
-          </select>
-        </div>
-        <div class="cron-detail-row" id="schedMonthlyRow" style="display:none;">
-          <span class="lbl">on day</span>
-          <input type="number" id="schedDom" value="1" min="1" max="28">
-        </div>
-        <div class="cron-detail-row" id="schedTimeRow">
-          <span class="lbl" id="schedTimeLabel" aria-label="at"><span class="material-symbols-outlined sched-time-icon">schedule</span></span>
-          <span id="schedClockGroup" style="display:inline-flex;align-items:center;gap:3px;">
-            <input type="text" id="schedHour" aria-label="Hour (24h)" inputmode="numeric" maxlength="2" value="08" style="width:48px;">
-            <span class="lbl">:</span>
-            <input type="text" id="schedMin" aria-label="Minute" inputmode="numeric" maxlength="2" value="00" style="width:48px;">
-          </span>
-          <span id="schedTzGroup" style="display:inline-flex;align-items:center;gap:4px;">
-            <span class="lbl">in</span>
-            <select id="schedTz" aria-label="Timezone">
-              <option value="Europe/Stockholm" selected>Stockholm · UTC+1 (SE)</option>
-              <option value="Europe/Oslo">Oslo · UTC+1 (NO)</option>
-              <option value="Europe/Copenhagen">Copenhagen · UTC+1 (DK)</option>
-              <option value="Europe/Helsinki">Helsinki · UTC+2 (FI)</option>
-              <option value="Europe/London">London · UTC+0 (UK)</option>
-              <option value="Europe/Berlin">Berlin · UTC+1 (DE)</option>
-              <option value="Europe/Paris">Paris · UTC+1 (FR)</option>
-              <option value="Europe/Madrid">Madrid · UTC+1 (ES)</option>
-              <option value="Europe/Amsterdam">Amsterdam · UTC+1 (NL)</option>
-              <option value="Europe/Warsaw">Warsaw · UTC+1 (PL)</option>
-              <option value="UTC">UTC / GMT</option>
-              <option value="America/New_York">New York · UTC−5 (US East)</option>
-              <option value="__custom__">Custom…</option>
-            </select>
-            <input type="text" id="schedTzCustom" placeholder="Area/City" style="display:none;width:130px;padding:6px 8px;border:1px solid var(--outline-variant);border-radius:6px;font-size:12px;">
-          </span>
-          <span id="schedHourlyExtra" style="display:none;align-items:center;gap:6px;">
-            <span class="lbl">every hour at minute</span>
-            <input type="text" id="schedMinute" aria-label="Minute of the hour" inputmode="numeric" maxlength="2" value="0" style="width:48px;">
-          </span>
-        </div>
-        <div class="cron-detail-row" id="schedCustomRow" style="display:none;">
-          <input type="text" id="schedCronCustom" placeholder="0 8 * * *" value="0 8 * * *" style="flex:1;font-family:monospace;font-size:12px;">
-        </div>
-        <div class="cron-summary" id="schedCronSummary">Daily at 08:00</div>
-      </div>
-      <div class="sched-field">
-        <div class="sched-field-label">Message</div>
-        <textarea id="schedPrompt" placeholder="What should this schedule do each time it runs?"></textarea>
-        <div class="sched-field-hint">Sent to the agent at every fire. The result lands in this chat.</div>
-      </div>
-    </div>
-    <div class="sched-modal-footer">
-      <button id="schedCancelBtn" type="button">Cancel</button>
-      <button class="sched-save" id="schedSaveBtn" type="button">Save schedule</button>
-    </div>
-  </div>
 </div>
 
 <script>
@@ -2669,7 +2494,24 @@ async function renderMermaidBlocks(containerEl) {
       copyBtn.title = "Copy as PNG";
       copyBtn.innerHTML = '<span class="material-symbols-outlined">content_copy</span>';
       copyBtn.addEventListener("click", () => copyMermaidAsPng(container, copyBtn));
-      container.appendChild(copyBtn);
+      const openDiagram = () => {
+        const svgEl = container.querySelector("svg");
+        if (svgEl) window.AAMP_VIEW_MEDIA?.({ svg: svgEl.outerHTML.replaceAll(svgEl.id, `${svgEl.id}-view`), label: "Diagram" });
+      };
+      const zoomBtn = document.createElement("button");
+      zoomBtn.className = "mermaid-copy-btn";
+      zoomBtn.title = "Open larger";
+      zoomBtn.setAttribute("aria-label", "Open diagram larger");
+      zoomBtn.innerHTML = '<span class="material-symbols-outlined">open_in_full</span>';
+      zoomBtn.addEventListener("click", openDiagram);
+      const actions = document.createElement("div");
+      actions.className = "mermaid-actions";
+      actions.append(zoomBtn, copyBtn);
+      container.appendChild(actions);
+      container.classList.add("answer-zoomable");
+      container.addEventListener("click", (e) => {
+        if (!e.target.closest("button")) openDiagram();
+      });
     } catch (err) {
       container.innerHTML = `<div class="mermaid-error">Mermaid rendering failed: ${escapeHtml(err.message || String(err))}</div>`;
       const errEl = document.getElementById("d" + id);
@@ -2684,13 +2526,14 @@ async function rethemeMermaid() {
   const containers = document.querySelectorAll(".mermaid-container[data-mermaid-src]");
   for (const container of containers) {
     const graphDef = container.dataset.mermaidSrc;
-    const copyBtn = container.querySelector(".mermaid-copy-btn");
+    const actions = container.querySelector(".mermaid-actions");
     const id = "mermaid-" + ++mermaidIdCounter;
     try {
       const { svg } = await mermaid.render(id, graphDef);
       container.innerHTML = svg;
-      if (copyBtn) container.appendChild(copyBtn);
+      if (actions) container.appendChild(actions);
     } catch (err) {
+      container.classList.remove("answer-zoomable");
       container.innerHTML = `<div class="mermaid-error">Mermaid rendering failed: ${escapeHtml(err.message || String(err))}</div>`;
       const errEl = document.getElementById("d" + id);
       if (errEl) errEl.remove();
@@ -2784,13 +2627,15 @@ function formatMessageTime(ms) {
   return `${dd}/${mm}/${yy} ${time}`;
 }
 const chatLog = document.getElementById("chatLog");
-
 (() => {
   const bar = document.getElementById("inputBar");
   const EDGE = 40;
   let pointer = null;
   let frame = 0;
-  const stop = () => { pointer = null; bar.classList.remove("passthrough"); };
+  const stop = () => {
+    pointer = null;
+    bar.classList.remove("passthrough");
+  };
   const step = () => {
     frame = 0;
     if (!pointer) return;
@@ -2801,7 +2646,10 @@ const chatLog = document.getElementById("chatLog");
     chatLog.scrollTop += Math.max(-20, Math.min(20, delta / 3));
     if (chatLog.scrollTop === before) return;
     document.elementFromPoint(pointer.x, pointer.y)?.dispatchEvent(new MouseEvent("mousemove", {
-      bubbles: true, clientX: pointer.x, clientY: pointer.y, buttons: 1,
+      bubbles: true,
+      clientX: pointer.x,
+      clientY: pointer.y,
+      buttons: 1
     }));
     frame = requestAnimationFrame(step);
   };
@@ -2991,7 +2839,7 @@ window.AAMP_CHAT_HOST = {
   isStreaming: () => activeStreams.has(SESSION_ID),
   send: (request) => send(request),
   interrupt: () => interruptActiveTurn(),
-  createNewChat: () => createNewChat(),
+  createNewChat: () => startNewChat(),
   search: {
     input: (query) => onChatSearchInput(query),
     submit: (query) => submitChatSearch(query),
@@ -3013,7 +2861,10 @@ window.AAMP_CHAT_HOST = {
     openBrowser: () => filePane.openBrowser()
   },
   schedules: {
-    open: (sessionId) => switchSession(sessionId),
+    open: (sessionId) => {
+      if (!(schedulesHome && sessionId === SESSION_ID)) return switchSession(sessionId);
+      setSchedulesHome(false);
+    },
     run: (sessionId, name) => runScheduleNow(sessionId, findSchedule(name)?.query),
     renameChat: (sessionId, title) => renameSession(sessionId, title),
     renameSchedule: (name, newName) => renameSchedule(name, newName),
@@ -3021,6 +2872,8 @@ window.AAMP_CHAT_HOST = {
       const sched = findSchedule(name);
       if (sched) openScheduleModalForEdit(sched);
     },
+    save: (values) => saveSchedule(values),
+    create: (proposal) => openScheduleModalForNewChat(proposal),
     unschedule: (name) => {
       const sched = findSchedule(name);
       if (sched) deleteSchedule(sched.name, scheduleLabel(sched));
@@ -3093,6 +2946,20 @@ let USER_ID = null;
 let USER_EMAIL = null;
 let USER_NAME = null;
 let SESSION_ID = urlParams.get("session") || localStorage.getItem("aamp_session_id");
+let schedulesHome = false;
+let schedulesLoaded = false;
+let syncSchedulesPage = () => {
+};
+function setSchedulesHome(on) {
+  const leaving = schedulesHome && !on;
+  schedulesHome = on;
+  syncSchedulesPage();
+  updateActiveSessionUI(SESSION_ID);
+  if (leaving) {
+    completedStreams.delete(SESSION_ID);
+    renderSessionList(_lastSessions);
+  }
+}
 let CLAUDE_SESSION_ID = null;
 let activeSwitchController = null;
 const activeStreams = /* @__PURE__ */ new Map();
@@ -3149,7 +3016,7 @@ function isUnseen(updatedAt, seenAt, isActive) {
   return seenAt != null && updatedAt > seenAt;
 }
 function hasUnseenRun(s) {
-  return isUnseen(s.updated_at, seenStore.get(s.session_id), s.session_id === SESSION_ID);
+  return isUnseen(s.updated_at, seenStore.get(s.session_id), s.session_id === SESSION_ID && !schedulesHome);
 }
 let _authRedirecting = false;
 function handleAuthFailure() {
@@ -3262,7 +3129,7 @@ async function _doLoadSessionList() {
 function updateActiveSessionUI(sessionId) {
   for (const [key, event] of [["AAMP_CHATS", "aamp:chats"], ["AAMP_SCHEDULES", "aamp:schedules"]]) {
     if (!window[key]) continue;
-    window[key] = { ...window[key], activeId: sessionId };
+    window[key] = { ...window[key], activeId: key === "AAMP_SCHEDULES" && schedulesHome ? "" : sessionId };
     window.dispatchEvent(new Event(event));
   }
 }
@@ -3296,11 +3163,11 @@ function renderSessionList(sessions) {
   if (isEditingInside(sessionListEl, document.getElementById("routinesList"))) return;
   _lastSessions = sessions;
   const _activeSession = sessions.find((x) => x.session_id === SESSION_ID);
-  if (_activeSession) seenStore.set(SESSION_ID, _activeSession.updated_at);
+  if (_activeSession && !schedulesHome) seenStore.set(SESSION_ID, _activeSession.updated_at);
   renderRoutinesList();
-  const unscheduled = sessions.filter((s) => !hasRecurring(s.session_id) && matchesFilter(_chatTitleFilter, s.title || "New chat"));
-  unscheduled.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
-  publishChats(unscheduled.map((s) => {
+  const listed = sessions.filter((s) => matchesFilter(_chatTitleFilter, s.title || "New chat"));
+  listed.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
+  publishChats(listed.map((s) => {
     const bgStream = activeStreams.has(s.session_id) && !activeStreams.get(s.session_id).done;
     const justCompleted = completedStreams.has(s.session_id) || hasUnseenRun(s);
     return {
@@ -3308,9 +3175,10 @@ function renderSessionList(sessions) {
       title: s.title || "New chat",
       time: s.updated_at ? new Date(s.updated_at).toLocaleDateString(void 0, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" }) : "",
       pinned: !!s.pinned,
-      status: bgStream ? "running" : justCompleted ? "unread" : null
+      status: bgStream ? "running" : justCompleted ? "unread" : null,
+      schedules: recurringSchedules(s.session_id).map((x) => ({ cron: x.cron, tz: x.tz, cadence: friendlyCadence(x.cron) }))
     };
-  }), !unscheduled.length && _chatTitleFilter ? `No chat titles match \u201C${_chatTitleFilter}\u201D` : "");
+  }), !listed.length && _chatTitleFilter ? `No chat titles match \u201C${_chatTitleFilter}\u201D` : "");
 }
 function publishChats(rows, message = "") {
   window.AAMP_CHATS = { rows, message, activeId: SESSION_ID };
@@ -3488,6 +3356,7 @@ function swapTheme(pref) {
     reflectThemePref(pref);
   };
   if (document.startViewTransition) {
+    document.documentElement.classList.remove("list-switching");
     document.startViewTransition(swap);
   } else {
     swap();
@@ -3531,6 +3400,42 @@ function hasRecurring(sid) {
 function applyRoutineSessionTheme() {
   chatLog.classList.toggle("routine-session", !!(SESSION_ID && hasRecurring(SESSION_ID)));
 }
+(() => {
+  const appBody = document.querySelector(".app-body");
+  const starters = document.getElementById("scheduleStarters");
+  const covered = ["chatRail", "inputBar", "scrollToLatest"].map((id) => document.getElementById(id));
+  const phone = window.matchMedia("(max-width: 768px)");
+  let view = localStorage.getItem("aamp-sidebar-view") === "schedules" ? "schedules" : "chats";
+  const sync = () => {
+    const next = appBody.getAttribute("data-sidebar-view");
+    const listHidden = appBody.classList.contains("sidebar-collapsed");
+    const routine = chatLog.classList.contains("routine-session");
+    if (next && next !== view) {
+      view = next;
+      if (next === "schedules") setSchedulesHome(!(listHidden && routine));
+      else if (schedulesHome) setSchedulesHome(false);
+    } else if (next && listHidden && !schedulesHome && schedulesLoaded && window.aampFollowSidebarView) {
+      const owner = routine ? "schedules" : "chats";
+      if (owner !== next) {
+        view = owner;
+        window.aampFollowSidebarView(owner);
+        return;
+      }
+    }
+    const page = next === "schedules" && (schedulesHome || !chatLog.classList.contains("routine-session"));
+    const refocus = !page && starters?.contains(document.activeElement);
+    appBody.classList.toggle("schedules-page", page);
+    for (const el of [chatLog, ...covered]) if (el) el.inert = page;
+    if (refocus) composer?.focus();
+    if (starters) starters.inert = !page || phone.matches && !appBody.classList.contains("sidebar-collapsed");
+  };
+  new MutationObserver(sync).observe(appBody, { attributes: true, attributeFilter: ["class", "data-sidebar-view"] });
+  new MutationObserver(sync).observe(chatLog, { attributes: true, attributeFilter: ["class"] });
+  phone.addEventListener("change", sync);
+  syncSchedulesPage = sync;
+  window.aampSyncSchedulesPage = sync;
+  sync();
+})();
 function friendlyCadence(cron) {
   cron = normalizeCron(cron);
   const hourly = cron.match(/^(\d+) \* \* \* \*$/);
@@ -3586,6 +3491,9 @@ async function loadSchedules() {
       grouped.get(sid).push(entry);
     }
     _schedulesBySession = grouped;
+    schedulesLoaded = true;
+    applyRoutineSessionTheme();
+    syncSchedulesPage();
     renderSessionList(_lastSessions);
   } catch (err) {
     console.warn("loadSchedules failed; Routines list may be stale", err);
@@ -3598,6 +3506,10 @@ function renderRoutinesList() {
   if (countEl) countEl.textContent = allScheduled.length;
   window.AAMP_SCHEDULES_UNSEEN = allScheduled.filter((s) => completedStreams.has(s.session_id) || hasUnseenRun(s)).length;
   window.dispatchEvent(new Event("aamp:schedules-unseen"));
+  window.AAMP_SCHEDULES_TAKEN = allScheduled.flatMap((s) => [
+    s.title,
+    ...(_schedulesBySession.get(s.session_id) || []).flatMap((x) => [x.display_name, x.query])
+  ]).map((t) => (t || "").trim().toLowerCase()).filter(Boolean);
   const scheduled = allScheduled.filter((s) => {
     const schedules = _schedulesBySession.get(s.session_id) || [];
     return matchesFilter(
@@ -3621,12 +3533,12 @@ function renderRoutinesList() {
       // A turn already running here means Run now QUEUES the prompt; the
       // menu says so rather than letting the click lie about itself.
       running: activeStreams.has(s.session_id),
-      schedules: schedules.map((x) => ({ name: x.name, label: scheduleLabel(x), displayName: x.display_name || "" }))
+      schedules: schedules.map((x) => ({ name: x.name, label: scheduleLabel(x), displayName: x.display_name || "", cron: x.cron }))
     };
   }), !scheduled.length && allScheduled.length ? `No schedules match \u201C${_scheduleFilter}\u201D` : "");
 }
 function publishSchedules(rows, message = "") {
-  window.AAMP_SCHEDULES = { rows, message, activeId: SESSION_ID };
+  window.AAMP_SCHEDULES = { rows, message, activeId: schedulesHome ? "" : SESSION_ID };
   window.dispatchEvent(new Event("aamp:schedules"));
 }
 async function renameSchedule(name, newName) {
@@ -3650,12 +3562,20 @@ async function runScheduleNow(sessionId, prompt) {
   prompt = (prompt || "").trim();
   if (!prompt) return;
   if (sessionId && sessionId !== SESSION_ID) await switchSession(sessionId);
+  else if (schedulesHome) setSchedulesHome(false);
   composer.runPrompt(prompt);
+}
+function confirmAction(opts) {
+  return new Promise((resolve) => whenIslandsReady(() => window.AAMP_CONFIRM(opts).then(resolve)));
 }
 async function deleteSchedule(name, cadenceLabel) {
   if (_recentlyDeletedSchedules.has(name)) return;
-  if (!confirm(`Remove the "${cadenceLabel}" schedule?
-The chat itself is kept.`)) return;
+  const confirmed = await confirmAction({
+    title: "Remove this schedule?",
+    description: `\u201C${cadenceLabel}\u201D stops running. The chat and its answers are kept.`,
+    confirmText: "Remove schedule"
+  });
+  if (!confirmed || _recentlyDeletedSchedules.has(name)) return;
   _recentlyDeletedSchedules.add(name);
   setTimeout(() => _recentlyDeletedSchedules.delete(name), 6e4);
   for (const [sid, list] of _schedulesBySession) {
@@ -3677,210 +3597,41 @@ The chat itself is kept.`)) return;
   }
   await loadSchedules();
 }
-let _schedModalSessionId = null;
-let _schedEditName = null;
-let _schedEditLoaded = null;
-function openScheduleModal(sessionId) {
-  _schedModalSessionId = sessionId || SESSION_ID || null;
-  _schedEditName = null;
-  _schedEditLoaded = null;
-  document.getElementById("schedSaveBtn").textContent = "Save schedule";
-  const n = (_schedulesBySession.get(_schedModalSessionId) || []).length;
-  document.getElementById("schedModalTitle").textContent = n > 0 ? "Add another schedule to this chat" : "Schedule this chat";
-  document.querySelector('input[name="schedFreq"][value="daily"]').checked = true;
-  document.getElementById("schedTitleLabel").textContent = "Title";
-  document.getElementById("schedTitle").value = "";
-  document.getElementById("schedHour").value = "08";
-  document.getElementById("schedMin").value = "00";
-  document.getElementById("schedTz").value = "Europe/Stockholm";
-  document.getElementById("schedTzCustom").style.display = "none";
-  document.getElementById("schedTzCustom").value = "";
-  document.getElementById("schedCronCustom").value = "0 8 * * *";
-  document.getElementById("schedPrompt").value = "";
-  document.getElementById("schedPrompt").style.height = "auto";
-  updateSchedCronUi();
-  document.getElementById("schedModalBackdrop").classList.add("open");
+function openScheduleModal(sessionId, proposal = null) {
+  const sid = sessionId || SESSION_ID || null;
+  const addingAnother = (_schedulesBySession.get(sid) || []).length > 0;
+  whenIslandsReady(() => window.AAMP_OPEN_SCHEDULE({ sessionId: sid, proposal, addingAnother }));
 }
-function closeScheduleModal() {
-  document.getElementById("schedModalBackdrop").classList.remove("open");
-  _schedEditName = null;
-  _schedEditLoaded = null;
+function openScheduleModalForNewChat(proposal = null) {
+  whenIslandsReady(() => window.AAMP_OPEN_SCHEDULE({ sessionId: crypto.randomUUID(), proposal, fresh: true }));
 }
 function openScheduleModalForEdit(sched) {
-  _schedModalSessionId = sched.session_id;
-  _schedEditName = sched.name;
-  document.getElementById("schedTitleLabel").textContent = "Schedule name";
-  document.getElementById("schedTitle").value = sched.display_name || "";
-  document.getElementById("schedModalTitle").textContent = "Edit schedule";
-  document.getElementById("schedSaveBtn").textContent = "Save changes";
-  _applyCronToPicker(sched.cron || "");
-  const promptEl = document.getElementById("schedPrompt");
-  promptEl.value = sched.query || "";
-  const tz = sched.tz || "Europe/Stockholm";
-  const tzSel = document.getElementById("schedTz");
-  const tzCustom = document.getElementById("schedTzCustom");
-  if ([...tzSel.options].some((o) => o.value === tz)) {
-    tzSel.value = tz;
-    tzCustom.style.display = "none";
-    tzCustom.value = "";
-  } else {
-    tzSel.value = "__custom__";
-    tzCustom.style.display = "";
-    tzCustom.value = tz;
-  }
-  _schedEditLoaded = {
-    cron: normalizeCron(sched.cron || ""),
-    query: (sched.query || "").trim(),
-    tz,
-    display_name: sched.display_name || ""
-  };
-  updateSchedCronUi();
-  document.getElementById("schedModalBackdrop").classList.add("open");
-  autoGrowSchedPrompt();
+  whenIslandsReady(() => window.AAMP_OPEN_SCHEDULE({ sessionId: sched.session_id, edit: sched }));
 }
-function autoGrowSchedPrompt() {
-  const el = document.getElementById("schedPrompt");
-  if (!el) return;
-  el.style.height = "auto";
-  const cap = Math.round(window.innerHeight * 0.6);
-  el.style.height = Math.min(el.scrollHeight, cap) + "px";
-}
-function _applyCronToPicker(cronExpr) {
-  let c = (cronExpr || "").replace(/^cron\((.+)\)$/, "$1").trim();
-  const f = c.split(/\s+/);
-  if (f.length === 6) c = f.slice(0, 5).map((p) => p === "?" ? "*" : p).join(" ");
-  const setFreq = (v) => {
-    const el = document.querySelector(`input[name="schedFreq"][value="${v}"]`);
-    if (el) el.checked = true;
-  };
-  const setTime = (mm, hh) => {
-    document.getElementById("schedHour").value = String(hh).padStart(2, "0");
-    document.getElementById("schedMin").value = String(mm).padStart(2, "0");
-  };
-  let m;
-  if (m = c.match(/^(\d+) \* \* \* \*$/)) {
-    setFreq("hourly");
-    document.getElementById("schedMinute").value = m[1];
-  } else if (m = c.match(/^(\d+) (\d+) \* \* MON-FRI$/)) {
-    setFreq("weekdays");
-    setTime(m[1], m[2]);
-  } else if (m = c.match(/^(\d+) (\d+) \* \* (MON|TUE|WED|THU|FRI|SAT|SUN)$/)) {
-    setFreq("weekly");
-    setTime(m[1], m[2]);
-    document.getElementById("schedDow").value = m[3];
-  } else if (m = c.match(/^(\d+) (\d+) (\d+) \* \*$/)) {
-    setFreq("monthly");
-    setTime(m[1], m[2]);
-    document.getElementById("schedDom").value = m[3];
-  } else if (m = c.match(/^(\d+) (\d+) \* \* \*$/)) {
-    setFreq("daily");
-    setTime(m[1], m[2]);
-  } else {
-    setFreq("custom");
-    document.getElementById("schedCronCustom").value = c;
-  }
-}
-function schedTimeHHMM() {
-  const clamp = (raw, max) => String(Math.min(max, Math.max(0, parseInt(raw, 10) || 0))).padStart(2, "0");
-  const hh = clamp(document.getElementById("schedHour").value, 23);
-  const mm = clamp(document.getElementById("schedMin").value, 59);
-  return `${hh}:${mm}`;
-}
-function getSelectedTz() {
-  const sel = document.getElementById("schedTz");
-  if (!sel) return "Europe/Stockholm";
-  if (sel.value === "__custom__") {
-    return (document.getElementById("schedTzCustom").value || "").trim() || "Europe/Stockholm";
-  }
-  return sel.value;
-}
-function updateSchedCronUi() {
-  const freq = document.querySelector('input[name="schedFreq"]:checked').value;
-  const isCustom = freq === "custom";
-  const isHourly = freq === "hourly";
-  document.getElementById("schedWeeklyRow").style.display = freq === "weekly" ? "flex" : "none";
-  document.getElementById("schedMonthlyRow").style.display = freq === "monthly" ? "flex" : "none";
-  document.getElementById("schedCustomRow").style.display = isCustom ? "flex" : "none";
-  document.getElementById("schedTimeRow").style.display = isCustom ? "none" : "flex";
-  document.getElementById("schedClockGroup").style.display = isHourly ? "none" : "inline-flex";
-  document.getElementById("schedTzGroup").style.display = isHourly ? "none" : "inline-flex";
-  document.getElementById("schedTimeLabel").style.display = isHourly ? "none" : "";
-  document.getElementById("schedHourlyExtra").style.display = isHourly ? "inline-flex" : "none";
-  const [hh, mm] = schedTimeHHMM().split(":");
-  const tz = getSelectedTz();
-  const dayName = { MON: "Mondays", TUE: "Tuesdays", WED: "Wednesdays", THU: "Thursdays", FRI: "Fridays", SAT: "Saturdays", SUN: "Sundays" };
-  let cron, summary;
-  if (isHourly) {
-    const minute = Math.min(59, Math.max(0, parseInt(document.getElementById("schedMinute").value, 10) || 0));
-    cron = `${minute} * * * *`;
-    summary = `Every hour at :${String(minute).padStart(2, "0")}`;
-  } else if (freq === "daily") {
-    cron = `${parseInt(mm, 10)} ${parseInt(hh, 10)} * * *`;
-    summary = `Daily at ${hh}:${mm}`;
-  } else if (freq === "weekdays") {
-    cron = `${parseInt(mm, 10)} ${parseInt(hh, 10)} * * MON-FRI`;
-    summary = `Weekdays (Mon\u2013Fri) at ${hh}:${mm}`;
-  } else if (freq === "weekly") {
-    const dow = document.getElementById("schedDow").value;
-    cron = `${parseInt(mm, 10)} ${parseInt(hh, 10)} * * ${dow}`;
-    summary = `${dayName[dow]} at ${hh}:${mm}`;
-  } else if (freq === "monthly") {
-    const dom = document.getElementById("schedDom").value || "1";
-    cron = `${parseInt(mm, 10)} ${parseInt(hh, 10)} ${dom} * *`;
-    summary = `Day ${dom} of every month at ${hh}:${mm}`;
-  } else {
-    cron = document.getElementById("schedCronCustom").value.trim();
-    summary = `Custom: ${cron}`;
-  }
-  if (!isHourly && !isCustom) summary += ` \xB7 ${tz}`;
-  document.getElementById("schedCronSummary").textContent = summary;
-  window._schedDraftCron = cron;
-}
-async function saveScheduleFromModal() {
-  const editName = _schedEditName;
-  const sessionId = _schedModalSessionId;
-  if (!editName && !sessionId) {
-    closeScheduleModal();
-    return;
-  }
-  const promptText = document.getElementById("schedPrompt").value.trim();
-  const titleVal = document.getElementById("schedTitle").value.trim();
-  const cronVal = window._schedDraftCron;
-  const tzVal = getSelectedTz();
-  const sendSchedule = !(editName && _schedEditLoaded && normalizeCron(cronVal) === _schedEditLoaded.cron && promptText === _schedEditLoaded.query && tzVal === _schedEditLoaded.tz);
-  const nameChanged = !!editName && titleVal !== (_schedEditLoaded && _schedEditLoaded.display_name || "");
-  if (sendSchedule && !promptText) {
-    document.getElementById("schedPrompt").focus();
-    return;
-  }
-  const saveBtn = document.getElementById("schedSaveBtn");
-  saveBtn.disabled = true;
+async function saveSchedule({ edit, sessionId, title, cron, query, tz, fresh = false }) {
+  const editName = edit ? edit.name : null;
+  if (!editName && !sessionId) return "saved";
+  const promptText = (query || "").trim();
+  const titleVal = (title || "").trim() || (fresh ? promptText.slice(0, 60) : "");
+  const sendSchedule = !(edit && normalizeCron(cron) === normalizeCron(edit.cron || "") && promptText === (edit.query || "").trim() && tz === (edit.tz || "Europe/Stockholm"));
+  const nameChanged = !!edit && titleVal !== (edit.display_name || "");
+  if (sendSchedule && !promptText) return "needs-prompt";
   const verb = editName ? "update" : "create";
   try {
     if (sendSchedule) {
-      let res;
-      if (editName) {
-        res = await authFetch(`/users/${USER_ID}/schedules/${encodeURIComponent(editName)}`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ cron: cronVal, query: promptText, tz: tzVal })
-        });
-      } else {
-        res = await authFetch(`/users/${USER_ID}/schedules`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            cron: cronVal,
-            query: promptText,
-            session_id: sessionId,
-            tz: tzVal
-          })
-        });
-      }
+      const res = editName ? await authFetch(`/users/${USER_ID}/schedules/${encodeURIComponent(editName)}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cron, query: promptText, tz })
+      }) : await authFetch(`/users/${USER_ID}/schedules`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cron, query: promptText, session_id: sessionId, tz })
+      });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || data.success === false) {
         addMessage("error", `Schedule ${verb} failed: ${data.detail || data.error || "HTTP " + res.status}`);
-        return;
+        return "failed";
       }
     }
     if (editName) {
@@ -3894,33 +3645,42 @@ async function saveScheduleFromModal() {
         if (!nameRes.ok) {
           addMessage("error", `Schedule rename failed: ${nameData.detail || "HTTP " + nameRes.status}`);
           await loadSchedules();
-          return;
+          return "failed";
         }
       }
     } else if (titleVal && sessionId) {
+      const unnamed = "The schedule is saved, but its chat couldn't be named yet. It shows in the list after its first run";
       try {
-        await authFetch(`/users/${USER_ID}/sessions/${sessionId}`, {
+        const res = await authFetch(`/users/${USER_ID}/sessions/${sessionId}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ title: titleVal })
         });
+        if (fresh && !res.ok) addMessage("error", `${unnamed} (HTTP ${res.status})`);
       } catch {
+        if (fresh) addMessage("error", unnamed);
       }
     }
-    closeScheduleModal();
     await loadSchedules();
+    if (fresh) await loadSessionList();
+    return "saved";
   } catch (err) {
     addMessage("error", `Schedule ${verb} failed: ${err.message}`);
-  } finally {
-    saveBtn.disabled = false;
+    return "failed";
   }
 }
 async function deleteSession(sessionId) {
   const sessionSchedules = _schedulesBySession.get(sessionId) || [];
-  const confirmMsg = sessionSchedules.length > 0 ? `Delete this chat? This also removes ${sessionSchedules.length} attached schedule${sessionSchedules.length === 1 ? "" : "s"}. This cannot be undone.` : "Delete this chat? This cannot be undone.";
-  if (!confirm(confirmMsg)) return;
+  const title = (_lastSessions.find((s) => s.session_id === sessionId) || {}).title || "This chat";
+  const n = sessionSchedules.length;
+  const confirmed = await confirmAction({
+    title: "Delete this chat?",
+    description: `\u201C${title}\u201D and its answers are deleted for good.` + (n ? ` Its ${n === 1 ? "schedule stops" : `${n} schedules stop`} running too.` : ""),
+    confirmText: "Delete chat"
+  });
+  if (!confirmed) return;
   const failedSchedules = [];
-  for (const sched of sessionSchedules) {
+  for (const sched of _schedulesBySession.get(sessionId) || []) {
     _recentlyDeletedSchedules.add(sched.name);
     setTimeout(() => _recentlyDeletedSchedules.delete(sched.name), 6e4);
     try {
@@ -3949,8 +3709,8 @@ async function deleteSession(sessionId) {
     return;
   }
   if (failedSchedules.length) {
-    const n = failedSchedules.length;
-    addMessage("error", `Chat deleted, but ${n} schedule${n === 1 ? "" : "s"} could not be removed and may still fire. Remove ${n === 1 ? "it" : "them"} from the Schedules list.`);
+    const n2 = failedSchedules.length;
+    addMessage("error", `Chat deleted, but ${n2} schedule${n2 === 1 ? "" : "s"} could not be removed and may still fire. Remove ${n2 === 1 ? "it" : "them"} from the Schedules list.`);
   }
   composer?.forgetSession(sessionId);
   _schedulesBySession.delete(sessionId);
@@ -4008,6 +3768,7 @@ function sessionSig(messages) {
 }
 async function switchSession(sessionId) {
   if (activeSwitchController) activeSwitchController.abort();
+  const leavingHome = schedulesHome && sessionId !== SESSION_ID;
   _loadedSegments = 1;
   completedStreams.delete(sessionId);
   const outgoing = activeStreams.get(SESSION_ID);
@@ -4020,6 +3781,8 @@ async function switchSession(sessionId) {
   composer.swapForSession(sessionId);
   SESSION_ID = sessionId;
   setSessionId(sessionId);
+  applyRoutineSessionTheme();
+  if (leavingHome) setSchedulesHome(false);
   updateActiveSessionUI(sessionId);
   chatLog.innerHTML = "";
   updateContextMeter(null);
@@ -4206,7 +3969,10 @@ function initStreamHandleEvent(stream) {
           stream.thinkStream = null;
         }
         const thought = stream.answerEl.querySelector(":scope > .thinking-collapsed");
-        if (thought) stream.answerEl.closest(".msg-wrapper")?.before(thought);
+        if (thought) {
+          stream.answerEl.closest(".msg-wrapper")?.before(thought);
+          seatThinkingToggle(thought);
+        }
         stream.answerEl.closest(".msg-wrapper")?.remove();
         placeDayDividers();
         stream.answerEl = null;
@@ -4358,7 +4124,7 @@ async function drainSSE(stream, response) {
 function finalizeStream(stream) {
   activeStreams.delete(stream.sessionId);
   chatLog.querySelectorAll(".ask-working").forEach((e) => e.remove());
-  if (stream.done && SESSION_ID !== stream.sessionId) {
+  if (stream.done && (SESSION_ID !== stream.sessionId || schedulesHome)) {
     completedStreams.add(stream.sessionId);
   }
   loadSessionList();
@@ -4427,8 +4193,10 @@ function reconnectToStream(sessionId, serverStartMs) {
     } catch (err) {
       if (err.name === "AbortError" && stream.rendering) {
         if (stream.thinkStream) {
-          if (stream.hadToolCalls) stream.thinkStream.collapse();
-          else stream.thinkStream.promoteToAnswer();
+          if (stream.hadToolCalls) {
+            stream.thinkStream.collapse();
+            if (stream.answerText.trim() && !stream.answerEl) addMessage("assistant", stream.answerText);
+          } else stream.thinkStream.promoteToAnswer();
         }
         addInterruptMarker();
       }
@@ -4496,6 +4264,7 @@ function stripSkillHint(raw) {
 }
 function renderMessages(messages) {
   const _TOOL_RESULT_PREVIEW = 500;
+  const _WEB_SEARCH_PREVIEW = 4e3;
   const toolCards = /* @__PURE__ */ new Map();
   let pendingSteps = [];
   let pendingLeadIn = "";
@@ -4614,9 +4383,11 @@ function renderMessages(messages) {
       const { block, body } = buildThinkingCollapsed(durationMs);
       body.appendChild(renderSteps(toolSteps));
       msgEl.appendChild(block);
+      seatThinkingToggle(block);
     }
     if (trailingText) {
       const textDiv = document.createElement("div");
+      textDiv.className = "answer-text";
       textDiv.innerHTML = marked.parse(trailingText);
       enhanceSegments(textDiv);
       enhanceDrafts(textDiv);
@@ -4626,11 +4397,13 @@ function renderMessages(messages) {
       enhanceEntities(textDiv);
       enhanceLinks(textDiv);
       enhanceCodeBlocks(textDiv);
+      enhanceImages(textDiv);
       renderMermaidBlocks(textDiv);
       msgEl.appendChild(textDiv);
     }
     chatLog.appendChild(wrapper);
     stampMessageTime(wrapper, aMs);
+    addMemoryChips(wrapper);
     createFeedbackBar(wrapper, currentQuestion, trailingText, latestAssistantUuid || void 0, "", toolSteps.length, durationMs, "", "", latestAssistantTimestamp);
     pendingSteps = [];
     pendingLeadIn = "";
@@ -4646,8 +4419,9 @@ function renderMessages(messages) {
           const card = toolCards.get(block.tool_use_id);
           if (!card) continue;
           if (block.is_error) setStepState(card, "error");
+          else confirmMemory(card);
           if (card.classList.contains("skill-indicator")) continue;
-          const preview = stringifyResult(block.content).slice(0, _TOOL_RESULT_PREVIEW);
+          const preview = stringifyResult(block.content).slice(0, card.dataset.tool === "WebSearch" ? _WEB_SEARCH_PREVIEW : _TOOL_RESULT_PREVIEW);
           if (preview) appendStepResult(card, preview, !!block.is_error);
         }
       }
@@ -4655,7 +4429,7 @@ function renderMessages(messages) {
       if (text) {
         if (text === "[Request interrupted by user]") {
           flushAssistantBubble();
-          addInterruptMarker();
+          addInterruptMarker(messageTimeToMs(msg.timestamp));
         } else if (HARNESS_TURN_PREFIXES.some((p) => text.startsWith(p))) {
         } else if (isCompactSummaryText(text)) {
           flushAssistantBubble();
@@ -4715,6 +4489,10 @@ function renderMessages(messages) {
   flushAssistantBubble();
   placeDayDividers();
 }
+function startNewChat() {
+  window.aampPickSidebarView?.("chats");
+  return createNewChat();
+}
 async function createNewChat() {
   if (!USER_ID) return;
   const outgoing = activeStreams.get(SESSION_ID);
@@ -4739,6 +4517,8 @@ async function createNewChat() {
     SESSION_ID = data.session_id;
     setSessionId(SESSION_ID);
     chatLog.innerHTML = "";
+    applyRoutineSessionTheme();
+    if (schedulesHome) setSchedulesHome(false);
     updateContextMeter(null);
     setSendButtonMode("send");
     setInputBusy(null);
@@ -4814,76 +4594,19 @@ function extractScheduleProposal(text) {
     return null;
   }
 }
-function openScheduleModalFromProposal(p) {
-  openScheduleModal(SESSION_ID);
-  if (p.title) document.getElementById("schedTitle").value = String(p.title).slice(0, 120);
-  if (p.query) {
-    document.getElementById("schedPrompt").value = String(p.query);
-    autoGrowSchedPrompt();
-  }
-  if (p.tz) {
-    const sel = document.getElementById("schedTz");
-    sel.value = p.tz;
-    if (sel.value !== p.tz) {
-      sel.value = "__custom__";
-      const cust = document.getElementById("schedTzCustom");
-      cust.style.display = "";
-      cust.value = p.tz;
-    }
-  }
-  if (p.cron) _applyCronToPicker(String(p.cron));
-  updateSchedCronUi();
-}
 function maybeHandleScheduleProposal(text) {
   const p = extractScheduleProposal(text);
   if (!p) return;
   chatLog.querySelectorAll("code.language-aamp-schedule").forEach((c) => (c.closest("pre") || c).remove());
-  openScheduleModalFromProposal(p);
+  openScheduleModal(SESSION_ID, p);
 }
-document.getElementById("schedModalClose").addEventListener("click", closeScheduleModal);
-const _schedPromptInput = document.getElementById("schedPrompt");
-if (_schedPromptInput) {
-  _schedPromptInput.addEventListener("input", autoGrowSchedPrompt);
-}
-document.getElementById("schedCancelBtn").addEventListener("click", closeScheduleModal);
-document.getElementById("schedSaveBtn").addEventListener("click", saveScheduleFromModal);
-document.getElementById("schedModalBackdrop").addEventListener("click", (e) => {
-  if (e.target.id === "schedModalBackdrop") closeScheduleModal();
-});
-for (const radio of document.querySelectorAll('input[name="schedFreq"]')) {
-  radio.addEventListener("change", updateSchedCronUi);
-}
-for (const id of ["schedHour", "schedMin", "schedMinute", "schedDow", "schedDom", "schedCronCustom", "schedTz", "schedTzCustom"]) {
-  const el = document.getElementById(id);
-  if (!el) continue;
-  el.addEventListener("input", updateSchedCronUi);
-  el.addEventListener("change", updateSchedCronUi);
-}
-const _timeBox = (el, max) => {
-  if (!el) return;
-  el.addEventListener("input", () => {
-    const digits = el.value.replace(/[^0-9]/g, "");
-    if (digits !== el.value) el.value = digits;
-  });
-  el.addEventListener("blur", () => {
-    el.value = String(Math.min(max, Math.max(0, parseInt(el.value, 10) || 0))).padStart(2, "0");
-    updateSchedCronUi();
-  });
-};
-_timeBox(document.getElementById("schedHour"), 23);
-_timeBox(document.getElementById("schedMin"), 59);
-_timeBox(document.getElementById("schedMinute"), 59);
-document.getElementById("schedTz").addEventListener("change", () => {
-  const isCustom = document.getElementById("schedTz").value === "__custom__";
-  document.getElementById("schedTzCustom").style.display = isCustom ? "" : "none";
-});
 (() => {
   const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
   document.addEventListener("keydown", (e) => {
     const mod = isMac ? e.metaKey : e.ctrlKey;
     if (mod && e.shiftKey && (e.key === "O" || e.key === "o")) {
       e.preventDefault();
-      createNewChat();
+      startNewChat();
     }
   });
 })();
@@ -5286,6 +5009,28 @@ function enhanceEmbeds(containerEl) {
     });
   });
 }
+function makeZoomable(el, label, open) {
+  el.classList.add("answer-zoomable");
+  el.setAttribute("role", "button");
+  el.tabIndex = 0;
+  el.setAttribute("aria-label", `Open ${label.toLowerCase()} larger`);
+  el.addEventListener("click", (e) => {
+    if (!e.target.closest("button")) open();
+  });
+  el.addEventListener("keydown", (e) => {
+    if (e.target === el && (e.key === "Enter" || e.key === " ")) {
+      e.preventDefault();
+      open();
+    }
+  });
+}
+function enhanceImages(containerEl) {
+  for (const img of containerEl.querySelectorAll("img")) {
+    if (img.closest("a, button, .answer-embed, .entity-name, .answer-zoomable")) continue;
+    const label = img.alt || "Image";
+    makeZoomable(img, label, () => window.AAMP_VIEW_MEDIA?.({ src: img.currentSrc || img.src, label }));
+  }
+}
 function enhanceCodeBlocks(containerEl) {
   if (!containerEl) return;
   containerEl.querySelectorAll("pre").forEach((pre) => {
@@ -5344,8 +5089,30 @@ function insertDayDivider(before, label) {
   divider.setAttribute("role", "separator");
   divider.setAttribute("aria-label", label);
   divider.textContent = label;
+  divider.dataset.ts = before.dataset.ts;
   before.before(divider);
 }
+(() => {
+  let queued = false;
+  const update = () => {
+    queued = false;
+    const top = chatLog.getBoundingClientRect().top;
+    let day = null;
+    for (const d of chatLog.querySelectorAll(":scope > .day-divider")) {
+      if (d.getBoundingClientRect().bottom > top) break;
+      day = Number(d.dataset.ts) || null;
+    }
+    if (day !== (window.AAMP_HEADER?.day ?? null)) publishHeader({ day });
+  };
+  const queue = () => {
+    if (!queued) {
+      queued = true;
+      requestAnimationFrame(update);
+    }
+  };
+  chatLog.addEventListener("scroll", queue, { passive: true });
+  new MutationObserver(queue).observe(chatLog, { childList: true });
+})();
 function placeDayDividers() {
   chatLog.querySelectorAll(":scope > .day-divider").forEach((d) => d.remove());
   let lastLabel = "";
@@ -5378,6 +5145,7 @@ function addMessage(role, text, meta) {
     enhanceEntities(div);
     enhanceLinks(div);
     enhanceCodeBlocks(div);
+    enhanceImages(div);
     renderMermaidBlocks(div);
   } else {
     div.textContent = text;
@@ -5390,7 +5158,7 @@ function addMessage(role, text, meta) {
     }
     if (role === "user" && meta.files && meta.files.length > 0) {
       const fileRow = document.createElement("div");
-      fileRow.style.cssText = "display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;";
+      fileRow.style.cssText = "display:flex;gap:6px;flex-wrap:wrap;";
       for (const f of meta.files) {
         const chip = document.createElement("span");
         chip.style.cssText = "display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;background:color-mix(in srgb, var(--text-body) 6%, transparent);border:1px solid color-mix(in srgb, var(--text-body) 20%, transparent);font-size:12px;";
@@ -5408,13 +5176,16 @@ function addMessage(role, text, meta) {
   }
   if (role === "assistant") {
     const thought = chatLog.lastElementChild;
-    if (thought && thought.classList.contains("thinking-collapsed")) div.prepend(thought);
+    const adopted = thought && thought.classList.contains("thinking-collapsed") ? thought : null;
+    if (adopted) div.prepend(adopted);
     const wrapper = document.createElement("div");
     wrapper.className = "msg-wrapper";
     wrapper.append(msgAuthorRow(), div);
+    seatThinkingToggle(adopted);
     stampMessageTime(wrapper, meta.timestamp === void 0 ? Date.now() : messageTimeToMs(meta.timestamp));
     chatLog.appendChild(wrapper);
     placeDayDividerFor(wrapper);
+    addMemoryChips(wrapper);
     createFeedbackBar(wrapper, meta.question || "", text, meta.messageUuid, meta.langfuseTraceUrl, meta.toolCount, meta.durationMs, meta.langfuseTraceId, meta.langfuseObservationId, meta.timestamp);
   } else if (role === "error" && meta.fromCramer) {
     const wrapper = document.createElement("div");
@@ -5455,15 +5226,42 @@ function addMessage(role, text, meta) {
   smartScroll();
   return div;
 }
-function addDividerMarker(label) {
-  const div = document.createElement("div");
-  div.className = "compact-divider";
-  div.textContent = label;
-  chatLog.appendChild(div);
+function addInterruptMarker(ts) {
+  let row = chatLog.lastElementChild;
+  const bubble = row?.matches(".msg-wrapper") ? row.querySelector(":scope > .msg.assistant") : null;
+  if (!bubble) {
+    row = document.createElement("div");
+    row.className = "msg-wrapper";
+    row.append(msgAuthorRow());
+    stampMessageTime(row, ts ?? Date.now());
+    chatLog.appendChild(row);
+    placeDayDividerFor(row);
+  }
+  row.classList.add("cramer-sad");
+  const slot = document.createElement("div");
+  slot.className = "stopped-run";
+  if (bubble) bubble.after(slot);
+  else row.append(slot);
+  whenIslandsReady(() => window.AAMP_STOPPED_RUN(slot, { onContinue: () => continueStoppedTurn(slot) }));
   smartScroll();
-  return div;
+  return slot;
 }
-const addInterruptMarker = () => addDividerMarker("request interrupted");
+function continueStoppedTurn(slot) {
+  if (slot.dataset.continuing) return;
+  slot.dataset.continuing = "true";
+  const sessionId = SESSION_ID;
+  const giveUpAt = Date.now() + 1e4;
+  const send2 = () => {
+    if (SESSION_ID !== sessionId) return;
+    if (Date.now() > giveUpAt) {
+      delete slot.dataset.continuing;
+      return;
+    }
+    if (activeStreams.has(sessionId)) setTimeout(send2, 100);
+    else composer?.runPrompt("Continue");
+  };
+  send2();
+}
 function addCompactionMarker() {
   const div = document.createElement("div");
   div.className = "compact-box compact-box--static";
@@ -5562,9 +5360,50 @@ function setStepState(step, state) {
   const slot = step.querySelector(".thinking-step-status");
   slot.dataset.icon = state;
   if (_thinkingMarks.has(slot)) paintThinkingMark(slot);
+  paintWebSearch(step, { state });
   const name = step.querySelector(".tool-card-name");
   if (name) name.textContent = state === "running" ? step.dataset.runningLabel : step.dataset.doneLabel;
   step.querySelector(".thinking-step-state").textContent = `, ${STEP_STATE_TEXT[state]}`;
+}
+const _webSearches = /* @__PURE__ */ new WeakMap();
+function paintWebSearch(card, patch) {
+  const entry = _webSearches.get(card);
+  if (!entry) return;
+  Object.assign(entry.props, patch);
+  entry.island?.update({ ...entry.props });
+}
+function parseWebSearchLinks(text) {
+  const line = /^Links:\s*(\[.*\])\s*$/m.exec(text || "");
+  if (!line) return [];
+  let links;
+  try {
+    links = JSON.parse(line[1]);
+  } catch {
+    return [];
+  }
+  if (!Array.isArray(links)) return [];
+  return links.flatMap((link) => {
+    try {
+      const url = new URL(link.url);
+      if (!/^https?:$/.test(url.protocol)) return [];
+      return [{ title: String(link.title || ""), url: url.href, domain: url.hostname.replace(/^www\./, "") }];
+    } catch {
+      return [];
+    }
+  });
+}
+const isMemoryTool = (name) => (name || "").split("__").pop() === "remember";
+function confirmMemory(card) {
+  if (card.dataset.memoryPending) card.dataset.memory = card.dataset.memoryPending;
+}
+function addMemoryChips(wrapper) {
+  const cards = wrapper.querySelectorAll('.tool-card[data-memory][data-state="done"]');
+  const memories = [...new Set([...cards].map((card) => card.dataset.memory))];
+  if (!memories.length) return;
+  const slot = document.createElement("div");
+  slot.className = "memory-chips";
+  wrapper.appendChild(slot);
+  whenIslandsReady(() => window.AAMP_MEMORY_CHIPS(slot, { memories }));
 }
 let _thinkingSeq = 0;
 function buildToolStep(toolName, args, toolUseId, state) {
@@ -5600,6 +5439,17 @@ function buildToolStep(toolName, args, toolUseId, state) {
   header.addEventListener("click", () => {
     header.setAttribute("aria-expanded", String(header.getAttribute("aria-expanded") !== "true"));
   });
+  if (isMemoryTool(toolName) && typeof args?.text === "string" && args.text.trim()) card.dataset.memoryPending = args.text.trim();
+  if (toolName === "WebSearch") {
+    const slot = document.createElement("div");
+    slot.className = "web-search-slot";
+    card.appendChild(slot);
+    const entry = { props: { query: typeof args?.query === "string" ? args.query : "", state, results: [] }, island: null };
+    _webSearches.set(card, entry);
+    whenIslandsReady(() => {
+      entry.island = window.AAMP_WEB_SEARCH(slot, { ...entry.props });
+    });
+  }
   setStepState(card, state);
   return card;
 }
@@ -5611,26 +5461,81 @@ function appendStepResult(card, preview, isError) {
       <pre>${escapeHtml(preview)}</pre>
     `;
   card.querySelector(".tool-card-details").appendChild(section);
+  if (!isError) paintWebSearch(card, { results: parseWebSearchLinks(preview) });
 }
 function buildThinkingCollapsed(durationMs) {
   const block = document.createElement("div");
   block.className = "thinking-collapsed";
-  const details = document.createElement("details");
-  const summary = document.createElement("summary");
+  const body = document.createElement("div");
+  body.className = "thinking-body";
+  body.id = `thinking-body-${++_thinkingSeq}`;
+  const toggle = document.createElement("button");
+  toggle.type = "button";
+  toggle.className = "thinking-toggle";
+  toggle.setAttribute("aria-expanded", "false");
+  toggle.setAttribute("aria-controls", body.id);
   const label = document.createElement("span");
   const dur = _formatDuration(durationMs);
   label.textContent = dur ? `Worked for ${dur}` : "Thought process";
   const chevron = thinkingChevron();
-  summary.append(label, chevron);
-  const body = document.createElement("div");
-  body.className = "thinking-body";
-  details.append(summary, body);
-  details.addEventListener("toggle", () => {
-    if (details.open) paintThinkingMarks(body);
+  toggle.append(label, chevron);
+  toggle.addEventListener("click", () => {
+    const open = toggle.getAttribute("aria-expanded") !== "true";
+    toggle.setAttribute("aria-expanded", String(open));
+    block.dataset.open = String(open);
+    if (open) paintThinkingMarks(body);
   });
-  block.appendChild(details);
+  block.thinkingToggle = toggle;
+  block.append(toggle, body);
   paintThinkingMark(chevron);
   return { block, body };
+}
+function seatThinkingToggle(block) {
+  const toggle = block?.thinkingToggle;
+  if (!toggle) return;
+  const author = block.closest(".msg-wrapper")?.querySelector(":scope > .msg-author");
+  if (author) author.append(toggle);
+  else block.prepend(toggle);
+}
+const STREAM_INK_MS = 700;
+function paintStreamTail(root, arrivals) {
+  const now = performance.now();
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  const counts = nodes.map((n) => (n.data.match(/\S+/g) || []).length);
+  const total = counts.reduce((a, b) => a + b, 0);
+  const settledBefore = total - arrivals.length > 40 ? total - 8 : 0;
+  while (arrivals.length < total) arrivals.push(arrivals.length < settledBefore ? now - STREAM_INK_MS : now);
+  arrivals.length = total;
+  const lastWord = nodes.findLast((n, i) => counts[i] > 0);
+  const caretHost = lastWord ? lastWord.parentNode : root;
+  let end = total;
+  for (let n = nodes.length - 1; n >= 0 && end > 0; n--) {
+    if (!counts[n]) continue;
+    if (now - arrivals[end - 1] >= STREAM_INK_MS) break;
+    let index = end - counts[n];
+    end = index;
+    const frag = document.createDocumentFragment();
+    for (const part of nodes[n].data.split(/(\s+)/)) {
+      if (!part) continue;
+      const age = /\S/.test(part) ? now - arrivals[index++] : STREAM_INK_MS;
+      if (age >= STREAM_INK_MS) {
+        frag.append(part);
+        continue;
+      }
+      const word = document.createElement("span");
+      word.className = "stream-word";
+      word.style.animationDelay = `-${Math.round(age)}ms`;
+      word.textContent = part;
+      frag.append(word);
+    }
+    nodes[n].replaceWith(frag);
+  }
+  const caret = document.createElement("span");
+  caret.className = "stream-caret";
+  caret.setAttribute("aria-hidden", "true");
+  caretHost.append(caret);
 }
 function createThinkingStream(initialStartTime) {
   const el = document.createElement("div");
@@ -5638,7 +5543,8 @@ function createThinkingStream(initialStartTime) {
   chatLog.appendChild(el);
   const bubble = document.createElement("div");
   bubble.className = "thinking-stream-bubble";
-  el.append(msgAuthorRow(), bubble);
+  const authorRow = msgAuthorRow();
+  el.append(authorRow, bubble);
   const historyId = `thinking-history-${++_thinkingSeq}`;
   const headerRow = document.createElement("button");
   headerRow.type = "button";
@@ -5650,7 +5556,7 @@ function createThinkingStream(initialStartTime) {
     headerRow.setAttribute("aria-expanded", String(open));
     el.dataset.open = String(open);
   });
-  bubble.appendChild(headerRow);
+  authorRow.appendChild(headerRow);
   const loaderEl = document.createElement("span");
   loaderEl.className = "thinking-mark";
   loaderEl.dataset.icon = "running";
@@ -5702,12 +5608,24 @@ function createThinkingStream(initialStartTime) {
   let lastToolLeadInHTML = "";
   let lastShownLeadInHTML = "";
   let historySteps = [];
+  let liveHTML = "";
+  let arrivals = [];
+  function settleText() {
+    if (accumulated) liveHTML = marked.parse(accumulated);
+    accumulated = "";
+    arrivals = [];
+    currentTextDiv.className = "thinking-stream-step-text";
+    currentTextDiv.innerHTML = liveHTML;
+  }
   function scheduleRender() {
     if (renderScheduled) return;
     renderScheduled = true;
     requestAnimationFrame(() => {
       if (accumulated) {
-        currentTextDiv.innerHTML = marked.parse(accumulated);
+        liveHTML = marked.parse(accumulated);
+        currentTextDiv.className = "stream-answer";
+        currentTextDiv.innerHTML = liveHTML;
+        paintStreamTail(currentTextDiv, arrivals);
         smartScroll();
       }
       renderScheduled = false;
@@ -5735,15 +5653,15 @@ function createThinkingStream(initialStartTime) {
   return {
     el,
     appendText(text) {
+      if (currentToolDiv.firstChild && !currentToolDiv.querySelector('[data-state="running"]')) {
+        archivePreviousStep();
+      }
       accumulated += text;
       scheduleRender();
     },
     addToolStatus(toolName, status, extra) {
       if (status === "tool_use") {
-        if (accumulated) {
-          currentTextDiv.innerHTML = marked.parse(accumulated);
-          accumulated = "";
-        }
+        settleText();
         if (currentToolDiv.firstChild) {
           archivePreviousStep();
         }
@@ -5789,6 +5707,7 @@ function createThinkingStream(initialStartTime) {
         }
         if (card) {
           setStepState(card, state);
+          if (state === "done") confirmMemory(card);
           if (extra && extra.result_preview) appendStepResult(card, extra.result_preview, !!extra.error);
         }
       }
@@ -5796,10 +5715,7 @@ function createThinkingStream(initialStartTime) {
     },
     markCollapsePoint() {
       stepCount++;
-      if (accumulated) {
-        currentTextDiv.innerHTML = marked.parse(accumulated);
-        accumulated = "";
-      }
+      settleText();
     },
     // `durationMs` defaults to the live timer; done passes its own so the
     // label matches the meta line's duration.
@@ -5836,6 +5752,8 @@ function createThinkingStream(initialStartTime) {
     setStatus(text, tone) {
       statusEl.textContent = text;
       el.classList.toggle("thinking-stream--compacting", tone === "compacting");
+      if (tone === "compacting") bubble.prepend(headerRow);
+      else authorRow.appendChild(headerRow);
     },
     getRawText() {
       return accumulated;
@@ -5865,6 +5783,7 @@ const STEP_LABELS = {
   ToolSearch: ["Looking up available tools", "Looked up available tools"],
   WebSearch: ["Searching the web", "Searched the web"],
   WebFetch: ["Reading a web page", "Read a web page"],
+  remember: ["Saving to memory", "Saved to memory"],
   TodoWrite: ["Updating the to-do list", "Updated the to-do list"],
   Task: ["Handing off a task", "Handed off a task"],
   Agent: ["Handing off a task", "Handed off a task"],
@@ -6187,8 +6106,10 @@ async function send(request) {
         stream.thinkStream.dispose();
         stream.thinkStream = null;
       } else if (stream.thinkStream) {
-        if (stream.hadToolCalls) stream.thinkStream.collapse();
-        else stream.thinkStream.promoteToAnswer();
+        if (stream.hadToolCalls) {
+          stream.thinkStream.collapse();
+          if (stream.answerText.trim() && !stream.answerEl) addMessage("assistant", stream.answerText);
+        } else stream.thinkStream.promoteToAnswer();
       }
       addInterruptMarker();
     } else if (err.name !== "AbortError" && stream.rendering) {
@@ -6320,6 +6241,7 @@ function handleNotification(event) {
     if (event.session_id === SESSION_ID) {
       resyncOpenSession();
       Promise.resolve().then(() => composer?.dispatchNextQueued());
+      if (schedulesHome) completedStreams.add(event.session_id);
     } else {
       completedStreams.add(event.session_id);
     }
@@ -6448,7 +6370,7 @@ const filePane = (() => {
   let returnFocusTo = null;
   const WIDTH_KEY = "aamp_file_pane_width";
   const MIN_WIDTH = 280;
-  const MIN_TRANSCRIPT = 320;
+  const MIN_TRANSCRIPT = 480;
   const content = (fn) => whenIslandsReady(() => fn(window.AAMP_FILE_PANE));
   function storedWidth() {
     try {
@@ -6523,13 +6445,14 @@ const filePane = (() => {
   function refresh() {
     content((pane) => pane.refresh());
   }
+  const toggleFromNav = () => isOpen() ? close() : openBrowser();
   document.addEventListener("click", (e) => {
-    if (e.target.closest("#browseFilesLink")) openBrowser();
+    if (e.target.closest("#browseFilesLink")) toggleFromNav();
   });
   document.addEventListener("keydown", (e) => {
     if ((e.key === "Enter" || e.key === " ") && e.target.closest?.("#browseFilesLink")) {
       e.preventDefault();
-      openBrowser();
+      toggleFromNav();
     }
   });
   const RUBBERBAND = 0.35;
