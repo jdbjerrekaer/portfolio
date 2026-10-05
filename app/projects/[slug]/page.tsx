@@ -92,9 +92,14 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <h1 className={styles.title}>{project.title}</h1>
         <p className={styles.summary}>{project.summary}</p>
 
-        {project.links && Object.keys(project.links).length > 0 && (
+        {(project.liveDemo || (project.links && Object.keys(project.links).length > 0)) && (
           <div className={styles.links}>
-            {Object.entries(project.links).map(([label, url]) => (
+            {project.liveDemo && (
+              <ActionLink href={`#${project.demoAnchor}`} className={`${styles.link} ${styles.demoLink}`}>
+                Live demo
+              </ActionLink>
+            )}
+            {Object.entries(project.links ?? {}).map(([label, url]) => (
               <ActionLink
                 key={label}
                 href={url}

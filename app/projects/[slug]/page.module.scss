@@ -236,3 +236,8 @@
   max-width: 800px;
   margin: 0 auto;
 }
+
+// In-page jump to the demo: the arrow points down.
+.demoLink svg {
+  transform: rotate(90deg);
+}

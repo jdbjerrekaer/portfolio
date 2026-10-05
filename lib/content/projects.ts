@@ -40,6 +40,8 @@ const projectSchema = z.object({
   featured: z.boolean().optional().default(false),
   comingSoon: z.boolean().optional().default(false),
   liveDemo: z.boolean().optional().default(false),
+  // In-page anchor the header "Live demo" link scrolls to.
+  demoAnchor: z.string().optional().default("live-demo"),
   // Group on the /projects page. The homepage picks always show under "Start here" instead.
   section: z.enum(["product", "ai", "earlier"]).optional().default("product"),
   hidden: z.boolean().optional().default(false),

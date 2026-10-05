@@ -22,7 +22,7 @@ export function CramerDemoFrame({
   useCenteredWide(ref, 1200);
 
   return (
-    <figure ref={ref} className={styles.frame}>
+    <figure ref={ref} id="live-demo" className={styles.frame}>
       <iframe
         className={styles.iframe}
         src={src}
