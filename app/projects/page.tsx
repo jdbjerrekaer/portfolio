@@ -25,7 +25,7 @@ const GROUPS = [
   {
     key: "ai",
     title: "AI and automation",
-    description: "Personal systems: agents that work inside the tools I already use.",
+    description: "Personal AI agents I built and run for myself.",
   },
 ] as const;
 
