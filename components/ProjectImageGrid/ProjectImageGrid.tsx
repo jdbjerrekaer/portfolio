@@ -25,15 +25,17 @@ export function ProjectImageGrid({ images, layout = "mosaic", onOpenImage }: Pro
     }));
   }, [images]);
 
+  const isLandscape = layout === "landscape";
+
   if (!images || images.length === 0) {
     return null;
   }
 
   return (
-    <div className={`${styles.grid} ${layout === "landscape" ? styles.landscape : ""}`.trim()}>
+    <div className={isLandscape ? `${styles.grid} ${styles.landscape}` : styles.strip}>
       {processedImages.map((image, index) => {
-        // Only apply positional class for items 1–5 (defined in SCSS); others get base gridItem only
-        const positionalClass = index < 5 ? styles[`item${index + 1}`] : "";
+        // Landscape uses positional classes for items 1 and 5 (full-width rows).
+        const positionalClass = isLandscape && index < 5 ? styles[`item${index + 1}`] : "";
 
         return (
           <button
@@ -43,13 +45,27 @@ export function ProjectImageGrid({ images, layout = "mosaic", onOpenImage }: Pro
             onClick={() => onOpenImage(index)}
             aria-label={`Open gallery image ${index + 1} of ${processedImages.length}: ${image.alt}`}
           >
-            <Image
-              src={image.src}
-              alt={image.alt}
-              fill
-              className={styles.image}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-            />
+            {isLandscape ? (
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                className={styles.image}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
+              />
+            ) : (
+              // Strip: fixed row height, width follows the image's own aspect ratio.
+              <Image
+                src={image.src}
+                alt={image.alt}
+                width={0}
+                height={0}
+                // Zero-width lazy images never intersect, so they would never load.
+                loading="eager"
+                className={styles.stripImage}
+                sizes="(max-width: 768px) 60vw, 30vw"
+              />
+            )}
             <div className={styles.overlay}>
               <div className={styles.icon}>
                 <Icon name="search" size={14} />

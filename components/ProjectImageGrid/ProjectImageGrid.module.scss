@@ -36,83 +36,65 @@
     }
   }
 
-  // Mosaic pattern: varied sizes for portrait images creating visual interest
-  &.item1 {
-    grid-column: 1 / 3; // Spans 2 columns (left side)
-    grid-row: 1 / 3; // Spans 2 rows (large portrait)
-    // Height determined by grid rows, maintains portrait naturally
+}
 
-    .image {
-      object-fit: contain; // Show full UI screenshot without cropping
-    }
+// Mosaic replacement: one height for every image, widths follow each image's
+// own shape, rows wrap. Mixed portrait/landscape sets stay compact.
+.strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-top: var(--space-3xl);
+  margin-bottom: var(--space-3xl);
 
-    @media (max-width: 768px) {
-      grid-column: 1;
-      grid-row: 1;
-      grid-row-end: auto;
-      aspect-ratio: 9 / 16;
-    }
+  .gridItem {
+    width: auto;
+    flex: 0 0 auto;
+    height: clamp(240px, 26vw, 360px);
   }
 
-  &.item2 {
-    grid-column: 3; // Single column (right side)
-    grid-row: 1;
-    aspect-ratio: 9 / 16; // Portrait
+  // Phones: one swipeable row instead of a tall stack.
+  @media (max-width: 768px) {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin-inline: calc(var(--space-md) * -1);
+    padding-inline: var(--space-md);
+    scrollbar-width: none;
 
-    .image {
-      object-fit: contain; // Show full UI screenshot without cropping
-    }
-
-    @media (max-width: 768px) {
-      grid-column: 1;
-      grid-row: 2;
-      aspect-ratio: 9 / 16;
-    }
-  }
-
-  &.item3 {
-    grid-column: 3; // Single column (right side)
-    grid-row: 2;
-    aspect-ratio: 9 / 16; // Portrait
-
-    .image {
-      object-fit: contain; // Show full UI screenshot without cropping
-    }
-
-    @media (max-width: 768px) {
-      grid-column: 1;
-      grid-row: 3;
-      aspect-ratio: 9 / 16;
+    .gridItem {
+      height: 320px;
+      scroll-snap-align: start;
     }
   }
+}
 
-  &.item4 {
-    grid-column: 1 / -1; // Full width
-    grid-row: 3;
-    aspect-ratio: 9 / 16; // Portrait
-
-    .image {
-      object-fit: contain; // Show full UI screenshot without cropping
-    }
-
-    @media (max-width: 768px) {
-      grid-column: 1;
-      grid-row: 4;
-      aspect-ratio: 9 / 16;
-    }
+// Strip tiles are narrow (a phone screenshot is ~150px wide): icon only, no label.
+.strip {
+  .overlayLabel {
+    display: none;
   }
 
-  &.item5 {
-    grid-column: 1 / -1; // Full width
-    grid-row: 4;
-    aspect-ratio: 16 / 6;
+  .icon {
+    width: 40px;
+    height: 40px;
 
-    @media (max-width: 768px) {
-      grid-column: 1;
-      grid-row: 5;
-      aspect-ratio: 16 / 10;
+    svg {
+      width: 18px;
+      height: 18px;
     }
   }
+}
+
+.overlayLabel {
+  white-space: nowrap;
+}
+
+.stripImage {
+  display: block;
+  height: 100%;
+  width: auto;
+  transition: transform var(--transition-fast);
 }
 
 .image {
