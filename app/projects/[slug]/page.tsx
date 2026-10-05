@@ -95,7 +95,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         {(project.liveDemo || (project.links && Object.keys(project.links).length > 0)) && (
           <div className={styles.links}>
             {project.liveDemo && (
-              <ActionLink href={`#${project.demoAnchor}`} className={`${styles.link} ${styles.demoLink}`}>
+              <ActionLink href={`#${project.demoAnchor}`} variant="external" icon="arrow-right" className={`${styles.link} ${styles.demoLink}`}>
                 Live demo
               </ActionLink>
             )}

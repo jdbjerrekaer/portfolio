@@ -32,10 +32,6 @@ export function ActionLink({
   );
   const classes = cn(styles.link, styles[variant], className);
 
-  if (variant === "external") {
-    return <AnimateIcon animateOnHover asChild><a href={href} target="_blank" rel="noopener noreferrer" className={classes}>{content}</a></AnimateIcon>;
-  }
-
   // Same-page anchors: scroll ourselves. A native hash jump gets cancelled by the
   // router reacting to the hash change, and next/link does not scroll to it at all.
   if (href.startsWith("#")) {
@@ -48,6 +44,11 @@ export function ActionLink({
     };
     return <AnimateIcon animateOnHover asChild><a href={href} onClick={jump} className={classes}>{content}</a></AnimateIcon>;
   }
+
+  if (variant === "external") {
+    return <AnimateIcon animateOnHover asChild><a href={href} target="_blank" rel="noopener noreferrer" className={classes}>{content}</a></AnimateIcon>;
+  }
+
 
   return <AnimateIcon animateOnHover asChild><Link href={href} className={classes}>{content}</Link></AnimateIcon>;
 }
