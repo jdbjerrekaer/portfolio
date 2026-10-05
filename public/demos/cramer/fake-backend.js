@@ -40,9 +40,8 @@
     if (params.get("session") && !transcripts[params.get("session")]) {
       window.history.replaceState({}, "", location.pathname);
     }
-    if (!params.get("session") && !localStorage.getItem("aamp_session_id")) {
-      localStorage.setItem("aamp_session_id", "mock-chat-1");
-    }
+    // A fresh visit opens on an empty New chat; a link or reload with ?session= keeps its chat.
+    if (!params.get("session")) localStorage.removeItem("aamp_session_id");
   } catch { /* storage blocked: the page falls back on its own */ }
 
   // ---- Files ----
