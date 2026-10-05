@@ -78,7 +78,7 @@ export default async function ProjectsPage() {
           <div className={styles.group} aria-labelledby="group-start">
             <header className={styles.groupHeader}>
               <h2 id="group-start">Start here</h2>
-              <p>Shipped products I designed and built end to end.</p>
+              <p>Three shipped products to start with: a Figma plugin and two mobile apps.</p>
             </header>
             <div className={styles.grid}>
               {start.map((project) => (
