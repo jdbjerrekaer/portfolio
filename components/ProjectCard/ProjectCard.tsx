@@ -17,6 +17,8 @@ export interface ProjectCardProps {
   hasCaseStudy?: boolean;
   comingSoon?: boolean;
   liveDemo?: boolean;
+  showRole?: boolean;
+  maxTags?: number;
   variant?: "featured" | "catalog";
 }
 
@@ -30,6 +32,8 @@ export function ProjectCard({
   hasCaseStudy = false,
   comingSoon = false,
   liveDemo = false,
+  showRole = true,
+  maxTags,
   variant = "catalog",
 }: ProjectCardProps) {
   const imageSrc = coverImage
@@ -63,11 +67,11 @@ export function ProjectCard({
       <div className={styles.content}>
         <div className={styles.headingRow}>
           <h2 className={styles.title}>{title}</h2>
-          <span className={styles.role}>{role}</span>
+          {showRole && <span className={styles.role}>{role}</span>}
         </div>
         {outcome && <p className={styles.proofLine}>{outcome}</p>}
         <div className={styles.tags}>
-          {tags.map((tag) => (
+          {tags.slice(0, maxTags ?? tags.length).map((tag) => (
             <Chip key={tag} variant="default" size="sm" className={styles.tag}>
               {tag}
             </Chip>

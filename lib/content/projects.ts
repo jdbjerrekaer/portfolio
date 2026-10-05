@@ -40,6 +40,8 @@ const projectSchema = z.object({
   featured: z.boolean().optional().default(false),
   comingSoon: z.boolean().optional().default(false),
   liveDemo: z.boolean().optional().default(false),
+  // Group on the /projects page. The homepage picks always show under "Start here" instead.
+  section: z.enum(["product", "ai", "earlier"]).optional().default("product"),
   hidden: z.boolean().optional().default(false),
 });
 
@@ -100,20 +102,23 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
  * Single source of truth shared by the projects listing and the home page.
  */
 export const PROJECT_PRIORITY_ORDER = [
+  // Homepage picks ("Start here" on /projects).
   "yadl",
   "iriz",
   "yet-another-countdown",
-  "leadplatform",
+  // Product and client work.
+  "adtraction-brands",
   "cramer-ai-assistant",
   "adtraction-motion",
-  "adtraction-brands",
+  "leadplatform",
   "billigskadedyr-redesign",
-  "aha-adaptive-home-audio",
-  "openclaw-ai-assistant",
-  "biombrane",
-  // Above the coming-soon entries below, but not promoted to featured.
-  "hermes-migration",
+  // AI and automation.
   "indkob-grocery-agent",
+  "openclaw-ai-assistant",
+  "hermes-migration",
+  // Earlier work.
+  "aha-adaptive-home-audio",
+  "biombrane",
 ];
 
 /**
