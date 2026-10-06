@@ -20,32 +20,31 @@
   <!-- bubble 1 -->
   <g>
     <rect x="330" y="214" width="800" height="120" rx="26" fill="#0b93f6"/>
-    <text x="366" y="258" fill="#ffffff" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="600">📬 iCloud: 5 needs-me (27/09)</text>
-    <text x="366" y="296" fill="#e3f0ff" font-family="Inter,Arial,sans-serif" font-size="21">1. Netflix — Your payment was unsuccessful</text>
+    <text x="366" y="258" fill="#ffffff" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="600">iCloud: 5 needs-me (27/09)</text>
+    <text x="366" y="296" fill="#e3f0ff" font-family="Inter,Arial,sans-serif" font-size="21">1. Streaming service — Your payment was unsuccessful</text>
   </g>
 
   <!-- bubble 2 -->
   <g>
     <rect x="330" y="354" width="800" height="248" rx="26" fill="#0b93f6"/>
-    <text x="366" y="400" fill="#e3f0ff" font-family="Inter,Arial,sans-serif" font-size="21">2. Temu — Product Safety Recall</text>
-    <text x="366" y="440" fill="#e3f0ff" font-family="Inter,Arial,sans-serif" font-size="21">3. e-Boks — Du har fået ny post fra Topdanmark</text>
-    <text x="366" y="480" fill="#e3f0ff" font-family="Inter,Arial,sans-serif" font-size="21">4. Tina Albretsen Trantel — Mail fra administrator</text>
-    <text x="366" y="520" fill="#e3f0ff" font-family="Inter,Arial,sans-serif" font-size="21">5. e-Boks — Du har fået ny post fra Topdanmark</text>
+    <text x="366" y="400" fill="#e3f0ff" font-family="Inter,Arial,sans-serif" font-size="21">2. Online shop — Product safety recall</text>
+    <text x="366" y="440" fill="#e3f0ff" font-family="Inter,Arial,sans-serif" font-size="21">3. e-Boks — Du har fået ny post</text>
+    <text x="366" y="480" fill="#e3f0ff" font-family="Inter,Arial,sans-serif" font-size="21">4. Landlord — Deposit settlement</text>
+    <text x="366" y="520" fill="#e3f0ff" font-family="Inter,Arial,sans-serif" font-size="21">5. e-Boks — Du har fået ny post</text>
     <text x="366" y="566" fill="#cfe5ff" font-family="Inter,Arial,sans-serif" font-size="17">Delivered</text>
   </g>
 
-  <!-- tapback on the last bubble -->
-  <g transform="translate(306 560)">
+  <!-- tapback on the last bubble, caption under it -->
+  <g transform="translate(306 572)">
     <circle cx="30" cy="30" r="30" fill="#ffffff" stroke="#c9ccd2" stroke-width="2"/>
     <text x="13" y="41" font-family="Inter,Arial,sans-serif" font-size="30">👍</text>
-    <text x="76" y="24" fill="#5a5f68" font-family="Inter,Arial,sans-serif" font-size="19" font-weight="600">You reacted</text>
-    <text x="76" y="48" fill="#8a8f98" font-family="Inter,Arial,sans-serif" font-size="17">to the ping — graded: all correct</text>
   </g>
+  <text x="376" y="642" fill="#5a5f68" font-family="Inter,Arial,sans-serif" font-size="17"><tspan font-weight="600">You reacted</tspan> to the ping: graded all correct</text>
 
   <!-- reply hint bubble (from me) -->
   <g>
-    <rect x="330" y="668" width="800" height="64" rx="26" fill="#e3e4e8"/>
-    <text x="366" y="708" fill="#5a5f68" font-family="Inter,Arial,sans-serif" font-size="21">…or reply “2 forkert: needs-me”</text>
+    <rect x="330" y="680" width="800" height="64" rx="26" fill="#e3e4e8"/>
+    <text x="366" y="720" fill="#5a5f68" font-family="Inter,Arial,sans-serif" font-size="21">…or reply “2 forkert: needs-me”</text>
   </g>
 
   <text x="600" y="800" text-anchor="middle" fill="#8a8f98" font-family="Inter,Arial,sans-serif" font-size="17">Sender names are decoded from relay aliases and the contact list;</text>
