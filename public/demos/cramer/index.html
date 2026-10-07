@@ -19,8 +19,8 @@
 <title>Cramer demo</title><!-- portfolio edit: title -->
 <link rel="icon" type="image/png" href="favicon.png">
 <!-- portfolio edit: relative favicon; the fake backend loads before anything else calls the API. -->
-<script src="fake-data.js?v=20261005b"></script>
-<script src="fake-backend.js?v=20261005b"></script>
+<script src="fake-data.js?v=20261007a"></script>
+<script src="fake-backend.js?v=20261007a"></script>
 
 <script>
 (function() {
@@ -76,7 +76,7 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-<link href="nav/sidenav.css?v=20261005b" rel="stylesheet"><!-- portfolio edit: relative path -->
+<link href="nav/sidenav.css?v=20261007a" rel="stylesheet"><!-- portfolio edit: relative path -->
 <style>
 *,
 *::before,
@@ -116,6 +116,7 @@
   --positive: #449D44;
   --negative: #E95858;
   --peach-m1: #DC6A51;
+  --working: #7357C7;
   --maroon: #8A4A4A;
   --maroon-deep: #6E3838;
   --gray-p5: #F7F7F8;
@@ -178,6 +179,7 @@
   --positive: #7BD37B;
   --negative: #FF8A8A;
   --peach-m1: #E9866D;
+  --working: #B7A6EC;
   --maroon: #C98F8F;
   --maroon-deep: #B07070;
   --gray-p5: #1B1B1E;
@@ -1305,7 +1307,7 @@ html.list-switching::view-transition-new(root) {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--peach-m1);
+  background: var(--working);
   flex-shrink: 0;
   animation: thinking-pulse 1.2s ease-in-out infinite;
 }
@@ -1315,7 +1317,7 @@ html.list-switching::view-transition-new(root) {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--adtraction-blue);
+  background: var(--positive);
   flex-shrink: 0;
 }
 @keyframes thinking-pulse {
@@ -2257,7 +2259,7 @@ img.answer-zoomable:active {
 
 <div class="tab-nav" id="sideNav"></div>
 <template id="navVersionTpl">portfolio demo</template>
-<script type="module" src="nav/sidenav.js?v=20261005b"></script><!-- portfolio edit: relative path -->
+<script type="module" src="nav/sidenav.js?v=20261007a"></script><!-- portfolio edit: relative path -->
 <script>
 (() => {
   const env = document.body.dataset.env;
@@ -2369,6 +2371,7 @@ function publishHeader(patch) {
     };
     window.aampToggleSidebar = () => setCollapsed(!body.classList.contains("sidebar-collapsed"), true);
     window.aampCollapseSidebar = () => setCollapsed(true, false);
+    window.aampRestoreSidebar = () => setCollapsed(localStorage.getItem(KEY) === "1", false);
     const scrim = document.getElementById("sidebarScrim");
     if (scrim) scrim.addEventListener("click", () => {
       body.classList.add("sidebar-collapsed");
@@ -2858,7 +2861,8 @@ window.AAMP_CHAT_HOST = {
   },
   files: {
     close: () => filePane.close(),
-    openBrowser: () => filePane.openBrowser()
+    openBrowser: () => filePane.openBrowser(),
+    openFile: (path) => filePane.open(path)
   },
   schedules: {
     open: (sessionId) => {
@@ -2945,7 +2949,7 @@ const urlParams = new URLSearchParams(window.location.search);
 let USER_ID = null;
 let USER_EMAIL = null;
 let USER_NAME = null;
-let SESSION_ID = urlParams.get("session") || localStorage.getItem("aamp_session_id");
+let SESSION_ID = urlParams.get("session");
 let schedulesHome = false;
 let schedulesLoaded = false;
 let syncSchedulesPage = () => {
@@ -2959,6 +2963,7 @@ function setSchedulesHome(on) {
     completedStreams.delete(SESSION_ID);
     renderSessionList(_lastSessions);
   }
+  publishChatsAttention();
 }
 let CLAUDE_SESSION_ID = null;
 let activeSwitchController = null;
@@ -3085,9 +3090,9 @@ async function authFetch(url, options) {
   return res;
 }
 function setSessionId(id) {
-  localStorage.setItem("aamp_session_id", id);
   updateUrl();
   _tabUnread = false;
+  _tabFailed = false;
   refreshTabStatus();
   updateConversationHeader();
 }
@@ -3183,6 +3188,20 @@ function renderSessionList(sessions) {
 function publishChats(rows, message = "") {
   window.AAMP_CHATS = { rows, message, activeId: SESSION_ID };
   window.dispatchEvent(new Event("aamp:chats"));
+  publishChatsAttention();
+}
+function publishChatsAttention() {
+  const open = schedulesHome ? null : SESSION_ID;
+  const count = _lastSessions.filter((s) => s.session_id !== open && !hasRecurring(s.session_id) && (completedStreams.has(s.session_id) || hasUnseenRun(s) || activeStreams.get(s.session_id)?.awaitingAnswer)).length;
+  if (window.AAMP_CHATS_ATTENTION === count) return;
+  window.AAMP_CHATS_ATTENTION = count;
+  window.dispatchEvent(new Event("aamp:chats-attention"));
+}
+function noteAwaitingAnswer(stream, msg) {
+  const awaiting = msg.type === "ask" ? true : msg.type === "ask_answered" || msg.type === "done" || msg.type === "error" ? false : stream.awaitingAnswer;
+  if (awaiting === stream.awaitingAnswer) return;
+  stream.awaitingAnswer = awaiting;
+  publishChatsAttention();
 }
 const chatSearchResultsEl = document.getElementById("chatSearchResults");
 let _chatTitleFilter = "";
@@ -3406,10 +3425,33 @@ function applyRoutineSessionTheme() {
   const covered = ["chatRail", "inputBar", "scrollToLatest"].map((id) => document.getElementById(id));
   const phone = window.matchMedia("(max-width: 768px)");
   let view = localStorage.getItem("aamp-sidebar-view") === "schedules" ? "schedules" : "chats";
+  let autoHidden = false;
+  let autoTried = false;
+  const listEmpty = (list) => !phone.matches && list === "schedules" && schedulesLoaded && ![..._schedulesBySession.keys()].some(hasRecurring);
+  window.aampListEmpty = (list) => !phone.matches && list === "schedules" && (!schedulesLoaded || listEmpty(list));
+  const foldEmptySchedules = (next, listHidden) => {
+    if (phone.matches) return;
+    if (autoHidden && !listHidden) autoHidden = false;
+    if (listEmpty(next)) {
+      if (autoTried) return;
+      autoTried = true;
+      if (!listHidden) {
+        autoHidden = true;
+        window.aampCollapseSidebar?.();
+      }
+      return;
+    }
+    if (next !== "schedules") autoTried = false;
+    if (autoHidden) {
+      autoHidden = false;
+      window.aampRestoreSidebar?.();
+    }
+  };
   const sync = () => {
     const next = appBody.getAttribute("data-sidebar-view");
     const listHidden = appBody.classList.contains("sidebar-collapsed");
     const routine = chatLog.classList.contains("routine-session");
+    foldEmptySchedules(next, listHidden);
     if (next && next !== view) {
       view = next;
       if (next === "schedules") setSchedulesHome(!(listHidden && routine));
@@ -3719,7 +3761,6 @@ async function deleteSession(sessionId) {
   if (sessionId === SESSION_ID) {
     SESSION_ID = null;
     CLAUDE_SESSION_ID = null;
-    localStorage.removeItem("aamp_session_id");
     window.history.replaceState({}, "", window.location.pathname);
     chatLog.innerHTML = "";
     await createNewChat();
@@ -3790,6 +3831,7 @@ async function switchSession(sessionId) {
   if (existingStream && !existingStream.done) {
     activeSwitchController = null;
     setInputBusy(null);
+    const hold = _tabHold = { sessionId };
     try {
       const res = await authFetch(`/users/${USER_ID}/sessions/${sessionId}?segments=${_loadedSegments}`);
       if (res.ok) {
@@ -3812,6 +3854,7 @@ async function switchSession(sessionId) {
       }
     } catch (_) {
     }
+    if (_tabHold === hold) _tabHold = null;
     reattachStream(existingStream);
     forceScroll();
     loadSessionList();
@@ -4105,6 +4148,7 @@ async function drainSSE(stream, response) {
           const msg = JSON.parse(line.slice(6));
           stream.eventBuffer.push(msg);
           if (msg.type === "done") stream.done = true;
+          noteAwaitingAnswer(stream, msg);
           if (stream.rendering) stream.handleEvent(msg);
         } catch {
         }
@@ -4116,6 +4160,7 @@ async function drainSSE(stream, response) {
       const msg = JSON.parse(buffer.slice(6));
       stream.eventBuffer.push(msg);
       if (msg.type === "done") stream.done = true;
+      noteAwaitingAnswer(stream, msg);
       if (stream.rendering) stream.handleEvent(msg);
     } catch {
     }
@@ -4130,6 +4175,7 @@ function finalizeStream(stream) {
   loadSessionList();
   if (SESSION_ID === stream.sessionId) {
     if (stream.done && !tabAttended()) _tabUnread = true;
+    else if (stream.errored && !tabAttended()) _tabFailed = true;
     setSendButtonMode("send");
     setInputBusy(null);
     composer?.focus();
@@ -4176,10 +4222,14 @@ function reconnectToStream(sessionId, serverStartMs) {
   setInputBusy("streaming");
   refreshTabStatus();
   stream.thinkStream = createThinkingStream(stream.startTime);
+  const hold = _tabHold = { sessionId };
   (async () => {
     try {
       const res = await fetch(`/query/events/${sessionId}?offset=0`, {
         signal: stream.controller.signal
+      }).finally(() => {
+        if (_tabHold === hold) _tabHold = null;
+        refreshTabStatus();
       });
       if (!res.ok) {
         stream.thinkStream?.dispose();
@@ -4188,6 +4238,7 @@ function reconnectToStream(sessionId, serverStartMs) {
       await drainSSE(stream, res);
       if (!stream.done && !stream.errored && stream.rendering && stream.thinkStream) {
         stream.thinkStream.collapse();
+        stream.errored = true;
         addMessage("error", "Stream ended unexpectedly.", { fromCramer: true });
       }
     } catch (err) {
@@ -5907,25 +5958,38 @@ const TAB_BASE_TITLE = "Cramer demo";
 //! portfolio edit: demo title
 const TAB_FAVICON_URL = "favicon.png";
 //! portfolio edit: relative path
-const TAB_STATUS_COLOR = { working: "#DC6A51", attention: "#43649E" };
-const TAB_STATUS_GLYPH = { idle: "", working: "\u{1F7E0} ", attention: "\u{1F535} " };
-function computeTabStatus(streamActive, pendingQuestion, unread, attended) {
-  if (pendingQuestion) return attended ? "idle" : "attention";
+const TAB_STATUS_FAVICON = {
+  working: "favicons/working.svg",
+  question: "favicons/question.svg",
+  unread: "favicons/replied.svg",
+  error: "favicons/error.svg"
+};
+const TAB_STATUS_TEXT = { working: "Working\u2026", question: "Your turn", unread: "New reply", error: "Oops" };
+function computeTabStatus(streamActive, pendingQuestion, unread, attended, failed = false) {
+  if (pendingQuestion) return attended ? "idle" : "question";
   if (streamActive) return "working";
-  return unread ? "attention" : "idle";
+  if (failed) return "error";
+  return unread ? "unread" : "idle";
+}
+function tabTitle(status, name) {
+  if (status === "idle") return name ? `${name} \xB7 ${TAB_BASE_TITLE}` : TAB_BASE_TITLE;
+  return `${TAB_STATUS_TEXT[status]} \xB7 ${name || TAB_BASE_TITLE}`;
 }
 let _tabUnread = false;
+let _tabFailed = false;
 const _tabStatusChannel = typeof BroadcastChannel === "function" ? new BroadcastChannel("aamp-tab-status") : null;
 if (_tabStatusChannel) {
   _tabStatusChannel.onmessage = (e) => {
     if (e.data && e.data.attendedSession === SESSION_ID) {
       _tabUnread = false;
+      _tabFailed = false;
       refreshTabStatus();
     }
   };
 }
 function markTabAttended() {
   _tabUnread = false;
+  _tabFailed = false;
   if (_tabStatusChannel) _tabStatusChannel.postMessage({ attendedSession: SESSION_ID });
   refreshTabStatus();
 }
@@ -5935,68 +5999,45 @@ function tabAttended() {
 function hasPendingQuestion() {
   return !!chatLog.querySelector(".ask-card:not(.answered):not([data-answered])");
 }
+const TAB_SETTLE_MS = 250;
+let _tabSettle = 0;
+let _tabHold = null;
 function refreshTabStatus() {
+  clearTimeout(_tabSettle);
+  _tabSettle = setTimeout(paintTabStatus, TAB_SETTLE_MS);
+}
+function paintTabStatus() {
+  if (_tabHold?.sessionId === SESSION_ID) return;
   const stream = activeStreams.get(SESSION_ID);
-  applyTabStatus(computeTabStatus(
+  const status = computeTabStatus(
     !!stream && !stream.done,
     hasPendingQuestion(),
     _tabUnread,
-    tabAttended()
-  ));
+    tabAttended(),
+    _tabFailed
+  );
+  const schedulesPage = document.querySelector(".app-body")?.classList.contains("schedules-page");
+  applyTabStatus(status, tabTitle(status, schedulesPage ? "Schedules" : window.AAMP_HEADER?.title));
 }
+window.addEventListener("aamp:header", refreshTabStatus);
+new MutationObserver(refreshTabStatus).observe(document.querySelector(".app-body"), { attributes: true, attributeFilter: ["class"] });
 let _tabStatus = "idle";
 let _faviconHref = TAB_FAVICON_URL;
-function applyTabStatus(status) {
+function applyTabStatus(status, title) {
+  if (document.title !== title) document.title = title;
   if (status === _tabStatus) return;
   _tabStatus = status;
-  document.title = TAB_STATUS_GLYPH[status] + TAB_BASE_TITLE;
   paintFavicon(status);
 }
-let _faviconBase = null;
-let _faviconUnavailable = false;
 function paintFavicon(status) {
-  if (_faviconUnavailable) return;
-  if (status === "idle") {
-    setFaviconHref(TAB_FAVICON_URL);
-    return;
-  }
-  if (!_faviconBase) {
-    const img = new Image();
-    img.onload = () => {
-      _faviconBase = img;
-      paintFavicon(_tabStatus);
-    };
-    img.onerror = () => {
-      _faviconUnavailable = true;
-    };
-    img.src = TAB_FAVICON_URL;
-    return;
-  }
-  try {
-    const canvas = document.createElement("canvas");
-    canvas.width = 32;
-    canvas.height = 32;
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(_faviconBase, 0, 0, 32, 32);
-    ctx.beginPath();
-    ctx.arc(9, 9, 9, 0, 2 * Math.PI);
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(9, 9, 6.5, 0, 2 * Math.PI);
-    ctx.fillStyle = TAB_STATUS_COLOR[status];
-    ctx.fill();
-    setFaviconHref(canvas.toDataURL("image/png"));
-  } catch {
-    _faviconUnavailable = true;
-  }
+  setFaviconHref(TAB_STATUS_FAVICON[status] || TAB_FAVICON_URL);
 }
 function setFaviconHref(href) {
   if (href === _faviconHref) return;
   _faviconHref = href;
   const link = document.createElement("link");
   link.rel = "icon";
-  link.type = "image/png";
+  link.type = href.endsWith(".svg") ? "image/svg+xml" : "image/png";
   link.href = href;
   document.querySelectorAll('link[rel="icon"]').forEach((el) => el.remove());
   document.head.appendChild(link);
@@ -6045,6 +6086,7 @@ async function send(request) {
   activeStreams.set(mySessionId, stream);
   setSendButtonMode("stop");
   _tabUnread = false;
+  _tabFailed = false;
   refreshTabStatus();
   forceScroll();
   const userBubble = addMessage("user", rawInput, { images: attachedImages, files: attachedFiles });
@@ -6092,12 +6134,14 @@ async function send(request) {
       const err = await res.json().catch(() => ({ error: res.statusText }));
       stream.thinkStream?.dispose();
       stream.thinkStream = null;
+      stream.errored = true;
       if (stream.rendering) addMessage("error", err.error || `HTTP ${res.status}`);
       return;
     }
     await drainSSE(stream, res);
     if (!stream.done && !stream.errored && stream.rendering && stream.thinkStream && !stream.answerText.trim() && stream.hadToolCalls) {
       stream.thinkStream.collapse();
+      stream.errored = true;
       addMessage("error", "Stream ended unexpectedly.");
     }
   } catch (err) {

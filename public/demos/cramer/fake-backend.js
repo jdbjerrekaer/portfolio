@@ -32,17 +32,12 @@
     for (const e of dir.entries) e.modified = shift(e.modified);
   }
 
-  // A chat id left in storage by an earlier visit does not exist any more.
+  // A ?session= that is not in the fake data opens New chat instead of an empty
+  // thread. (A bare URL opens New chat natively since Cramer 314fc0a.)
   try {
-    const params = new URLSearchParams(location.search);
-    const stored = localStorage.getItem("aamp_session_id");
-    if (stored && !transcripts[stored]) localStorage.removeItem("aamp_session_id");
-    if (params.get("session") && !transcripts[params.get("session")]) {
-      window.history.replaceState({}, "", location.pathname);
-    }
-    // A fresh visit opens on an empty New chat; a link or reload with ?session= keeps its chat.
-    if (!params.get("session")) localStorage.removeItem("aamp_session_id");
-  } catch { /* storage blocked: the page falls back on its own */ }
+    const id = new URLSearchParams(location.search).get("session");
+    if (id && !transcripts[id]) window.history.replaceState({}, "", location.pathname);
+  } catch { /* no history API: the page falls back on its own */ }
 
   // ---- Files ----
   const FILE_ASSETS = {
