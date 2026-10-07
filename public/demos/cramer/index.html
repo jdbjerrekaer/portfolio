@@ -19,8 +19,8 @@
 <title>Cramer demo</title><!-- portfolio edit: title -->
 <link rel="icon" type="image/png" href="favicon.png">
 <!-- portfolio edit: relative favicon; the fake backend loads before anything else calls the API. -->
-<script src="fake-data.js?v=20261007a"></script>
-<script src="fake-backend.js?v=20261007a"></script>
+<script src="fake-data.js?v=20261007b"></script>
+<script src="fake-backend.js?v=20261007b"></script>
 
 <script>
 (function() {
@@ -76,7 +76,7 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-<link href="nav/sidenav.css?v=20261007a" rel="stylesheet"><!-- portfolio edit: relative path -->
+<link href="nav/sidenav.css?v=20261007b" rel="stylesheet"><!-- portfolio edit: relative path -->
 <style>
 *,
 *::before,
@@ -1030,6 +1030,32 @@ html.list-switching::view-transition-new(root) {
 }
 .thinking-stream-header {
   gap: var(--size-space-150);
+}
+.msg-author > .thinking-stream-header {
+  flex: none;
+}
+.thinking-stream-status {
+  white-space: nowrap;
+}
+.thinking-pulse {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--primary);
+  animation: thinking-pulse 1.4s ease-in-out infinite;
+}
+@keyframes thinking-pulse {
+  0%, 100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .thinking-pulse {
+    animation: none;
+  }
 }
 :is(.thinking-toggle, .thinking-stream-header, .tool-card-header):focus-visible {
   outline: 2px solid var(--primary);
@@ -2259,7 +2285,7 @@ img.answer-zoomable:active {
 
 <div class="tab-nav" id="sideNav"></div>
 <template id="navVersionTpl">portfolio demo</template>
-<script type="module" src="nav/sidenav.js?v=20261007a"></script><!-- portfolio edit: relative path -->
+<script type="module" src="nav/sidenav.js?v=20261007b"></script><!-- portfolio edit: relative path -->
 <script>
 (() => {
   const env = document.body.dataset.env;
@@ -5610,7 +5636,7 @@ function createThinkingStream(initialStartTime) {
   authorRow.appendChild(headerRow);
   const loaderEl = document.createElement("span");
   loaderEl.className = "thinking-mark";
-  loaderEl.dataset.icon = "running";
+  loaderEl.dataset.icon = "thinking";
   loaderEl.setAttribute("aria-hidden", "true");
   const statusEl = document.createElement("span");
   statusEl.className = "thinking-stream-status";
