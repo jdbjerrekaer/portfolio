@@ -375,12 +375,16 @@ a {
   object-position: top left;
 }
 
+// The old and new animations must run at the SAME duration: a fast-out /
+// slow-in crossfade dips the combined opacity mid-transition (everything,
+// including the sticky header, visibly dims to ~50% and recovers — read as
+// the nav bar blinking). Matched durations keep total brightness constant.
 ::view-transition-old(root) {
-  animation: page-out 240ms var(--ease-standard) both;
+  animation: page-out 460ms var(--ease-out) both;
 }
 
 ::view-transition-new(root) {
-  animation: page-in 520ms var(--ease-out) both;
+  animation: page-in 460ms var(--ease-out) both;
 }
 
 @keyframes page-out {
