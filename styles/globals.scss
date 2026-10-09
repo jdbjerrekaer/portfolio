@@ -101,6 +101,14 @@ html {
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--color-canvas);
 
+  // While a view transition runs, scroll restoration must be instant.
+  // Smooth-scrolling back to top mid-transition captures the new snapshot
+  // between scroll offsets: the sticky header repaints during capture and
+  // renders doubled or missing for a few frames.
+  &:active-view-transition {
+    scroll-behavior: auto;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     scroll-behavior: auto;
   }
