@@ -339,3 +339,53 @@ a {
     background: var(--color-background-secondary);
   }
 }
+
+// =============================================================================
+// Page transitions (View Transitions API)
+// Enabled via `experimental.viewTransition` in next.config.ts. Client-side
+// navigations snapshot the outgoing page (::view-transition-old) and reveal
+// the incoming one (::view-transition-new). The outgoing page leaves quickly
+// and quietly; the incoming page settles in slightly slower, fading up a few
+// pixels so the change reads as continuous rather than a hard cut.
+// =============================================================================
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  // Keep both snapshots fixed to the top of the viewport — the default
+  // mixed alignment can jump a frame when scroll positions differ.
+  height: 100%;
+  object-fit: none;
+  object-position: top left;
+}
+
+::view-transition-old(root) {
+  animation: page-out 180ms var(--ease-standard) both;
+}
+
+::view-transition-new(root) {
+  animation: page-in 380ms var(--ease-out) both;
+}
+
+@keyframes page-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}

@@ -13,6 +13,12 @@ const nextConfig: NextConfig = {
   basePath: basePath,
   assetPrefix: basePath,
 
+  // Soft cross-page transitions via the View Transitions API
+  // (wraps client-side navigations in document.startViewTransition)
+  experimental: {
+    viewTransition: true,
+  },
+
   // Required for static export - disable image optimization
   images: {
     unoptimized: true,
