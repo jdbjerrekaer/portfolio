@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getProjectBySlug, getProjectSlugs } from "@/lib/content/projects";
 import { MdxContent } from "@/components/MdxContent";
 import { ProjectGallery } from "@/components/ProjectGallery";
+import { CramerDemoFrame } from "@/components/CramerDemoFrame";
 import { ActionLink, Chip } from "@/components/ui";
 import { resolveAssetSrc } from "@/lib/utils/paths";
 import styles from "./page.module.scss";
@@ -112,6 +113,15 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </div>
         )}
       </header>
+
+      {project.heroDemo && (
+        <CramerDemoFrame
+          src={project.heroDemo.src}
+          title={project.heroDemo.title}
+          height={project.heroDemo.height}
+          note={project.heroDemo.note}
+        />
+      )}
 
       {project.demoVideo && (
         <figure className={styles.demo}>

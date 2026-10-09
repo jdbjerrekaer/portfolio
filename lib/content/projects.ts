@@ -42,6 +42,17 @@ const projectSchema = z.object({
   liveDemo: z.boolean().optional().default(false),
   // In-page anchor the header "Live demo" link scrolls to.
   demoAnchor: z.string().optional().default("live-demo"),
+  // Interactive demo hoisted straight under the case study header, before the
+  // video and gallery. Props map onto CramerDemoFrame; src is relative to the
+  // case study page URL (e.g. "../../demos/yadl/").
+  heroDemo: z
+    .object({
+      src: z.string(),
+      title: z.string().optional(),
+      height: z.number().optional(),
+      note: z.string().optional(),
+    })
+    .optional(),
   // Group on the /projects page. The homepage picks always show under "Start here" instead.
   section: z.enum(["product", "ai", "earlier"]).optional().default("product"),
   hidden: z.boolean().optional().default(false),
