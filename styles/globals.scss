@@ -376,11 +376,11 @@ a {
 }
 
 ::view-transition-old(root) {
-  animation: page-out 180ms var(--ease-standard) both;
+  animation: page-out 240ms var(--ease-standard) both;
 }
 
 ::view-transition-new(root) {
-  animation: page-in 380ms var(--ease-out) both;
+  animation: page-in 520ms var(--ease-out) both;
 }
 
 @keyframes page-out {
