@@ -342,11 +342,20 @@ a {
 
 // =============================================================================
 // Page transitions (View Transitions API)
-// Enabled via `experimental.viewTransition` in next.config.ts. Client-side
-// navigations snapshot the outgoing page (::view-transition-old) and reveal
-// the incoming one (::view-transition-new). The outgoing page leaves quickly
-// and quietly; the incoming page settles in slightly slower, fading up a few
-// pixels so the change reads as continuous rather than a hard cut.
+// Enabled via `experimental.viewTransition` in next.config.ts plus the
+// <ViewTransition> boundary in app/template.tsx. Client-side navigations
+// snapshot the outgoing page (::view-transition-old) and reveal the incoming
+// one (::view-transition-new) as an opacity-only cross-fade.
+//
+// The animation must stay opacity-only: the snapshot covers the whole
+// document, including the sticky header, and any transform (e.g. a rise)
+// would visibly move the header mid-transition. With pure opacity, the
+// header/footer pixels — identical in both snapshots — blend invisibly,
+// so only the page content appears to fade.
+//
+// Note: giving the header its own view-transition-name to exclude it from
+// this snapshot does NOT work — Chromium captures empty snapshots for
+// sticky elements with backdrop-filter, making the bar vanish mid-transition.
 // =============================================================================
 
 ::view-transition-old(root),
@@ -366,17 +375,6 @@ a {
   animation: page-in 380ms var(--ease-out) both;
 }
 
-// The header and footer carry their own view-transition names so they are
-// captured as separate groups and excluded from the root cross-fade. Both
-// states are pixel-identical across pages, so no animation is needed —
-// they simply stay put while the page content fades underneath.
-::view-transition-old(site-header),
-::view-transition-new(site-header),
-::view-transition-old(site-footer),
-::view-transition-new(site-footer) {
-  animation: none;
-}
-
 @keyframes page-out {
   to {
     opacity: 0;
@@ -386,11 +384,9 @@ a {
 @keyframes page-in {
   from {
     opacity: 0;
-    transform: translateY(10px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
