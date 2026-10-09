@@ -23,6 +23,7 @@ export default async function HomePage() {
         ...project,
         hasCaseStudy: fullProject ? hasCaseStudy(fullProject) : false,
         comingSoon: fullProject?.comingSoon || false,
+        liveDemo: fullProject?.liveDemo || false,
       };
     })
   );
@@ -77,6 +78,7 @@ export default async function HomePage() {
                 coverImage={project.coverImage}
                 hasCaseStudy={project.hasCaseStudy}
                 comingSoon={project.comingSoon}
+                liveDemo={project.liveDemo}
                 variant="featured"
               />
             ))}

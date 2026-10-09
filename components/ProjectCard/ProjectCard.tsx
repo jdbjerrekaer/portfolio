@@ -60,7 +60,7 @@ export function ProjectCard({
         {variant === "catalog" && (
           <Badge tone={isUnavailable ? "muted" : "neutral"} className={styles.statusBadge} label={statusLabel} />
         )}
-        {variant === "catalog" && liveDemo && !isUnavailable && (
+        {liveDemo && !isUnavailable && (
           <Badge tone="neutral" dot className={styles.demoBadge} label="Live demo" />
         )}
       </div>
