@@ -82,7 +82,7 @@ const sourcedTestimonials: Testimonial[] = [
     quote:
       "Jonatan adapted quickly and helped get a strong design team up and running. He has delivered good results and is already off to a strong start on the new platform.",
     author: "Frej Korsgaard",
-    role: "Engineering Manager",
+    role: "Tech Lead & Scrum Master",
     company: "Adtraction / Adservice",
   },
 ];
