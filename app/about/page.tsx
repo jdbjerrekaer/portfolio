@@ -44,7 +44,7 @@ export default function AboutPage() {
 
       <Section className={styles.contentSection} innerClassName={styles.sectionInner}>
           <div>
-            <SectionHeader title="Approach" />
+            <SectionHeader title="Background" />
             <BackgroundCards />
           </div>
       </Section>
