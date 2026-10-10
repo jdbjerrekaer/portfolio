@@ -197,25 +197,31 @@
     canvas.render(backend.nodes);
     canvas.select(backend.selection);
 
-    // portfolio edit: .container is height:100% but #root and its child have no height, so the card
-    // stops at its content and the plugin body shows below it. Give the chain a height (demo only).
-    function fillWindow() {
-      var doc = iframe.contentDocument;
-      if (!doc || doc.getElementById('demo-fill')) return;
-      var style = doc.createElement('style');
-      style.id = 'demo-fill';
-      style.textContent = '#root, #root > div { height: 100%; }';
-      doc.head.appendChild(style);
-    }
-    iframe.addEventListener('load', fillWindow);
-    fillWindow();
-
     // Relay: the plugin UI posts to its parent (this page), exactly as it would to Figma.
+    // Attach BEFORE any cosmetic work below — if fillWindow() throws, the plugin would
+    // otherwise never get a reply and its Analyze button stays disabled forever.
     window.addEventListener('message', function (event) {
       if (event.source !== iframe.contentWindow) return;
       var msg = event.data && event.data.pluginMessage;
       if (msg) backend.handle(msg);
     });
+
+    // portfolio edit: .container is height:100% but #root and its child have no height, so the card
+    // stops at its content and the plugin body shows below it. Give the chain a height (demo only).
+    // Guarded: at init the plugin document can exist without a <head> yet (lazy-loaded shell
+    // iframe), and an unguarded throw here used to kill the whole init block above the relay.
+    function fillWindow() {
+      try {
+        var doc = iframe.contentDocument;
+        if (!doc || !doc.head || doc.getElementById('demo-fill')) return;
+        var style = doc.createElement('style');
+        style.id = 'demo-fill';
+        style.textContent = '#root, #root > div { height: 100%; }';
+        doc.head.appendChild(style);
+      } catch (err) { /* cosmetic only; the 'load' call will retry */ }
+    }
+    iframe.addEventListener('load', fillWindow);
+    fillWindow();
 
     document.getElementById('reset').addEventListener('click', function () {
       backend.reset();
