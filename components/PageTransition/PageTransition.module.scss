@@ -1,0 +1,32 @@
+.enter {
+  animation: page-enter 420ms var(--ease-out) both;
+}
+
+.exit {
+  animation: page-exit var(--exit-ms, 150ms) ease-in both;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes page-exit {
+  to {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .enter,
+  .exit {
+    animation: none;
+  }
+}

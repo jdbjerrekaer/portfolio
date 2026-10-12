@@ -1,14 +1,13 @@
 "use client";
 
-import { ViewTransition } from "react";
+import { PageTransition } from "@/components/PageTransition/PageTransition";
 
 /**
- * Wraps every page in a React <ViewTransition> boundary.
- * Requires `experimental.viewTransition` in next.config.ts.
- * The boundary remounts on each navigation, so the outgoing page exits
- * and the incoming page enters as a cross-fade driven by the
- * ::view-transition-old(root) / ::view-transition-new(root) rules in globals.scss.
+ * Remounts on every navigation. PageTransition plays a short exit fade on
+ * link clicks and an enter fade + rise on the new page. The site header and
+ * footer live in the layout, outside this wrapper, so they stay perfectly
+ * static during page changes.
  */
 export default function Template({ children }: { children: React.ReactNode }) {
-  return <ViewTransition>{children}</ViewTransition>;
+  return <PageTransition>{children}</PageTransition>;
 }

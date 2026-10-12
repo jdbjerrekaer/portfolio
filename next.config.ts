@@ -13,11 +13,10 @@ const nextConfig: NextConfig = {
   basePath: basePath,
   assetPrefix: basePath,
 
-  // Soft cross-page transitions via the View Transitions API
-  // (wraps client-side navigations in document.startViewTransition)
-  experimental: {
-    viewTransition: true,
-  },
+  // Soft cross-page transitions are handled by components/PageTransition
+  // (exit/enter opacity animation) — deliberately NOT the View Transitions
+  // API: Chromium drops sticky, backdrop-filtered elements from view-transition
+  // snapshots, which made the nav bar blink on every navigation.
 
   // Required for static export - disable image optimization
   images: {

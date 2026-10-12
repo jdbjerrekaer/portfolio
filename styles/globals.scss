@@ -101,14 +101,6 @@ html {
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--color-canvas);
 
-  // While a view transition runs, scroll restoration must be instant.
-  // Smooth-scrolling back to top mid-transition captures the new snapshot
-  // between scroll offsets: the sticky header repaints during capture and
-  // renders doubled or missing for a few frames.
-  &:active-view-transition {
-    scroll-behavior: auto;
-  }
-
   @media (prefers-reduced-motion: reduce) {
     scroll-behavior: auto;
   }
@@ -348,63 +340,3 @@ a {
   }
 }
 
-// =============================================================================
-// Page transitions (View Transitions API)
-// Enabled via `experimental.viewTransition` in next.config.ts plus the
-// <ViewTransition> boundary in app/template.tsx. Client-side navigations
-// snapshot the outgoing page (::view-transition-old) and reveal the incoming
-// one (::view-transition-new) as an opacity-only cross-fade.
-//
-// The animation must stay opacity-only: the snapshot covers the whole
-// document, including the sticky header, and any transform (e.g. a rise)
-// would visibly move the header mid-transition. With pure opacity, the
-// header/footer pixels — identical in both snapshots — blend invisibly,
-// so only the page content appears to fade.
-//
-// Note: giving the header its own view-transition-name to exclude it from
-// this snapshot does NOT work — Chromium captures empty snapshots for
-// sticky elements with backdrop-filter, making the bar vanish mid-transition.
-// =============================================================================
-
-::view-transition-old(root),
-::view-transition-new(root) {
-  // Keep both snapshots fixed to the top of the viewport — the default
-  // mixed alignment can jump a frame when scroll positions differ.
-  height: 100%;
-  object-fit: none;
-  object-position: top left;
-}
-
-// The old and new animations must run at the SAME duration: a fast-out /
-// slow-in crossfade dips the combined opacity mid-transition (everything,
-// including the sticky header, visibly dims to ~50% and recovers — read as
-// the nav bar blinking). Matched durations keep total brightness constant.
-::view-transition-old(root) {
-  animation: page-out 460ms var(--ease-out) both;
-}
-
-::view-transition-new(root) {
-  animation: page-in 460ms var(--ease-out) both;
-}
-
-@keyframes page-out {
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes page-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation: none;
-  }
-}
