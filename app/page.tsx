@@ -40,7 +40,7 @@ export default async function HomePage() {
             <Tooltip
               inline
               placement="top"
-              className="tooltip-glass"
+              className="tooltip-glass tooltip-glass--solid"
               content="Bareknuckle full-contact karate. I've taught it since 2013, and the same discipline goes into my design work."
             >
               <Link href="/about/#karate" className={styles.fullContact}>full-contact</Link>
