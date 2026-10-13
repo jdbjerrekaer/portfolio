@@ -5,6 +5,7 @@ import { Testimonials } from "@/components/Testimonials";
 import { Section, SectionHeader } from "@/components/ui";
 import { ApproachList } from "./ApproachList";
 import { BackgroundCards } from "./BackgroundCards";
+import { KarateClips } from "./KarateClips";
 import { RolesCards } from "./RolesCards";
 import { SkillsCards } from "./SkillsCards";
 import { resolveAssetSrc } from "@/lib/utils/paths";
@@ -46,6 +47,7 @@ export default function AboutPage() {
           <div>
             <SectionHeader title="Background" />
             <BackgroundCards />
+            <KarateClips />
           </div>
       </Section>
 

@@ -200,3 +200,45 @@
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   pointer-events: none;
 }
+
+// Karate clips under the Background cards
+.karate {
+  margin-top: var(--space-3xl);
+}
+
+.karateTitle {
+  margin: 0 0 var(--space-xs);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.karateIntro {
+  margin: 0 0 var(--space-lg);
+  color: var(--color-text-secondary);
+}
+
+.karateGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: var(--space-lg);
+}
+
+.karateClip {
+  margin: 0;
+}
+
+.karateVideo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  background: #000;
+  object-fit: cover;
+}
+
+.karateCaption {
+  margin-top: var(--space-sm);
+  font-size: 0.875rem;
+  color: var(--color-text-tertiary);
+}
