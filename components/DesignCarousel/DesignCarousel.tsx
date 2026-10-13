@@ -583,6 +583,7 @@ export function DesignCarousel({ items }: DesignCarouselProps) {
                     delay={180}
                     className="tooltip-glass"
                     placement="top"
+                    followCursor
                   >
                     <button
                       type="button"
