@@ -71,18 +71,18 @@ export default async function HomePage() {
             <a
               className={`${styles.heroLink} ${styles.heroPanel}`}
               href={withBasePath("/projects/yadl/")}
-              aria-label="YADL case study: design-system lint results"
+              aria-label="YADL case study: design-system variable collections"
             >
-              <img src={withBasePath("/projects/yadl/errors.jpg")} alt="YADL lint results panel" />
+              <img src={withBasePath("/projects/yadl/ready-to-analyze.jpg")} alt="YADL plugin, ready to analyze" />
             </a>
             <a
               className={`${styles.heroLink} ${styles.heroShipped}`}
-              href={withBasePath("/projects/")}
-              aria-label="Adservice influencer platform case study"
+              href={withBasePath("/projects/cramer-ai-assistant/")}
+              aria-label="Cramer AI assistant case study"
             >
               <img
-                src={withBasePath("/projects/adservice-influencer/then-and-now.jpg")}
-                alt="Adservice influencer platform, before and after"
+                src={withBasePath("/projects/cramer-ai-assistant/before-after/after-overview-1005.jpg")}
+                alt="Cramer AI assistant chat overview"
               />
             </a>
             <img className={styles.heroKeyboard} src={withBasePath("/images/hero/apple-keyboard.png")} alt="" />

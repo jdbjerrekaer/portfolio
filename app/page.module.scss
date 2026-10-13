@@ -43,7 +43,8 @@
   // the headline and CTA buttons.
   z-index: 2;
   display: grid;
-  justify-items: center;
+  grid-template-columns: minmax(0, 1fr); // keeps percentage/fit-content children
+  justify-items: center; // constrained to the track instead of the grid's max-content
   justify-self: center;
   width: min(100%, 1080px);
   margin: 0 auto;
@@ -51,7 +52,8 @@
 }
 
 .heroTitle {
-  max-width: 960px;
+  width: 100%; // grid item with justify-self:center would shrink-to-fit and
+  max-width: 960px; // overflow once text-wrap:balance widens the box past the viewport
   margin-bottom: var(--space-lg);
   font-size: 4rem;
   letter-spacing: 0;
@@ -61,6 +63,7 @@
 }
 
 .heroSubtitle {
+  width: 100%; // same shrink-to-fit guard as .heroTitle
   max-width: 760px;
   font-size: 1.5rem;
   line-height: 1.4;
@@ -79,6 +82,7 @@
 
 .heroCta {
   display: flex;
+  width: 100%; // same shrink-to-fit guard; buttons wrap inside the container
   gap: var(--space-md);
   justify-content: center;
   flex-wrap: wrap;
@@ -202,12 +206,12 @@
   left: calc(50% - 50vw + 16px); // +16px keeps the YADL wordmark from clipping
   top: 4%;
   width: min(268px, 21vw);
-  aspect-ratio: 1268 / 1666;
+  aspect-ratio: 698 / 1076; // matches the ready-to-analyze screenshot
   border-radius: 14px;
 }
 
-// Adservice influencer platform, before/after: the "actually built" half.
-// Links to /projects/ until the adservice case study branch ships.
+// Cramer AI assistant: the "actually built" half. Deep-links to the case
+// study, which has a live demo.
 .heroShipped {
   --depth-x: 26px;
   --depth-y: 18px;
@@ -219,11 +223,11 @@
   right: calc(50% - 50vw + 20px);
   top: -1%;
   width: min(430px, 33vw);
-  aspect-ratio: 2484 / 1740;
+  aspect-ratio: 1800 / 1125; // matches the Cramer after-overview screenshot
   border-radius: 12px;
 
   img {
-    object-position: 0 0;
+    object-position: 50% 0;
   }
 }
 
@@ -320,6 +324,29 @@
 
   .projectGrid {
     grid-template-columns: 1fr;
+  }
+}
+
+// Phones: the side cards shrink to unreadable crumbs and the CTA buttons
+// overflow the row, so go full-width stacked and keep only the scene photo.
+@media (max-width: 640px) {
+  .heroTitle {
+    font-size: 2.25rem;
+  }
+
+  .heroCta {
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 22rem;
+  }
+
+  .heroPanel,
+  .heroShipped {
+    display: none;
+  }
+
+  .heroStage {
+    width: 120%;
   }
 }
 
