@@ -57,19 +57,8 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     setPhase("enter");
     exiting.current = false;
-    // The router does not scroll to #hash targets after these pushes (e.g. the
-    // hero "full-contact" link to /about/#karate), so do it once the page is in.
-    // Instant: the page is fading in anyway, and a smooth scroll can stall or land
-    // short while media above the target is still loading.
-    const hash = window.location.hash.slice(1);
-    const toHash = hash
-      ? setTimeout(() => document.getElementById(decodeURIComponent(hash))?.scrollIntoView({ block: "start", behavior: "instant" }), 0)
-      : undefined;
     const t = setTimeout(() => setPhase("idle"), 420);
-    return () => {
-      clearTimeout(toHash);
-      clearTimeout(t);
-    };
+    return () => clearTimeout(t);
   }, [pathname]);
 
   // Intercept clicks on internal links and route them through the exit fade.
