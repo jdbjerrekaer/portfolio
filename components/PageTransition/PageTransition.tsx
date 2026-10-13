@@ -58,7 +58,22 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
     setPhase("enter");
     exiting.current = false;
     const t = setTimeout(() => setPhase("idle"), 420);
-    return () => clearTimeout(t);
+    // #hash links (e.g. the hero "full-contact" link to /about/#karate): the
+    // router's own scrollIntoView fires mid-transition and its smooth scroll gets
+    // cancelled in real browsers, so scroll again once the page has faded in.
+    const hash = window.location.hash.slice(1);
+    const toHash = hash
+      ? setTimeout(() => {
+          const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          document
+            .getElementById(decodeURIComponent(hash))
+            ?.scrollIntoView({ block: "start", behavior: reduce ? "instant" : "smooth" });
+        }, 450)
+      : undefined;
+    return () => {
+      clearTimeout(t);
+      clearTimeout(toHash);
+    };
   }, [pathname]);
 
   // Intercept clicks on internal links and route them through the exit fade.
