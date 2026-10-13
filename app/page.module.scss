@@ -38,6 +38,10 @@
 
 .heroContent {
   position: relative;
+  // Above .heroStage (z-index: 1): side props are anchored to the viewport
+  // edges and poke above the stage's top edge, so without this they cover
+  // the headline and CTA buttons.
+  z-index: 2;
   display: grid;
   justify-items: center;
   justify-self: center;
@@ -106,6 +110,8 @@
 
 // Every layer drifts by --mx/--my (-1..1, set by PointerParallax) times its own
 // depth, using `translate` so `transform` stays free for each prop's pose.
+// Idle drift runs as a slow keyframe on `transform` via --pose, so the two
+// never fight; durations are desynced per prop.
 .heroHand,
 .heroKeyboard,
 .heroPanel,
@@ -114,12 +120,44 @@
   max-width: none;
   translate: calc(var(--mx, 0) * var(--depth-x)) calc(var(--my, 0) * var(--depth-y));
   transition: translate var(--depth-ms) var(--ease-out);
+  animation: heroIdle var(--idle-s, 7s) ease-in-out var(--idle-delay, 0s) infinite;
+}
+
+@keyframes heroIdle {
+  0%,
+  100% {
+    transform: var(--pose, none) translateY(0);
+  }
+  50% {
+    transform: var(--pose, none) translateY(-7px);
+  }
+}
+
+// The case-study cards are real links; the stage itself stays click-through
+// so it never blocks text selection or page scroll.
+.heroLink {
+  pointer-events: auto;
+  transition: filter var(--transition-fast);
+
+  &:hover {
+    filter: brightness(1.04);
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.06),
+      0 18px 44px -12px rgba(0, 0, 0, 0.27);
+  }
 }
 
 .heroHand {
   --depth-x: 6px;
   --depth-y: 4px;
   --depth-ms: 440ms;
+  animation: none; // the full-bleed scene photo stays put; smaller props bob
   inset: 0;
   width: 100%;
   height: 100%;
@@ -130,22 +168,26 @@
   --depth-x: 16px;
   --depth-y: 11px;
   --depth-ms: 600ms;
+  --idle-s: 9s;
+  --idle-delay: -3.5s;
+  --pose: perspective(1600px) rotateX(34deg) rotateZ(7deg);
+  transform: var(--pose);
+  transform-origin: bottom center;
   right: calc(50% - 50vw - 30px);
   bottom: -12%;
   width: min(480px, 36vw);
   aspect-ratio: 1920 / 780;
-  // Flat top-down product shot, so lay it back to sit on the desk plane.
-  transform: perspective(1600px) rotateX(34deg) rotateZ(7deg);
-  transform-origin: bottom center;
 }
 
 // Side cards are anchored to the viewport edge, not the stage.
 .heroPanel,
 .heroShipped {
-  object-fit: cover;
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.06),
-    0 18px 44px -12px rgba(0, 0, 0, 0.27);
+  border-radius: 14px;
+  overflow: hidden;
+
+  img {
+    object-position: 50% 0;
+  }
 }
 
 // YADL lint panel: the "design" half of the headline.
@@ -153,27 +195,36 @@
   --depth-x: 20px;
   --depth-y: 14px;
   --depth-ms: 680ms;
+  --idle-s: 7s;
+  --idle-delay: -2s;
+  --pose: rotate(-3deg);
+  transform: var(--pose);
   left: calc(50% - 50vw + 16px); // +16px keeps the YADL wordmark from clipping
   top: 4%;
   width: min(268px, 21vw);
   aspect-ratio: 1268 / 1666;
-  object-position: 50% 0;
   border-radius: 14px;
-  transform: rotate(-3deg);
 }
 
-// Shipped Adtraction Brands platform: the "actually built" half.
+// Adservice influencer platform, before/after: the "actually built" half.
+// Links to /projects/ until the adservice case study branch ships.
 .heroShipped {
   --depth-x: 26px;
   --depth-y: 18px;
   --depth-ms: 780ms;
+  --idle-s: 7.8s;
+  --idle-delay: -5s;
+  --pose: rotate(2.5deg);
+  transform: var(--pose);
   right: calc(50% - 50vw + 20px);
   top: -1%;
   width: min(430px, 33vw);
-  aspect-ratio: 2000 / 1208;
-  object-position: 0 0;
+  aspect-ratio: 2484 / 1740;
   border-radius: 12px;
-  transform: rotate(2.5deg);
+
+  img {
+    object-position: 0 0;
+  }
 }
 
 @keyframes heroStageEnter {
@@ -288,6 +339,8 @@
   .heroShipped {
     translate: none;
     transition: none;
+    animation: none;
+    transform: var(--pose, none);
   }
 }
 

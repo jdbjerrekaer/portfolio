@@ -68,8 +68,23 @@ export default async function HomePage() {
             </Button>
           </div>
           <PointerParallax className={styles.heroStage}>
-            <img className={styles.heroPanel} src={withBasePath("/projects/yadl/errors.jpg")} alt="" />
-            <img className={styles.heroShipped} src={withBasePath("/projects/adtraction-brands/new-brands.jpg")} alt="" />
+            <a
+              className={`${styles.heroLink} ${styles.heroPanel}`}
+              href={withBasePath("/projects/yadl/")}
+              aria-label="YADL case study: design-system lint results"
+            >
+              <img src={withBasePath("/projects/yadl/errors.jpg")} alt="YADL lint results panel" />
+            </a>
+            <a
+              className={`${styles.heroLink} ${styles.heroShipped}`}
+              href={withBasePath("/projects/")}
+              aria-label="Adservice influencer platform case study"
+            >
+              <img
+                src={withBasePath("/projects/adservice-influencer/then-and-now.jpg")}
+                alt="Adservice influencer platform, before and after"
+              />
+            </a>
             <img className={styles.heroKeyboard} src={withBasePath("/images/hero/apple-keyboard.png")} alt="" />
             <img className={styles.heroHand} src={withBasePath("/images/hero/ipad-hand.png")} alt="" />
           </PointerParallax>

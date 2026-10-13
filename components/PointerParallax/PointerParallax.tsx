@@ -61,7 +61,7 @@ export function PointerParallax({
   }, []);
 
   return (
-    <div ref={ref} className={className} aria-hidden="true">
+    <div ref={ref} className={className}>
       {children}
     </div>
   );
