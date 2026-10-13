@@ -8,13 +8,13 @@ const clips = [
     caption: "Semifinal highlights, 6th Rotterdam Open (Kyokushinkai Tezuka Cup), 2018",
   },
   {
-    src: "/videos/karate/scotland-3rd-place-v2.mp4",
-    poster: "/videos/karate/scotland-3rd-place.jpg",
+    src: "/videos/karate/scotland-3rd-place-v3.mp4",
+    poster: "/videos/karate/scotland-3rd-place-v3.jpg",
     caption: "Fight for 3rd place, Scottish Open 2018, highlights (I’m aka, red)",
   },
   {
-    src: "/videos/karate/shiro-fight.mp4",
-    poster: "/videos/karate/shiro-fight.jpg",
+    src: "/videos/karate/shiro-fight-v2.mp4",
+    poster: "/videos/karate/shiro-fight-v2.jpg",
     caption: "Tournament fight highlights, ending on my knockdown (I’m shiro, white)",
   },
   {
