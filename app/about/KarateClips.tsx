@@ -15,7 +15,7 @@ const clips = [
   {
     src: "/videos/karate/japan.mp4",
     poster: "/videos/karate/japan.jpg",
-    caption: "Tournament fights in Japan",
+    caption: "All Japan Shin Kyokushin tournament, Ehime regional qualifier, 2015 (I’m in red)",
   },
 ];
 
