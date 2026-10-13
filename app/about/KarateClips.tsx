@@ -15,7 +15,7 @@ const clips = [
   {
     src: "/videos/karate/shiro-fight.mp4",
     poster: "/videos/karate/shiro-fight.jpg",
-    caption: "Tournament fight highlights (I’m shiro, white)",
+    caption: "Tournament fight highlights, ending on my knockdown (I’m shiro, white)",
   },
   {
     src: "/videos/karate/scs-2016.mp4",
