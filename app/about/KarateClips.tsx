@@ -10,7 +10,7 @@ const clips = [
   {
     src: "/videos/karate/scs-2016.mp4",
     poster: "/videos/karate/scs-2016.jpg",
-    caption: "Tournament fight, 2016",
+    caption: "Fight at the 22nd Sabaki Challenge Spirit, the Ashihara Karate world cup, 2016",
   },
 ];
 
