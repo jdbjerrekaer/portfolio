@@ -8,6 +8,16 @@ const clips = [
     caption: "Semifinal highlights, 6th Rotterdam Open (Kyokushinkai Tezuka Cup), 2018",
   },
   {
+    src: "/videos/karate/scotland-3rd-place.mp4",
+    poster: "/videos/karate/scotland-3rd-place.jpg",
+    caption: "Fight for 3rd place, Scotland, highlights (I’m aka, red)",
+  },
+  {
+    src: "/videos/karate/shiro-fight.mp4",
+    poster: "/videos/karate/shiro-fight.jpg",
+    caption: "Tournament fight highlights (I’m shiro, white)",
+  },
+  {
     src: "/videos/karate/scs-2016.mp4",
     poster: "/videos/karate/scs-2016.jpg",
     caption: "Fight at the 22nd Sabaki Challenge Spirit, the Ashihara Karate world cup, 2016",
