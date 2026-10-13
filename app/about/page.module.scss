@@ -204,6 +204,8 @@
 // Karate clips under the Background cards
 .karate {
   margin-top: var(--space-3xl);
+  // Linked from the home hero ("full-contact"); keep the heading clear of the sticky header.
+  scroll-margin-top: calc(var(--header-height, 64px) + var(--space-lg));
 }
 
 .karateTitle {

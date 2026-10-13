@@ -43,7 +43,7 @@ export default async function HomePage() {
               className="tooltip-glass"
               content="Bareknuckle full-contact karate. I've taught it since 2013, and the same discipline goes into my design work."
             >
-              <Link href="/about/" className={styles.fullContact}>full-contact</Link>
+              <Link href="/about/#karate" className={styles.fullContact}>full-contact</Link>
             </Tooltip>{" "}
             discipline applied to product design, bridging the gap between Figma and the codebase.
           </p>

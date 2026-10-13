@@ -31,7 +31,7 @@ const clips = [
 
 export function KarateClips() {
   return (
-    <div className={styles.karate}>
+    <div id="karate" className={styles.karate}>
       <h3 className={styles.karateTitle}>On the mat</h3>
       <p className={styles.karateIntro}>
         Bareknuckle full-contact karate: a few moments from tournaments I&apos;ve fought in.
