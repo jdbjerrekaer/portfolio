@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { AvailabilityCTA } from "@/components/AvailabilityCTA";
+import { PlayfulProfile } from "@/components/PlayfulProfile/PlayfulProfile";
 import { Testimonials } from "@/components/Testimonials";
 import { Section, SectionHeader } from "@/components/ui";
 import { ApproachList } from "./ApproachList";
@@ -22,7 +22,7 @@ export default function AboutPage() {
       <Section variant="hero" className={styles.hero} innerClassName={styles.sectionInner}>
           <div className={styles.heroContent}>
             <div className={styles.heroImage}>
-              <Image
+              <PlayfulProfile
                 src={resolveAssetSrc("/images/about-profile.jpg")}
                 alt="Jonatan Bjerrekær"
                 width={400}
