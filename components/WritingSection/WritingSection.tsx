@@ -1,4 +1,5 @@
 import { writingPosts } from "@/lib/content/writing";
+import { resolveAssetSrc } from "@/lib/utils/paths";
 import { AnimateIcon } from "@/components/animate-ui/icons/icon";
 import { Card, Chip, Icon, Section, SectionHeader } from "@/components/ui";
 import styles from "./WritingSection.module.scss";
@@ -15,7 +16,7 @@ export function WritingSection() {
         {writingPosts.map((post) => (
           <AnimateIcon key={post.url} animateOnHover asChild>
             <a
-              href={post.url}
+              href={resolveAssetSrc(post.url)}
               target="_blank"
               rel="noopener noreferrer"
               className={styles.cardLink}
