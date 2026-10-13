@@ -1,4 +1,5 @@
-import { ActionLink, Button, Section, SectionHeader } from "@/components/ui";
+import Link from "next/link";
+import { ActionLink, Button, Section, SectionHeader, Tooltip } from "@/components/ui";
 import { ProjectCard } from "@/components/ProjectCard";
 import { DesignCarousel } from "@/components/DesignCarousel";
 import { LogoGrid } from "@/components/LogoGrid";
@@ -35,7 +36,16 @@ export default async function HomePage() {
             I design interfaces that developers actually want to build.
           </h1>
           <p className={styles.heroSubtitle}>
-            10+ years of full-contact discipline applied to product design, bridging the gap between Figma and the codebase.
+            10+ years of{" "}
+            <Tooltip
+              inline
+              placement="top"
+              className="tooltip-glass"
+              content="Bareknuckle full-contact karate. I've taught it since 2013, and the same discipline goes into my design work."
+            >
+              <Link href="/about/" className={styles.fullContact}>full-contact</Link>
+            </Tooltip>{" "}
+            discipline applied to product design, bridging the gap between Figma and the codebase.
           </p>
           <div className={styles.heroCta}>
             <Button href="/projects/" variant="primary" size="lg" icon="folder" iconPosition="right">

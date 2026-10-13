@@ -138,3 +138,51 @@
     animation: none;
   }
 }
+
+// "full-contact" in the hero subtitle: the ActionLink inline hover, sized for running text.
+.fullContact {
+  position: relative;
+  isolation: isolate;
+  color: var(--color-accent);
+  font-weight: 500;
+  text-decoration: none;
+  user-select: text;
+  transition: color var(--transition-fast);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -0.05em -0.35em;
+    z-index: -1;
+    border-radius: var(--radius-full);
+    background: var(--color-accent-light);
+    opacity: 0;
+    transform: scaleX(0.25);
+    transform-origin: center;
+    transition: opacity var(--transition-fast), transform 180ms var(--ease-out);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .fullContact:hover {
+    color: var(--color-accent-hover);
+
+    &::before {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fullContact::before {
+    transform: none;
+    transition: opacity var(--transition-fast);
+  }
+}

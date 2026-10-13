@@ -25,6 +25,8 @@ export interface TooltipProps {
   className?: string;
   followCursor?: boolean;
   portal?: boolean;
+  /** Wrap the trigger in an inline <span> (for a word inside running text) instead of a block <div>. */
+  inline?: boolean;
 }
 
 export function Tooltip({
@@ -35,6 +37,7 @@ export function Tooltip({
   className = "",
   followCursor = false,
   portal = true,
+  inline = false,
 }: TooltipProps): React.ReactElement | null {
   const [open, setOpen] = useState(false);
   const { refs, floatingStyles, context } = useFloating({
@@ -66,7 +69,7 @@ export function Tooltip({
 
   // Wrap ref setters to avoid ESLint false positive about accessing refs during render
   const setReferenceRef = useCallback(
-    (node: HTMLDivElement | null) => {
+    (node: HTMLElement | null) => {
       refs.setReference(node);
     },
     [refs]
@@ -97,13 +100,19 @@ export function Tooltip({
 
   return (
     <>
-      <div 
-        ref={setReferenceRef}
-        {...getReferenceProps()}
-        style={{ display: "block", width: "100%", height: "100%" }}
-      >
-        {children}
-      </div>
+      {inline ? (
+        <span ref={setReferenceRef} {...getReferenceProps()}>
+          {children}
+        </span>
+      ) : (
+        <div
+          ref={setReferenceRef}
+          {...getReferenceProps()}
+          style={{ display: "block", width: "100%", height: "100%" }}
+        >
+          {children}
+        </div>
+      )}
       {open && (portal ? <FloatingPortal>{floatingContent}</FloatingPortal> : floatingContent)}
     </>
   );
