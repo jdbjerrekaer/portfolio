@@ -2,7 +2,7 @@
 
 Text: the post fields captured by the Wayback Machine (ext/*.json, see extract step).
 Layout + images: the AdserviceCom repo (blog_article.html structure, app/static).
-Usage: python3 -I build.py <scratch dir> <AdserviceCom/app/static> <out dir>
+Usage: python3 -I build.py <scratch dir> <AdserviceCom/app/static> <out dir> <meta.json path>
 """
 import html
 import json
@@ -66,42 +66,27 @@ def replace_img(m):
     return tag.replace(src, "../assets/" + Path(repo_path).name)
 
 
+# Body-only page: the site route app/writing/adservice/[slug] renders the header
+# (back link, title, byline, archive note) and embeds this in an iframe, so the
+# emails' global <style> blocks can't leak into the site.
 PAGE = """<!doctype html>
 <html lang="{lang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{title} · Adservice blog (archived)</title>
-<meta name="description" content="{title}. Originally published on the Adservice blog, {date}. Archived copy.">
-<link rel="canonical" href="{wayback}">
-<link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i&display=swap" rel="stylesheet">
+<meta name="robots" content="noindex">
+<title>{title}</title>
+<base target="_blank">
 {extra_head}
 <style>
-  body {{ margin: 0; font-family: Lato, sans-serif; color: #333; background: #fff; }}
-  .archive-note {{ background: #f4f6f8; border-bottom: 1px solid #e1e5ea; font-size: 14px; line-height: 1.5; }}
-  .archive-note p {{ max-width: 880px; margin: 0 auto; padding: 14px 16px; }}
-  .container {{ max-width: 880px; margin: 0 auto; padding: 30px 16px 60px; }}
-  .back {{ display: inline-block; margin-bottom: 20px; color: #1a73e8; }}
-  .blog-title {{ font-size: 2rem; line-height: 1.2; margin: 0 0 15px; }}
-  .splitter {{ height: 3px; width: 60px; background: #e1e5ea; margin-bottom: 15px; }}
-  .blog-details {{ color: #666; margin: 0 0 30px; }}
+  html, body {{ margin: 0; background: transparent; }}
+  body {{ font-family: Lato, Arial, sans-serif; color: #333; overflow: hidden; }}
   #preview .ql-editor {{ padding: 0; font-size: 16px; line-height: 1.6; }}
   img {{ max-width: 100%; }}
 </style>
 </head>
 <body>
-<aside class="archive-note"><p>
-  Archived copy. I wrote this for the Adservice blog ({date}). Adservice has since merged into
-  Adtraction and adservice.com is gone, so this page was rebuilt from the
-  <a href="{wayback}">Internet Archive snapshot</a> and the original site's code.{lost}
-</p></aside>
-<main class="container">
-  <a class="back" href="../../../">← Back to portfolio</a>
-  <h1 class="blog-title">{title}</h1>
-  <div class="splitter"></div>
-  <p class="blog-details">{category}, written by <b>{author}</b> on {date}</p>
-  {body}
-</main>
+{body}
 {extra_tail}
 </body>
 </html>
@@ -114,6 +99,7 @@ QUILL_TAIL = """<script src="../assets/quill.min.js"></script>
   quill.setContents(JSON.parse(document.getElementById('content').textContent));
 </script>"""
 
+meta = {}
 for slug, ts in SNAPSHOTS.items():
     post = json.loads((scratch / "ext" / f"{slug}.json").read_text())
     wayback = f"https://web.archive.org/web/{ts}/https://www.adservice.com/blog/article/{slug}"
@@ -130,16 +116,10 @@ for slug, ts in SNAPSHOTS.items():
         body = f'<script type="application/json" id="content">{delta}</script>\n  <div id="preview"></div>'
         extra_head = '<link rel="stylesheet" href="../assets/quill.snow.css">'
         extra_tail = QUILL_TAIL
-    lost = " Some images from the original couldn't be recovered and are left out." if replace_img.dropped else ""
     danish = any(w in post["title"].lower() for w in ("vil du", "case", "tricks", "unikke"))
     page = PAGE.format(
         lang="da" if danish else "en",
         title=html.escape(post["title"]),
-        category=html.escape(post["category"]),
-        author=html.escape(post["author"]),
-        date=post["timestamp"][:10],
-        wayback=wayback,
-        lost=lost,
         body=body,
         extra_head=extra_head,
         extra_tail=extra_tail,
@@ -148,4 +128,9 @@ for slug, ts in SNAPSHOTS.items():
     (out / slug / "index.html").write_text(page)
     left = re.findall(r'src="(https?://[^"]+)"', body)
     assert not any("stripocdn" in u or "newvideofrontiers" in u for u in left), left
+    meta[slug] = dict(title=post["title"], category=post["category"], author=post["author"],
+                      date=post["timestamp"][:10], lang="da" if danish else "en",
+                      wayback=wayback, imagesLost=replace_img.dropped > 0)
     print(f"{slug}: {len(page)} bytes, dropped {replace_img.dropped} image(s)")
+
+(Path(sys.argv[4]) if len(sys.argv) > 4 else out / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2) + "\n")

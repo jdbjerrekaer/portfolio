@@ -5,6 +5,14 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./PageTransition.module.scss";
 
 const EXIT_MS = 150;
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
+// router.push() adds basePath itself; a pathname read off an <a> already has it.
+function stripBasePath(path: string) {
+  return BASE_PATH && (path === BASE_PATH || path.startsWith(`${BASE_PATH}/`))
+    ? path.slice(BASE_PATH.length) || "/"
+    : path;
+}
 
 function isModified(e: MouseEvent) {
   return e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
@@ -76,7 +84,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
       const there = url.pathname + url.search;
       if (there === here) return;
       e.preventDefault();
-      pending.current = url.pathname + url.search + url.hash;
+      pending.current = stripBasePath(url.pathname) + url.search + url.hash;
       exiting.current = true;
       setPhase("exit");
     };

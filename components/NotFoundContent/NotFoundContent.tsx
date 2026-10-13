@@ -2,19 +2,15 @@
 
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/Button";
-import { useRouter } from "next/compat/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export function NotFoundContent() {
   const [isBroken, setIsBroken] = useState(false);
   const router = useRouter();
-  const goHome = () => {
-    if (router?.push) {
-      router.push("/");
-    } else if (typeof window !== "undefined") {
-      window.location.href = "/";
-    }
-  };
+  // App Router push adds the /portfolio basePath; next/compat/router was null here,
+  // so the old fallback sent people to the bare origin.
+  const goHome = () => router.push("/");
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[70vh] px-4 overflow-hidden pt-16 pb-16 mt-8 mb-8">

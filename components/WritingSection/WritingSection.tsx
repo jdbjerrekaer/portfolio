@@ -17,14 +17,12 @@ export function WritingSection() {
           <AnimateIcon key={post.url} animateOnHover asChild>
             <a
               href={resolveAssetSrc(post.url)}
-              target="_blank"
-              rel="noopener noreferrer"
               className={styles.cardLink}
             >
               <Card variant="interactive" className={styles.card}>
                 <div className={styles.cardHeader}>
                   <span className={styles.category}>{post.category}</span>
-                  <Icon name="arrow-up-right" size={16} className={styles.icon} />
+                  <Icon name="arrow-right" size={16} className={styles.icon} />
                 </div>
                 <h3 className={styles.title}>{post.title}</h3>
                 <p className={styles.summary}>{post.summary}</p>

@@ -1,0 +1,1 @@
+export { ArchivedArticleFrame } from "./ArchivedArticleFrame";
