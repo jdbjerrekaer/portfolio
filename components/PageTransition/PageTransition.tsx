@@ -5,6 +5,46 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./PageTransition.module.scss";
 
 const EXIT_MS = 150;
+const HASH_SCROLL_MS = 700;
+
+// Scroll to an element with our own eased animation built from instant jumps.
+// Native smooth scrolling (scrollIntoView / scroll-behavior: smooth) gets
+// cancelled after these client-side navigations in real browsers, while instant
+// scrolls stick, so animate frame by frame. The target is re-measured each frame
+// so loading media above it can't make it land short. Any user scroll input
+// (wheel, touch, keys) hands control back immediately.
+function scrollToElement(el: HTMLElement) {
+  const targetTop = () => {
+    const margin = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+    return el.getBoundingClientRect().top + window.scrollY - margin;
+  };
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    window.scrollTo({ top: targetTop(), behavior: "instant" });
+    return () => {};
+  }
+  const startY = window.scrollY;
+  let start: number | null = null;
+  let frame = 0;
+  const stop = () => {
+    cancelAnimationFrame(frame);
+    window.removeEventListener("wheel", stop);
+    window.removeEventListener("touchstart", stop);
+    window.removeEventListener("keydown", stop);
+  };
+  const step = (now: number) => {
+    start ??= now;
+    const t = Math.min((now - start) / HASH_SCROLL_MS, 1);
+    const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; // ease-in-out cubic
+    window.scrollTo({ top: startY + (targetTop() - startY) * eased, behavior: "instant" });
+    if (t < 1) frame = requestAnimationFrame(step);
+    else stop();
+  };
+  window.addEventListener("wheel", stop, { passive: true });
+  window.addEventListener("touchstart", stop, { passive: true });
+  window.addEventListener("keydown", stop);
+  frame = requestAnimationFrame(step);
+  return stop;
+}
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 // router.push() adds basePath itself; a pathname read off an <a> already has it.
@@ -58,21 +98,20 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
     setPhase("enter");
     exiting.current = false;
     const t = setTimeout(() => setPhase("idle"), 420);
-    // #hash links (e.g. the hero "full-contact" link to /about/#karate): the
-    // router's own scrollIntoView fires mid-transition and its smooth scroll gets
-    // cancelled in real browsers, so scroll again once the page has faded in.
+    // #hash links (e.g. the hero "full-contact" link to /about/#karate): scroll
+    // to the target once the page has faded in.
     const hash = window.location.hash.slice(1);
+    let stopScroll = () => {};
     const toHash = hash
       ? setTimeout(() => {
-          const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-          document
-            .getElementById(decodeURIComponent(hash))
-            ?.scrollIntoView({ block: "start", behavior: reduce ? "instant" : "smooth" });
+          const el = document.getElementById(decodeURIComponent(hash));
+          if (el) stopScroll = scrollToElement(el);
         }, 450)
       : undefined;
     return () => {
       clearTimeout(t);
       clearTimeout(toHash);
+      stopScroll();
     };
   }, [pathname]);
 
