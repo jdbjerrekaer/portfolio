@@ -10,7 +10,7 @@ const clips = [
   {
     src: "/videos/karate/scotland-3rd-place.mp4",
     poster: "/videos/karate/scotland-3rd-place.jpg",
-    caption: "Fight for 3rd place, Scotland, highlights (I’m aka, red)",
+    caption: "Fight for 3rd place, Scottish Open 2018, highlights (I’m aka, red)",
   },
   {
     src: "/videos/karate/shiro-fight.mp4",
