@@ -19,8 +19,8 @@
 <title>Cramer demo</title><!-- portfolio edit: title -->
 <link rel="icon" type="image/png" href="favicon.png">
 <!-- portfolio edit: relative favicon; the fake backend loads before anything else calls the API. -->
-<script src="fake-data.js?v=20261007b"></script>
-<script src="fake-backend.js?v=20261007b"></script>
+<script src="fake-data.js?v=20261014a"></script>
+<script src="fake-backend.js?v=20261014a"></script>
 
 <script>
 (function() {
@@ -76,7 +76,7 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-<link href="nav/sidenav.css?v=20261007b" rel="stylesheet"><!-- portfolio edit: relative path -->
+<link href="nav/sidenav.css?v=20261014a" rel="stylesheet"><!-- portfolio edit: relative path -->
 <style>
 *,
 *::before,
@@ -1602,6 +1602,9 @@ html.list-switching::view-transition-new(root) {
     animation: none;
   }
 }
+.tippy-content p:has(> .cramer-say-text) {
+  overflow: visible;
+}
 .msg-wrapper:not(.user-wrapper) > .msg-author::after {
   content: "";
   position: absolute;
@@ -2281,11 +2284,203 @@ img.answer-zoomable:active {
 </style>
 </head>
 <body data-env="production" data-debug-page-enabled="false">
+<script>
+(() => {
+  const rebel = "color:#2C3E9E;font-family:ui-monospace,monospace;font-size:12px;line-height:1";
+  const word = (art) => console.log("%c" + art, rebel);
+  const greet = () => {
+    word(
+      "   \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\n  \u2588\u2588\u2588\u2591\u2591\u2591\u2591\u2591\u2588\u2588\u2588\n \u2588\u2588\u2588     \u2591\u2591\u2591  \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588   \u2588\u2588\u2588\u2588\u2588\u2588   \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588    \u2588\u2588\u2588\u2588\u2588\u2588  \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\n\u2591\u2588\u2588\u2588         \u2591\u2591\u2588\u2588\u2588\u2591\u2591\u2588\u2588\u2588 \u2591\u2591\u2591\u2591\u2591\u2588\u2588\u2588 \u2591\u2591\u2588\u2588\u2588\u2591\u2591\u2588\u2588\u2588\u2591\u2591\u2588\u2588\u2588  \u2588\u2588\u2588\u2591\u2591\u2588\u2588\u2588\u2591\u2591\u2588\u2588\u2588\u2591\u2591\u2588\u2588\u2588\n\u2591\u2588\u2588\u2588          \u2591\u2588\u2588\u2588 \u2591\u2591\u2591   \u2588\u2588\u2588\u2588\u2588\u2588\u2588  \u2591\u2588\u2588\u2588 \u2591\u2588\u2588\u2588 \u2591\u2588\u2588\u2588 \u2591\u2588\u2588\u2588\u2588\u2588\u2588\u2588  \u2591\u2588\u2588\u2588 \u2591\u2591\u2591\n\u2591\u2591\u2588\u2588\u2588     \u2588\u2588\u2588 \u2591\u2588\u2588\u2588      \u2588\u2588\u2588\u2591\u2591\u2588\u2588\u2588  \u2591\u2588\u2588\u2588 \u2591\u2588\u2588\u2588 \u2591\u2588\u2588\u2588 \u2591\u2588\u2588\u2588\u2591\u2591\u2591   \u2591\u2588\u2588\u2588\n \u2591\u2591\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588  \u2588\u2588\u2588\u2588\u2588    \u2591\u2591\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588 \u2588\u2588\u2588\u2588\u2588\u2591\u2588\u2588\u2588 \u2588\u2588\u2588\u2588\u2588\u2591\u2591\u2588\u2588\u2588\u2588\u2588\u2588  \u2588\u2588\u2588\u2588\u2588\n  \u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591  \u2591\u2591\u2591\u2591\u2591      \u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591 \u2591\u2591\u2591\u2591\u2591 \u2591\u2591\u2591 \u2591\u2591\u2591\u2591\u2591  \u2591\u2591\u2591\u2591\u2591\u2591  \u2591\u2591\u2591\u2591\u2591"
+    );
+    word(
+      "  \u2588\u2588\u2588\u2588\u2588   \u2588\u2588\u2588\u2588\u2588\u2588   \u2588\u2588\u2588\u2588\u2588 \u2588\u2588\u2588\u2588  \u2588\u2588\u2588\u2588\u2588\n \u2588\u2588\u2588\u2591\u2591   \u2591\u2591\u2591\u2591\u2591\u2588\u2588\u2588 \u2591\u2591\u2588\u2588\u2588 \u2591\u2588\u2588\u2588  \u2588\u2588\u2588\u2591\u2591\n\u2591\u2591\u2588\u2588\u2588\u2588\u2588   \u2588\u2588\u2588\u2588\u2588\u2588\u2588  \u2591\u2588\u2588\u2588 \u2591\u2588\u2588\u2588 \u2591\u2591\u2588\u2588\u2588\u2588\u2588\n \u2591\u2591\u2591\u2591\u2588\u2588\u2588 \u2588\u2588\u2588\u2591\u2591\u2588\u2588\u2588  \u2591\u2588\u2588\u2588 \u2591\u2588\u2588\u2588  \u2591\u2591\u2591\u2591\u2588\u2588\u2588\n \u2588\u2588\u2588\u2588\u2588\u2588 \u2591\u2591\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588 \u2591\u2591\u2588\u2588\u2588\u2588\u2588\u2588\u2588  \u2588\u2588\u2588\u2588\u2588\u2588\n\u2591\u2591\u2591\u2591\u2591\u2591   \u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591   \u2591\u2591\u2591\u2591\u2591\u2588\u2588\u2588 \u2591\u2591\u2591\u2591\u2591\u2591\n                    \u2588\u2588\u2588 \u2591\u2588\u2588\u2588\n                   \u2591\u2591\u2588\u2588\u2588\u2588\u2588\u2588\n                    \u2591\u2591\u2591\u2591\u2591\u2591"
+    );
+    word(
+      " \u2588\u2588\u2588\u2588\u2588               \u2588\u2588\u2588\u2588  \u2588\u2588\u2588\u2588\n\u2591\u2591\u2588\u2588\u2588               \u2591\u2591\u2588\u2588\u2588 \u2591\u2591\u2588\u2588\u2588\n \u2591\u2588\u2588\u2588\u2588\u2588\u2588\u2588    \u2588\u2588\u2588\u2588\u2588\u2588  \u2591\u2588\u2588\u2588  \u2591\u2588\u2588\u2588   \u2588\u2588\u2588\u2588\u2588\u2588\n \u2591\u2588\u2588\u2588\u2591\u2591\u2588\u2588\u2588  \u2588\u2588\u2588\u2591\u2591\u2588\u2588\u2588 \u2591\u2588\u2588\u2588  \u2591\u2588\u2588\u2588  \u2588\u2588\u2588\u2591\u2591\u2588\u2588\u2588\n \u2591\u2588\u2588\u2588 \u2591\u2588\u2588\u2588 \u2591\u2588\u2588\u2588\u2588\u2588\u2588\u2588  \u2591\u2588\u2588\u2588  \u2591\u2588\u2588\u2588 \u2591\u2588\u2588\u2588 \u2591\u2588\u2588\u2588\n \u2591\u2588\u2588\u2588 \u2591\u2588\u2588\u2588 \u2591\u2588\u2588\u2588\u2591\u2591\u2591   \u2591\u2588\u2588\u2588  \u2591\u2588\u2588\u2588 \u2591\u2588\u2588\u2588 \u2591\u2588\u2588\u2588\n \u2588\u2588\u2588\u2588 \u2588\u2588\u2588\u2588\u2588\u2591\u2591\u2588\u2588\u2588\u2588\u2588\u2588  \u2588\u2588\u2588\u2588\u2588 \u2588\u2588\u2588\u2588\u2588\u2591\u2591\u2588\u2588\u2588\u2588\u2588\u2588\n\u2591\u2591\u2591\u2591 \u2591\u2591\u2591\u2591\u2591  \u2591\u2591\u2591\u2591\u2591\u2591  \u2591\u2591\u2591\u2591\u2591 \u2591\u2591\u2591\u2591\u2591  \u2591\u2591\u2591\u2591\u2591\u2591"
+    );
+    console.log(
+      "%c Hi. I'm Cramer. Type pong() if you want a game. ",
+      "color:#0D1E79;background:#FEEEAE;font:500 14px/1.5 Lexend,sans-serif;padding:4px 14px;border:2px solid #2C3E9E;border-radius:999px"
+    );
+  };
+  if (document.readyState === "complete") setTimeout(greet, 400);
+  else window.addEventListener("load", () => setTimeout(greet, 400));
+  window.pong = function pong() {
+    if (document.getElementById("cramer-pong")) {
+      document.querySelector("#cramer-pong canvas")?.focus();
+      return "Already playing";
+    }
+    const W = 480, H = 280, PAD_W = 10, PAD_H = 56, BALL = 10, WIN = 5;
+    const root = document.createElement("div");
+    root.id = "cramer-pong";
+    root.setAttribute("role", "dialog");
+    root.setAttribute("aria-label", "Pong against Cramer");
+    root.style.cssText = "position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;background:rgba(13,30,121,.18)";
+    root.innerHTML = `<div style="display:flex;flex-direction:column;align-items:center;gap:12px;padding:20px;border-radius:16px;background:#fff;box-shadow:0 12px 40px rgba(13,30,121,.18)">
+      <div style="display:flex;gap:28px;font:500 14px Lexend,sans-serif;color:#65656f">You <b id="cramer-pong-you" style="color:#0d1e79">0</b><span>Cramer <b id="cramer-pong-them" style="color:#0d1e79">0</b></span></div>
+      <canvas width="480" height="280" tabindex="0" style="width:min(30rem,86vw);aspect-ratio:12/7;border-radius:12px;background:#e9edfd;cursor:none;touch-action:none"></canvas>
+      <div style="display:flex;align-items:center;gap:16px">
+        <p style="margin:0;font:400 12px Lexend,sans-serif;color:#65656f">Mouse, finger or \u2191 \u2193 \xB7 first to 5</p>
+        <button type="button" style="border:0;background:none;color:#43649e;font:500 12px Lexend,sans-serif;cursor:pointer;padding:4px 8px;border-radius:6px">Stop playing</button>
+      </div>
+    </div>`;
+    document.body.appendChild(root);
+    const canvas = root.querySelector("canvas");
+    const ctx = canvas.getContext("2d");
+    const youEl = root.querySelector("#cramer-pong-you");
+    const themEl = root.querySelector("#cramer-pong-them");
+    let you, them, ball, score, over = "", playing = true, last = 0;
+    const keys = {};
+    const clamp = (y) => Math.max(PAD_H / 2, Math.min(H - PAD_H / 2, y));
+    const serve = (towardYou) => {
+      const angle = Math.random() * 0.8 - 0.4;
+      const speed = 240;
+      ball = { x: W / 2, y: H / 2, vx: (towardYou ? -1 : 1) * speed * Math.cos(angle), vy: speed * Math.sin(angle) };
+    };
+    const reset = () => {
+      you = them = H / 2;
+      score = { you: 0, them: 0 };
+      over = "";
+      youEl.textContent = themEl.textContent = "0";
+      serve(Math.random() < 0.5);
+    };
+    const point = (forYou) => {
+      if (forYou) score.you++;
+      else score.them++;
+      youEl.textContent = score.you;
+      themEl.textContent = score.them;
+      if (score.you >= WIN) over = "You win. Click for a rematch";
+      else if (score.them >= WIN) over = "Cramer wins. Click to try again";
+      else serve(!forYou);
+    };
+    const bounce = (padY, dir) => {
+      const offset = (ball.y - padY) / (PAD_H / 2);
+      const speed = Math.min(Math.hypot(ball.vx, ball.vy) * 1.06, 620);
+      const angle = offset * 0.9;
+      ball.vx = dir * speed * Math.cos(angle);
+      ball.vy = speed * Math.sin(angle);
+    };
+    const step = (dt) => {
+      if (keys.ArrowUp || keys.w) you -= 420 * dt;
+      if (keys.ArrowDown || keys.s) you += 420 * dt;
+      you = clamp(you);
+      const target = ball.vx > 0 ? ball.y : H / 2;
+      const follow = 210 * dt;
+      them = clamp(them + Math.max(-follow, Math.min(follow, target - them)));
+      const prevX = ball.x, prevY = ball.y;
+      ball.x += ball.vx * dt;
+      ball.y += ball.vy * dt;
+      const left = 20 + PAD_W + BALL / 2, right = W - 20 - PAD_W - BALL / 2;
+      const crossY = (face) => prevY + (face - prevX) / (ball.x - prevX) * (ball.y - prevY);
+      const reach = PAD_H / 2 + BALL / 2;
+      if (ball.vx < 0 && prevX >= left && ball.x <= left && Math.abs(crossY(left) - you) <= reach) {
+        ball.y = crossY(left);
+        ball.x = left;
+        bounce(you, 1);
+      } else if (ball.vx > 0 && prevX <= right && ball.x >= right && Math.abs(crossY(right) - them) <= reach) {
+        ball.y = crossY(right);
+        ball.x = right;
+        bounce(them, -1);
+      }
+      if (ball.y < BALL / 2) {
+        ball.y = BALL / 2;
+        ball.vy = Math.abs(ball.vy);
+      }
+      if (ball.y > H - BALL / 2) {
+        ball.y = H - BALL / 2;
+        ball.vy = -Math.abs(ball.vy);
+      }
+      if (ball.x < -BALL) point(false);
+      if (ball.x > W + BALL) point(true);
+    };
+    const roundRect = (x, y, w, h, r, color) => {
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.roundRect(x, y, w, h, r);
+      ctx.fill();
+    };
+    const draw = () => {
+      ctx.clearRect(0, 0, W, H);
+      ctx.fillStyle = "#d4dafa";
+      for (let y = 8; y < H; y += 20) ctx.fillRect(W / 2 - 1, y, 2, 10);
+      roundRect(20, you - PAD_H / 2, PAD_W, PAD_H, 5, "#0d1e79");
+      roundRect(W - 20 - PAD_W, them - PAD_H / 2, PAD_W, PAD_H, 5, "#2c3e9e");
+      if (!over) {
+        ctx.fillStyle = "#f8bf58";
+        ctx.beginPath();
+        ctx.arc(ball.x, ball.y, BALL / 2, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        ctx.fillStyle = "#0b0c24";
+        ctx.font = "500 18px Lexend, sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText(over, W / 2, H / 2 + 6);
+      }
+    };
+    const frame = (now) => {
+      if (!playing) return;
+      const dt = Math.min((now - last) / 1e3, 0.05);
+      last = now;
+      if (!over) step(dt);
+      draw();
+      requestAnimationFrame(frame);
+    };
+    const stop = () => {
+      playing = false;
+      root.remove();
+    };
+    root.querySelector("button").addEventListener("click", stop);
+    root.addEventListener("click", (e) => {
+      if (e.target === root) stop();
+    });
+    canvas.addEventListener("pointermove", (e) => {
+      const rect = canvas.getBoundingClientRect();
+      you = clamp((e.clientY - rect.top) * (H / rect.height));
+    });
+    canvas.addEventListener("click", () => {
+      if (over) reset();
+    });
+    const down = (e) => {
+      if (!playing) return;
+      if (e.key === "Escape") {
+        stop();
+        return;
+      }
+      if (e.key === " " && document.activeElement === canvas) e.preventDefault();
+      if (over && document.activeElement === canvas && (e.key === "Enter" || e.key === " ")) {
+        e.preventDefault();
+        reset();
+        return;
+      }
+      if (e.key === "ArrowUp" || e.key === "ArrowDown") e.preventDefault();
+      keys[e.key] = true;
+    };
+    const up = (e) => {
+      keys[e.key] = false;
+    };
+    window.addEventListener("keydown", down);
+    window.addEventListener("keyup", up);
+    const gone = new MutationObserver(() => {
+      if (root.isConnected) return;
+      playing = false;
+      window.removeEventListener("keydown", down);
+      window.removeEventListener("keyup", up);
+      gone.disconnect();
+    });
+    gone.observe(document.body, { childList: true });
+    reset();
+    last = performance.now();
+    requestAnimationFrame(frame);
+    canvas.focus();
+    return "You're on the left. First to 5.";
+  };
+})();
+</script>
 
 
 <div class="tab-nav" id="sideNav"></div>
 <template id="navVersionTpl">portfolio demo</template>
-<script type="module" src="nav/sidenav.js?v=20261007b"></script><!-- portfolio edit: relative path -->
+<script type="module" src="nav/sidenav.js?v=20261014a"></script><!-- portfolio edit: relative path -->
 <script>
 (() => {
   const env = document.body.dataset.env;
@@ -6214,6 +6409,7 @@ async function recoverAfterNetworkDrop(sessionId) {
 let _notificationRetries = 0;
 let _notificationSource = null;
 function connectNotificationChannel() {
+  if (document.body.dataset.env === "development") return;
   if (document.hidden) return;
   if (_notificationSource) return;
   const evtSource = new EventSource("/notifications");
