@@ -10,7 +10,10 @@
   display: grid;
   align-items: center;
   justify-content: center;
-  padding-top: clamp(var(--space-xl), 5vh, var(--space-3xl));
+  // One air value for above the title and below the buttons; the stage
+  // inherits it so the two gaps always match.
+  --hero-air: clamp(var(--space-3xl), 14vh, 7.5rem);
+  padding-top: var(--hero-air);
   padding-bottom: 0;
   min-height: auto;
   background: #f9f9f9;
@@ -20,6 +23,8 @@
 
 // Dot grid: 3px dots plus two hairline rules on an 80px pitch, darken-blended.
 // Vertical inset gives the scroll drift room so it never exposes an edge.
+// This static layer is the fallback; HeroGrid's canvas takes over when live
+// (fine pointer + no reduced-motion preference) — see the :has rule below.
 .hero::before {
   content: "";
   position: absolute;
@@ -34,6 +39,11 @@
   mix-blend-mode: darken;
   opacity: 0.4;
   pointer-events: none;
+}
+
+// HeroGrid canvas owns the grid once initialised (it sets data-live).
+.hero:has(.heroGrid[data-live])::before {
+  display: none;
 }
 
 .heroContent {
@@ -104,7 +114,7 @@
   z-index: 1;
   width: min(820px, 100%);
   aspect-ratio: 2532 / 1424;
-  margin-top: clamp(var(--space-md), 2vw, var(--space-lg));
+  margin-top: var(--hero-air); // same air as above the title, set on .hero
   margin-bottom: -2px; // hide the photo's straight cut edge under the section edge
   opacity: 0;
   transform: translate3d(0, 40px, 0) scale(0.97);
@@ -285,10 +295,19 @@
   margin: 0 auto;
 }
 
+// Small laptops / narrow windows (768–1023px): the stage sits under the
+// desktop rhythm; drop it 2rem lower so the hand doesn't crowd the buttons.
+// The ≤767px block below overrides with its own fixed value.
+@media (max-width: 1023px) {
+  .heroStage {
+    margin-top: calc(var(--hero-air) + var(--space-2xl));
+  }
+}
+
 @media (max-width: 767px) {
   .hero {
     padding-top: var(--space-xl);
-    padding-bottom: var(--space-2xl);
+    padding-bottom: 0; // the hand photo must bleed off the hero's bottom edge
     min-height: auto;
     border-radius: 0 0 48px 48px;
   }
@@ -315,7 +334,7 @@
 
   .heroStage {
     width: 124%;
-    margin-top: var(--space-lg);
+    margin-top: var(--space-lg); // buttons-to-stage gap is independent of the bleed
   }
 
   .heroKeyboard {

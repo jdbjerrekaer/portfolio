@@ -1,0 +1,8 @@
+.heroGrid {
+  position: absolute;
+  inset: -10% 0; // drift headroom, same as the CSS ::before grid it replaces
+  z-index: 0; // below .heroStage (1) and .heroContent (2)
+  width: 100%;
+  height: 120%;
+  pointer-events: none;
+}

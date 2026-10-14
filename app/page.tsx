@@ -11,6 +11,7 @@ import { AvailabilityCTA } from "@/components/AvailabilityCTA";
 import { Testimonials } from "@/components/Testimonials";
 import { WritingSection } from "@/components/WritingSection";
 import { PointerParallax } from "@/components/PointerParallax";
+import { HeroGrid } from "@/components/HeroGrid";
 import { withBasePath } from "@/lib/utils/paths";
 import styles from "./page.module.scss";
 
@@ -33,7 +34,7 @@ export default async function HomePage() {
 
   return (
     <div className={styles.page}>
-      <Section variant="hero" className={styles.hero} innerClassName={styles.heroContent}>
+      <Section variant="hero" className={styles.hero} innerClassName={styles.heroContent} prepend={<HeroGrid />}>
           <h1 className={styles.heroTitle}>
             I design interfaces that developers actually want to build.
           </h1>

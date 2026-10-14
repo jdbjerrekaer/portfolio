@@ -1,0 +1,1 @@
+export { HeroGrid } from "./HeroGrid";
