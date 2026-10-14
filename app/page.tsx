@@ -86,7 +86,7 @@ export default async function HomePage() {
               />
             </a>
             <img className={styles.heroKeyboard} src={withBasePath("/images/hero/apple-keyboard.png")} alt="" />
-            <img className={styles.heroHand} src={withBasePath("/images/hero/ipad-hand.png")} alt="" />
+            <img className={styles.heroHand} src={withBasePath("/images/hero/ipad-hand-cramer.png")} alt="" />
           </PointerParallax>
       </Section>
 
