@@ -77,12 +77,12 @@ export default async function HomePage() {
             </a>
             <a
               className={`${styles.heroLink} ${styles.heroShipped}`}
-              href={withBasePath("/projects/cramer-ai-assistant/")}
-              aria-label="Cramer AI assistant case study"
+              href={withBasePath("/projects/adtraction-brands/")}
+              aria-label="Adtraction brands platform case study"
             >
               <img
-                src={withBasePath("/projects/cramer-ai-assistant/before-after/after-overview-1005.jpg")}
-                alt="Cramer AI assistant chat overview"
+                src={withBasePath("/projects/adtraction-brands/new-brands.jpg")}
+                alt="Adtraction brands platform"
               />
             </a>
             <img className={styles.heroKeyboard} src={withBasePath("/images/hero/apple-keyboard.png")} alt="" />
