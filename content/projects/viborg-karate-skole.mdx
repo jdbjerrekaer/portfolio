@@ -1,0 +1,105 @@
+---
+title: "50 Years of Karate, Taken Back From a Template"
+summary: "A karate club founded in 1975 got a new website from an agency that looked finished and said almost nothing true about the club. I rebuilt it as a static site in four days, with the club's own words, photos and press archive."
+date: "2026-10-20"
+role: "Solo design engineer, working with AI coding agents"
+outcome: "An owner-approved rebuild: 154 agency-only sentences down to 51, a real club photo in place of a stock muay thai shot, and over 600 old URLs redirected."
+tags:
+  - Redesign
+  - Content Design
+  - Next.js
+coverImage: "/projects/viborg-karate-skole/cover.jpg"
+gallery:
+  - src: "/images/viborg/vks-wordpress-home.jpg"
+    alt: "The club's old WordPress site: a recruitment poster as the header, a long sidebar menu and a short welcome text"
+  - src: "/images/viborg/vks-agency-home.jpg"
+    alt: "The agency version: an all-caps headline over a stock photo of muay thai training"
+  - src: "/images/viborg/vks-after-home.jpg"
+    alt: "The rebuild: children from the club doing front kicks on a breakwater, with the headline in the lower left"
+  - src: "/images/viborg/vks-after-kodomo.jpg"
+    alt: "The rebuild's children's syllabus with a belt navigator that follows the reader down the page"
+  - src: "/images/viborg/vks-agency-home-full.jpg"
+    alt: "The full agency home page"
+  - src: "/images/viborg/vks-after-home-full.jpg"
+    alt: "The full rebuilt home page"
+galleryLayout: "landscape"
+featured: false
+comingSoon: false
+hidden: false
+---
+
+## Three versions of one club
+
+Viborg Karate Skole has trained in Viborg since 9 May 1975, and in 1987 it became the first place in Europe to teach Ashihara karate. Its website has existed in three versions:
+
+1. **The club's own WordPress site.** Old, plain and honest. A recruitment poster as the header, a sidebar menu of 36 links, and 177 posts of tournament reports, gallery years and newspaper clippings.
+2. **The agency version.** A modern single-page app delivered by an agency. It looked finished. It also used a stock photo of muay thai as the hero of a karate club, and most of its sentences existed nowhere in the club's own material.
+3. **The rebuild.** Mine. A static site that keeps the agency's colours and fonts, and puts the club's own history, photos and wording back in.
+
+Before touching anything I archived the first two: every route of the agency site at desktop and phone widths, and the WordPress pages with their text. The comparisons below come from those captures.
+
+![The club's old WordPress home page: a recruitment poster as the header, a long sidebar menu and a short welcome text](/images/viborg/vks-wordpress-home.jpg)
+
+<BeforeAfter
+  before="/images/viborg/vks-agency-home.jpg"
+  after="/images/viborg/vks-after-home.jpg"
+  beforeAlt="The agency home page with the muay thai stock photo"
+  afterAlt="The rebuilt home page with club children kicking on the Livø breakwater in 2017"
+  note="Agency version, then the rebuild. Same colours, same fonts, same headline. The photo is the club's own, from a summer camp on Livø in 2017."
+/>
+
+## What was wrong with a site that looked fine
+
+Nothing in the agency version was broken. That is what made it hard to argue with. So I measured it instead of describing it.
+
+**The words were not the club's.** I wrote a small script that compares every sentence on the agency site with the club's WordPress text. 154 sentences existed only in the agency version: generic lines about "stærkt fællesskab", six-item lists of virtues, rhetorical questions as headings. A parent reading them learns nothing about this club that would not be true of every club in Denmark.
+
+**The pictures were not the club's.** Besides the muay thai hero, several page headers used flyers with the old domain watermarked across them, or photos that had nothing to do with the hold they illustrated.
+
+**The facts had drifted.** The street number was 98, not 98A. The phone number was not the one the club uses now. The history said the club was "one of the first" in Europe to teach Ashihara karate, when the club was the first. The founding year of the karate school and fitness centre was a year off.
+
+**It looked generated.** Eyebrow labels over every heading, centred section heads, identical card grids, soft shadows, a floating button rail. Each one is fine. Together they are the fingerprint of a template, and visitors read that as a club that bought a template.
+
+## What I did
+
+**Kept the identity, replaced the look.** The owner liked the colours and the logo, so the red, navy, Oswald and Plus Jakarta Sans stayed. The template styling went: flat sections in solid colours, hard offset shadows instead of blur, left-aligned headings, one primary button per area. I called the direction "dojo floor": flat, bold and physical.
+
+**Put the club's words back.** Every sentence that existed only in the agency version was rewritten from the club's own text or replaced with it. The count went from 154 to 51, and each of the 51 is kept on purpose and listed with its reason. Eyebrow labels were removed from every page; the heading carries the context.
+
+**Found the club's real voices.** The club has decades of coverage in Viborg Stifts Folkeblad. I pulled the quotes for the "voices" section from those clippings, verbatim, each with the date, headline and byline of the article it came from. No quote is invented and no photo is attached to a person unless I could verify it was them.
+
+**Designed the reading pages.** The children's syllabus was a long list of cards. It became a page with a belt navigator that sticks to the top, shows the belt you are reading about, and links to the previous and next belt. The timetable became a board of rows coloured in belt order, from white to brown.
+
+<BeforeAfter
+  before="/images/viborg/vks-agency-kodomo.jpg"
+  after="/images/viborg/vks-after-kodomo.jpg"
+  beforeAlt="The agency's children's syllabus: breadcrumb, a badge and a card grid of techniques"
+  afterAlt="The rebuilt children's syllabus with a belt navigator showing each grade's belt colours"
+  note="The syllabus now starts with the belts a child is working towards, not a grid of cards."
+/>
+
+<BeforeAfter
+  before="/images/viborg/vks-agency-home-mobile.jpg"
+  after="/images/viborg/vks-after-home-mobile.jpg"
+  beforeAlt="The agency home page on a phone"
+  afterAlt="The rebuilt home page on a phone"
+  variant="mobile"
+/>
+
+**Kept every old link alive.** The WordPress site had 272 public URLs and the agency site had its own routes. Over 600 redirects map them to the closest page in the new site, so a link in a 2014 newspaper article still lands somewhere useful.
+
+**Made it cheap to own.** A Next.js static export built for Cloudflare Pages' free plan: no CMS, no server, no monthly hosting bill. The contact form posts to a form service with an invisible captcha. Analytics only load after a visitor says yes in a cookie banner written in the site's own design and in plain Danish, with "Nej tak" as easy to press as "Ja tak".
+
+## Working with the owner
+
+The owner is not a web person, and the decisions that mattered were the owner's. I kept a running list of open questions in the repo and asked them in batches: is this photo the club's, which belt colour comes after red, is the phone number still right. Several of the best fixes came straight from those answers, including "first in Europe", which the owner corrected with a newspaper article as the source.
+
+When the owner asked for changes after the first version, I tagged the state before and after, so each request is a diff to look at rather than a promise.
+
+## Where the rebuild is worse
+
+The rebuilt home page is much longer than the agency's: about 17,000 pixels at desktop width against 6,500. Most of that is content the agency left out, such as the history ledger, the press voices and the Instagram feed. A visitor who only wants the timetable has more to scroll past, and the header links exist for that reason.
+
+## Status
+
+The rebuild runs on a preview server and is ready to move to sabaki.dk once the DNS is moved. The before-state is archived, so the comparison stays checkable after the old sites are gone.

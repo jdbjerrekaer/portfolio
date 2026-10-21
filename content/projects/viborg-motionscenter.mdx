@@ -1,0 +1,92 @@
+---
+title: "A Gym Website for Readers Over 60"
+summary: "A fitness centre whose members are mostly seniors had an agency website built like a startup landing page. I rebuilt it around the four questions a 65-year-old asks first: the phone number, the opening hours, the price and the way in."
+date: "2026-10-20"
+role: "Solo design engineer, working with AI coding agents"
+outcome: "Phone, hours, prices and address answered on the first screen, 19 to 20 px body text, 48 px tap targets, and no hover menus, carousels or stock photos."
+tags:
+  - Accessibility
+  - Redesign
+  - Senior UX
+coverImage: "/projects/viborg-motionscenter/cover.jpg"
+gallery:
+  - src: "/images/viborg/vmc-agency-home.jpg"
+    alt: "The agency version: headline over a photo of members, seven menu items and two equal buttons"
+  - src: "/images/viborg/vmc-after-home.jpg"
+    alt: "The rebuild: opening hours and address in a strip at the top and a green Ring button in the header"
+  - src: "/images/viborg/vmc-after-priser.jpg"
+    alt: "The rebuild's price page with monthly prices first"
+  - src: "/images/viborg/vmc-after-aabningstider-mobile.jpg"
+    alt: "The rebuild's opening hours page on a phone"
+  - src: "/images/viborg/vmc-agency-home-full.jpg"
+    alt: "The full agency home page"
+  - src: "/images/viborg/vmc-after-home-full.jpg"
+    alt: "The full rebuilt home page"
+galleryLayout: "landscape"
+featured: false
+comingSoon: false
+hidden: false
+---
+
+## The brief in one sentence
+
+"The target users are people over the age of 60, so we really need to think about the UX, and navigation should be very clear."
+
+Viborg Motionscenter is a fitness centre in Viborg Hallen with over 80 strength machines and hold for seniors. It shares a building with Viborg Karate Skole, and both had been given new websites by the same agency. I rebuilt the karate club's first, then gave the centre the same treatment, with one difference that changed almost every decision: who reads it.
+
+## What the agency built
+
+A landing page in the style of a software startup. Seven menu items and a dropdown that opened on hover. Four of the items jumped to anchors on one long page. Two buttons of equal weight in every section. Centred headings over grids of identical icon cards, six times on one home page. An auto-rotating testimonial carousel. Eleven shades of green. And on a phone, the hero text in white over a busy photo, with the opening hours several screens down.
+
+None of that is wrong for a SaaS product. For a 70-year-old on a tablet who wants to know whether the centre is open on Saturday, every one of those is a small obstacle.
+
+<BeforeAfter
+  before="/images/viborg/vmc-agency-home.jpg"
+  after="/images/viborg/vmc-after-home.jpg"
+  beforeAlt="The agency home page on desktop with a seven-item menu and two equal buttons"
+  afterAlt="The rebuilt home page with an hours and address strip, five plain menu links and a Ring 86 61 19 00 button"
+  note="The phone number is a button in the header, and the opening hours and address sit above it on every page."
+/>
+
+## Designing for the reader, not the brand
+
+I worked from Nielsen Norman Group's research on usability for seniors, the W3C's guidance on older users, and WCAG 2.2, with AA as the floor and AAA wherever it was cheap. The decisions:
+
+**Answer the first four questions first.** Once a senior knows what the place is, the next questions are, in roughly this order: how do I call, when is it open, what does it cost, and where is it. The header always shows a green "Ring 86 61 19 00" button. A dark strip above it links to opening hours and directions on every page. Right under the hero, an information board answers all four.
+
+**Make the menu boring.** Five links in the words people actually search for (Seniortræning, Priser, Åbningstider, Find vej, Kontakt) and one "Træningstilbud" menu that opens on click only, never on hover. Hover menus open by accident and close when the pointer drifts, which is one of the most common failures NN/g reports for older users. The project's check script fails if it ever opens on hover again.
+
+**Turn jump links into pages.** Priser, Åbningstider, Find vej and Kontakt became real pages with their own heading and breadcrumbs. A jump link drops you halfway down a long page with no idea where you are, and the back button does not do what you expect.
+
+**Make it big enough.** Body text 19 to 20 px. No light grey text: every text colour passes AAA contrast except white on the brand green, which is only used for large text and buttons. Tap targets of at least 48 px, 56 px rows in the phone menu, which has the word "Menu" next to the icon rather than an icon alone.
+
+**Take the moving parts out.** No carousels, no autoplay, no scroll-triggered animations. The six testimonials became a static wall where all of them are visible at once.
+
+<BeforeAfter
+  before="/images/viborg/vmc-agency-home-mobile.jpg"
+  after="/images/viborg/vmc-after-home-mobile.jpg"
+  beforeAlt="The agency home page on a phone: long white text over a photo and two stacked buttons"
+  afterAlt="The rebuilt home page on a phone: hours and directions links at the top, a large call button, the photo, then a short headline and one sentence"
+  variant="mobile"
+  note="On a phone the call button is the first thing you can press."
+/>
+
+**Write it the way people talk.** Short sentences, "du" throughout, prices per month first, and on every training page the same four answers before anything else: who it is for, when, what it costs, and how to start. The contact form puts "Hellere ringe?" with the number at the top, makes e-mail optional because many members do not use it, and writes its errors as instructions: "Skriv dit telefonnummer, så vi kan ringe dig op."
+
+## No photo is better than a wrong one
+
+The agency version used stand-ins: a newspaper clipping as the free-weights photo, the senior hold as the "instructor team", a photo of the building as the poster for a TV clip. I replaced them with 22 verified photos of the centre itself, from the owner's own photo archive and frames from the centre's own YouTube videos. Each one is logged with its source and why I believe it shows this centre. Where no verified photo existed, the section ships without one.
+
+## The same flat design, a different temperature
+
+The look follows the karate club rebuild: solid colours, hard offset shadows, left-aligned headings, one primary button per area. It keeps the agency's green and logo. The palette went from eleven greens to three, plus ink, white and stone.
+
+## What I have not done
+
+There has been no user test with real members yet. The cheapest next step is to ask three to five members to find the price, Saturday's opening hours and how to book a trial, on their own phones, and watch where they hesitate. Everything above is research-backed, but none of it is observed, and I would rather say that than imply otherwise.
+
+The old WordPress site on viborghallen.dk sits behind a bot check, so I have its text and images but no screenshots of it. The "before" here is the agency version.
+
+## Status
+
+The rebuild runs on a preview server with 188 redirects from the old WordPress and agency URLs, a consent-first cookie banner, and analytics that only count visits on the real domain. It moves to viborghallen.dk together with the karate club.
