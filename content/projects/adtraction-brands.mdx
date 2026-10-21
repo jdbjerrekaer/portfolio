@@ -26,69 +26,73 @@ comingSoon: false
 hidden: false
 ---
 
-## What this case study is about
+## A partner shopping for a brand
 
-This one is about visual design: hierarchy, colour, imagery, spacing, and what a partner sees in the first second. My other case studies lean on research or systems. Here the surface makes the argument.
+Adtraction is a Nordic affiliate network. Partners are publishers, influencers and comparison sites, and they log in to find a brand to promote, read its terms and grab a tracking link. The brands directory is the front door to that whole business.
 
-Adtraction is a Nordic affiliate network. Partners (publishers, influencers, comparison sites) log in to find brands to promote, read the terms, and grab a tracking link. The brands directory is the front door to that whole business, and for years it was a table.
+The reader of this page is a partner with an audience and an evening: a beauty blogger, say, looking for something worth writing about this month. What they are doing is closer to shopping than to querying a database. They want to see what a brand sells, whether it fits their readers, what it pays, and whether anything is going on right now, such as a promo code or a commission increase. For years the platform answered them with a table.
 
-## Before
+This case study is mostly about visual design: hierarchy, imagery, type and what a partner sees first. The old and new platforms ran side by side for months, so the result is measured, not guessed.
 
-The old platform served brands as a database listing. Pick a category from a sidebar, get a table: logo in the left column, name and a one-line pitch in Swedish, two square badges, EPC, commission. Every row the same height, every brand the same weight, no picture of what the brand actually sells.
+## What was there, and why it did not work
 
-![The old advertiser directory: a category heading, then a plain table of logos, one-line descriptions, EPC and commission](/projects/adtraction-brands/old-brands.jpg)
+The old platform was not broken. Every fact a partner needed was on it somewhere. The problem was that it was organised the way the data was stored, not the way a partner decides.
 
-The brand page had the same shape. A greeting, a channel dropdown with an "Apply to advertiser" button, tabs for the presentation text, and a commission table down the right side. All the information was there. None of it was ranked.
+### Every brand weighed the same
 
-![The old brand page for Albert: a greeting, an apply button, a long presentation text, and a commission table down the right](/projects/adtraction-brands/old-brand-profile.jpg)
+Pick a category from the sidebar and you got a table: a logo, the name as a blue link, a one-line pitch in Swedish ("FANTASTISKA RABATTER. PÅ ALLT. ALLTID."), two square badges marked F and P under columns with no header, then EPC and commission. Every row was the same height and the same weight. A brand that paid 10% and had a campaign running looked exactly like one with no earnings history at all ("No data").
 
-The deeper problem was the mental model. A partner choosing a brand is doing something closer to shopping than to querying a database. They want to see what the brand looks like, whether it fits their audience, what it pays, and whether anything is going on right now (a promo code, a commission increase). The table answered the third question only.
+<BeforeAfter
+  before="/projects/adtraction-brands/old-brands.jpg"
+  after="/projects/adtraction-brands/new-brands.jpg"
+  beforeAlt="The old directory: a Clothing & Accessories heading, then a plain table of logos, one-line Swedish descriptions, F and P badges, EPC and commission"
+  afterAlt="The new brands page: a labelled category icon strip, filter chips, then rows of image cards under For you and New brands"
+  note="One table per category became rows a partner can scan sideways, each row with a reason to look."
+/>
 
-## After
+The [law of similarity](https://lawsofux.com/law-of-similarity/) says that things which look alike are read as the same kind of thing. That suits a price list. It does not suit a page whose job is to tell a partner which clothing brand in the list is worth their evening.
 
-The new brands page is a storefront, and every visual choice on it follows from that.
+### It showed the logo, not what the brand sells
 
-![The new brands page: a category icon strip, filter chips, then rows of image cards under "For you" and "New brands"](/projects/adtraction-brands/new-brands.jpg)
+The only picture in a row was the logo, and a logo says who a brand is, not what it sells or who buys it. A wordmark in black capitals tells a beauty blogger nothing about whether the products would look right on their feed. [Nielsen Norman Group's eyetracking research on web photos](https://www.nngroup.com/articles/photos-as-web-content/) found that people study images that carry information, such as product photos, and skip images that are only decoration. The brands already had that information: every program uploads campaign images. The table just never showed them.
 
-**Rows instead of a table.** Brands are grouped into horizontal rows a partner can scan sideways: For you, New brands, Promo codes, Promotions, Commission increase. Each row gives a reason to look. The table still exists for people who want it, behind "View all" and the list view, but it is no longer the first thing you meet.
+### The brand page had everything and ranked nothing
 
-**Every brand gets a picture.** Each card carries a campaign image with the logo on a white plate over it. The plate does the work a table row could not: a black wordmark and a pastel logo sit at the same visual weight because the plate normalises the background behind them. Brands that only supplied a logo still get a card that reads as a card.
+Open a brand and the page started with a greeting ("Hej Albert DK"), then a channel dropdown and an "Apply to advertiser" button, then tabs of presentation text in the brand's own words. The commission table and a list of policies sat in a column down the right. There were no performance numbers on the page at all; to see whether a brand actually converted, a partner had to leave for a report.
 
-**The commission is the headline.** On each card the number is set large and the unit small: *10% per sale*, *40.13 EUR per lead*. The EPC sits in a quiet grey pill beside it, and brands with no history yet say so ("No EPC yet") rather than showing a dash. The old table gave EPC and commission equal typographic weight, and partners read the wrong one first.
+<BeforeAfter
+  before="/projects/adtraction-brands/old-brand-profile.jpg"
+  after="/projects/adtraction-brands/new-brand-profile.jpg"
+  beforeAlt="The old brand page for Albert: a greeting, an apply button, a long presentation text with promotional rules, and commission and policy tables down the right"
+  afterAlt="The new Coffee Friend brand page: cover photo with the logo on a plate, feature chips, the brand name with sister markets, three headline metrics and a tracking-link rail"
+  note="The old page led with a greeting and a wall of text. The new one leads with the brand, three numbers and the tracking link."
+/>
 
-**Status is a coloured tag.** New, For You, Commission Increase each have their own colour and icon, pinned to the top-left of the image where the eye lands. A tiny green dot on the tag means the increase is active right now.
+The rules for promo codes, emails and brand strategy were long and legally important, and they filled the main column, so they were the first thing a partner read. [Nielsen's research on how people read the web](https://www.nngroup.com/articles/how-little-do-users-read/) found that visitors have time to read at most 28% of the words on a page, and about 20% is more likely. On the old page that budget went on terms before the partner knew whether the brand was worth it.
 
-**Categories are icons.** The sidebar list of categories became a strip of outline icons across the top. It is faster to scan, it uses the horizontal space a wide dashboard has plenty of, and it lets the filter chips underneath stay on one line.
+## What I did: a storefront
+
+I worked from the Laws of UX and Nielsen Norman Group's research, and from one test for every element: does it help a partner decide, or act?
+
+**Make it look like a shop.** Brands sit in horizontal rows a partner scans sideways: For you, New brands, Promo codes, Promotions, Commission increase. The sidebar list of categories became a strip of outline icons with their names under them across the top, which uses the width a dashboard has and keeps the filter chips on one line. [Jakob's law](https://lawsofux.com/jakobs-law/) says users spend most of their time on other sites and expect yours to work the same way. Partners spend their days in shops and streaming apps, and rows of image cards are the pattern they already know. The table still exists behind "View all" and the list view for anyone who wants it, but it is no longer the first thing you meet.
+
+**Give every brand a picture.** Each card carries the brand's campaign image with the logo on a white plate over it. The plate does work a table row could not: a black wordmark and a pastel logo sit at the same visual weight because the plate normalises what is behind them. Brands that only supplied a logo still get a card that reads as a card.
+
+**Make the commission the headline.** On each card the number is set large and the unit small: "10% per sale", "40.13 EUR per lead". The EPC sits in a quiet grey pill beside it, and a brand with no history says "No EPC yet" instead of showing a dash. The old table gave EPC and commission the same weight, so partners read whichever came first. Status tags (New, For You, Commission Increase) each have their own colour and icon, pinned to the top-left of the image where the eye lands.
 
 ![Further down: Promo codes, Promotions and Commission increase rows, each card with its own campaign photograph](/projects/adtraction-brands/new-brands-scrolled.jpg)
 
-### The brand page
+**Put the decision on the brand page.** The page opens on the same campaign image and logo plate the partner just clicked, so it feels like opening the card rather than loading a different page. Under it, chips state what is on offer: Fair Tracking, Commission Increase, Promo Code, Promotions, Product Feed and the category. Then three numbers in the largest type on the page after the brand name: earnings per click, conversion rate and average order value for the last 60 days. Those are the three a partner uses to decide, and they used to live in a separate report. Coffee Friend runs in six markets, which used to be six programs to find one by one; now the sister markets sit under the title as flag-and-name links, so a Danish partner who landed on the Swedish page is one click from the right one.
 
-![The new Coffee Friend brand page: cover photo with the logo on a plate, a row of feature chips, the brand name with market flags, three headline metrics, and a tracking-link rail on the right](/projects/adtraction-brands/new-brand-profile.jpg)
+**Fold the rules, keep the count.** Brand-specific promotional rules sit behind "View full description", with a badge showing how many there are (seven, for Coffee Friend) and the line "Brand-specific promotional rules to review". NN/g's article on [progressive disclosure](https://www.nngroup.com/articles/progressive-disclosure/) says to show only a few of the most important options first, and that whatever appears on the first display tells users it is important. The rules matter, but they matter after the partner has decided the brand is worth it. The count keeps them from being hidden.
 
-The brand page follows the same logic and adds a single rule: the partner should be able to act without scrolling.
+**Make the tracking link the thing that stands out.** Everything a partner needs to start promoting is in one card on the right: logo download, channel selector, and the tracking link in a filled green pill with a copy button, the only full-width filled control in that card. The [Von Restorff effect](https://lawsofux.com/von-restorff-effect/) says the item that differs is the one people notice and remember. On a page full of chips and numbers, the link is what the partner came for, so it is the one thing styled to be different.
 
-**A cover, then the chips.** The page opens on the campaign image with the logo plated on top, the same way it appeared on the card. That continuity makes the navigation feel like opening something rather than loading a different page. Directly under it, a row of chips states what is on offer: Fair Tracking, Commission Increase, Promo Code, Promotions, Product Feed, and the category. The two that matter most are filled in colour; the rest are outlined.
+**Build it once, in the toolkit.** None of this is styled one page at a time. The chips, pills, cards, filter buttons and outline icon set are components in the shared Adtraction UI toolkit, which I also work on. The image plate, the commission typography and the tag colours were designed in Figma as reusable patterns first and then built as components, so the same card renders on the dashboard and on the brands page, and a change to it lands everywhere at once. On the brands micro-frontend, 154 of the 260 commits on the partner-facing brand pages are mine, covering the brand page structure, the header and policy sections, the category filters and the sort logic. Colleagues built the micro-frontend composition and later added the "For you" row.
 
-**Sister markets in one line.** Coffee Friend runs in six markets. They used to be six separate programs to find one by one. Now they sit under the title as flag-and-name links, so a Danish partner who landed on the Swedish page is one click from the right one.
-
-**Three numbers, large.** Earnings per click, conversion rate, and average order value for the last 60 days. The old page had no performance numbers at all on the profile; you had to go to a report. These are the three a partner uses to decide, so they get the biggest type on the page after the brand name.
-
-**The action rail.** Everything a partner needs to start promoting sits in a card on the right: logo download, channel selector, and the tracking link in a green pill with a copy button. Green is used for one thing on this page, the thing you came for.
-
-**Rules stay readable.** Brand-specific promotional rules are long and legally important. They are folded behind "View full description" with a count badge, so the count is always visible and the text is one click away instead of pushing the metrics below the fold.
-
-### Features overview
+The same storefront idea runs through the features overview, where each platform capability is a card in a bento grid sized by importance. Features that are not available yet stay in the grid at reduced contrast, so the page also works as a map of what is coming.
 
 ![The features overview: illustrated cards for Mobile app, Chrome extension, Smart feeds, Create links, and smaller cards for fallback links, claims, API and Google Ads](/projects/adtraction-brands/new-features.jpg)
-
-The features page is where the storefront idea is applied to the platform itself. Each capability is a card in a bento grid, sized by importance, with a pastel background and a flat illustration in the platform's palette. The mobile app gets a phone render with real screens. Smaller features get a title, one line and a link. Unavailable features (Claims) stay in the grid but at reduced contrast, so the page also works as a map of what is coming.
-
-## The system underneath
-
-None of this is styled one page at a time. The brand pages are built from the shared Adtraction UI toolkit, which I also work on: the chips, pills, cards, filter buttons and the outline icon set are all toolkit components. The card image plate, the commission typography and the tag colours were designed as reusable patterns first, in Figma, and then built as components, so the same card renders on the dashboard and on the brands page.
-
-On the brands micro-frontend, 154 of the 260 commits on the partner-facing brand pages are mine, covering the brand page structure, the header and policy sections, the category filters and the sort logic. Colleagues built the micro-frontend composition and later added the "For you" row.
 
 ## Measured against the old platform
 
@@ -114,7 +118,7 @@ These are session-level numbers for sessions that visited the relevant pages, la
 | Pages per session | 7.7 | 4.9 |
 | Active time per session | 3.4 min | 2.1 min |
 
-Quick backs are the number I watch. Clarity counts one when a user opens a page and leaves it almost immediately, which on a brand page means "this was not what I wanted". Two thirds of old brand-page sessions had at least one. On the new page it is under a third. Dead clicks (clicks that did nothing) fell too, which is what you would expect when the whole card is the link instead of one blue name in a table.
+Quick backs are the number I watch. Clarity counts one when a user opens a page and leaves it almost immediately, which on a brand page means "this was not what I wanted". Two thirds of old brand-page sessions had at least one. On the new page it is under a third. The card now shows the partner what they are about to open, so fewer of them open the wrong thing. Dead clicks (clicks that did nothing) fell too, which is what you would expect when the whole card is the link instead of one blue name in a table.
 
 Fewer pages and less time per session read as wins to me on a discovery surface: the partner found the brand and the link in fewer hops. I would not claim that without the quick-back number next to it, because on its own "less time" could mean either.
 
