@@ -58,17 +58,17 @@ None of that is wrong for a SaaS product. For a 70-year-old on a tablet who want
 
 ## Designing for the reader, not the brand
 
-I worked from Nielsen Norman Group's research on usability for seniors, the W3C's guidance on older users, and WCAG 2.2, with AA as the floor and AAA wherever it was cheap. The decisions:
+I worked from Nielsen Norman Group's research on usability for seniors, the W3C's guidance on older users, Baymard Institute's form research and the [Laws of UX](https://lawsofux.com/), with WCAG 2.2 AA as the floor and AAA wherever it was cheap. The decisions:
 
-**Answer the first four questions first.** Once a senior knows what the place is, the next questions are, in roughly this order: how do I call, when is it open, what does it cost, and where is it. The header always shows a green "Ring 86 61 19 00" button. A dark strip above it links to opening hours and directions on every page. Right under the hero, an information board answers all four.
+**Answer the first four questions first.** Once a senior knows what the place is, the next questions are, in roughly this order: how do I call, when is it open, what does it cost, and where is it. The header always shows a green "Ring 86 61 19 00" button. A dark strip above it links to opening hours and directions on every page. Right under the hero, an information board answers all four. The call button sits at the top right because that is where people expect contact details from every other site they use; [Jakob's law](https://lawsofux.com/jakobs-law/) says users carry those expectations with them, and a senior who is less sure of the web leans on them more.
 
-**Make the menu boring.** Five links in the words people actually search for (Seniortræning, Priser, Åbningstider, Find vej, Kontakt) and one "Træningstilbud" menu that opens on click only, never on hover. Hover menus open by accident and close when the pointer drifts, which is one of the most common failures NN/g reports for older users. The project's check script fails if it ever opens on hover again.
+**Make the menu boring.** Five links in the words people actually search for (Seniortræning, Priser, Åbningstider, Find vej, Kontakt) and one "Træningstilbud" menu that opens on click only, never on hover. Hover menus open by accident and close when the pointer drifts, which is one of the most common failures NN/g reports for older users. The project's check script fails if it ever opens on hover again. Going from seven items and a hover dropdown to five plain links also follows [Hick's law](https://lawsofux.com/hicks-law/): every extra choice adds decision time, and older users pay that cost more than most.
 
 **Turn jump links into pages.** Priser, Åbningstider, Find vej and Kontakt became real pages with their own heading and breadcrumbs. A jump link drops you halfway down a long page with no idea where you are, and the back button does not do what you expect.
 
-**Make it big enough.** Body text 19 to 20 px. No light grey text: every text colour passes AAA contrast except white on the brand green, which is only used for large text and buttons. Tap targets of at least 48 px, 56 px rows in the phone menu, which has the word "Menu" next to the icon rather than an icon alone.
+**Make it big enough.** Body text 19 to 20 px. No light grey text: every text colour passes AAA contrast except white on the brand green, which is only used for large text and buttons. Tap targets of at least 48 px, 56 px rows in the phone menu, which has the word "Menu" next to the icon rather than an icon alone. [Fitts's law](https://lawsofux.com/fittss-law/) says the time to hit a target grows as the target gets smaller and further away, and tremor or arthritis makes small targets far harder still. WCAG 2.2's own minimum is 24 px; 48 px is twice that on purpose.
 
-**Take the moving parts out.** No carousels, no autoplay, no scroll-triggered animations. The six testimonials became a static wall where all of them are visible at once.
+**Take the moving parts out.** No carousels, no autoplay, no scroll-triggered animations. NN/g's testing of auto-forwarding carousels found that they annoy users and hurt accessibility: slides move on before people have finished reading, and the controls are small. For readers who read slowly and carefully, that is the worst case. The six testimonials became a static wall where all of them are visible at once.
 
 <BeforeAfter
   before="/images/viborg/vmc-wordpress-home-mobile.jpg"
@@ -88,11 +88,11 @@ I worked from Nielsen Norman Group's research on usability for seniors, the W3C'
   note="Agency version and rebuild. On a phone the call button is now the first thing you can press."
 />
 
-**Write it the way people talk.** Short sentences, "du" throughout, prices per month first, and on every training page the same four answers before anything else: who it is for, when, what it costs, and how to start. The contact form puts "Hellere ringe?" with the number at the top, makes e-mail optional because many members do not use it, and writes its errors as instructions: "Skriv dit telefonnummer, så vi kan ringe dig op."
+**Write it the way people talk.** Short sentences, "du" throughout, prices per month first, and on every training page the same four answers before anything else: who it is for, when, what it costs, and how to start. The contact form puts "Hellere ringe?" with the number at the top, makes e-mail optional because many members do not use it, and writes its errors as instructions: "Skriv dit telefonnummer, så vi kan ringe dig op." This follows Baymard's form research: labels above the field rather than inside it, required fields marked explicitly, and error messages that say how to fix the problem next to the field it belongs to, not only that something went wrong.
 
 ## No photo is better than a wrong one
 
-The agency version used stand-ins: a newspaper clipping as the free-weights photo, the senior hold as the "instructor team", a photo of the building as the poster for a TV clip. I replaced them with 22 verified photos of the centre itself, from the owner's own photo archive and frames from the centre's own YouTube videos. Each one is logged with its source and why I believe it shows this centre. Where no verified photo existed, the section ships without one.
+NN/g's eyetracking research on web photos found that people study photos of real people and real places closely, and ignore pictures that look like decoration. For a centre whose members are recognisable locals, a photo of the actual machine hall is information; a stock or stand-in photo is noise. The agency version used stand-ins: a newspaper clipping as the free-weights photo, the senior hold as the "instructor team", a photo of the building as the poster for a TV clip. I replaced them with 22 verified photos of the centre itself, from the owner's own photo archive and frames from the centre's own YouTube videos. Each one is logged with its source and why I believe it shows this centre. Where no verified photo existed, the section ships without one.
 
 ## The same flat design, a different temperature
 

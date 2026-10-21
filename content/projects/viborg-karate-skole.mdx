@@ -46,27 +46,79 @@ Before touching anything I archived the first two: every route of the agency sit
   note="Agency version, then the rebuild. Same colours, same fonts, same headline. The photo is the club's own, from a summer camp on Livø in 2017."
 />
 
-## What was wrong with a site that looked fine
+## What the agency shipped, and why it did not work
 
-Nothing in the agency version was broken. That is what made it hard to argue with. So I measured it instead of describing it.
+The agency version was generated with an AI coding agent and shipped close to its defaults. Nothing in it was broken, which is what made it hard to argue with. Every part of it was competent, and every part of it could have belonged to any club in the country. So I went through it section by section and measured it instead of describing it.
 
-**The words were not the club's.** I wrote a small script that compares every sentence on the agency site with the club's WordPress text. 154 sentences existed only in the agency version: generic lines about "stærkt fællesskab", six-item lists of virtues, rhetorical questions as headings. A parent reading them learns nothing about this club that would not be true of every club in Denmark.
+### It sold a different sport
 
-**The pictures were not the club's.** Besides the muay thai hero, several page headers used flyers with the old domain watermarked across them, or photos that had nothing to do with the hold they illustrated.
+The first thing a parent saw was a stock photo of muay thai: gloves, pads and thai shorts, on the home page of a karate club that has a 50-year photo archive. Nielsen Norman Group's eyetracking work on photos found that people look closely at pictures of real people and real places, and skip images that look like decoration. A stock photo is not neutral filler. It is the first evidence a visitor gets about who runs the place, and here it was evidence of someone who had never been in the dojo.
 
-**The facts had drifted.** The street number was 98, not 98A. The phone number was not the one the club uses now. The history said the club was "one of the first" in Europe to teach Ashihara karate, when the club was the first. The founding year of the karate school and fitness centre was a year off.
+### Every section was the same section
 
-**It looked generated.** Eyebrow labels over every heading, centred section heads, identical card grids, soft shadows, a floating button rail. Each one is fine. Together they are the fingerprint of a template, and visitors read that as a club that bought a template.
+Eyebrow label, centred all-caps heading, a row of identical cards, a button. The "Find dit hold" section is six cards with the same layout, the same badges and the same two buttons each, so a parent has to read all six to find the one that fits a seven-year-old.
 
-## What I did
+<BeforeAfter
+  before="/images/viborg/vks-agency-hold.jpg"
+  after="/images/viborg/vks-after-hold.jpg"
+  beforeAlt="The agency's Find dit hold section: six identical photo cards with badges and two buttons each"
+  afterAlt="The rebuilt timetable board: one row per hold, ordered by age, with the belt colour as a bar on the left, the time and the monthly price"
+  note="Six identical cards became one board, read top to bottom by age. The colour bar runs in belt order, white to brown."
+/>
 
-**Kept the identity, replaced the look.** The owner liked the colours and the logo, so the red, navy, Oswald and Plus Jakarta Sans stayed. The template styling went: flat sections in solid colours, hard offset shadows instead of blur, left-aligned headings, one primary button per area. I called the direction "dojo floor": flat, bold and physical.
+The [law of similarity](https://lawsofux.com/law-of-similarity/) says that things which look alike are read as the same kind of thing. That is right for a list of equals and wrong for a page whose whole job is to tell a toddler class from an adult one. Repeating one card style six times also cancels out the [Von Restorff effect](https://lawsofux.com/von-restorff-effect/): when every element is styled for attention, none of them gets it. Two buttons of equal weight on every card, "Læs om holdet" and "Prøv gratis", doubled the choices at every step, which is the cost [Hick's law](https://lawsofux.com/hicks-law/) describes.
 
-**Put the club's words back.** Every sentence that existed only in the agency version was rewritten from the club's own text or replaced with it. The count went from 154 to 51, and each of the 51 is kept on purpose and listed with its reason. Eyebrow labels were removed from every page; the heading carries the context.
+### The words were nobody's
 
-**Found the club's real voices.** The club has decades of coverage in Viborg Stifts Folkeblad. I pulled the quotes for the "voices" section from those clippings, verbatim, each with the date, headline and byline of the article it came from. No quote is invented and no photo is attached to a person unless I could verify it was them.
+I wrote a script that compares every sentence on the agency site with the club's own WordPress text. 154 sentences existed only in the agency version. They were the sentences a language model writes when it has no facts: "stærkt fællesskab", six-item lists of virtues, and questions instead of headings.
 
-**Designed the reading pages.** The children's syllabus was a long list of cards. It became a page with a belt navigator that sticks to the top, shows the belt you are reading about, and links to the previous and next belt. The timetable became a board of rows coloured in belt order, from white to brown.
+<BeforeAfter
+  before="/images/viborg/vks-agency-hvorfor.jpg"
+  after="/images/viborg/vks-after-hvorfor.jpg"
+  beforeAlt="The agency's Hvorfor vælge os section: six icon tiles with generic virtues around a photo of a banner"
+  afterAlt="The rebuilt section: the club's war cry WE, NOT ME set as giant white type on a solid red slab, with a real training photo"
+  note="In the agency version the war cry was a small label on a photo. In the rebuild it is the largest type on the page."
+/>
+
+Nielsen's research on how people read the web found that visitors read at most about a quarter of the words on a page and scan for the rest. Generic copy wastes that small budget. "Fællesskab, Selvtillid, Fokus & koncentration, Alsidig motion, Disciplin & respekt, Personlig udvikling" is true of every sport, so a scanning parent learns nothing that would make them pick this club.
+
+The voices section was the clearest case. Every testimonial was a template: a name, then bold labels such as "Givende oplevelse:" and "Rolle:", filled with one smooth sentence each.
+
+<BeforeAfter
+  before="/images/viborg/vks-agency-stemmer.jpg"
+  after="/images/viborg/vks-after-stemmer.jpg"
+  beforeAlt="The agency's voices section: three template cards with bold field labels and short generic lines"
+  afterAlt="The rebuilt voices: long verbatim quotes from Viborg Stifts Folkeblad set large on navy, each with the person's name and the date of the article"
+  note="Template fields became quotes from the local paper, verbatim, each with the date and headline it came from."
+/>
+
+### The facts had drifted
+
+The street number was 98, not 98A. The phone number was not the one the club uses now. The history said the club was "one of the first" in Europe to teach Ashihara karate, when it was the first. The year the dojo opened in Viborg Hallen was a year off. And the "Arrangementer" section advertised summer camps and events that no longer exist. None of these errors look wrong, and each one is the kind a parent finds out about at the door.
+
+### Why it mattered
+
+Stanford's web credibility research found that the look of a site was the most common thing people mentioned when they judged whether to trust it, ahead of the content. A template is not neutral either. Visitors have seen this exact layout on dozens of other sites, so it tells them the club bought a website rather than made one, and that impression arrives before they have read a word.
+
+## What I did: gave it a personality
+
+The goal was a site that could only belong to this club. Everything in it should come from the dojo, the archive or the people, and nothing from a template.
+
+**A direction with a name.** I called it "dojo floor": flat, bold and physical, like mats and a painted wall. The owner liked the colours and the logo, so the red, navy, Oswald and Plus Jakarta Sans stayed. The template styling went: solid colour slabs instead of gradients, hard offset shadows instead of blur, left-aligned headings, one primary button per area.
+
+**The club's own symbols as design.** The war cry "WE, NOT ME" is set huge in red and white because the club actually shouts it. The timeline years use Chow Fun, the lettering from the club's own documents. The timetable is coloured in belt order. The 1975 recruitment poster sits tilted with a hard shadow, like a flyer pinned to the dojo wall.
+
+<BeforeAfter
+  before="/images/viborg/vks-agency-historie-section.jpg"
+  after="/images/viborg/vks-after-historie-section.jpg"
+  beforeAlt="The agency's history section: a horizontal row of four milestone cards with arrows to scroll"
+  afterAlt="The rebuilt history: a vertical ledger of years set in the club's own Chow Fun lettering, from 1975 to today, with the 1975 poster pinned beside it"
+  note="Four milestone cards behind scroll arrows became a ledger of the club's 50 years, in its own lettering."
+/>
+
+**The club's words and photos back.** Every agency-only sentence was rewritten from the club's own text or replaced with it, taking the count from 154 to 51, and each of the 51 is kept on purpose with its reason written down. Every photo is the club's own, from its archive. No quote is invented, and no photo is attached to a person unless I could verify it was them.
+
+**Reading pages built for the job.** The children's syllabus was a grid of cards. Now a belt navigator sticks to the top of the page, shows the belt you are reading about and links to the previous and next one, so a child can see where they are going.
 
 <BeforeAfter
   before="/images/viborg/vks-agency-kodomo.jpg"
@@ -84,19 +136,15 @@ Nothing in the agency version was broken. That is what made it hard to argue wit
   variant="mobile"
 />
 
-**Kept every old link alive.** The WordPress site had 272 public URLs and the agency site had its own routes. Over 600 redirects map them to the closest page in the new site, so a link in a 2014 newspaper article still lands somewhere useful.
+**Every old link kept alive.** The WordPress site had 272 public URLs and the agency site had its own routes. Over 600 redirects send them to the closest page in the new site, so a link in a 2014 newspaper article still lands somewhere useful.
 
-**Made it cheap to own.** A Next.js static export built for Cloudflare Pages' free plan: no CMS, no server, no monthly hosting bill. The contact form posts to a form service with an invisible captcha. Analytics only load after a visitor says yes in a cookie banner written in the site's own design and in plain Danish, with "Nej tak" as easy to press as "Ja tak".
+**Cheap to own.** A Next.js static export built for Cloudflare Pages' free plan: no CMS, no server, no monthly hosting bill. The contact form posts to a form service with an invisible captcha. Analytics only load after a visitor says yes in a cookie banner in the site's own design and plain Danish, with "Nej tak" as easy to press as "Ja tak".
 
 ## Working with the owner
 
 The owner is not a web person, and the decisions that mattered were the owner's. I kept a running list of open questions in the repo and asked them in batches: is this photo the club's, which belt colour comes after red, is the phone number still right. Several of the best fixes came straight from those answers, including "first in Europe", which the owner corrected with a newspaper article as the source.
 
 When the owner asked for changes after the first version, I tagged the state before and after, so each request is a diff to look at rather than a promise.
-
-## Where the rebuild is worse
-
-The rebuilt home page is much longer than the agency's: about 17,000 pixels at desktop width against 6,500. Most of that is content the agency left out, such as the history ledger, the press voices and the Instagram feed. A visitor who only wants the timetable has more to scroll past, and the header links exist for that reason.
 
 ## Status
 
