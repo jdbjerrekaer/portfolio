@@ -111,13 +111,20 @@
     grid-column: auto;
     grid-row: auto;
 
+    // Fill the tile and show the top of the shot (headers live there); the lightbox shows the whole image.
     .image {
-      object-fit: contain;
+      object-fit: cover;
+      object-position: top center;
+
+      &.wide {
+        object-fit: contain;
+      }
     }
   }
 
+  // First image full width, the rest in pairs; an odd one out takes the full row instead of leaving a hole.
   .gridItem.item1,
-  .gridItem.item5 {
+  .gridItem:last-child:nth-child(even) {
     grid-column: 1 / -1;
   }
 

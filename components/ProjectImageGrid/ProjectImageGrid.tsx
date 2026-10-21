@@ -34,8 +34,8 @@ export function ProjectImageGrid({ images, layout = "mosaic", onOpenImage }: Pro
   return (
     <div className={isLandscape ? `${styles.grid} ${styles.landscape}` : styles.strip}>
       {processedImages.map((image, index) => {
-        // Landscape uses positional classes for items 1 and 5 (full-width rows).
-        const positionalClass = isLandscape && index < 5 ? styles[`item${index + 1}`] : "";
+        // Landscape: the first image spans the full row.
+        const positionalClass = isLandscape && index === 0 ? styles.item1 : "";
 
         return (
           <button
@@ -51,6 +51,12 @@ export function ProjectImageGrid({ images, layout = "mosaic", onOpenImage }: Pro
                 alt={image.alt}
                 fill
                 className={styles.image}
+                // Wider than the tile: show it whole rather than cropping its sides.
+                onLoad={(e) => {
+                  const img = e.currentTarget;
+                  const tile = img.parentElement!.getBoundingClientRect();
+                  img.classList.toggle(styles.wide, img.naturalWidth / img.naturalHeight > tile.width / tile.height);
+                }}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
               />
             ) : (
