@@ -2,6 +2,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { ComponentProps } from "react";
 import type React from "react";
 import Image from "next/image";
+import remarkGfm from "remark-gfm";
 import { resolveAssetSrc } from "@/lib/utils/paths";
 import { CramerDemoFrame } from "@/components/CramerDemoFrame";
 import { BeforeAfter } from "@/components/BeforeAfter";
@@ -101,7 +102,7 @@ interface MdxContentProps {
 export function MdxContent({ source }: MdxContentProps) {
   return (
     <div className="prose">
-      <MDXRemote source={source} components={components} />
+      <MDXRemote source={source} components={components} options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }} />
     </div>
   );
 }
