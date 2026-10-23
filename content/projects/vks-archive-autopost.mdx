@@ -1,0 +1,116 @@
+---
+title: "A 50-Year Archive, Posted by an Agent I Direct"
+summary: "My karate club has decades of photos, newspaper clippings and tapes on a NAS that nobody had time to go through. I directed AI coding agents to build a pipeline that finds the material, lets me approve every post, renders a story teaser for each one and publishes to Instagram and Facebook on a schedule."
+date: "2026-10-23"
+role: "Design Engineer"
+outcome: "Live since 19 October 2026: every post approved by a person, a story teaser rendered for each one, 591 posts queued, and each failure so far traced, fixed at the source and told to me in one iMessage."
+tags:
+  - AI Agents
+  - Automation
+  - Design Engineering
+coverImage: "/projects/vks-archive-autopost/cover.jpg"
+gallery:
+  - src: "/images/vks-autopost/schedule.jpg"
+    alt: "The Schedule tab: a banner says auto-posting is on with a Stop button, the next post is a 2005 team photo with a story teaser, and a queue of 591 posts follows week by week"
+  - src: "/images/vks-autopost/review.jpg"
+    alt: "The review screen: one archive item large on the left, its date, source document and event on the right, and Approve, Later and Reject buttons with keyboard shortcuts"
+  - src: "/images/vks-autopost/videos.jpg"
+    alt: "The Videos tab: tournament tapes from the NAS grouped by folder with durations, and a button per folder to hide folders that are not karate"
+galleryLayout: "landscape"
+featured: false
+comingSoon: false
+hidden: false
+---
+
+## The archive nobody had time for
+
+Viborg Karate Skole has trained since 1975. My father, Jens, has kept almost everything from those years on the club's NAS: Word documents with photos pasted into them, scanned newspaper clippings, tournament tapes from the nineties. On 16 October the documents alone were 14,580 files. The club's Instagram had 53 followers.
+
+The idea was simple: post the archive, oldest first, a few times a week, and let old members find themselves. Two people use what I built. I approve posts on a laptop in the evening. The club's followers, mostly members and former members, scroll past them on a phone and either stop or do not.
+
+It took three attempts.
+
+1. **March: a Telegram bot.** It matched 355 Word documents by filename and sent each candidate to Telegram with approve and skip buttons. Candidates 4 to 20 had no photo in them. It stalled on candidate 21.
+2. **July: a local review app.** Better to review in, but it still searched the same 355 files. I made 104 decisions and stopped.
+3. **October: this one.** I opened it again with one line to Claude Code: "we have an old project we never finished". Four days later it posted on its own.
+
+## How I work: I direct, the agent builds
+
+Almost none of the code in this project was typed by me. Claude Code wrote the scanners, the review app, the video jobs, the poster and the systemd timers, working over SSH on my home server. Local models on the same machine do the looking: a face detector and a CLIP model score every image, and the local LLM read the 43 newspaper scans. When a job split cleanly, the agent ran several sub-agents in parallel, each in its own files.
+
+My part is the judgement an agent cannot have about this club. I decide what a good post looks like, I know which names are people and which are towns, and I check real output, on my phone, after it has gone live. And I set the rules the agent works inside. Four of them did most of the work:
+
+**Never write to the archive.** "we should not destroy the orignally copies of the files." The scan runs on a read-only mirror. Generated files are only ever added next to the originals, never moved, "as this will confuse my father Jens".
+
+**Nothing goes out without a go.** The queue file says posting needs my explicit go-ahead. Auto-posting started when I typed "go live", at 11:13 on 19 October.
+
+**Only claim what ran.** The agent reports every fix as proven, not yet proven, or "the first real test is the 19:00 post". When it slipped on 21 October and said a scheduling fix was how it worked now, I answered: "no it isnt becaue nothing was posted yesterday". It reopened the rule that day.
+
+**Keep a way back.** Every change starts with a backup of the file it touches. The project has about a hundred of them, each named after the change.
+
+## Finding the photos
+
+The first two versions failed for the same reason: they only opened files whose names looked promising. So the rebuild opened everything. 14,580 files gave 12,570 distinct embedded images. A logo filter removed letterheads, which had been crowding out real photos, then a face detector kept images with three or more faces and a CLIP model scored how much each one looked like karate. That left 1,672 new candidates. The old filename list had contained 22 of the roughly 4,000 real photos.
+
+Then I read what it produced, and most of my corrections were about words:
+
+- "the names are not correct it says "Viborg" twice. that is a city same for this word "Medlemmernes" is not a name."
+- "the caption still says … "DSC00775, 2004." that is just the mirrorless camera photo name"
+- "many events have like 'Regnskab' in the name but you know what that means, the real event name is behind that"
+
+None of these were fixed by editing one caption. I asked for "a generic and good way so it doesnt happen in the future", and each became a rule in the pipeline: a list of first names to match against, camera filenames that fall back to the folder name, and the heading nearest a photo used as its title. Unknown dates are written as "dato ukendt", never guessed, because I asked for that too: "no dont write ranges."
+
+## A person approves every post
+
+![The review screen: one archive item, its date and source document, and Approve, Later and Reject with the keys A, L and R](/images/vks-autopost/review.jpg)
+
+Each item gets its own screen: the image large, the date and source document beside it, and three decisions with one key each. Approve, Later, Reject. A, L, R. "Something's wrong" flags it for the agent instead of deciding. 406 decisions are recorded so far.
+
+**Read the app at posting time, not the night before.** Meta's API cannot schedule Instagram posts or stories, and anything pre-loaded into Meta would not follow a later edit. So a timer reads the app every five minutes and posts what is due right then. Pausing, reordering and caption edits apply up to the minute. [Tesler's law](https://lawsofux.com/teslers-law/) says some complexity cannot be removed, only moved. Here it sits in a timer, so it is not on me at 18:55, trying to remember whether I changed a caption.
+
+**Make the state impossible to miss.** I asked for "a baner that we are not actually posting these like a start and stop buttom". The Schedule tab opens with one sentence of status, "Auto-posting is on. Next post Fri 23 Oct at 19:00 to Instagram and Facebook.", and a Stop button beside it. Post now exists, behind an "are you sure" step, and a manual post never takes a planned slot.
+
+**First names only.** Captions name people by first name, with the club's karate titles placed the same way for everyone. I noticed when "only Per has his karate title mentioned before his name".
+
+## Story teasers
+
+![Four published story teasers: 1990 Ashihara Honbu in Matsuyama, a 1994 newspaper article, a 1994 letter from Kancho Ashihara, and TV/Midt-Vest 1992](/images/vks-autopost/teasers.jpg)
+
+A post in the feed is easy to scroll past, so on day two I asked for "somethiing dynamic we can make for the isntagram or facebook story to promote and tease the new post". One good-looking teaser proves nothing for an archive this mixed, so I asked to "show me like 4 differnte exampls of the teaser so i know it is generic enough". I approved it when four different posts held up: "those four stories are really good!"
+
+Each teaser is seven seconds at 1080 × 1920. "Fra VKS-arkivet", then the year counting back to the right one in Chow Fun, a font the club has used in its own documents. The photo sharpens in under it, and it ends on one line of call to action and "Se hele opslaget på profilen". On 18 October I made it a rule: "every post need a storyteaser generated". A nightly job renders any that are missing, and the poster warns me 48 hours ahead if a post would go out without one. 777 are rendered.
+
+<ProjectVideo src="/projects/vks-archive-autopost/teaser-1990.mp4" poster="/projects/vks-archive-autopost/teaser-1990.jpg" muted style={{ maxWidth: 360, margin: "0 auto", display: "block" }} />
+
+They are not finished. The 1994 newspaper teaser is labelled "VSF-om-Sabaki", which is the source document's name, not a title anyone would write. It went out like that, and it is on the list.
+
+## Video, decided one file at a time
+
+The NAS also holds 3,691 videos. They brought their own decisions, most of them mine:
+
+- **Per video, not per folder.** The agent proposed choosing the vertical crop per folder. "some videos in a folder might be better for vertical than others in the same folder, right?" Now each video is checked: if too little of the action fits a 9:16 crop, it keeps its original frame on a blurred vertical background.
+- **Watermark that moves.** For a Japanese instruction tape the club did not make, a fixed corner mark was "easy to crop out. it should move around the video in an unpredictally pattern". The caption also says plainly that the club did not make it and who holds the rights.
+- **Tournaments go up quietly.** Splitting one championship tape gave 36 fights, and "like 36 posts … right after each other is a lot". Fights go to Reels and Facebook's Videos tab without appearing in the feed, and the feed gets one highlights post and one teaser.
+- **Full video half an hour later.** A reel is a highlight. The caption says the full video comes in half an hour, and it does.
+
+## When it broke
+
+![iMessages from the poster on 22 October: a failure at 10:55, then the Toho reel and full video posted, a failed Facebook retry, and a successful one](/images/vks-autopost/imessage.jpg)
+
+On 22 October my phone showed most of what went wrong that day.
+
+At 10:55: "kørslen fejlede: TypeError: 'bool' object is not callable". The day before, a new `publish()` function had been added to the poster, and an older setting with the same name hid it. Every five-minute run crashed until it was found and renamed. The reel went out at 13:12, two hours late.
+
+At 13:45 the full video went to Instagram, and the message said Facebook was "ikke delt (videokarrusel, kun Instagram)". That was not true. It was a single video, and Facebook had refused the 350 MB upload. The upload tool returned nothing, nothing was read as "skipped", and the message filled in a reason. I asked why it had only gone to Instagram. Three fixes came from that one question:
+
+1. **Large files upload in chunks.** Anything over 50 MB now goes up in parts. The 350 MB file took two and a half minutes.
+2. **A failure is a failure.** An empty reply now raises an error, the post is labelled "Partly posted", and the raw error is one click away with a Copy button. The carousel explanation only appears for real carousels.
+3. **Retry only what is missing.** A Retry button sends the parts that did not go out, Facebook or either story, and never posts to Instagram twice.
+
+Then I asked "why wasnt thsi automatic?" Now the timer retries a post's missing parts by itself, up to three times within 24 hours, and tells me with a "Prøvet igen" message. I tested that logic against a faked failed post and it retried exactly three times. It has not met a real failure yet, and I will not call it proven until it has.
+
+It was not the first save. On the first evening, after post one, the queue reshuffled and would have posted again at 19:05. The agent caught it and stopped the timer. A published post now keeps its slot, and the poster refuses anything scheduled before the last post it made.
+
+## Status
+
+Live since 19 October 2026 on Instagram and the Facebook Page, with a teaser on both platforms' stories. Five posts and one full video have gone out, and 591 are queued. Instagram only suggests posting times from 100 followers, so posts alternate between 19:00 and a random morning time, and around 4 November I will compare their 24-hour reach. The first big scheduled Facebook upload, a full video on 30 October, will be the real test of the chunked upload.
