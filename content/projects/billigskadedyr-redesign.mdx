@@ -1,13 +1,15 @@
 ---
 title: "One Front Door, Two Businesses"
-summary: "A Danish pest-control company runs a webshop and a service site that never mention each other. I audited the live shop against Baymard's e-commerce guidance, then rebuilt the entry point as one page."
+summary: "A Danish pest-control company runs a webshop and a service site that never mention each other. I audited the live shop against Baymard's e-commerce guidance, rebuilt the entry point as one page, and then kept building: the concept is now a full pest reference for Denmark, with 22 categories, over 100 species articles and 76 public-domain ink drawings, all prerendered as static HTML."
 date: "2026-08-29"
 role: "Solo, research through build"
-outcome: "A Baymard-led audit rebuilt as one page: a single entry point, a price estimator, and zero WCAG AA text failures."
+outcome: "A Baymard-led audit rebuilt as one page, then grown into a pest wiki: 22 categories, 104 species articles and 76 licensed ink drawings across 232 prerendered pages, with zero WCAG AA text failures."
 tags:
   - UX Audit
   - Conversion Design
   - Accessibility
+  - Content Design
+  - Information Architecture
 links:
   live: "https://jonatanbjerrekaer-bot.github.io/billigskadedyr-redesign/"
   source: "https://github.com/jonatanbjerrekaer-bot/billigskadedyr-redesign"
@@ -32,6 +34,12 @@ gallery:
     alt: "Before: the first screen of the live shop on mobile"
   - src: "/images/billigskadedyr/after-forside-top-mobile.jpg"
     alt: "After: the concept's first screen on mobile, leading with the price estimator"
+  - src: "/images/billigskadedyr/wiki-service-index.png"
+    alt: "The pest index at /service/: every pest in one searchable list, each row showing its starting price"
+  - src: "/images/billigskadedyr/wiki-lopper.png"
+    alt: "The flea service page: three species, each with its own public-domain ink drawing and a link to its own article"
+  - src: "/images/billigskadedyr/wiki-fugleloppe-article.png"
+    alt: "A species article: the hen flea, drawn as ink from a 1962 CDC photomicrograph after no public-domain engraving of the species could be found"
 galleryLayout: "landscape"
 featured: false
 comingSoon: false
@@ -310,6 +318,42 @@ absence. It is the same failure mode as the trust widget earlier in this
 project, where a slow-loading element read as a missing one, and it argues for
 treating every "the client does not have X" conclusion as provisional until the
 raw source has been read.
+
+## The second build: from one page to a pest wiki
+
+The concept did not stay a landing page. Eight weeks on, it has grown into the reference the original sites never were: 22 pest categories covering everything a Danish house or garden is likely to meet, 104 species articles, and 76 ink drawings, across 232 prerendered pages. This section is about that build, because it ran on the same thesis as the first one and stress-tested it harder.
+
+### The agent gap, at scale
+
+The first version was built by an autonomous agent on my own hardware, reviewed by me over about thirty rounds. The wiki build ran the same way, except the rounds were counted in the dozens of articles and drawings rather than one page, and the failure mode scaled with the surface. A wrong corner radius is one wrong element; a wrong claim in a species article is a page that reads as authority and is not one. The review questions changed accordingly: not only "does this look right" but "is this true, and would the business sign it."
+
+### The architecture answers the audit's quietest finding
+
+The finding that almost never got filed: the old shop's article content did not exist without JavaScript, twelve article URLs returning twelve identical shells. The wiki inverts that. After the build, every page is rendered in a headless browser and the result is written back into its own HTML file, so a cold arrival from a search result paints content on the first frame and a crawler gets the full text. The router still swaps pages client-side once a visitor is inside, but no URL depends on it. The finding that justified this was itself found by reading the raw served documents rather than the rendered page, which is the same habit this case study keeps coming back to.
+
+### Seventy-six drawings, each with a paper trail
+
+Every species card that shows a drawing shows one for all of its species, or none. A drawing beside a placeholder icon reads as the stock-photo laziness this audit criticises, so the card component checks the whole set before it renders any of it. The rule has a cost, and the flea page is where it showed: no public-domain engraving of the hen flea could be found. Wikimedia's categories hold only photographs, the 1915 medical-entomology textbook that supplied the other two flea drawings illustrates its hen-flea relative with a round photograph, and every specimen photo on GBIF carries a CC-BY license the project does not accept. The drawing that shipped is a 1962 CDC photomicrograph, public domain as a United States government work, converted to ink with the same pipeline that redraws CC0 specimen photographs. Two drawings existed and one did not, so the page stayed text-only until the third was honest. A weaker rule would have shipped sooner and looked worse.
+
+Each drawing's source page, license and edits sit in a SOURCES.md file next to the images, so the asset trail a client would otherwise ask a stock vendor for is a text file in the repository.
+
+### Content is the conversion path
+
+The species articles exist for the long tail: "fugleloppe", "pelsklanner", "vingetaege". Nobody lands on those from an ad; they land from a search, usually on a phone, in the room with the problem. Each article answers the identification question in the first screen and ends in the same two actions: read how treatment runs, or write to us. The wiki is the top of the funnel, the service pages are the bottom, and every article links down. When two old categories turned out to say the same thing, mice and rats, they were merged into one page and the old URLs kept as aliases, so external links do not die for an editorial decision.
+
+The writing rules from the first build carried over: Danish price formatting, words a homeowner actually uses, no em dashes in the Danish copy, and hedged claims wherever the evidence is thin. Where an article compares one pest with another, the comparison links to the other article rather than restating it, so the set of pages cross-reads instead of repeating.
+
+### The checks earned their place
+
+routes.check.mjs exists because of a real incident: nine wiki categories built without their own URLs, and /service/rotter/ answered with an auto-generated directory listing that looked like a blank page to a crawler and to most visitors. The check now fails the build if any service or article lacks a shell, a vite input or a sitemap line. It caught one more defect while this section was being written: the bare /service/ URL, one level up from every service page, was itself a directory listing until the overview page shipped. A check written from an incident that then catches the same incident in a new costume is the argument for writing checks down rather than trusting the memory of them.
+
+Alongside it, an images check walks every referenced asset so a renamed file fails loudly, and a one-way check fails the build if any service or article page links into the DIY shop, while the shop's own link out points at the professional service. The asymmetry is the same one the front page was designed around: the DIY path is a real option, but the wiki argues for the technician.
+
+### What the wiki still owes
+
+- The newer categories carry the same caveat as the original concept: where the business publishes no price of its own, the figure shown is a market estimate from other Danish firms, labelled as indicative on the same screen.
+- The review-quotes flag from the first build still stands; the aggregate scores are real and linked, the individual quotes are not yet re-verified.
+- The all-or-nothing drawing rule means a set with one missing drawing hides all of its drawings. Coverage gaps are invisible by design, which is the right experience and the wrong dashboard; SOURCES.md is where they are actually tracked.
 
 ## How I work
 
