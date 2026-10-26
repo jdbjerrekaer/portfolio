@@ -1,9 +1,9 @@
 ---
-title: "One Front Door, Two Businesses"
-summary: "A Danish pest-control company ran a webshop and a service site that never mentioned each other. I audited the live shop against Baymard's research, rebuilt the entry as one page with a working price, and kept building until it became a pest reference for Denmark: 22 categories, 76 species articles and 232 prerendered pages, with the owner's pricing rules enforced by check scripts."
+title: "A Spider Photo, a Form, and Nothing Else"
+summary: "The professional side of a Danish pest-control business lived on one page: a spider photograph, a contact form, and no prices, no process and placeholder text in production. I rebuilt that site around one honest price and kept building until it became a pest reference for Denmark: 22 categories, 76 species articles and 232 prerendered pages, with the owner's pricing rules locked by check scripts."
 date: "2026-10-26"
 role: "Design Engineer"
-outcome: "Two sites became one front door with a working price, then a 232-page pest wiki. The owner's pricing rules are locked by a check script."
+outcome: "One page with a contact form became a 232-page pest wiki with an honest price. The owner's pricing rules are locked by a check script."
 tags:
   - UX Audit
   - Redesign
@@ -11,124 +11,101 @@ tags:
 links:
   live: "https://jonatanbjerrekaer-bot.github.io/billigskadedyr-redesign/"
   source: "https://github.com/jonatanbjerrekaer-bot/billigskadedyr-redesign"
-  "The original site, archived 29 Aug 2026": "https://web.archive.org/web/20260829200352/https://billigskadedyr.dk/"
+  "The business's shop, archived 29 Aug 2026": "https://web.archive.org/web/20260829200352/https://billigskadedyr.dk/"
 coverImage: "/projects/billigskadedyr-redesign/cover.jpg"
 gallery:
-  - src: "/images/billigskadedyr/before-forside-top.jpg"
-    alt: "Before: the first screen of the live shop, a slider over product tiles with no prices in view"
+  - src: "/images/billigskadedyr/before-profforside-top.jpg"
+    alt: "Before: the old professional site was a full-screen spider photograph with a contact form floating on it"
   - src: "/images/billigskadedyr/after-forside-top.jpg"
-    alt: "After: the rebuild's first screen, paper background with forest-green ink, leading with the question of whether to handle it yourself or book a technician"
+    alt: "After: the rebuild's first screen on paper background with forest-green ink, leading with the pest and the price"
   - src: "/images/billigskadedyr/after-service-index.jpg"
     alt: "After: the pest index lists every pest in Denmark in one searchable page, each row with its starting price"
   - src: "/images/billigskadedyr/after-service-lopper.jpg"
     alt: "After: the flea service page shows three species cards, each with its own ink drawing and a link to its own article"
-  - src: "/images/billigskadedyr/before-forside-top-mobile.jpg"
-    alt: "Before: the live shop's first screen on a phone, 12px text and small tiles"
+  - src: "/images/billigskadedyr/after-estimator.jpg"
+    alt: "After: the estimator shows one concrete price with a list of what is included that derives from the selections"
   - src: "/images/billigskadedyr/after-forside-top-mobile.jpg"
-    alt: "After: the rebuild's first screen on a phone, the same question with one hand-readable column"
+    alt: "After: the rebuild's first screen on a phone, one readable column"
 galleryLayout: "landscape"
 featured: false
 comingSoon: false
 hidden: false
 ---
 
-## The situation: two sites, one business
+## The situation: one page to sell a service
 
-Daniel Nemborg runs a pest-control company that covers Jylland and Fyn, CVR 40306633, built on two websites that read as two unrelated companies. One is a WooCommerce shop selling DIY products: traps, baits, sprays. The other sells professional treatment, where a technician comes to your house. Neither site links to the other, and the service site was found only by knowing the phone number.
+Daniel Nemborg runs a pest-control company that covers Jylland and Fyn, CVR 40306633. For the professional side of the business, the part where a technician comes to your house, his website was one page on billigskadedyrprof.dk. A full-screen photograph of a spider. A contact form floating on it, "Indtast dine oplysninger og få et tilbud på få minutter". A menu of five links that all stay on that one page. Below the form, long stretches of empty, unstyled sections.
 
-The reader is a Danish homeowner, usually on a phone, often in the room with the problem, deciding whether to let a stranger into their house. The work has existed in three versions: the two live sites, the audit and one-page concept I built from it, and the pest wiki the concept grew into. Before touching anything I archived the original: every route at desktop and phone widths, plus a Wayback snapshot. The comparisons below come from those captures.
+The reader is a Danish homeowner, usually on a phone, often in the room with the problem, deciding whether to let a stranger into their house. The business also runs a DIY webshop on a separate domain; that shop is not this project and it stays where it is. This case study is the professional site, which has existed in three versions: the one page, the audit and concept I built from it, and the pest wiki the concept grew into. Before touching anything I archived the whole presence, every route at desktop and phone widths plus Wayback snapshots, on 29 August 2026.
 
 ## What was there, and why it did not work
 
-**Credit first.** Checkout allows guest purchase. Payment covers Apple Pay, MobilePay, card and EAN invoicing. The site is genuinely fast: I measured a 156 ms largest contentful paint on mobile, which cost me the speed argument I had planned to lead with. A statistic that does not describe the site in front of you is decoration, so it is out. None of what follows is a theme complaint.
+**Credit first.** The shop half of the business works. Guest checkout, broad payment coverage, and genuinely fast: I measured a 156 ms largest contentful paint on mobile, which killed the speed argument I had planned to lead with. A statistic that does not describe the site in front of you is decoration, so it is out. The professional page had no such defence.
 
-### The two businesses never met
+### The page could not sell the service
 
-A visitor had to already know which of the two sites they needed before landing on either. The shop never mentions that a technician exists. The service site was a single page with one form and a dropdown of 14 options, with no prices, no explanation of the process and no social proof. A person who hears something in the wall at midnight has no way to learn that the same company will either sell them a 49 kr bait or come and solve it, and no way to tell which one they are.
+One page, one form. The "Vælg service" dropdown listed 13 pests plus "Andet", so the visitor reads all 14 options before being allowed to submit. There was no price anywhere, no explanation of what happens after you send the form, and no social proof. Placeholder Lorem ipsum sat in production in the wasp section, visible to every visitor. "Stankelben", a harmless insect, was listed as a service. And below the fold the page simply stopped: sections rendered as empty blocks on a dark background.
 
 <BeforeAfter
-  before="/images/billigskadedyr/before-forside-top.jpg"
+  before="/images/billigskadedyr/before-profforside-top.jpg"
   after="/images/billigskadedyr/after-forside-top.jpg"
-  beforeAlt="The live shop's first screen: a slider over product tiles, no prices visible"
-  afterAlt="The rebuild's first screen: one question, handle it yourself or book a technician, each path with its starting price"
-  note="The fork replaced the catalogue as the first screen. Both paths state a starting price, so the visitor can self-select before scrolling."
+  beforeAlt="The old professional site: a spider photograph fills the screen with a contact form on it"
+  afterAlt="The rebuild's first screen: pick your pest, see one price, read what is included"
+  note="Same job, both screens: the old page asked for your details before it said anything; the new one answers the price question first."
 />
 
-### Nothing was designed
+This matters more here than in most categories, because of what the visitor is deciding. In [Stanford's web credibility research](https://advocacy.consumerreports.org/research/how-do-people-evaluate-a-web-sites-credibility/), 2,684 people judging real sites named the look of the site as the most frequent factor in trusting or distrusting it, in 46.1% of comments, ahead of the content. A page that ships placeholder text is telling every visitor that nobody has looked at it lately, and a visitor extends that reading to the company and to the person who would show up at their door.
 
-The strongest case against the site is not a defect list, because a defect list argues for a sprint. It is that the interface reads as assembled rather than designed, and visitors extend that judgement to the company. [Stanford's web credibility research](https://advocacy.consumerreports.org/research/how-do-people-evaluate-a-web-sites-credibility/), 2,684 people judging real sites, found the look of the site was the most mentioned factor in 46.1% of comments, ahead of the content. For this category the stakes are higher than most: the visitor is deciding whether to trust a stranger with poison near their children.
+![Below the form on the old page, long sections rendered as empty blocks on a dark background.](/images/billigskadedyr/before-prof-empty.jpg)
 
-Easy to assert, easy to dismiss as taste. So I measured it.
+### The business's web presence read as unmaintained, so I measured it
 
-| Signal | Measured on the homepage | What it means |
-|---|---:|---|
-| Distinct corner radii in use | 8 | No shared decisions; each component styled alone |
-| Distinct text sizes | 9 | Not a type scale, a pile of one-offs |
-| Font families on one page | 4 | Webfont wired up wrong, system font leaking in |
-| Inline `style` attributes | 136 | Design overridden ad hoc, not owned centrally |
-| Most common body text size, mobile | 12px | Below comfortable reading size on a phone |
+Easy to assert, easy to dismiss as taste. So I measured the substantial half, the shop homepage: 8 distinct corner radii in use, 9 distinct text sizes, 4 font families on one page, 136 inline style attributes, and a most common body text size on mobile of 12px. Here is what those radii look like as components:
 
 ![Four components from the live homepage, each captioned with its own computed border-radius: a search form wrapper at 28.5px, a round button at 50%, the search input at 25px, and a link button at 9px.](/images/billigskadedyr/evidence-radii.png)
 
-The first two tiles are the same search field. A wrapper rounded to 28.5px with the input inside it rounded to 25px, three and a half pixels apart, nested one inside the other. Nobody chose that and nobody will ever file a bug about it, which is the point: it is the residue of a site assembled rather than designed. Nothing here is broken. There is no system to correct, so there is nothing to patch.
+The first two tiles are the same search field: a wrapper rounded to 28.5px with the input inside it rounded to 25px. Nobody chooses three and a half pixels of difference on purpose. That is the residue of a site assembled rather than designed, and it is what a visitor feels without being able to name it.
 
-### Where the money leaks
+### The trust assets sat one level away
 
-Four category screens stand between a visitor and anything they can buy. Someone who has just seen a rat passes through Rotter og mus, then Rotter, then Rottefælder, then Rottesmækfælder, translating their problem into the supplier's vocabulary four times before a price appears. I want to be exact about the credit here, because my first pass was wrong: I recorded that the listing showed no prices. It does. I had measured a category hub and called it a product list. The defect is not the list, it is the four screens in front of it.
-
-![Four screens from the live shop side by side. The first three show only further category tiles with no prices; the fourth finally shows eleven products with prices and add-to-basket buttons.](/images/billigskadedyr/evidence-drilldown.png)
-
-Then the details that sit closest to the sale. Prices render as `1,199.00kr.`; Danish is `1.199,00 kr.`, and at the moment of entering a card number that reads as a foreign shop. Delivery cost never appears, not in the basket and not at checkout, and [Baymard's abandonment research](https://baymard.com/blog/cart-abandonment-rate-reasons) puts extra cost revealed late at the top of why people leave. Every product in the catalogue shows a review count of zero while the business demonstrably has reviews: 3.8 out of 5 on Trustpilot and 4.6 on e-mærket, sitting one level away from every decision they could change. And the professional site had placeholder Lorem ipsum live in production, on the page a customer reads to decide whether to call.
-
-<BeforeAfter
-  before="/images/billigskadedyr/before-forside-top-mobile.jpg"
-  after="/images/billigskadedyr/after-forside-top-mobile.jpg"
-  beforeAlt="The live shop on a phone: small tiles, 12px text, the menu closed"
-  afterAlt="The rebuild on a phone: one column, large text, the same fork readable at arm's length"
-  variant="mobile"
-  note="On the phone the rebuild drops the slider and the tiles and leads with the fork. The 32 tap targets under 44px on the old homepage became one."
-/>
+The business demonstrably had reviews: 3.8 out of 5 on Trustpilot, 4.6 on e-mærket with 110 verified reviews. None of it was on the professional page. The questions that decide this sale, do you cover my address, are you allowed to do this, what happens if it goes wrong, were answered in the FAQ, inside collapsed accordions, and the answer under "Er der garanti på jeres arbejde?" was wired to the wrong paragraph entirely. Meanwhile the shop asked for a card number with prices formatted `1,199.00kr.` and delivery cost that never appeared, and [Baymard's abandonment research](https://baymard.com/blog/cart-abandonment-rate-reasons) puts cost revealed late at the top of why people leave. Different site, same lesson: tell people the full price before you ask for their details.
 
 ## What I did
 
-I worked from Baymard for the funnel, [NN/g's research on how people read](https://www.nngroup.com/articles/how-little-do-users-read/) for the copy, the Laws of UX for interface decisions, with WCAG 2.2 AA as the floor.
+I worked from Baymard for pricing and forms, [NN/g's research on how people read](https://www.nngroup.com/articles/how-little-do-users-read/) for the copy, the Laws of UX for interface decisions, with WCAG 2.2 AA as the floor.
 
-**Lead with the fork, not the catalogue.** The first screen asks the only question that matters: do you want to handle this yourself, or do you want someone to come out? The two paths carry the labels the owner uses, "Klar det selv" and "Få en professionel ud", each with its starting price. This is the two-site problem solved as information architecture. [Jakob's law](https://lawsofux.com/jakobs-law/) says visitors expect your site to work like the other sites they use; here the expectation being met is simpler, one company, one door, no prior knowledge required.
+**Lead with the price, not the form.** The old page's only next step was "fill in your details and get a quote". The rebuild answers the price question on the first screen: pick your pest, see one number. The estimator originally returned a range and I killed it, because a range makes the reader do arithmetic and stays uncertain, which is the old page's problem restated politely. The refinements sit behind one control with defaults that are true, the area presets from the actual regional averages (Danmarks Statistik, floor area over dwelling counts for Fyn and the five Jylland regions): 79 m² for a flat, 140 m² for a house. A default is an answer the page gives on the visitor's behalf, and a preset never overwrites a number the visitor set themselves. One more decision worth naming: the included-list derives from the selections. Rats list rodent-proofing, wasps list nest removal, a house with several buildings hides the area question because the discount rules make it moot. A list that never changes is decoration; a list that changes is feedback.
 
-**Navigate by pest, not by product vocabulary.** Nobody wakes up wanting a rottesmækfælde. They wake up because they heard something in the wall. The rebuild organises by the animal: rats, ants, wasps, bed bugs, silverfish. Each pest routes to whichever path suits it. The visitor recognises what they have seen instead of recalling what the catalogue calls it.
+![The estimator section on desktop: pest, area, property type and severity on the left, one concrete price with the derived included-list on the right](/images/billigskadedyr/after-estimator.jpg)
 
-**Replace "call for a price" with one number.** The estimator returns one concrete figure. An earlier version returned a range, and I killed it: a range makes the reader do arithmetic and stays uncertain, which is most of the original problem restated politely. The refinements sit behind one optional control with defaults that are true: the area presets from the actual regional averages (Danmarks Statistik, floor area over dwelling counts for Fyn and the five Jylland regions), 79 m² for a flat, 140 m² for a house. A default is an answer the page gives on the visitor's behalf, and a preset must never overwrite a number the visitor set themselves.
+**Navigate by pest, not by service vocabulary.** Nobody wakes up wanting a "Vælg service" dropdown. They wake up because they heard something in the wall. The rebuild names the animal, rats, ants, wasps, bed bugs, silverfish, and lets the visitor recognise what they have seen instead of recalling what the trade calls it.
 
-![The estimator section on desktop: pest, area, property type and severity on the left, one concrete price with a derived included-list on the right](/images/billigskadedyr/after-estimator.jpg)
+**Show the weaker review score.** Both ratings sit on the page with their real counts and a link out, the 3.8 as honestly as the 4.6. Hiding the lower one is the intuitive move and the wrong one, because a visitor who finds it independently now discounts everything else on the page.
 
-One decision from the estimator is worth naming on its own. The included-list used to state the same four promises no matter what you picked. It now derives from the selections: rats list rodent-proofing, wasps list nest removal, a house with several buildings hides the area question because the discount rules make it moot. A list that never changes is decoration; a list that changes is feedback.
+**State the business model in plain words.** The owner gives no guarantee and no paperwork, only a receipt, and that is the reason he is cheaper: competitors price free re-visits into every job and lose money on them. The site says this out loud, "ingen garanti, intet papir", as the sales argument rather than a hidden caveat. His pricing rules live in one file in the code, and a check script fails the build if they drift: ants never above 1.200 kr in Herning, Holstebro and Viborg, spiders always sold as a two-visit package floored at 3.000 kr, with an optional in-season bonus the estimator asks about instead of assuming.
 
-**Show the weaker review score.** Both ratings are displayed with their real counts and a link out, the 3.8 as honestly as the 4.6. Hiding the lower one is the intuitive move and the wrong one, because a visitor who finds it independently now discounts everything else on the page.
-
-**Grow the landing page into the reference the old sites never were.** The concept did not stay a landing page. It is now 22 pest categories covering what a Danish house or garden is likely to meet, 76 species articles for the long tail someone searches at midnight ("fugleloppe", "pelsklanner", "vingetæge"), across 232 prerendered pages. Every article answers the identification question in its first screen and ends in the same two actions. The wiki is the top of the funnel and the service pages are the bottom, and every article links down.
+**Grow the page into the reference the business never had.** The site did not stay a landing page. It is now 22 pest categories covering what a Danish house or garden is likely to meet, 76 species articles for the searches someone runs at midnight, "fugleloppe", "pelsklanner", "vingetæge", across 232 prerendered pages. Every article answers the identification question in its first screen and ends in the same two actions. The wiki is the top of the funnel, the service pages are the bottom, and every article links down.
 
 <BeforeAfter
   before="/images/billigskadedyr/evidence-drilldown.png"
   after="/images/billigskadedyr/after-service-index.jpg"
-  beforeAlt="Before: four category screens with no prices before anything buyable"
+  beforeAlt="The shop before: four category screens with no prices before anything buyable"
   afterAlt="After: one searchable index of every pest in Denmark, each row showing its starting price"
-  note="The job of the four category screens, finding your pest and learning what it costs, now takes one searchable page."
+  note="The shop needed four screens to show a price. The rebuild's pest index does it in one searchable page."
 />
 
-Two rules from this phase earned their place. Every species drawing shows a source page, license and edits in a SOURCES.md file next to the images, so the asset trail is a text file in the repository. And a drawing is shown for all of a card's species or none: a drawing beside a placeholder icon reads as the stock-photo laziness this audit criticises. When no public-domain engraving of the hen flea could be found, the third flea drawing was made as ink from a 1962 CDC photomicrograph before the page shipped any of them.
+Two rules from this build earned their place. Every species drawing carries its source page, license and edits in a SOURCES.md file in the repository, so the asset trail a client would otherwise ask a stock vendor for is a text file. And a drawing shows for all of a card's species or none: a drawing beside a placeholder icon reads as the stock-photo laziness this audit criticises. When no public-domain engraving of the hen flea could be found, the third flea drawing was made as ink from a 1962 CDC photomicrograph before the page shipped any of them.
 
-**Prerender everything, so no page depends on JavaScript.** The old shop's twelve article URLs returned twelve identical empty shells, which I found by reading the raw documents rather than the rendered page. The build now runs every page through a headless browser and writes the result back into its own HTML. A cold arrival from a search result paints content on the first frame and a crawler gets the full text.
+**Prerender every page, so no content depends on JavaScript.** The old shop's article URLs returned twelve identical empty shells, which I found by reading the raw documents rather than the rendered page. The build now runs every page through a headless browser and writes the result back into its own HTML. A cold arrival from a search result paints content on the first frame, and a crawler gets the full text.
 
 **Design the phone as its own surface.** Popovers become bottom sheets pinned to the visual viewport with a grabber and safe-area insets. A price chip, pest and price and call to action, rides over the phone's own bar while the visitor adjusts the estimator, because on a page that long the price is otherwise out of view exactly when it changes. Hover states exist only under a hover-capable pointer, so touch never hangs in a state it cannot reach.
 
-**Encode the owner's business model in the checks.** The owner gives no guarantee and no paperwork, only a receipt, and that is the reason he is cheaper: competitors price free re-visits into every job and lose money on them. The site says this plainly, "ingen garanti, intet papir", as the sales argument rather than a hidden caveat. His pricing rules live in one file, and a check script fails the build if they drift: ants never above 1.200 kr in Herning, Holstebro and Viborg, spiders always sold as a two-visit package floored at 3.000 kr with an optional in-season bonus the estimator asks about rather than assumes. The rules that keep the site honest enforce themselves, which matters because the owner is not a web person.
-
-**Hold the build to the same standard as the audit.** I ran my own measurements over the concept and it failed too: the lime accent sat at 1.79:1 on white, across 8 elements. The fix was one token taken dark enough to read, and the re-run showed 0 failing elements. Touch targets stay at 44px, focus is always visible, and reduced motion turns every animation off. The same pattern guards the routes: a check fails the build if any page lacks its prerendered shell, after a real incident where a missing shell served a directory listing that looked blank to crawlers and people alike.
+**Hold the build to the same standard as the audit.** I ran my own measurements over the concept and it failed too: the lime accent sat at 1.79:1 on white, across 8 elements. The fix was one token taken dark enough to read, and the re-run showed 0 failing elements. Touch targets stay at 44px, focus is always visible, and reduced motion turns every animation off. The checks guard the routes as well: one fails the build if any page lacks its prerendered shell, after a real incident where a missing shell served a directory listing that looked blank to crawlers and people alike. Another enforces a one-way door: the shop may link to the professional site, the professional site never links back. The professional site argues for the technician, and it does not open a door back into the catalogue.
 
 ## Working with the owner
 
-The decisions that mattered were the owner's, and some arrived the hard way. In September his written feedback was lost to a mistimed stop and one review round went out without it; the next round opened with his message recovered verbatim, and the corrections in it were the ones that stuck. He picked the current visual theme himself on 23 October, over three theme experiments of mine that stayed in the repo as abandoned files, and the design documentation now records the positioning in one line so no future edit quietly reintroduces a guarantee the business does not give. When his answers contradicted the page, the page lost: the concept claimed coverage of "i hele Aarhus" while his own FAQ said he covers all of Jylland and Fyn, turning away every qualifying homeowner in Aalborg and Esbjerg on behalf of a business that would happily have served them.
+The owner is not a web person, and the decisions that mattered were his. His written feedback was lost once to a mistimed stop, and one review round went out without it; the next round opened with his message recovered verbatim, and the corrections in it were the ones that stuck. He picked the current visual theme himself on 23 October, over three theme experiments of mine that sit in the repository as abandoned files, and the design documentation now records the no-guarantee positioning in one line so no future edit quietly reintroduces a promise the business does not make. When his answers contradicted the page, the page lost: the concept claimed coverage of "i hele Aarhus" while his own FAQ said he covers all of Jylland and Fyn, turning away every qualifying homeowner in Aalborg and Esbjerg on behalf of a business that would happily have served them.
 
 ## Status
 
-The site runs as a fully prerendered static build, 232 pages, with the route, image, pricing and one-way checks green. It is ready to move from the preview server to the business's own domain once the DNS moves. The before-state is archived, so the comparison stays checkable after the old sites are gone.
+The site runs as a fully prerendered static build, 232 pages, with the route, image, pricing and one-way checks green. It is ready to move from the preview server to the professional domain once the DNS moves. The before-state is archived, so the comparison stays checkable after the old page is gone.
