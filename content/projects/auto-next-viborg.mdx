@@ -1,0 +1,97 @@
+---
+title: "A First Website for a Small Garage"
+summary: "Auto Next Viborg is a small CarSpot workshop with no website. I built it one around the four things a driver with a warning light needs: the number, whether it is open, where it is, and whether the factory warranty holds."
+date: "2026-10-28"
+role: "Design Engineer"
+outcome: "One-tap call on a phone's first screen, nothing sent to Google or Microsoft before a yes, and 38 of 38 launch checks passed."
+tags:
+  - Local Business
+  - Mobile First
+  - Design Engineering
+coverImage: "/projects/auto-next-viborg/cover.jpg"
+gallery:
+  - src: "/images/auto-next-viborg/services.jpg"
+    alt: "The services grid: eight cards, each with a green icon in a dark circle like a dashboard light, a short title and one sentence"
+  - src: "/images/auto-next-viborg/find.jpg"
+    alt: "The find-us section: the address as a blue Danish street sign, the opening hours, the phone number as a number plate, and a dark map panel that loads Google Maps only on request, with the tyre-tread strip above the footer"
+  - src: "/images/auto-next-viborg/carspot.jpg"
+    alt: "The road with traffic above a green band explaining CarSpot: the factory warranty holds, 3 years on new parts and roadside help from 495 kr. a year"
+  - src: "/images/auto-next-viborg/consent.jpg"
+    alt: "The cookie banner: a traffic light beside the question 'Må vi kigge med i bakspejlet?' and two equal buttons, 'Ja, kør bare' and 'Nej tak'"
+  - src: "/images/auto-next-viborg/not-found.jpg"
+    alt: "The 404 page: a blue 404 road sign, the heading 'Forkert afkørsel' and the phone number as a number plate"
+galleryLayout: "landscape"
+featured: false
+comingSoon: false
+hidden: false
+---
+
+## A garage with no website
+
+"Mindre værksted, central liggende i Viborg." That line on Bilbasen was most of what the internet knew about Auto Next Viborg. It is a small CarSpot workshop on Katmosevej, registered in September 2025, with a Google profile, a CarSpot listing and no website. The listings did not even agree on the phone number: CarSpot, Google and Bilbasen gave one, the company register another.
+
+The site is for a driver in Viborg with a warning light on and a phone in their hand. They need four answers, roughly in this order: the number to call, whether the workshop is open right now, where it is, and whether using an independent workshop costs them the factory warranty. Every decision below is measured against those four.
+
+## Where it started
+
+My first draft was a design studio's idea of a garage. Grey paper texture, condensed capitals, a black and white photo of pliers on a pegboard, an orange "Ring" button. It answered the questions, and the open-now line was even on the first screen.
+
+It also looked like nothing a driver in Viborg has seen from a workshop. Before writing anything I had gone through the local competition: CarSpot members, chain workshops and independents. They almost all share one layout: a dark photo at the top, a white card with address, hours and phone overlapping it, a grid of services, a coloured band about the chain, and a map. [Jakob's law](https://lawsofux.com/jakobs-law/) says people prefer a site to work the same way as all the other sites they already know. Someone comparing two garages should not have to learn a new layout for the second one, so I kept the pattern and put the personality into the details.
+
+<BeforeAfter
+  before="/images/auto-next-viborg/draft-home.jpg"
+  after="/images/auto-next-viborg/final-home.jpg"
+  beforeAlt="My first draft on desktop: grey textured background, a large condensed headline, an orange call button and a black and white photo of tools"
+  afterAlt="The shipped version on desktop: a dark workshop photo, the headline 'Dit lokale autoværksted i Viborg', the phone number as a Danish number plate and a white card with address, hours and contact"
+  note="My first draft and the shipped version. The layout now follows the one local workshops already use; the car details carry the personality."
+/>
+
+<BeforeAfter
+  before="/images/auto-next-viborg/draft-home-mobile.jpg"
+  after="/images/auto-next-viborg/final-home-mobile.jpg"
+  beforeAlt="My first draft on a phone: headline, an orange call button, a mail button and the open-now line"
+  afterAlt="The shipped version on a phone: headline, the number plate across the full width, three ticks about warranty and price, and a fixed bar with Ring and Rute at the bottom"
+  variant="mobile"
+  note="On a phone the shipped version keeps Ring and Rute fixed at the bottom of the screen. The open-now light moved one scroll down, into the card under the photo."
+/>
+
+## Designing for a driver with a warning light on
+
+I worked from the [Laws of UX](https://lawsofux.com/) and Nielsen Norman Group's reading research, with WCAG 2.2 AA as the floor.
+
+**Put the phone number on a number plate.** The number is a Danish plate with a red border and the blue EU strip, 56 px tall in the hero and the full width of a 390 px phone at 60 px. It is a `tel:` link, so one tap calls. On a phone a bar with "Ring" and "Rute" stays at the bottom of the screen the whole way down. Someone standing next to a car that will not start has one free thumb. [Fitts's law](https://lawsofux.com/fittss-law/) says the time to hit a target depends on its size and distance, so the most important target on the page is the biggest one, and it is always within reach. WCAG 2.2 asks for at least 24 px ([2.5.8](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html)); every button here is at least 44 px tall and the plate is 60.
+
+**Show whether it is open right now.** A three-lamp traffic light next to "Åbent nu, til kl. 16" or "Lukket nu, åbner mandag kl. 8", worked out in Danish time from the hours on the Google profile: Monday to Thursday 8 to 16, Friday 8 to 14.30. Without JavaScript the light disappears and only the hours table stays, because a wrong "open now" is worse than no answer.
+
+**Make every car detail do a job.** The rule in the project's design spec is that nothing on the page is decoration only:
+
+| Detail | Its job |
+|---|---|
+| Danish number plate | The phone number, and the call button |
+| Three-lamp traffic light | Open or closed right now |
+| Blue Danish street sign | The address, and a tap opens the route |
+| Dark circles with a lit green symbol | The service icons, like dashboard warning lights |
+| A road with traffic | Divider between services and the CarSpot band |
+| Tyre tread | Divider above the footer |
+
+That is also where the play went. Tap a service icon and the wrench wiggles, the drop drips and the tyre rolls, or drag it and it springs back. Point at the street sign and a red car noses out from behind it, as if you are already driving there. Tap a car on the road and it honks "BIB BIB!" and speeds off. None of it sits between the visitor and the phone number.
+
+**Say what CarSpot means in plain words.** The chain's benefits are the strongest argument a small independent workshop has: the factory warranty holds when the car is serviced to the maker's schedule, there are 3 years of warranty on new parts, and roadside help costs from 495 kr. a year. Two of them are ticks in the hero, and all three get a green band of their own with links to carspot.dk, because those are claims a driver should be able to check. NN/g found that people [read at most 28% of the words](https://www.nngroup.com/articles/how-little-do-users-read/) on an average visit, so each service gets a title and one sentence, and the copy says what happens next: "Ring og fortæl, hvad bilen skal have lavet. Så får du en tid og en pris, før vi går i gang."
+
+**Size the tyre by eye.** The O in "AUTO" is a tyre and "NEXT" ends in an arrow. A solid circle looks bigger than the capitals next to it, so the tyre is 0.78 em and overshoots the cap height by about 3% at the top and bottom, the way a round letter does. I rendered the logo at 200 px and measured it in pixels until the centre of the tyre and of the arrow sat exactly level with the middle bar of the E.
+
+## Nothing leaves the page until you ask
+
+A small business site should not hand its visitors to Google and Microsoft just by being opened. The fonts are served from the site itself, because loading Google Fonts sends every visitor's IP address to Google before anyone has agreed to anything, which a German court ruled a GDPR breach in 2022. The map is a dark panel until the visitor presses "Vis kort". Statistics from GA4 and Microsoft Clarity sit behind a banner where "Ja, kør bare" and "Nej tak" are the same size, since Datatilsynet expects "reject all" in the same layer as "accept all". They only ever run on the real domain, never on a preview. In the banner the traffic light follows the button you point at, and on a yes the red car drives across it.
+
+![The cookie banner on desktop, with the traffic light and two equal buttons](/images/auto-next-viborg/consent.jpg)
+
+I measured it. On first load, on desktop and on a phone, the site makes no requests to anyone but itself. The photos are served as WebP in several widths, so a phone loads the hero at 36 KB instead of 456 KB. To keep it that way I wrote a launch check that serves the site with its real security headers, loads every page on desktop and phone, and fails on inline scripts, Google Fonts, a missing header, sideways scrolling or any third-party request before consent. The site passes all 38 checks, and the check is now a reusable step for the next site I build.
+
+## Working with the owner
+
+I showed the owner the site on my phone. He picked 22 43 43 93 as the number to use everywhere, settling the mismatch between the listings, and approved the logo and the list of services.
+
+## Status
+
+The site runs on a preview server and moves to autonext.dk once the domain's DNS moves to Cloudflare. The photos are Wikimedia Commons stand-ins until the workshop has its own, and statistics stay switched off until the owner's GA4 and Clarity accounts exist.
