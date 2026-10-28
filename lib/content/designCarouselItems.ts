@@ -17,11 +17,18 @@ export const designCarouselItems: CarouselItem[] = [
     description: "The current App Store presentation showing upcoming moments and the time remaining for each event."
   },
   {
-    kind: "iphone", 
-    label: "Iriz Brand Page", 
-    tooltip: "IRIZ: Brand Page", 
-    image: resolveAssetSrc("/projects/iriz/cover.jpg"),
-    description: "Mobile brand page interface for Iriz influencer affiliate marketing platform, featuring social media platform integration and earnings display."
+    kind: "desktop",
+    label: "Cramer Chat",
+    tooltip: "CRAMER: AI for SaaS",
+    image: resolveAssetSrc("/projects/cramer-ai-assistant/before-after/after-overview-1005.jpg"),
+    description: "Adtraction's internal AI assistant rebuilt on the company UI toolkit: platform side nav, a chat list with Pinned and Recent groups, and a floating composer."
+  },
+  {
+    kind: "iphone",
+    label: "Auto Next Mobile",
+    tooltip: "AUTO NEXT: Garage Website",
+    image: resolveAssetSrc("/images/auto-next-viborg/final-home-mobile.jpg"),
+    description: "A first website for a small CarSpot workshop in Viborg: the phone number as a Danish number plate and a fixed Ring and Rute bar on the phone."
   },
   {
     kind: "desktop",
@@ -30,12 +37,19 @@ export const designCarouselItems: CarouselItem[] = [
     image: resolveAssetSrc("/projects/yadl/hero-features.jpg"),
     description: "YADL’s Figma Community presentation introducing the plugin and the design-system issues it checks."
   },
-  { 
-    kind: "desktop", 
-    label: "Adtraction Brand Page", 
-    tooltip: "ADTRACTION: Brand Page", 
-    image: resolveAssetSrc("/projects/adtraction/brand-page-desktop.png"),
-    description: "Detailed brand page showing commission rates, tracking links, and performance metrics for affiliate partners."
+  {
+    kind: "iphone", 
+    label: "Iriz Brand Page", 
+    tooltip: "IRIZ: Brand Page", 
+    image: resolveAssetSrc("/projects/iriz/cover.jpg"),
+    description: "Mobile brand page interface for Iriz influencer affiliate marketing platform, featuring social media platform integration and earnings display."
+  },
+  {
+    kind: "desktop",
+    label: "Karate Club Rebuild",
+    tooltip: "VIBORG KARATE SKOLE: Website",
+    image: resolveAssetSrc("/images/viborg/vks-after-home.jpg"),
+    description: "The rebuilt website for a karate club founded in 1975, made with the club's own words, photos and press archive."
   },
   {
     kind: "iphone", 
@@ -44,19 +58,26 @@ export const designCarouselItems: CarouselItem[] = [
     image: resolveAssetSrc("/projects/yet-another-countdown/appstore-style-it.png"),
     description: "The current App Store presentation showing contextual emoji suggestions and color customization."
   },
-  { 
-    kind: "iphone", 
-    label: "Mobile Dashboard", 
-    tooltip: "ADTRACTION: Mobile Dashboard", 
-    image: resolveAssetSrc("/projects/affiliate-marketing-mobile/cover.png"),
-    description: "Mobile dashboard for affiliate marketers to track campaigns, manage partnerships, and monitor performance on the go."
+  {
+    kind: "desktop",
+    label: "Indkøb Agent",
+    tooltip: "INDKØB: Grocery Price Agent",
+    image: resolveAssetSrc("/projects/indkob-grocery-agent/cover.jpg"),
+    description: "A grocery price agent that annotates an Apple Reminders list with the best current offer, the store as a geofence and the offer expiry as the due date."
+  },
+  {
+    kind: "iphone",
+    label: "Gym Mobile",
+    tooltip: "VIBORG MOTIONSCENTER: Website",
+    image: resolveAssetSrc("/images/viborg/vmc-after-home-mobile.jpg"),
+    description: "A gym website for readers over 60 on a phone: the call button first, then the hours and directions."
   },
   { 
     kind: "desktop", 
-    label: "Brands Directory", 
-    tooltip: "ADTRACTION: Brands Directory", 
-    image: resolveAssetSrc("/projects/adtraction/brands-page-desktop.png"),
-    description: "Comprehensive directory of affiliate brands with filtering options, commission rates, and EPC metrics for partner discovery."
+    label: "Adtraction Brand Page", 
+    tooltip: "ADTRACTION: Brand Page", 
+    image: resolveAssetSrc("/projects/adtraction/brand-page-desktop.png"),
+    description: "Detailed brand page showing commission rates, tracking links, and performance metrics for affiliate partners."
   },
   { 
     kind: "iphone", 
@@ -65,12 +86,26 @@ export const designCarouselItems: CarouselItem[] = [
     image: resolveAssetSrc("/projects/yet-another-countdown/appstore-count-up.png"),
     description: "The current App Store presentation showing a home screen widget counting up a meaningful milestone."
   },
-  { 
-    kind: "desktop", 
-    label: "Brand Settings Overview", 
-    tooltip: "ADTRACTION: Brand Settings Overview", 
-    image: resolveAssetSrc("/projects/adtraction/brand-settings-overview.png"),
-    description: "Centralized brand management interface for customizing brand presence, managing partner access, financial settings, and commission structures."
+  {
+    kind: "desktop",
+    label: "Archive Autopost",
+    tooltip: "VKS ARCHIVE: Agent-Run Posting",
+    image: resolveAssetSrc("/projects/vks-archive-autopost/cover.jpg"),
+    description: "A pipeline that turns a karate club's 50-year archive into approved, scheduled Instagram and Facebook posts."
+  },
+  {
+    kind: "iphone",
+    label: "Cramer Mobile",
+    tooltip: "CRAMER: Mobile Chat",
+    image: resolveAssetSrc("/projects/cramer-ai-assistant/before-after/after-mobile-chat-1005b.jpg"),
+    description: "The rebuilt Cramer chat on a phone, with a back-to-chats header, a stats badge and an icon-only table toolbar."
+  },
+  {
+    kind: "desktop",
+    label: "Cramer Dark Mode",
+    tooltip: "CRAMER: Dark Mode",
+    image: resolveAssetSrc("/projects/cramer-ai-assistant/before-after/after-dark.jpg"),
+    description: "Cramer in the platform's dark theme across side nav, chat list, table and info box."
   },
   { 
     kind: "iphone", 
@@ -78,34 +113,6 @@ export const designCarouselItems: CarouselItem[] = [
     tooltip: "COUNTDOWN: Shape It",
     image: resolveAssetSrc("/projects/yet-another-countdown/appstore-shape-it.png"),
     description: "The current App Store presentation showing the available icon container shapes for each countdown."
-  },
-  { 
-    kind: "iphone", 
-    label: "Product Link", 
-    tooltip: "IRIZ: Link Generation", 
-    image: resolveAssetSrc("/projects/iriz/link-apply.jpg"),
-    description: "Product link generation interface allowing influencers to create and copy affiliate links for different social media platforms with platform-specific commission rates."
-  },
-  { 
-    kind: "desktop", 
-    label: "Affiliate Dashboard", 
-    tooltip: "ADTRACTION: Affiliate Dashboard", 
-    image: resolveAssetSrc("/projects/affiliate-marketing-web/cover.png"),
-    description: "Web-based dashboard for managing affiliate programs, tracking conversions, and analyzing marketing performance with real-time metrics."
-  },
-  { 
-    kind: "iphone", 
-    label: "Product Detail", 
-    tooltip: "IRIZ: Product Page", 
-    image: resolveAssetSrc("/projects/iriz/link-product.jpg"),
-    description: "Product detail page showing brand information, product details, and options to generate affiliate links for sharing on social media platforms."
-  },
-  { 
-    kind: "iphone", 
-    label: "Lock Screen", 
-    tooltip: "COUNTDOWN: Lock Screen Widget", 
-    image: resolveAssetSrc("/projects/yet-another-countdown/appstore-lock-screen.png"),
-    description: "The current App Store presentation showing a countdown kept visible on the lock screen."
   },
   {
     kind: "desktop",

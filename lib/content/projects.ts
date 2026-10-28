@@ -117,10 +117,11 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
 export const PROJECT_PRIORITY_ORDER = [
   // Homepage picks ("Start here" on /projects).
   "yadl",
-  "iriz",
+  "viborg-motionscenter",
   "yet-another-countdown",
   // Product and client work.
   "adtraction-brands",
+  "iriz",
   "cramer-ai-assistant",
   "adtraction-motion",
   "leadplatform",
