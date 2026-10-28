@@ -10,6 +10,31 @@ import { resolveAssetSrc } from "@/lib/utils/paths";
 
 export const clientLogos: ClientLogo[] = [
   {
+    name: "Fortum",
+    src: resolveAssetSrc("/brand_logos/brand-029.png"),
+    alt: "Fortum logo",
+  },
+  {
+    name: "Viborg Motionscenter",
+    src: resolveAssetSrc("/brand_logos/viborg-motionscenter.png"),
+    alt: "Viborg Motionscenter logo",
+  },
+  {
+    name: "Viborg Karate Skole",
+    src: resolveAssetSrc("/brand_logos/viborg-karate-skole.png"),
+    alt: "Viborg Karate Skole logo",
+  },
+  {
+    name: "Billigskadedyr Prof",
+    src: resolveAssetSrc("/brand_logos/billigskadedyr.png"),
+    alt: "Billigskadedyr Prof logo",
+  },
+  {
+    name: "Auto Next Viborg",
+    src: resolveAssetSrc("/brand_logos/auto-next-viborg.png"),
+    alt: "Auto Next Viborg logo",
+  },
+  {
     name: "Brand 1",
     src: resolveAssetSrc("/brand_logos/brand-01.png"),
     alt: "Brand 1 logo",
@@ -148,11 +173,6 @@ export const clientLogos: ClientLogo[] = [
     name: "Femina",
     src: resolveAssetSrc("/brand_logos/brand-028.png"),
     alt: "Femina logo",
-  },
-  {
-    name: "Fortum",
-    src: resolveAssetSrc("/brand_logos/brand-029.png"),
-    alt: "Fortum logo",
   },
   {
     name: "Elisa",
