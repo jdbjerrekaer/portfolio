@@ -12,6 +12,7 @@ export interface Testimonial {
 // - Oscar Ternevid (2026-09-22), Johannes Pedersen, Kristoffer Hvitfeldt, Simon Knudsen, Frej Korsgaard (all: 2026-09-21): named quotes cleared.
 // - Christian Longberg (2026-09-21): named quote cleared, title publicly verifiable (adtraction.com/about).
 // - Max Bågling (2026-09-21): named quote cleared. Full name confirmed by Jonatan 2026-09-22.
+// - Andreas Hagström (2026-10-30): named quote cleared. CFO title per Jonatan, not yet publicly verified.
 // - External partner quotes: attributed by role + country + year only, never by name or company, per the partner-feedback corpus rules (private feedback emails).
 // Quotes are trimmed verbatim units (sentence bounds only). No salary or exit-dispute context anywhere near these. No screenshots published.
 const sourcedTestimonials: Testimonial[] = [
@@ -27,6 +28,13 @@ const sourcedTestimonials: Testimonial[] = [
       "We've learned a lot from you, and we'll try to continue on the path you've helped create.",
     author: "Christian Longberg",
     role: "CTO & Co-Founder",
+    company: "Adtraction",
+  },
+  {
+    quote:
+      "It's been a pleasure working with you and to see what you've done with the platform.",
+    author: "Andreas Hagström",
+    role: "CFO",
     company: "Adtraction",
   },
   {
