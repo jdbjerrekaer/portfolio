@@ -15,6 +15,7 @@ The portfolio is an editorial expression of YADL's design language. It keeps gen
 ## Foundations
 
 - Use Open Runde at 400, 500, and 600. Headings use 600; supporting copy uses 400.
+- Wrap headings with `text-wrap: balance` and paragraphs with `text-wrap: pretty` (globals.scss sets both globally).
 - Build from `#F5F5F7` canvas, white surfaces, `#F7F8FC` subtle surfaces, and `#1D1D1F` text.
 - Reserve `#0071E3` for links, focus, and informative emphasis. Primary actions use near-black.
 - Use the 4/8/12/16/20/24/32px component rhythm. Editorial sections may extend to 48/64/96px.
