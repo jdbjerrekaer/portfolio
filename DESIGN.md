@@ -58,6 +58,8 @@ Tight tracking also shrinks word spaces; display text built from word spans adds
 - Index sections use a 4fr/7fr split: a sticky intro (heading and a two-digit count) on the left, the list on the right. Below 860px it stacks and the intro stops sticking.
 - The hero, page titles and statements are left-aligned, with a rule underneath that splits into supporting text on the left and one action on the right. Never repeat the header navigation as hero buttons.
 - Facts and metadata are ruled `dl` columns (label in tertiary text, value below), not grey boxes or tag pills.
+- Headings and titles use sentence case. Only proper names keep capitals (YADL, Adtraction Brands, Home Assistant, Live Activities).
+- Project cards show the title, focus tags and cover only. Descriptions, years and roles are hidden for now; case study pages show Focus and Outcome.
 - Every long page ends somewhere: the case study closes with a "Next case study" link, the home and about pages with the availability block.
 
 ## Components
@@ -69,6 +71,7 @@ Tight tracking also shrinks word spaces; display text built from word spans adds
 - `Reveal` (`components/Reveal`): scroll reveal wrapper; children opt in with `.reveal-item` and `stagger(i)`.
 - `ProjectRowList` (`components/FeaturedWork`): big numbered case-study rows with cover reveal and cursor label, used on the home and projects pages.
 - `LogoMarquee`: two linear rows of client logos, replacing the static logo grid.
+- `CookieBanner`: own consent card (no third-party script). Writes the same `silktideCookieChoice_*` keys Clarity reads; `CookieSettingsButton` in the footer reopens it.
 - `AnimatedLink`: client wrapper for `AnimateIcon asChild` around `next/link`. Use it in server components; wrapping `next/link` directly breaks the static build.
 - `Card`, `Badge`, `ProjectCard` and `LogoGrid` remain in the codebase but no page uses them. Do not bring them back for new screens.
 
@@ -93,21 +96,23 @@ Never use `ease-in` for UI.
 
 | Pattern | Trigger | Properties | Duration | Easing | Reduced motion | Where |
 | --- | --- | --- | --- | --- | --- | --- |
-| Scroll reveal | Block 12% into view, once | opacity, translateY 18px, blur 6px | 700 to 800ms, +70ms per item | out-strong | Opacity only, 300ms | `styles/globals.scss`, `components/Reveal` |
+| Scroll reveal | Block top passes 75% down the screen (trigger `-25%`), once | opacity, translateY 18px, blur 6px | 700 to 800ms, +70ms per item | out-strong | Opacity only, 300ms | `styles/globals.scss`, `components/Reveal` |
 | Hero words | Page load | opacity, translateY 0.25em, blur 8px | 800ms, +45ms per word | out-strong | None | `app/page.module.scss` |
 | Lead statement words | Reveal | same as hero words | 600 to 800ms, +28 to 40ms per word | out-strong | Opacity only | `components/Testimonials`, `app/about/page.module.scss` |
 | Row hover wash | Hover (fine pointer) | background opacity, scale 0.98 to 1 | 200 / 300ms | ease / out-strong | No scale | `components/WritingSection`, `app/projects/page.module.scss` |
-| Arrow circle | Hover on its row or link | fill near-black, nudge 4 to 6px right | 200ms color, 300ms move | ease / out-strong | Not handled yet: the nudge still eases | hero, guides, projects index, next case study |
+| Arrow circle | Hover on its row or link | fill near-black, nudge 4 to 6px right | 200ms color, 300ms move | ease / out-strong | Fill only; never moves or scales | hero, guides, projects index, next case study |
 | Underline draw | Hover or focus | `background-size` 0 to 100% | 300 to 450ms | out-strong | Kept (no movement) | case-study links, CTA links, email |
 | Image zoom | Hover on its row | scale 1.04 to 1.06 | 700 to 900ms | out-strong | Instant (no transition) | project rows, prints, next case study |
-| Cover reveal | Row hover | `clip-path` inset to 0, image scale 1.16 to 1 | 1100 / 1400ms | in-out-strong / out-strong | Shown fully, no transition | `components/FeaturedWork` |
+| Cover reveal | Cover top passes 60% down the screen (trigger `-40%`), once | `clip-path` inset to 0, image scale 1.16 to 1 | 1100 / 1400ms | in-out-strong / out-strong | Shown fully, no transition | `components/FeaturedWork` |
 | Cursor label | Pointer over featured rows | position, scale 0.6 to 1 | spring (stiffness 500, damping 40, mass 0.5) | spring | Hidden | `components/FeaturedWork` |
 | Press | `:active` | scale 0.97 to 0.99 (whole control), 0.92 to 0.94 (arrow circles, tab icons) | 160ms | out-strong | Kept | buttons, prints, rows, tab bar |
 | Label swap | State change (Copy to Copied) | opacity, blur 4px, translateY 6px in one grid cell | 200 to 250ms | ease / out-strong | Cross-fade only, no blur or move | `components/AvailabilityCTA` |
 | Marquee | Always | translateX, hover slows to 0.15x | row length x 3.2s | linear | Static rows, no mask | `components/LogoMarquee` |
 | Status ping | Always | ring scale 1 to 2.6, fade | 2.4s loop | out-strong | Stopped | availability dot, current role |
+| Hero stage | Its visible photos have decoded (inline script, before the JS bundle) | opacity, translateY 32px, scale 0.97 | 900ms, delayed to follow the headline only on fast loads | out-strong | Appears without moving | `app/page.module.scss`, `components/PointerParallax` |
 | Hero props | Always, plus pointer | idle drift 7px, pointer parallax | 7s loop | ease-in-out | Static pose | `app/page.module.scss`, `components/PointerParallax` |
 | Tab bar (phones) | Load, route change | bar rises in; indicator slides | 500ms / 420ms | out-strong / in-out-strong | Opacity only | `components/SiteHeader` |
+| Cookie card | First visit after 1.4s, or Cookie settings in the footer | card rises 16px from scale 0.96 and blur 4px; cookie wobbles once; hover leans or shrinks it; accept takes two bites and drops crumbs before the card leaves | 520ms in, 220ms per bite, 300ms out | out-strong | Fade only, bites shown without motion | `components/CookieBanner` |
 | Case-study list marker | Section scroll | marker scaleY 0 to 1 | 300ms | out-strong | Instant | `app/projects/[slug]` |
 
 ### Do not animate
@@ -119,6 +124,11 @@ Never use `ease-in` for UI.
 - Above-the-fold content on scroll reveal. The hero animates on load instead.
 - Hover effects without `@media (hover: hover) and (pointer: fine)`; touch screens get the press state only.
 - Blur over 8px, or blur on large moving areas.
+
+### Loading
+
+- Never animate an image in before it has decoded; a slow connection otherwise paints it in top to bottom. The hero stage waits for `img.decode()`, run from an inline script so it does not wait for hydration.
+- Above-the-fold photos are WebP with `srcset`; the hero photo gets `fetchPriority="high"`. Images hidden on phones use `loading="lazy"` so they never download there. Logos far down the page use `fetchPriority="low"`.
 
 ### Gotchas
 
