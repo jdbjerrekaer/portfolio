@@ -1,14 +1,19 @@
-import { InfoCard, InfoCardGrid } from "@/components/ui";
+import { Reveal, stagger } from "@/components/Reveal";
 import { approachCards } from "./aboutData";
+import styles from "./page.module.scss";
 
 export function ApproachList() {
   return (
-    <InfoCardGrid>
-      {approachCards.map((card) => (
-        <InfoCard key={card.title} title={card.title} icon={card.icon}>
-          <ul>{card.items.map((item) => <li key={item}>{item}</li>)}</ul>
-        </InfoCard>
+    <Reveal as="ol" className={styles.steps}>
+      {approachCards.map((card, index) => (
+        <li key={card.title} className={`${styles.step} reveal-item`} style={stagger(index)}>
+          <span className={styles.stepNumber}>{String(index + 1).padStart(2, "0")}</span>
+          <h3>{card.title}</h3>
+          <ul className={styles.plainList}>
+            {card.items.map((item) => <li key={item}>{item}</li>)}
+          </ul>
+        </li>
       ))}
-    </InfoCardGrid>
+    </Reveal>
   );
 }

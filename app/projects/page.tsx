@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Image from "next/image";
 import { getAllProjects, hasCaseStudy, type Project } from "@/lib/content/projects";
 import { getFeaturedProjectsList } from "@/lib/content/featuredProjects";
 import { DesignCarousel } from "@/components/DesignCarousel";
-import { LogoGrid } from "@/components/LogoGrid";
+import { LogoMarquee } from "@/components/LogoMarquee";
+import { ProjectRowList } from "@/components/FeaturedWork";
+import { Reveal, stagger } from "@/components/Reveal";
+import { AnimatedLink } from "@/components/AnimatedLink";
 import { designCarouselItems } from "@/lib/content/designCarouselItems";
 import { clientLogos } from "@/lib/content/clientLogos";
-import { ProjectCard } from "@/components/ProjectCard";
-import { Icon, Section } from "@/components/ui";
+import { Icon, Section, SectionHeader } from "@/components/ui";
 import { resolveAssetSrc } from "@/lib/utils/paths";
 import styles from "./page.module.scss";
 
@@ -27,25 +29,39 @@ const GROUPS = [
     title: "AI and automation",
     description: "Personal AI agents I built and run for myself.",
   },
+  {
+    key: "earlier",
+    title: "Earlier work",
+    description: "University projects, kept for context.",
+  },
 ] as const;
 
-function Card({ project }: { project: Project }) {
+const pad = (n: number) => String(n).padStart(2, "0");
+
+function IndexRow({ project, index }: { project: Project; index: number }) {
   return (
-    <ProjectCard
-      slug={project.slug}
-      title={project.title}
-      role={project.role}
-      // The role is "Design Engineer" almost everywhere; only show it when it says something new.
-      showRole={project.role !== "Design Engineer"}
-      outcome={project.outcome}
-      tags={project.tags}
-      maxTags={2}
-      coverImage={project.coverImage}
-      hasCaseStudy={hasCaseStudy(project)}
-      comingSoon={project.comingSoon}
-      liveDemo={project.liveDemo}
-      variant="catalog"
-    />
+    <li className={`${styles.item} reveal-item`} style={stagger(index + 1)}>
+      <AnimatedLink href={`/projects/${project.slug}/`} className={styles.link}>
+          <span className={styles.thumb}>
+            {project.coverImage && (
+              <Image src={resolveAssetSrc(project.coverImage)} alt="" fill sizes="(max-width: 640px) 96px, 160px" className={styles.thumbImage} />
+            )}
+          </span>
+          <span className={styles.itemText}>
+            <span className={styles.itemTitle}>{project.title}</span>
+            <span className={styles.itemSummary}>{project.outcome ?? project.summary}</span>
+            <span className={styles.itemMeta}>
+              {project.date.slice(0, 4)}
+              <span aria-hidden="true">·</span>
+              {project.tags.slice(0, 2).join(", ")}
+              {project.liveDemo && <span className={styles.live}>Live demo</span>}
+            </span>
+          </span>
+          <span className={styles.arrow} aria-hidden="true">
+            <Icon name="arrow-right" size={16} />
+          </span>
+        </AnimatedLink>
+    </li>
   );
 }
 
@@ -55,90 +71,68 @@ export default async function ProjectsPage() {
   const startSlugs = (await getFeaturedProjectsList()).slice(0, 3).map((p) => p.slug);
   const start = startSlugs
     .map((slug) => projects.find((p) => p.slug === slug))
-    .filter((p): p is Project => Boolean(p));
+    .filter((p): p is Project => Boolean(p))
+    .map((p) => ({ ...p, hasCaseStudy: hasCaseStudy(p) }));
   const rest = projects.filter((p) => !startSlugs.includes(p.slug));
-  const earlier = rest.filter((p) => p.section === "earlier");
 
   return (
     <div className={styles.page}>
-      <Section variant="hero" className={styles.hero} innerClassName={styles.sectionInner}>
-        <h1>Projects</h1>
-        <p className={styles.intro}>
-          A collection of projects where design meets engineering. Each project
-          represents a unique challenge and solution.
-        </p>
+      <Section variant="hero" className={styles.hero}>
+        <Reveal className={styles.heroInner}>
+          <h1 className={`${styles.heroTitle} reveal-item`}>Projects</h1>
+          <p className={`${styles.stat} reveal-item`} style={stagger(1)}>
+            <span className={styles.statNumber}>{pad(projects.length)}</span>
+            projects
+          </p>
+          <p className={`${styles.intro} reveal-item`} style={stagger(2)}>
+            Design engineering and UX work: Figma plugins and design systems at Adtraction, mobile apps,
+            client redesigns and the AI agents I run for myself.
+          </p>
+        </Reveal>
       </Section>
 
-      <section className={styles.carousel}>
+      <section className={styles.carousel} aria-label="Visual highlights from selected projects">
         <DesignCarousel items={designCarouselItems} />
       </section>
 
       {start.length > 0 && (
-        <Section variant="subtle" className={styles.contentSection} innerClassName={styles.sectionInner}>
-          <div className={styles.group} aria-labelledby="group-start">
-            <header className={styles.groupHeader}>
-              <h2 id="group-start">Start here</h2>
-              <p>The quickest way in: a design-system plugin for Figma and two mobile apps.</p>
-            </header>
-            <div className={styles.grid}>
-              {start.map((project) => (
-                <Card key={project.slug} project={project} />
-              ))}
-            </div>
-          </div>
+        <Section variant="subtle" className={styles.start}>
+          <SectionHeader
+            title="Start here"
+            description="The quickest way in: a design-system plugin for Figma and two mobile apps."
+          />
+          <ProjectRowList projects={start} />
         </Section>
       )}
 
-      <Section className={styles.contentSection} innerClassName={styles.sectionInner}>
+      <Section className={styles.index} innerClassName={styles.groups}>
         {GROUPS.map((group) => {
           const items = rest.filter((p) => p.section === group.key);
           if (items.length === 0) return null;
           return (
-            <div key={group.key} className={styles.group} aria-labelledby={`group-${group.key}`}>
-              <header className={styles.groupHeader}>
-                <h2 id={`group-${group.key}`}>{group.title}</h2>
-                <p>{group.description}</p>
+            <Reveal key={group.key} className={styles.group}>
+              <header className={styles.groupIntro}>
+                <h2 id={`group-${group.key}`} className="reveal-item">
+                  {group.title}
+                  <span className={styles.count}>{pad(items.length)}</span>
+                </h2>
+                <p className="reveal-item" style={stagger(1)}>{group.description}</p>
               </header>
-              <div className={styles.grid}>
-                {items.map((project) => (
-                  <Card key={project.slug} project={project} />
+              <ul className={styles.items} aria-labelledby={`group-${group.key}`}>
+                {items.map((project, index) => (
+                  <IndexRow key={project.slug} project={project} index={index} />
                 ))}
-              </div>
-            </div>
+              </ul>
+            </Reveal>
           );
         })}
-
-        {earlier.length > 0 && (
-          <div className={styles.group} aria-labelledby="group-earlier">
-            <header className={styles.groupHeader}>
-              <h2 id="group-earlier">Earlier work</h2>
-              <p>University projects, kept for context.</p>
-            </header>
-            <ul className={styles.earlierList}>
-              {earlier.map((project) => (
-                <li key={project.slug}>
-                  <Link href={`/projects/${project.slug}/`} className={styles.earlierRow}>
-                    {project.coverImage && (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={resolveAssetSrc(project.coverImage)} alt="" className={styles.earlierThumb} loading="lazy" />
-                    )}
-                    <span className={styles.earlierText}>
-                      <span className={styles.earlierTitle}>{project.title}</span>
-                      <span className={styles.earlierSummary}>{project.outcome ?? project.summary}</span>
-                    </span>
-                    <span className={styles.earlierYear}>{project.date.slice(0, 4)}</span>
-                    <Icon name="arrow-right" size={16} />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
       </Section>
 
-      <section className={styles.logos}>
-        <LogoGrid logos={clientLogos} title="Clients & Collaborators" align="left" maxVisible={12} />
-      </section>
+      <LogoMarquee
+        logos={clientLogos}
+        title="Clients and collaborators"
+        description="From large international brands to local Danish, Swedish, Norwegian and Finnish companies, across the Nordic region and beyond."
+      />
     </div>
   );
 }

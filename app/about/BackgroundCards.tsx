@@ -2,14 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import {
-  Icon,
-  ImageGalleryModal,
-  ImageModal,
-  InfoCard,
-  InfoCardGrid,
-  type GalleryImage,
-} from "@/components/ui";
+import { ImageModal, type GalleryImage } from "@/components/ui";
+import { Reveal, stagger } from "@/components/Reveal";
 import { resolveAssetSrc } from "@/lib/utils/paths";
 import { backgroundCards } from "./aboutData";
 import styles from "./page.module.scss";
@@ -42,98 +36,52 @@ const galleryImages: GalleryImage[] = [
   },
 ];
 
-const displayedImages = galleryImages.slice(0, 3);
-
 export function BackgroundCards() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
-
-  const openImageAtIndex = (index: number) => {
-    const normalizedIndex = ((index % galleryImages.length) + galleryImages.length) % galleryImages.length;
-    setSelectedIndex(normalizedIndex);
-  };
-
-  const handleImageClick = (image: GalleryImage) => {
-    const index = galleryImages.findIndex((item) => item.src === image.src);
-    openImageAtIndex(index === -1 ? 0 : index);
-  };
-
-  const handleGallerySelect = (image: GalleryImage) => {
-    setIsGalleryOpen(false);
-    handleImageClick(image);
-  };
-
-  const handlePrevious = () => {
-    setSelectedIndex((current) => current === null
-      ? null
-      : (current - 1 + galleryImages.length) % galleryImages.length);
-  };
-
-  const handleNext = () => {
-    setSelectedIndex((current) => current === null
-      ? null
-      : (current + 1) % galleryImages.length);
-  };
-
+  const count = galleryImages.length;
+  const step = (delta: number) =>
+    setSelectedIndex((current) => (current === null ? null : (current + delta + count) % count));
   const selectedImage = selectedIndex === null ? null : galleryImages[selectedIndex];
-  const moreImagesCount = galleryImages.length - displayedImages.length;
 
   return (
     <>
-      <InfoCardGrid>
-        {backgroundCards.map((card) => (
-          <InfoCard key={card.title} title={card.title} icon={card.icon}>
-            <ul>{card.items.map((item) => <li key={item}>{item}</li>)}</ul>
-          </InfoCard>
+      <Reveal className={styles.columns}>
+        {backgroundCards.map((card, index) => (
+          <div key={card.title} className={`${styles.column} reveal-item`} style={stagger(index)}>
+            <h3>{card.title}</h3>
+            <ul className={styles.plainList}>
+              {card.items.map((item) => <li key={item}>{item}</li>)}
+            </ul>
+          </div>
         ))}
-        <InfoCard title="Personal interests" icon="images" variant="media">
-          <div className={styles.personalImagesGrid}>
-            {displayedImages.map((image) => (
+      </Reveal>
+
+      <Reveal className={styles.prints}>
+        <div className={`${styles.subhead} reveal-item`}>
+          <h3>Things I have 3D printed</h3>
+          <p>Small fixes for small annoyances at home.</p>
+        </div>
+        <ul className={styles.printStrip}>
+          {galleryImages.map((image, index) => (
+            <li key={image.src} className="reveal-item" style={stagger(index + 1)}>
               <button
-                key={image.src}
                 type="button"
-                className={styles.personalImageItem}
-                onClick={() => handleImageClick(image)}
+                className={styles.print}
+                onClick={() => setSelectedIndex(index)}
                 aria-label={`Open image: ${image.alt}`}
               >
                 <Image
                   src={resolveAssetSrc(image.src)}
-                  alt={image.alt}
+                  alt=""
                   fill
-                  className={styles.personalImage}
-                  sizes="(max-width: 768px) 50vw, 20vw"
+                  className={styles.printImage}
+                  sizes="(max-width: 640px) 60vw, 20vw"
                 />
-                <span className={styles.personalImageOverlay} aria-hidden="true">
-                  <span className={styles.personalImageIcon}><Icon name="search" size={14} /></span>
-                </span>
               </button>
-            ))}
-            <button
-              type="button"
-              className={`${styles.personalImageItem} ${styles.personalMoreTile}`}
-              onClick={() => setIsGalleryOpen(true)}
-              aria-label={`Open gallery with ${moreImagesCount} more images`}
-            >
-              <span className={styles.personalMorePreviewGrid} aria-hidden="true">
-                {galleryImages.slice(displayedImages.length, displayedImages.length + 4).map((image) => (
-                  <span key={image.src} className={styles.personalMorePreviewItem}>
-                    <Image
-                      src={resolveAssetSrc(image.src)}
-                      alt=""
-                      fill
-                      className={styles.personalMorePreviewImage}
-                      sizes="(max-width: 768px) 25vw, 10vw"
-                    />
-                  </span>
-                ))}
-              </span>
-              <span className={styles.personalMoreOverlay}>
-                <span className={styles.personalMoreLabel}>+{moreImagesCount}</span>
-              </span>
-            </button>
-          </div>
-        </InfoCard>
-      </InfoCardGrid>
+            </li>
+          ))}
+        </ul>
+      </Reveal>
 
       {selectedImage && (
         <ImageModal
@@ -142,18 +90,12 @@ export function BackgroundCards() {
           imageSrc={resolveAssetSrc(selectedImage.src)}
           imageAlt={selectedImage.alt}
           description={selectedImage.caption}
-          onPrev={galleryImages.length > 1 ? handlePrevious : undefined}
-          onNext={galleryImages.length > 1 ? handleNext : undefined}
-          hasPrev={galleryImages.length > 1}
-          hasNext={galleryImages.length > 1}
+          onPrev={() => step(-1)}
+          onNext={() => step(1)}
+          hasPrev
+          hasNext
         />
       )}
-      <ImageGalleryModal
-        isOpen={isGalleryOpen}
-        onClose={() => setIsGalleryOpen(false)}
-        images={galleryImages}
-        onSelect={handleGallerySelect}
-      />
     </>
   );
 }

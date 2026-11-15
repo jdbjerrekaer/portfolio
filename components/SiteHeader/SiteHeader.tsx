@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { AnimateIcon } from "@/components/animate-ui/icons/icon";
 import { Icon, type IconName } from "@/components/ui/Icon";
 import styles from "./SiteHeader.module.scss";
@@ -12,6 +12,9 @@ const navLinks: Array<{ href: string; label: string; icon: IconName }> = [
   { href: "/about", label: "About", icon: "user" },
   { href: "https://github.com/jdbjerrekaer", label: "GitHub", icon: "arrow-up-right" },
 ];
+
+// Phones get a bottom tab bar instead: Home joins the list there because the name link is out of thumb reach.
+const tabLinks: typeof navLinks = [{ href: "/", label: "Home", icon: "home" }, ...navLinks];
 
 const SCROLL_THRESHOLD_DESKTOP = 500; // pixels to scroll before background appears on desktop
 const SCROLL_THRESHOLD_MOBILE = 50; // pixels to scroll before background appears on mobile
@@ -62,7 +65,10 @@ export function SiteHeader() {
     return activePath === target || activePath.startsWith(`${target}/`);
   };
 
+  const activeTab = tabLinks.findIndex((link) => !link.href.startsWith("http") && isActive(link.href));
+
   return (
+    <>
     <header className={`${styles.header} ${isScrolled ? styles.scrolled : ""}`}>
       <nav className={styles.nav} aria-label="Main navigation">
         <Link href="/" className={styles.logo}>
@@ -102,5 +108,37 @@ export function SiteHeader() {
         </ul>
       </nav>
     </header>
+
+    <nav
+      className={styles.tabBar}
+      aria-label="Main navigation"
+      data-has-active={activeTab >= 0}
+      style={{ "--active": Math.max(activeTab, 0), "--count": tabLinks.length } as CSSProperties}
+    >
+      <span className={styles.tabIndicator} aria-hidden="true" />
+      {tabLinks.map((link, index) => {
+        const isExternal = link.href.startsWith("http");
+        const content = (
+          <>
+            <Icon name={link.icon} size={20} />
+            <span>{link.label}</span>
+          </>
+        );
+        return (
+          <AnimateIcon key={link.href} animateOnHover asChild>
+            {isExternal ? (
+              <a href={link.href} className={styles.tab} target="_blank" rel="noopener noreferrer">
+                {content}
+              </a>
+            ) : (
+              <Link href={link.href} className={styles.tab} aria-current={index === activeTab ? "page" : undefined}>
+                {content}
+              </Link>
+            )}
+          </AnimateIcon>
+        );
+      })}
+    </nav>
+    </>
   );
 }

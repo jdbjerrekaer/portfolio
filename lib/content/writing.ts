@@ -4,6 +4,8 @@ export interface WritingPost {
   summary: string;
   category: string;
   tags: string[];
+  /** Set for posts not written in English. */
+  lang?: "da";
 }
 
 export const writingPosts: WritingPost[] = [
@@ -32,6 +34,7 @@ export const writingPosts: WritingPost[] = [
     title: "Case MIOMIO: 16.000 Unikke besøgende til MIOMIO’s webshop",
     url: "/writing/adservice/case-miomio-16000-unikke-besgende-til-miomios-webshop/",
     summary: "Danish case study on MIOMIO’s first two months of affiliate marketing with Adservice: 16,000+ unique visitors and 1,250 sales on a pay-per-sale model.",
+    lang: "da",
     category: "Product Strategy",
     tags: ["Campaign Design", "Retail Media", "Conversion Quality"],
   },
@@ -39,6 +42,7 @@ export const writingPosts: WritingPost[] = [
     title: "9 hurtige tricks til at optimere din webshop for at øge dine salg",
     url: "/writing/adservice/affiliate-marketing-en-win-win-situation/",
     summary: "Danish guide for webshop owners on growing sales through affiliate marketing: picking a network, setting incentives, choosing affiliates and building long-term partnerships.",
+    lang: "da",
     category: "Product Strategy",
     tags: ["Product Strategy", "Affiliate Marketing"],
   },
@@ -46,6 +50,7 @@ export const writingPosts: WritingPost[] = [
     title: "Vil du nå flere kunder?",
     url: "/writing/adservice/vil-du-n-flere-kunder-ge-din-eksponering-online-og-kun-betale-pr-salg/",
     summary: "Danish overview of who uses affiliate marketing (NGOs, telecom, finance, e-commerce) and why a pay-per-sale model works as a supplement to Google Ads.",
+    lang: "da",
     category: "Product Strategy",
     tags: ["Online Marketing", "Performance", "Partner Enablement"],
   },

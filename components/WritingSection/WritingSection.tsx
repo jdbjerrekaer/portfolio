@@ -1,37 +1,56 @@
-import { writingPosts } from "@/lib/content/writing";
+import { writingPosts, type WritingPost } from "@/lib/content/writing";
 import { resolveAssetSrc } from "@/lib/utils/paths";
 import { AnimateIcon } from "@/components/animate-ui/icons/icon";
-import { Card, Chip, Icon, Section, SectionHeader } from "@/components/ui";
+import { Icon, Section, SectionHeader } from "@/components/ui";
+import { Reveal, stagger } from "@/components/Reveal";
 import styles from "./WritingSection.module.scss";
 
-export function WritingSection() {
-  return (
-    <Section className={styles.writing}>
-      <SectionHeader
-        title="Technical guides I wrote for Adservice partners"
-        description="Implementation guides for tracking, integrations, and campaign tooling, written for partners wiring the platform up themselves."
-      />
+const sentenceCase = (text: string) => text.charAt(0) + text.slice(1).toLowerCase();
 
-      <div className={styles.grid}>
-        {writingPosts.map((post) => (
-          <AnimateIcon key={post.url} animateOnHover asChild>
-            <a
-              href={resolveAssetSrc(post.url)}
-              className={styles.cardLink}
-            >
-              <Card variant="interactive" className={styles.card}>
-                <div className={styles.cardHeader}>
-                  <span className={styles.category}>{post.category}</span>
-                  <Icon name="arrow-right" size={16} className={styles.icon} />
-                </div>
-                <h3 className={styles.title}>{post.title}</h3>
-                <p className={styles.summary}>{post.summary}</p>
-                <div className={styles.tags}>
-                  {post.tags.map((tag) => <Chip key={tag}>{tag}</Chip>)}
-                </div>
-              </Card>
-            </a>
-          </AnimateIcon>
+export function WritingSection() {
+  const groups = writingPosts.reduce<Record<string, WritingPost[]>>((acc, post) => {
+    (acc[post.category] ??= []).push(post);
+    return acc;
+  }, {});
+
+  return (
+    <Section className={styles.writing} innerClassName={styles.layout}>
+      <div className={styles.intro}>
+        <SectionHeader
+          title="Technical guides I wrote for Adservice partners"
+          description="Implementation guides for tracking, integrations and campaign tooling, written for partners wiring the platform up themselves."
+        />
+      </div>
+
+      <div className={styles.groups}>
+        {Object.entries(groups).map(([category, posts]) => (
+          <Reveal key={category} className={styles.group}>
+            <h3 className={`${styles.groupTitle} reveal-item`}>
+              {sentenceCase(category)}
+              <span className={styles.count}>{String(posts.length).padStart(2, "0")}</span>
+            </h3>
+            <ul className={styles.items}>
+              {posts.map((post, index) => (
+                <li key={post.url} className={`${styles.item} reveal-item`} style={stagger(index + 1)}>
+                  <AnimateIcon animateOnHover asChild>
+                    <a href={resolveAssetSrc(post.url)} className={styles.link}>
+                      <span className={styles.itemTitle} lang={post.lang}>
+                        {post.title}
+                      </span>
+                      <span className={styles.summary}>{post.summary}</span>
+                      <span className={styles.itemMeta}>
+                        {post.tags.join(" · ")}
+                        {post.lang === "da" && <span className={styles.lang}>In Danish</span>}
+                      </span>
+                      <span className={styles.arrow} aria-hidden="true">
+                        <Icon name="arrow-right" size={16} />
+                      </span>
+                    </a>
+                  </AnimateIcon>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
         ))}
       </div>
     </Section>

@@ -3,155 +3,292 @@
   flex-direction: column;
 }
 
-.hero {
-  padding-top: var(--space-4xl);
-  padding-bottom: var(--space-4xl);
-
-  h1 {
-    margin-bottom: var(--space-lg);
-  }
+// Hero: one huge word, the count beside it, intro underneath.
+.heroInner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  column-gap: 2rem;
 }
 
-.contentSection {
-  padding-top: var(--space-4xl);
-  padding-bottom: var(--space-4xl);
+.heroTitle {
+  font-size: clamp(3.5rem, 11vw, 9rem);
+  line-height: 0.9;
+  letter-spacing: -0.055em;
 }
 
-.sectionInner {
-  width: 100%;
-  max-width: var(--max-width);
-  margin: 0 auto;
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin: 0 0 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.statNumber {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-primary);
 }
 
 .intro {
-  font-size: 1.25rem;
-  line-height: 1.6;
+  grid-column: 1 / -1;
+  max-width: 46ch;
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  padding-top: clamp(1.25rem, 2.5vw, 2rem);
+  border-top: 1px solid var(--color-border-strong);
+  font-size: clamp(1.125rem, 1.6vw, 1.375rem);
+  line-height: 1.5;
   color: var(--color-text-secondary);
-  max-width: 600px;
 }
 
-.carousel {
-  // Spacing handled by DesignCarousel
+.start {
+  padding-top: clamp(4rem, 8vw, 7rem);
+  padding-bottom: clamp(4rem, 8vw, 7rem);
 }
 
-.logos {
-  // Spacing handled by LogoGrid component
+// The index: each group is a sticky intro beside its list, like the guides on the homepage.
+.index {
+  padding-top: clamp(4rem, 8vw, 7rem);
+  padding-bottom: clamp(4rem, 8vw, 7rem);
 }
 
-.projects {
-  // Full-width background effect
-}
-
-.sectionLabel {
-  margin-bottom: var(--space-lg);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.grid {
+.groups {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: var(--space-xl);
+  gap: clamp(3.5rem, 7vw, 6rem);
 }
 
-.empty {
-  text-align: center;
-  padding: var(--space-4xl) 0;
-
-  p {
-    font-size: 1.125rem;
-    color: var(--color-text-tertiary);
-  }
+.group {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: start;
 }
 
-// Grouped listing: a heading per group, generous space between groups.
-.group + .group {
-  margin-top: var(--space-4xl);
-}
-
-.groupHeader {
-  margin-bottom: var(--space-xl);
+.groupIntro {
+  position: sticky;
+  top: calc(var(--header-height) + 1.5rem);
 
   h2 {
-    margin: 0;
-    font-size: 1.5rem;
-    letter-spacing: -0.02em;
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin: 0 0 0.75rem;
+    font-size: clamp(1.5rem, 2.6vw, 2.125rem);
+    line-height: 1.1;
+    letter-spacing: -0.035em;
   }
 
   p {
-    margin: var(--space-xs) 0 0;
-    max-width: 560px;
-    color: var(--color-text-secondary);
+    max-width: 34ch;
+    font-size: 1rem;
+    line-height: 1.55;
   }
 }
 
-// Earlier work: compact rows instead of full cards.
-.earlierList {
+.count {
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-tertiary);
+}
+
+.items {
   list-style: none;
   margin: 0;
   padding: 0;
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--color-border-strong);
 }
 
-.earlierRow {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  padding: var(--space-md) var(--space-sm);
+.item {
   border-bottom: 1px solid var(--color-border);
+}
+
+.link {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.25rem 0;
   color: inherit;
   text-decoration: none;
-  transition: background-color 150ms ease;
 
-  @media (hover: hover) and (pointer: fine) {
-    &:hover {
-      background: var(--color-background-secondary);
-    }
+  &:hover {
+    color: inherit;
+  }
+
+  // Same hover wash as the homepage guides.
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0 -1rem;
+    z-index: -1;
+    border-radius: var(--radius-lg);
+    background: var(--color-canvas);
+    opacity: 0;
+    transform: scale(0.98);
+    transition:
+      opacity 200ms ease,
+      transform 300ms var(--ease-out-strong);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+    border-radius: var(--radius-lg);
   }
 }
 
-.earlierThumb {
-  flex: none;
-  width: 96px;
+.thumb {
+  position: relative;
   aspect-ratio: 16 / 10;
-  object-fit: cover;
+  overflow: hidden;
   border-radius: var(--radius-md);
-  background: var(--color-background-secondary);
+  background: var(--color-canvas);
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+  }
 }
 
-.earlierText {
-  flex: 1;
-  min-width: 0;
+.thumbImage {
+  object-fit: cover;
+  transition: transform 700ms var(--ease-out-strong);
+}
+
+.itemText {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0.25rem;
+  min-width: 0;
 }
 
-.earlierTitle {
+.itemTitle {
+  font-size: 1.1875rem;
   font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
-.earlierSummary {
+.itemSummary {
+  font-size: 0.9375rem;
+  line-height: 1.5;
   color: var(--color-text-secondary);
-  font-size: 0.9rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  text-wrap: pretty;
 }
 
-.earlierYear {
-  flex: none;
-  color: var(--color-text-tertiary);
-  font-size: 0.875rem;
+.itemMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.5rem;
+  margin-top: 0.25rem;
+  font-size: 0.8125rem;
   font-variant-numeric: tabular-nums;
+  color: var(--color-text-tertiary);
+}
+
+.live {
+  margin-left: 0.25rem;
+  font-weight: 600;
+  color: #1d8a4c;
+}
+
+.arrow {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px var(--color-border-strong);
+  color: var(--color-text-primary);
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    box-shadow 200ms ease,
+    transform 160ms var(--ease-out-strong);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link:hover::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .link:hover .thumbImage {
+    transform: scale(1.06);
+  }
+
+  .link:hover .arrow {
+    background: var(--color-text-primary);
+    color: #fff;
+    box-shadow: none;
+  }
+}
+
+.link:active .arrow {
+  transform: scale(0.92);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link::before {
+    transform: none;
+  }
+
+  .thumbImage {
+    transition: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .group {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+  }
+
+  .groupIntro {
+    position: static;
+  }
+
+  .link {
+    grid-template-columns: 112px minmax(0, 1fr) auto;
+    gap: 1rem;
+  }
 }
 
 @media (max-width: 640px) {
-  .earlierThumb {
-    width: 72px;
+  .heroInner {
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .earlierYear {
+  .stat {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin: 1rem 0 0;
+  }
+
+  .link {
+    grid-template-columns: 88px minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .arrow {
     display: none;
+  }
+
+  .itemTitle {
+    font-size: 1.0625rem;
   }
 }

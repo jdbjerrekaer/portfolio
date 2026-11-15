@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Providers } from "./providers";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -38,6 +38,11 @@ export const metadata: Metadata = {
     icon: resolveAssetSrc("/icon.png"),
     apple: resolveAssetSrc("/apple-icon.png"),
   },
+};
+
+// viewport-fit=cover exposes env(safe-area-inset-bottom) for the phone tab bar.
+export const viewport: Viewport = {
+  viewportFit: "cover",
 };
 
 export default function RootLayout({

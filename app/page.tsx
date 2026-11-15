@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { ActionLink, Button, Section, SectionHeader, Tooltip } from "@/components/ui";
-import { ProjectCard } from "@/components/ProjectCard";
+import { Button, Section, Tooltip } from "@/components/ui";
+import { FeaturedWork } from "@/components/FeaturedWork";
 import { DesignCarousel } from "@/components/DesignCarousel";
-import { LogoGrid } from "@/components/LogoGrid";
+import { LogoMarquee } from "@/components/LogoMarquee";
 import { getFeaturedProjectsList } from "@/lib/content/featuredProjects";
 import { designCarouselItems } from "@/lib/content/designCarouselItems";
 import { clientLogos } from "@/lib/content/clientLogos";
@@ -91,34 +91,7 @@ export default async function HomePage() {
           </PointerParallax>
       </Section>
 
-      {/* Featured Projects Section */}
-      {featuredProjects.length > 0 && (
-        <Section variant="subtle" className={styles.featured}>
-          <SectionHeader
-            title="Featured Projects"
-            description="Selected work showing how I connect UX, design systems, implementation, and product quality."
-            variant="split"
-            action={<ActionLink href="/projects/" icon="folder">View all projects</ActionLink>}
-          />
-          <div className={styles.projectGrid}>
-            {featuredProjectsWithCaseStudy.map((project) => (
-              <ProjectCard
-                key={project.slug}
-                slug={project.slug}
-                title={project.title}
-                role={project.role}
-                outcome={project.outcome}
-                tags={project.tags}
-                coverImage={project.coverImage}
-                hasCaseStudy={project.hasCaseStudy}
-                comingSoon={project.comingSoon}
-                liveDemo={project.liveDemo}
-                variant="featured"
-              />
-            ))}
-          </div>
-        </Section>
-      )}
+      {featuredProjectsWithCaseStudy.length > 0 && <FeaturedWork projects={featuredProjectsWithCaseStudy} />}
 
       {/* Design Carousel Section */}
       <section className={styles.carousel} aria-labelledby="visual-highlights-title">
@@ -132,15 +105,11 @@ export default async function HomePage() {
       {/* Testimonials Section */}
       <Testimonials />
 
-      {/* Client Logos Grid Section */}
-      <section className={styles.logos}>
-        <LogoGrid
-          logos={clientLogos}
-          title="Who I’ve worked with"
-          description="From large international brands to local Danish, Swedish, Norwegian, and Finnish companies, collaborating with innovative teams across the Nordic region and beyond."
-          maxVisible={12}
-        />
-      </section>
+      <LogoMarquee
+        logos={clientLogos}
+        title="Who I’ve worked with"
+        description="From large international brands to local Danish, Swedish, Norwegian and Finnish companies, across the Nordic region and beyond."
+      />
 
       {/* Availability CTA Section */}
       <AvailabilityCTA />

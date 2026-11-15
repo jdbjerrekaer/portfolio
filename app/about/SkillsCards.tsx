@@ -1,14 +1,25 @@
-import { InfoCard, InfoCardGrid } from "@/components/ui";
+import { Reveal, stagger } from "@/components/Reveal";
+import { SectionHeader } from "@/components/ui";
 import { skillCards } from "./aboutData";
+import styles from "./page.module.scss";
 
+/** Skills as a ledger: sticky heading on the left, one ruled row per discipline on the right. */
 export function SkillsCards() {
   return (
-    <InfoCardGrid>
-      {skillCards.map((card) => (
-        <InfoCard key={card.title} title={card.title} icon={card.icon}>
-          <ul>{card.items.map((item) => <li key={item}>{item}</li>)}</ul>
-        </InfoCard>
-      ))}
-    </InfoCardGrid>
+    <div className={styles.split}>
+      <div className={styles.splitIntro}>
+        <SectionHeader title="Skills" description="Design, code and the product work in between." />
+      </div>
+      <Reveal className={styles.ledger}>
+        {skillCards.map((card, index) => (
+          <div key={card.title} className={`${styles.ledgerRow} reveal-item`} style={stagger(index)}>
+            <h3 className={styles.ledgerTerm}>{card.title}</h3>
+            <ul className={styles.ledgerItems}>
+              {card.items.map((item) => <li key={item}>{item}</li>)}
+            </ul>
+          </div>
+        ))}
+      </Reveal>
+    </div>
   );
 }

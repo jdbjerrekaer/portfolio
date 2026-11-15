@@ -1,4 +1,6 @@
-import { Card, Section, SectionHeader } from "@/components/ui";
+import type { CSSProperties } from "react";
+import { Section, SectionHeader } from "@/components/ui";
+import { Reveal, stagger } from "@/components/Reveal";
 import styles from "./Testimonials.module.scss";
 
 export interface Testimonial {
@@ -18,6 +20,13 @@ export interface Testimonial {
 const sourcedTestimonials: Testimonial[] = [
   {
     quote:
+      "Jonatan's Figma files are the ones I don't have to ask questions about. The details and layering are already resolved when they reach me.",
+    author: "Oscar Ternevid",
+    role: "Senior Software Developer",
+    company: "Adtraction",
+  },
+  {
+    quote:
       "Having joined us as a Designer and subsequently stepping into his role as Product Design Engineer, he has demonstrated exceptional professional growth, deep platform expertise, and an outstanding eye for detail.",
     author: "Max Bågling",
     role: "Tech Lead",
@@ -35,13 +44,6 @@ const sourcedTestimonials: Testimonial[] = [
       "It's been a pleasure working with you and to see what you've done with the platform.",
     author: "Andreas Hagström",
     role: "CFO",
-    company: "Adtraction",
-  },
-  {
-    quote:
-      "Jonatan's Figma files are the ones I don't have to ask questions about. The details and layering are already resolved when they reach me.",
-    author: "Oscar Ternevid",
-    role: "Senior Software Developer",
     company: "Adtraction",
   },
   {
@@ -96,28 +98,54 @@ const sourcedTestimonials: Testimonial[] = [
 ];
 
 export function Testimonials({ testimonials = sourcedTestimonials }: { testimonials?: Testimonial[] }) {
+  // The first quote leads, set large; the rest sit in a masonry wall below it.
+  const [lead, ...rest] = testimonials;
+  const words = lead.quote.split(" ");
+
   return (
     <Section variant="subtle" className={styles.testimonials}>
       <SectionHeader
-        title="What People Say"
-        description="Feedback from developers, designers, collaborators, and partners using the platform."
-        variant="centered"
+        title="What people say"
+        description="Feedback from the developers, designers and partners I have built the platform with."
       />
 
-      <div className={styles.grid}>
-        {testimonials.map((testimonial) => (
-          <Card key={testimonial.quote} variant="surface" className={styles.card}>
-            <span className={styles.quoteIcon} aria-hidden="true">“</span>
-            <p className={styles.quoteText}>{testimonial.quote}</p>
-            <div className={styles.authorInfo}>
-              <p className={styles.authorName}>{testimonial.author}</p>
-              <p className={styles.authorRole}>
-                {testimonial.role} <span className={styles.separator}>•</span> {testimonial.company}
-              </p>
-            </div>
-          </Card>
+      <Reveal as="figure" className={styles.lead}>
+        <blockquote className={styles.leadQuote}>
+          <p>
+            {words.map((word, index) => (
+              <span key={index}>
+                <span className={styles.word} style={{ "--w": index } as CSSProperties}>
+                  {index === 0 && "\u201C"}
+                  {word}
+                  {index === words.length - 1 && "\u201D"}
+                </span>{" "}
+              </span>
+            ))}
+          </p>
+        </blockquote>
+        <figcaption className={`${styles.leadAuthor} reveal-item`} style={stagger(Math.min(words.length, 12))}>
+          <span className={styles.name}>{lead.author}</span>
+          <span className={styles.role}>
+            {lead.role}, {lead.company}
+          </span>
+        </figcaption>
+      </Reveal>
+
+      <Reveal className={styles.wall}>
+        {rest.map((testimonial, index) => (
+          <figure key={testimonial.quote} className={`${styles.quote} reveal-item`} style={stagger(index)}>
+            <blockquote className={styles.quoteText}>
+              <p>{testimonial.quote}</p>
+            </blockquote>
+            <figcaption className={styles.author}>
+              <span className={styles.name}>{testimonial.author}</span>
+              <span className={styles.role}>
+                {testimonial.role} · {testimonial.company}
+              </span>
+            </figcaption>
+          </figure>
         ))}
-      </div>
+      </Reveal>
     </Section>
   );
 }

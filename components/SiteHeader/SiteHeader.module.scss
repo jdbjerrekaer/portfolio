@@ -190,7 +190,112 @@
     line-height: 1;
   }
 
-  .logoOptional {
+}
+
+// Phone navigation: a floating bar at the bottom, inside thumb reach.
+.tabBar {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  // The top bar keeps only the name and scrolls away with the page.
+  .header {
+    position: relative;
+  }
+
+  .navList {
     display: none;
+  }
+
+  .tabBar {
+    position: fixed;
+    left: 50%;
+    bottom: calc(env(safe-area-inset-bottom) + 12px);
+    z-index: 100;
+    display: grid;
+    grid-template-columns: repeat(var(--count), 72px);
+    padding: 6px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.8);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    backdrop-filter: blur(16px) saturate(1.4);
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.06),
+      0 10px 30px rgba(0, 0, 0, 0.12);
+    transform: translateX(-50%);
+    animation: tabBarIn 500ms var(--ease-out-strong) both;
+  }
+
+  // The active pill slides between tabs (on-screen movement: ease-in-out).
+  .tabIndicator {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 72px;
+    height: calc(100% - 12px);
+    border-radius: 18px;
+    background: var(--color-text-primary);
+    transform: translateX(calc(var(--active) * 100%));
+    transition:
+      transform 420ms var(--ease-in-out-strong),
+      opacity 200ms ease;
+  }
+
+  .tabBar[data-has-active="false"] .tabIndicator {
+    opacity: 0;
+  }
+
+  .tab {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    height: 54px;
+    border-radius: 18px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      color 250ms ease,
+      transform 160ms var(--ease-out-strong);
+
+    &:hover {
+      color: var(--color-text-primary);
+    }
+
+    &[aria-current="page"] {
+      color: #fff;
+    }
+
+    &:active {
+      transform: scale(0.94);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+    }
+  }
+}
+
+@keyframes tabBarIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(24px) scale(0.96);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tabBar {
+    animation: none;
+  }
+
+  .tabIndicator {
+    transition: opacity 200ms ease;
   }
 }

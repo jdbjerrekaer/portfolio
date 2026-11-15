@@ -1,0 +1,169 @@
+.section {
+  padding-top: clamp(4rem, 8vw, 7rem);
+  padding-bottom: clamp(4rem, 8vw, 7rem);
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+  margin: 0 0 var(--space-2xl);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.statNumber {
+  font-size: clamp(3rem, 6vw, 4.5rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-primary);
+}
+
+// Full-bleed belts that fade out at the edges.
+.marquee {
+  display: grid;
+  gap: 1.25rem;
+  margin: clamp(1rem, 3vw, 2rem) calc(50% - 50vw) 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+.row {
+  display: flex;
+  width: max-content;
+}
+
+.track {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0;
+  padding: 0 1rem 0 0;
+  list-style: none;
+  // Constant motion: linear. Each list slides its own width, so the copy behind it closes the loop.
+  animation: marquee var(--duration, 70s) linear infinite;
+}
+
+.reverse .track {
+  animation-direction: reverse;
+}
+
+// Keyboard users can read the logo they tabbed to.
+.marquee:focus-within .track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.item {
+  flex-shrink: 0;
+}
+
+.tile {
+  display: grid;
+  place-items: center;
+  width: 168px;
+  height: 88px;
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--radius-lg);
+  background: var(--color-background-secondary);
+  transition: background-color 200ms ease;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+.logo {
+  max-width: 100%;
+  max-height: 44px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.7;
+  transition:
+    filter 250ms ease,
+    opacity 250ms ease;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .item:hover .logo {
+    filter: grayscale(0);
+    opacity: 1;
+  }
+
+  .item:hover .tile {
+    background: var(--color-canvas);
+  }
+}
+
+.tile:focus-visible .logo {
+  filter: grayscale(0);
+  opacity: 1;
+}
+
+// Reduced motion: no belt. One static, wrapped wall of every logo.
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    margin-inline: 0;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .row {
+    width: auto;
+  }
+
+  .track {
+    flex-wrap: wrap;
+    animation: none;
+  }
+
+  .copy {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+  }
+
+  .stat {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .tile {
+    width: 132px;
+    height: 72px;
+    padding: 1rem;
+  }
+
+  .logo {
+    max-height: 36px;
+  }
+}

@@ -1,3 +1,4 @@
+import { Reveal, stagger } from "@/components/Reveal";
 import { resolveAssetSrc } from "@/lib/utils/paths";
 import styles from "./page.module.scss";
 
@@ -31,14 +32,14 @@ const clips = [
 
 export function KarateClips() {
   return (
-    <div id="karate" className={styles.karate}>
-      <h3 className={styles.karateTitle}>On the mat</h3>
-      <p className={styles.karateIntro}>
-        Bareknuckle full-contact karate: a few moments from tournaments I&apos;ve fought in.
-      </p>
+    <Reveal id="karate" className={styles.karate}>
+      <div className={`${styles.subhead} reveal-item`}>
+        <h3>On the mat</h3>
+        <p>Bareknuckle full-contact karate: a few moments from tournaments I&apos;ve fought in.</p>
+      </div>
       <div className={styles.karateGrid}>
-        {clips.map((clip) => (
-          <figure key={clip.src} className={styles.karateClip}>
+        {clips.map((clip, index) => (
+          <figure key={clip.src} className={`${styles.karateClip} reveal-item`} style={stagger(index + 1)}>
             <video
               className={styles.karateVideo}
               src={resolveAssetSrc(clip.src)}
@@ -51,6 +52,6 @@ export function KarateClips() {
           </figure>
         ))}
       </div>
-    </div>
+    </Reveal>
   );
 }

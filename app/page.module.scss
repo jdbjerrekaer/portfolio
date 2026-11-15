@@ -276,25 +276,6 @@
   // Spacing handled by component
 }
 
-// Client Logos Section
-.logos {
-  // Spacing handled by LogoGrid component
-}
-
-// Featured Projects Section
-.featured {
-  padding: var(--space-4xl) clamp(var(--space-lg), 4vw, var(--space-xl));
-  background: var(--color-background-secondary);
-}
-
-.projectGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: var(--space-xl);
-  max-width: var(--max-width);
-  margin: 0 auto;
-}
-
 // Small laptops / narrow windows (768–1023px): the stage sits under the
 // desktop rhythm; drop it 2rem lower so the hand doesn't crowd the buttons.
 // The ≤767px block below overrides with its own fixed value.
@@ -339,10 +320,6 @@
 
   .heroKeyboard {
     display: none;
-  }
-
-  .projectGrid {
-    grid-template-columns: 1fr;
   }
 }
 
