@@ -6,11 +6,6 @@
 .lead {
   margin: clamp(1rem, 3vw, 2.5rem) 0 0;
   padding-top: clamp(2rem, 4vw, 3rem);
-
-  // The rule anchors the pull-quote on wide screens; stacked on mobile it reads as a stray header underline.
-  @media (min-width: 769px) {
-    border-top: 1px solid var(--color-border-strong);
-  }
 }
 
 .leadQuote {
@@ -86,11 +81,6 @@
   break-inside: avoid;
   margin: 0;
   padding: 1.5rem 0 2.25rem;
-
-  // Column masonry uses the rule as a quote separator; a single mobile column just gets ruled paper.
-  @media (min-width: 769px) {
-    border-top: 1px solid var(--color-border);
-  }
 }
 
 .quoteText {

@@ -10,7 +10,7 @@ iconography:
 
 # Portfolio design language
 
-The portfolio is an editorial expression of YADL's design language. It keeps YADL's type, color, spacing and interaction feedback, but lays pages out like a printed index: ruled lines, big headings and content that sits on the page instead of inside cards.
+The portfolio is an editorial expression of YADL's design language. It keeps YADL's type, color, spacing and interaction feedback, but lays pages out like a printed index: big headings and content that sits on the page instead of inside cards. Whitespace does the separating — no ruled lines.
 
 The code is the source of truth for exact values. Each row below names the file that holds them; update this file when a pattern changes, not when a number is tuned.
 
@@ -53,11 +53,11 @@ Tight tracking also shrinks word spaces; display text built from word spans adds
 
 ### Structure
 
-- No card containers for lists of content. Separate items with a 1px rule (`--color-border-strong` above a group, `--color-border` between rows) and whitespace.
+- No card containers for lists of content. Separate items with whitespace and typographic hierarchy only — no rules between rows.
 - Section headings stand alone. Do not add a one-line description under every heading; it restates the heading and reads as generated. If a fact matters (the group is university work, the clips are bareknuckle karate), put it in the heading itself.
 - Index sections use a 4fr/7fr split: a sticky intro (heading and a two-digit count) on the left, the list on the right. Below 860px it stacks and the intro stops sticking.
-- The hero, page titles and statements are left-aligned, with a rule underneath that splits into supporting text on the left and one action on the right. Never repeat the header navigation as hero buttons.
-- Facts and metadata are ruled `dl` columns (label in tertiary text, value below), not grey boxes or tag pills.
+- The hero, page titles and statements are left-aligned: the statement on top, supporting text on the left and one action on the right, separated by whitespace alone. Never repeat the header navigation as hero buttons.
+- Facts and metadata are plain `dl` columns (label in tertiary text, value below), not grey boxes, tag pills or ruled rows.
 - Headings and titles use sentence case. Only proper names keep capitals (YADL, Adtraction Brands, Home Assistant, Live Activities).
 - Project cards show the title, focus tags and cover only. Descriptions, years and roles are hidden for now; case study pages show Focus and Outcome.
 - Every long page ends somewhere: the case study closes with a "Next case study" link, the home and about pages with the availability block.

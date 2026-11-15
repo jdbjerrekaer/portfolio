@@ -32,7 +32,6 @@
   align-items: baseline;
   margin: 0;
   padding-bottom: 0.875rem;
-  border-bottom: 1px solid var(--color-border-strong);
   font-size: 0.9375rem;
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -48,10 +47,6 @@
   list-style: none;
   margin: 0;
   padding: 0;
-}
-
-.item {
-  border-bottom: 1px solid var(--color-border);
 }
 
 .link {
