@@ -85,7 +85,7 @@
   }
 }
 
-// Rule under the headline: subtitle on the left, the one call to action on the right.
+// Subtitle on the left, the one call to action on the right. Whitespace, not a rule, separates it from the headline.
 .heroMeta {
   display: flex;
   flex-wrap: wrap;
@@ -94,7 +94,6 @@
   gap: var(--space-lg) var(--space-2xl);
   width: 100%;
   padding-top: clamp(1.25rem, 2.5vw, 2rem);
-  border-top: 1px solid var(--color-border-strong);
   animation: heroEnter 800ms var(--ease-out-strong) 520ms both;
 }
 
