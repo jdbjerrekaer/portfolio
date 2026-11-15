@@ -2,6 +2,10 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 
+// Runs while the HTML is still parsing, so the stage can appear as soon as its photos decode
+// instead of waiting for the JavaScript bundle (seconds on a slow phone). Mirrors revealWhenDecoded.
+const INLINE_REVEAL = `(function(s){if(!s)return;var i=[].filter.call(s.querySelectorAll("img"),function(m){return m.getClientRects().length});Promise.all(i.map(function(m){return m.decode?m.decode().catch(function(){}):0})).then(function(){s.style.setProperty("--stage-delay",Math.max(0,450-performance.now())+"ms");s.setAttribute("data-ready","")})})(document.currentScript&&document.currentScript.previousElementSibling)`;
+
 /**
  * Publishes the cursor position as --mx / --my (each -1..1, relative to this
  * element's box) so hero props can drift at different depths. Updates are
@@ -15,6 +19,24 @@ export function PointerParallax({
   children: ReactNode;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+
+  // Reveal the stage once its visible photos have decoded, so a slow connection never
+  // paints a half-loaded image. Fast loads keep the short delay after the headline.
+  useEffect(() => {
+    const el = ref.current;
+    // Already revealed by the inline script on first load; this path covers client-side navigation.
+    if (!el || el.hasAttribute("data-ready")) return;
+    let cancelled = false;
+    const visible = Array.from(el.querySelectorAll("img")).filter((img) => img.getClientRects().length > 0);
+    Promise.all(visible.map((img) => img.decode().catch(() => undefined))).then(() => {
+      if (cancelled) return;
+      el.style.setProperty("--stage-delay", `${Math.max(0, 450 - performance.now())}ms`);
+      el.dataset.ready = "";
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const el = ref.current;
@@ -61,8 +83,11 @@ export function PointerParallax({
   }, []);
 
   return (
-    <div ref={ref} className={className}>
-      {children}
-    </div>
+    <>
+      <div ref={ref} className={className} suppressHydrationWarning>
+        {children}
+      </div>
+      <script dangerouslySetInnerHTML={{ __html: INLINE_REVEAL }} />
+    </>
   );
 }

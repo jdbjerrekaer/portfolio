@@ -177,10 +177,20 @@
   justify-self: center;
   margin-top: var(--hero-air); // same air as above the title, set on .hero
   margin-bottom: -2px; // hide the photo's straight cut edge under the section edge
-  opacity: 0;
-  transform: translate3d(0, 40px, 0) scale(0.97);
-  animation: heroStageEnter 860ms var(--ease-out) 380ms both;
   pointer-events: none;
+}
+
+// PointerParallax sets data-ready once the photos have decoded; until then the stage stays empty.
+@media (scripting: enabled) {
+  .heroStage:not([data-ready]) {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .heroStage[data-ready] {
+      animation: heroStageEnter 900ms var(--ease-out-strong) var(--stage-delay, 0ms) both;
+    }
+  }
 }
 
 // Every layer drifts by --mx/--my (-1..1, set by PointerParallax) times its own
@@ -303,9 +313,9 @@
 }
 
 @keyframes heroStageEnter {
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
+  from {
+    opacity: 0;
+    transform: translate3d(0, 32px, 0) scale(0.97);
   }
 }
 
@@ -391,8 +401,10 @@
     animation: none;
   }
 
+  // Reduced motion: the arrow still fills, but never moves or scales.
   .heroArrow {
-    transition: background-color 200ms ease, color 200ms ease;
+    transition: background-color 200ms ease, color 200ms ease, box-shadow 200ms ease;
+    transform: none !important;
   }
 
   .heroHand,

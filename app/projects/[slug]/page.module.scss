@@ -340,6 +340,12 @@
   .nextImage {
     transition: none;
   }
+
+  // Reduced motion: the arrow still fills, but never moves or scales.
+  .nextArrow {
+    transition: background-color 200ms ease, color 200ms ease, box-shadow 200ms ease;
+    transform: none !important;
+  }
 }
 
 @media (max-width: 1000px) {
@@ -372,13 +378,13 @@
     padding-inline: var(--space-md);
   }
 
-  // Two facts per row; the long Outcome gets the full width.
+  // Focus on its own row half, the long Outcome gets the full width.
   .facts {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0 1.25rem;
   }
 
-  .fact:nth-child(4) {
+  .fact:last-child {
     grid-column: 1 / -1;
   }
 

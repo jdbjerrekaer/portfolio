@@ -46,10 +46,7 @@ function IndexRow({ project, index }: { project: Project; index: number }) {
           </span>
           <span className={styles.itemText}>
             <span className={styles.itemTitle}>{project.title}</span>
-            <span className={styles.itemSummary}>{project.outcome ?? project.summary}</span>
             <span className={styles.itemMeta}>
-              {project.date.slice(0, 4)}
-              <span aria-hidden="true">·</span>
               {project.tags.slice(0, 2).join(", ")}
               {project.liveDemo && <span className={styles.live}>Live demo</span>}
             </span>

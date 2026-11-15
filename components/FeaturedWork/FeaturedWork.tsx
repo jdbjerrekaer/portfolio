@@ -54,16 +54,7 @@ function ProjectRow({ project, index }: { project: FeaturedWorkItem; index: numb
         <h3 className={`${styles.title} reveal-item`} style={stagger(1)}>
           {project.title}
         </h3>
-        {project.outcome && (
-          <p className={`${styles.outcome} reveal-item`} style={stagger(2)}>
-            {project.outcome}
-          </p>
-        )}
         <dl className={`${styles.meta} reveal-item`} style={stagger(3)}>
-          <dt>Role</dt>
-          <dd>{project.role}</dd>
-          <dt>Year</dt>
-          <dd>{project.date.slice(0, 4)}</dd>
           <dt>Focus</dt>
           <dd>{project.tags.join(", ")}</dd>
         </dl>
@@ -75,7 +66,8 @@ function ProjectRow({ project, index }: { project: FeaturedWorkItem; index: numb
         </div>
       </div>
 
-      <div
+      <Reveal
+        margin="0px 0px -40% 0px"
         className={styles.media}
         onPointerEnter={(event) => follow(event, true)}
         onPointerMove={follow}
@@ -105,7 +97,7 @@ function ProjectRow({ project, index }: { project: FeaturedWorkItem; index: numb
             </span>
           </motion.span>
         )}
-      </div>
+      </Reveal>
     </>
   );
 

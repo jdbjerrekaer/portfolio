@@ -79,10 +79,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const position = readable.findIndex((p) => p.slug === project.slug);
   const next = readable.length > 1 ? readable[(position + 1) % readable.length] : undefined;
 
-  const year = project.date.slice(0, 4);
   const facts = [
-    { label: "Role", value: project.role },
-    { label: "Year", value: year },
     { label: "Focus", value: project.tags.join(", ") },
     { label: "Outcome", value: project.outcome },
   ].filter((fact): fact is { label: string; value: string } => Boolean(fact.value));
@@ -96,7 +93,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         </div>
 
         <p className={`${styles.eyebrow} reveal-item`} style={stagger(1)}>
-          Case study <span aria-hidden="true">·</span> {year}
+          Case study
         </p>
         <h1 className={`${styles.title} reveal-item`} style={stagger(2)}>{project.title}</h1>
         <p className={`${styles.summary} reveal-item`} style={stagger(3)}>{project.summary}</p>
@@ -188,9 +185,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   <Icon name="arrow-right" size={20} />
                 </span>
               </span>
-              {next.outcome && (
-                <span className={`${styles.nextOutcome} reveal-item`} style={stagger(2)}>{next.outcome}</span>
-              )}
               {next.coverImage && (
                 <span className={styles.nextMedia} aria-hidden="true">
                   <Image src={resolveAssetSrc(next.coverImage)} alt="" fill sizes="(max-width: 800px) 100vw, 40vw" className={styles.nextImage} />

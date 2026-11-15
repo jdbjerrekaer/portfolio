@@ -1,305 +1,133 @@
 "use client";
 
-import { useEffect } from "react";
-import { withBasePath } from "@/lib/utils/paths";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import styles from "./CookieBanner.module.scss";
 
-/**
- * Global initialization guard to prevent multiple initializations
- */
-let isInitialized = false;
-
-/**
- * Type definitions for the Silktide Cookie Banner Manager
- */
 declare global {
   interface Window {
-    silktideCookieBannerManager?: {
-      updateCookieBannerConfig: (config: CookieBannerConfig) => void;
-    };
-    gtag?: (
-      command: string,
-      targetId: string,
-      config?: Record<string, string>
-    ) => void;
-    dataLayer?: Array<Record<string, unknown>>;
+    gtag?: (command: string, action: string, params?: Record<string, string>) => void;
   }
 }
 
-interface CookieBannerConfig {
-  background: {
-    showBackground: boolean;
-  };
-  cookieIcon: {
-    position: string;
-  };
-  cookieTypes: Array<{
-    id: string;
-    name: string;
-    description: string;
-    required: boolean;
-    onAccept?: () => void;
-    onReject?: () => void;
-  }>;
-  text: {
-    banner: {
-      description: string;
-      acceptAllButtonText: string;
-      acceptAllButtonAccessibleLabel: string;
-      rejectNonEssentialButtonText: string;
-      rejectNonEssentialButtonAccessibleLabel: string;
-      preferencesButtonText: string;
-      preferencesButtonAccessibleLabel: string;
-    };
-    preferences: {
-      title: string;
-      description: string;
-      creditLinkText: string;
-      creditLinkAccessibleLabel: string;
-    };
-  };
-}
+// Same keys the previous Silktide banner wrote, so earlier choices still count and Clarity keeps reading them.
+const CHOICE_KEY = "silktideCookieBanner_InitialChoice";
+const ANALYTICS_KEY = "silktideCookieChoice_analytics";
+const NECESSARY_KEY = "silktideCookieChoice_necessary";
+const OPEN_EVENT = "openCookieSettings";
 
-/**
- * Safely calls gtag if it's available
- */
-function safeGtag(
-  command: string,
-  targetId: string,
-  config?: Record<string, string>
-): void {
-  if (typeof window !== "undefined" && window.gtag) {
-    try {
-      window.gtag(command, targetId, config);
-    } catch (error) {
-      if (process.env.NODE_ENV === "development") {
-        console.warn("[CookieBanner] gtag call failed:", error);
-      }
-    }
-  }
-}
+type Phase = "hidden" | "open" | "accepting" | "declining";
 
-/**
- * Safely pushes to dataLayer if it's available
- */
-function safeDataLayerPush(data: Record<string, unknown>): void {
-  if (typeof window !== "undefined" && window.dataLayer) {
-    try {
-      window.dataLayer.push(data);
-    } catch (error) {
-      if (process.env.NODE_ENV === "development") {
-        console.warn("[CookieBanner] dataLayer push failed:", error);
-      }
-    }
-  }
-}
-
-/**
- * Initializes the Silktide Cookie Banner
- */
-function initializeCookieBanner(): void {
-  // Guard: Prevent multiple initializations
-  if (isInitialized) {
-    if (process.env.NODE_ENV === "development") {
-      console.warn("[CookieBanner] Already initialized, skipping");
-    }
-    return;
-  }
-
-  // Guard: Only run on client-side
-  if (typeof window === "undefined") {
-    return;
-  }
-
-  // Check if the script has loaded
-  if (!window.silktideCookieBannerManager) {
-    if (process.env.NODE_ENV === "development") {
-      console.warn(
-        "[CookieBanner] silktideCookieBannerManager not available yet"
-      );
-    }
-    return;
-  }
-
+const read = (key: string) => {
   try {
-    // Get base path for cookie policy link
-    const basePath = process.env.NEXT_PUBLIC_BASE_PATH || process.env.BASE_PATH || "";
-    const cookiePolicyUrl = `${basePath}/cookie-policy`;
-
-    // Configure the cookie banner
-    window.silktideCookieBannerManager.updateCookieBannerConfig({
-      background: {
-        showBackground: false,
-      },
-      cookieIcon: {
-        position: "bottomRight",
-      },
-      cookieTypes: [
-        {
-          id: "necessary",
-          name: "Necessary",
-          description:
-            "<p>These cookies are necessary for the website to function properly and cannot be switched off. They help with things like logging in and setting your privacy preferences.</p>",
-          required: true,
-          onAccept: function () {
-            console.log("Add logic for the required Necessary here");
-          },
-        },
-        {
-          id: "analytics",
-          name: "Analytics",
-          description:
-            "<p>These cookies help us improve the site by tracking which pages are most popular and how visitors move around the site.</p>",
-          required: false,
-          onAccept: function () {
-            if (typeof window !== "undefined" && window.gtag) {
-              window.gtag("consent", "update", {
-                analytics_storage: "granted",
-              });
-            }
-            if (typeof window !== "undefined" && window.dataLayer) {
-              window.dataLayer.push({
-                event: "consent_accepted_analytics",
-              });
-            }
-            if (typeof window !== "undefined") {
-              window.dispatchEvent(
-                new CustomEvent("analyticsConsentGranted", {
-                  detail: { cookieType: "analytics" },
-                })
-              );
-            }
-          },
-          onReject: function () {
-            if (typeof window !== "undefined" && window.gtag) {
-              window.gtag("consent", "update", {
-                analytics_storage: "denied",
-              });
-            }
-            if (typeof window !== "undefined") {
-              window.dispatchEvent(
-                new CustomEvent("analyticsConsentRejected", {
-                  detail: { cookieType: "analytics" },
-                })
-              );
-            }
-          },
-        },
-      ],
-      text: {
-        banner: {
-          description:
-            `<p>We use cookies on our site to enhance your user experience, provide personalized content, and analyze our traffic. <a href="${cookiePolicyUrl}" target="_blank">Cookie Policy.</a></p>`,
-          acceptAllButtonText: "Accept all",
-          acceptAllButtonAccessibleLabel: "Accept all cookies",
-          rejectNonEssentialButtonText: "Reject non-essential",
-          rejectNonEssentialButtonAccessibleLabel: "Reject non-essential",
-          preferencesButtonText: "Preferences",
-          preferencesButtonAccessibleLabel: "Toggle preferences",
-        },
-        preferences: {
-          title: "Customize your cookie preferences",
-          description:
-            "<p>We respect your right to privacy. You can choose not to allow some types of cookies. Your cookie preferences will apply across our website.</p>",
-          creditLinkText: "Get this banner for free",
-          creditLinkAccessibleLabel: "Get this banner for free",
-        },
-      },
-    });
-
-    // Mark as initialized after successful setup
-    isInitialized = true;
-
-    if (process.env.NODE_ENV === "development") {
-      console.info("[CookieBanner] Initialized successfully");
-    }
-  } catch (error) {
-    // Graceful degradation: Don't break the app if cookie banner fails
-    const errorMessage =
-      error instanceof Error ? error.message : String(error);
-
-    if (process.env.NODE_ENV === "development") {
-      console.error("[CookieBanner] Initialization failed:", {
-        error: errorMessage,
-        environment: process.env.NODE_ENV,
-      });
-    }
+    return localStorage.getItem(key);
+  } catch {
+    return null;
   }
-}
+};
 
-/**
- * Silktide Cookie Banner Component
- *
- * Privacy-compliant cookie consent banner implementation that:
- * - Loads the Silktide consent manager script and styles
- * - Configures cookie types (Necessary and Analytics)
- * - Integrates with Google Analytics consent API (if available)
- * - Only loads on client-side
- * - Handles errors gracefully
- *
- * The component loads the external script and CSS, then initializes
- * the cookie banner configuration once the script is available.
- */
+const write = (key: string, value: string) => {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    // Private mode or blocked storage: the choice still applies for this visit.
+  }
+};
+
 export function CookieBanner() {
+  const [phase, setPhase] = useState<Phase>("hidden");
+  const acceptRef = useRef<HTMLButtonElement>(null);
+  const reopened = useRef(false);
+
   useEffect(() => {
-    // Only run on client-side
-    if (typeof window === "undefined") {
-      return;
-    }
-
-    // Load CSS
-    const cssLink = document.createElement("link");
-    cssLink.rel = "stylesheet";
-    cssLink.id = "silktide-consent-manager-css";
-    cssLink.href = withBasePath("/cookie-banner/silktide-consent-manager.css");
-    document.head.appendChild(cssLink);
-
-    // Load and initialize script
-    const script = document.createElement("script");
-    script.src = withBasePath("/cookie-banner/silktide-consent-manager.js");
-    script.async = true;
-
-    let initializeTimer: ReturnType<typeof setTimeout> | undefined;
-
-    script.onload = () => {
-      initializeTimer = setTimeout(() => {
-        initializeCookieBanner();
-      }, 100);
+    // First visit: wait until the hero has settled instead of competing with it.
+    const timer = read(CHOICE_KEY) ? 0 : window.setTimeout(() => setPhase("open"), 1400);
+    const reopen = () => {
+      reopened.current = true;
+      setPhase("open");
     };
-
-    script.onerror = () => {
-      if (process.env.NODE_ENV === "development") {
-        console.error(
-          "[CookieBanner] Failed to load silktide-consent-manager.js"
-        );
-      }
-    };
-
-    document.body.appendChild(script);
-
-    // Cleanup function
+    window.addEventListener(OPEN_EVENT, reopen);
     return () => {
-      if (initializeTimer) {
-        clearTimeout(initializeTimer);
-      }
-
-      // Remove script and CSS on unmount
-      const scriptPath = withBasePath("/cookie-banner/silktide-consent-manager.js");
-      const existingScript = document.querySelector(
-        `script[src="${scriptPath}"]`
-      );
-      if (existingScript) {
-        existingScript.remove();
-      }
-
-      const existingCss = document.getElementById(
-        "silktide-consent-manager-css"
-      );
-      if (existingCss) {
-        existingCss.remove();
-      }
+      window.clearTimeout(timer);
+      window.removeEventListener(OPEN_EVENT, reopen);
     };
   }, []);
 
-  // This component doesn't render anything
-  return null;
+  // Opened from the footer: move focus into the card so keyboard users land on it.
+  useEffect(() => {
+    if (phase === "open" && reopened.current) {
+      reopened.current = false;
+      acceptRef.current?.focus();
+    }
+  }, [phase]);
+
+  const choose = (granted: boolean) => {
+    write(CHOICE_KEY, "true");
+    write(NECESSARY_KEY, "true");
+    write(ANALYTICS_KEY, String(granted));
+    window.gtag?.("consent", "update", { analytics_storage: granted ? "granted" : "denied" });
+    window.dispatchEvent(
+      new CustomEvent(granted ? "analyticsConsentGranted" : "analyticsConsentRejected", {
+        detail: { cookieType: "analytics" },
+      }),
+    );
+    setPhase(granted ? "accepting" : "declining");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Accepting plays the bite before the card leaves; declining just leaves.
+    window.setTimeout(() => setPhase("hidden"), reduced ? 200 : granted ? 1050 : 320);
+  };
+
+  if (phase === "hidden") return null;
+
+  return (
+    <section className={styles.banner} data-phase={phase} aria-labelledby="cookie-banner-title">
+      <svg className={styles.cookie} viewBox="0 0 56 56" aria-hidden="true">
+        <g className={styles.cookieBody}>
+          <circle cx="28" cy="28" r="23" className={styles.dough} />
+          <circle cx="28" cy="28" r="23" className={styles.rim} />
+          <circle cx="20" cy="19" r="3.2" className={styles.chip} />
+          <circle cx="33" cy="16" r="2.4" className={styles.chip} />
+          <circle cx="36" cy="30" r="3.4" className={styles.chip} />
+          <circle cx="22" cy="34" r="2.6" className={styles.chip} />
+          <circle cx="29" cy="41" r="2.2" className={styles.chip} />
+          <circle cx="16" cy="27" r="1.6" className={styles.chip} />
+          {/* Bites are card-coloured circles that grow over the edge. */}
+          <circle cx="47" cy="13" r="8" className={styles.bite} />
+          <circle cx="51" cy="25" r="6.5" className={`${styles.bite} ${styles.biteSecond}`} />
+        </g>
+        <circle cx="44" cy="30" r="1.6" className={styles.crumb} />
+        <circle cx="48" cy="33" r="1.2" className={`${styles.crumb} ${styles.crumbTwo}`} />
+        <circle cx="41" cy="35" r="1" className={`${styles.crumb} ${styles.crumbThree}`} />
+      </svg>
+
+      <div className={styles.content}>
+        <h2 id="cookie-banner-title" className={styles.title}>
+          Cookies, just the one kind
+        </h2>
+        <p className={styles.text}>
+          I use Microsoft Clarity to see which pages people read and where they get stuck. It only runs if you say yes.{" "}
+          <Link href="/cookie-policy/" className={styles.policy}>
+            Cookie policy
+          </Link>
+        </p>
+        <div className={styles.actions}>
+          <button ref={acceptRef} type="button" className={styles.accept} onClick={() => choose(true)}>
+            Sounds good
+          </button>
+          <button type="button" className={styles.decline} onClick={() => choose(false)}>
+            No thanks
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/** Footer entry point for changing the choice later. */
+export function CookieSettingsButton({ className }: { className?: string }) {
+  return (
+    <button type="button" className={className} onClick={() => window.dispatchEvent(new Event(OPEN_EVENT))}>
+      Cookie settings
+    </button>
+  );
 }

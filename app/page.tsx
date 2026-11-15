@@ -72,7 +72,7 @@ export default async function HomePage() {
               href={withBasePath("/projects/yadl/")}
               aria-label="YADL case study: design-system variable collections"
             >
-              <img src={withBasePath("/projects/yadl/ready-to-analyze.jpg")} alt="YADL plugin, ready to analyze" />
+              <img src={withBasePath("/projects/yadl/ready-to-analyze.jpg")} alt="YADL plugin, ready to analyze" loading="lazy" decoding="async" />
             </a>
             <a
               className={`${styles.heroLink} ${styles.heroShipped}`}
@@ -82,10 +82,19 @@ export default async function HomePage() {
               <img
                 src={withBasePath("/projects/adtraction-brands/new-brands.jpg")}
                 alt="Adtraction brands platform"
+                loading="lazy"
+                decoding="async"
               />
             </a>
-            <img className={styles.heroKeyboard} src={withBasePath("/images/hero/apple-keyboard.png")} alt="" />
-            <img className={styles.heroHand} src={withBasePath("/images/hero/ipad-hand-cramer.png")} alt="" />
+            <img className={styles.heroKeyboard} src={withBasePath("/images/hero/apple-keyboard.webp")} alt="" loading="lazy" decoding="async" />
+            <img
+              className={styles.heroHand}
+              src={withBasePath("/images/hero/ipad-hand-cramer-1640.webp")}
+              srcSet={`${withBasePath("/images/hero/ipad-hand-cramer-960.webp")} 960w, ${withBasePath("/images/hero/ipad-hand-cramer-1640.webp")} 1640w`}
+              sizes="(max-width: 767px) 124vw, 820px"
+              alt=""
+              fetchPriority="high"
+            />
           </PointerParallax>
       </Section>
 

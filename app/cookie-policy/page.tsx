@@ -12,7 +12,7 @@ export default function CookiePolicyPage() {
   return (
     <div>
       <Section variant="hero" width="content" className={styles.hero}>
-        <h1>Cookie Policy</h1>
+        <h1>Cookie policy</h1>
         <p className={styles.intro}>
           This Cookie Policy explains how we use cookies and similar tracking
           technologies on our website. By using our website, you consent to the
@@ -22,7 +22,7 @@ export default function CookiePolicyPage() {
 
       <Section width="content" className={styles.content}>
         <div className={styles.section}>
-          <h2>What Are Cookies?</h2>
+          <h2>What are cookies?</h2>
           <p>
             Cookies are small text files that are placed on your device when you
             visit a website. They are widely used to make websites work more
@@ -31,7 +31,7 @@ export default function CookiePolicyPage() {
         </div>
 
         <div className={styles.section}>
-          <h2>How We Use Cookies</h2>
+          <h2>How we use cookies</h2>
           <p>
             We use cookies to enhance your browsing experience, analyze site
             traffic, and understand how visitors interact with our website. We
@@ -40,7 +40,7 @@ export default function CookiePolicyPage() {
 
           <div className={styles.cookieTypes}>
             <Card variant="subtle" className={styles.cookieType}>
-              <h3>Necessary Cookies</h3>
+              <h3>Necessary cookies</h3>
               <p>
                 These cookies are essential for the website to function properly.
                 They enable core functionality such as security, network
@@ -55,7 +55,7 @@ export default function CookiePolicyPage() {
             </Card>
 
             <Card variant="subtle" className={styles.cookieType}>
-              <h3>Analytics Cookies</h3>
+              <h3>Analytics cookies</h3>
               <p>
                 These cookies help us understand how visitors interact with our
                 website by collecting and reporting information anonymously. This
@@ -72,7 +72,7 @@ export default function CookiePolicyPage() {
         </div>
 
         <div className={styles.section}>
-          <h2>Third-Party Cookies</h2>
+          <h2>Third-party cookies</h2>
           <p>
             We may use third-party services that set their own cookies. These
             services help us analyze website usage and improve our services:
@@ -86,11 +86,10 @@ export default function CookiePolicyPage() {
         </div>
 
         <div className={styles.section}>
-          <h2>Managing Your Cookie Preferences</h2>
+          <h2>Managing your cookie preferences</h2>
           <p>
-            You can manage your cookie preferences at any time by clicking on
-            the cookie icon in the bottom-right corner of the website. You can
-            choose to accept or reject non-essential cookies.
+            You can manage your cookie preferences at any time by using Cookie settings in the footer of
+            every page. You can choose to accept or reject non-essential cookies.
           </p>
           <p>
             You can also control cookies through your browser settings. Most
@@ -102,7 +101,7 @@ export default function CookiePolicyPage() {
         </div>
 
         <div className={styles.section}>
-          <h2>Updates to This Policy</h2>
+          <h2>Updates to this policy</h2>
           <p>
             We may update this Cookie Policy from time to time to reflect
             changes in our practices or for other operational, legal, or
@@ -112,7 +111,7 @@ export default function CookiePolicyPage() {
         </div>
 
         <div className={styles.section}>
-          <h2>Contact Us</h2>
+          <h2>Contact</h2>
           <p>
             If you have any questions about our use of cookies, please contact
             us at{" "}

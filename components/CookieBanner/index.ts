@@ -1,1 +1,1 @@
-export { CookieBanner } from "./CookieBanner";
+export { CookieBanner, CookieSettingsButton } from "./CookieBanner";

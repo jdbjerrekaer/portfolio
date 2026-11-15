@@ -70,3 +70,12 @@
     }
   }
 }
+
+// "Cookie settings" is a button that reopens the consent card; make it read like the links.
+.linkButton {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}

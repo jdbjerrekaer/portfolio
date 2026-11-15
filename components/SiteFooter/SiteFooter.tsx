@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CookieSettingsButton } from "@/components/CookieBanner";
 import styles from "./SiteFooter.module.scss";
 
 export function SiteFooter() {
@@ -18,8 +19,9 @@ export function SiteFooter() {
             About
           </Link>
           <Link href="/cookie-policy" className={styles.link}>
-            Cookie Policy
+            Cookie policy
           </Link>
+          <CookieSettingsButton className={`${styles.link} ${styles.linkButton}`} />
           <a
             href="mailto:jonatanbjerrekaer@gmail.com"
             className={styles.link}

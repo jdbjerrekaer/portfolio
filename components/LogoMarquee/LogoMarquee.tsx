@@ -18,7 +18,7 @@ function LogoList({ logos, hidden = false }: { logos: ClientLogo[]; hidden?: boo
       {logos.map((logo) => {
         // Eager: lazy loading misjudges images riding a transformed belt, and these are small.
         const image = (
-          <Image src={logo.src} alt={hidden ? "" : logo.alt} width={140} height={70} className={styles.logo} draggable={false} loading="eager" unoptimized />
+          <Image src={logo.src} alt={hidden ? "" : logo.alt} width={140} height={70} className={styles.logo} draggable={false} loading="eager" fetchPriority="low" decoding="async" unoptimized />
         );
         return (
           <li key={logo.name} className={styles.item}>

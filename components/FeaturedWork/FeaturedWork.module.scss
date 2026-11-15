@@ -219,7 +219,8 @@
     transition: transform 1400ms var(--ease-out-strong);
   }
 
-  [data-reveal="out"] .media {
+  [data-reveal="out"] .media,
+  .media[data-reveal="out"] {
     clip-path: inset(9% 7% 9% 7% round var(--radius-lg));
   }
 
@@ -235,7 +236,8 @@
     transition: none;
   }
 
-  [data-reveal="out"] .media {
+  [data-reveal="out"] .media,
+  .media[data-reveal="out"] {
     clip-path: inset(0 round var(--radius-lg));
   }
 
