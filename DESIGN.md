@@ -1,5 +1,5 @@
 ---
-version: 2
+version: 3
 name: Jonatan Portfolio Design Language
 source: YADL dd51730
 font: Open Runde
@@ -12,6 +12,8 @@ iconography:
 
 The portfolio is an editorial expression of YADL's design language. It keeps YADL's type, color, spacing and interaction feedback, but lays pages out like a printed index: ruled lines, big headings and content that sits on the page instead of inside cards.
 
+The code is the source of truth for exact values. Each row below names the file that holds them; update this file when a pattern changes, not when a number is tuned.
+
 ## Foundations
 
 - Use Open Runde at 400, 500, and 600. Headings use 600; supporting copy uses 400.
@@ -23,19 +25,47 @@ The portfolio is an editorial expression of YADL's design language. It keeps YAD
 
 ## Layout
 
+### Page frame
+
+| Token | Value | Where |
+| --- | --- | --- |
+| Content width | `--max-width: 1200px` | `styles/globals.scss` |
+| Side gutter | `--space-lg` (24px), `--space-md` (16px) at 768px and below | `components/ui/Section`, page modules |
+| Header height | `--header-height: 64px`; sticky intros sit `1.5rem` to `2rem` below it | `styles/globals.scss` |
+| Section spacing | `clamp(4rem, 8vw, 7rem)` top and bottom; the subtle variant runs larger | `components/ui/Section`, `app/about/page.module.scss` |
+| Breakpoints | 1000px (case-study list hides), 860px (splits stack), 768px (gutter, hero), 640px (phones: tab bar, single columns) | per module |
+
+### Type scale
+
+| Role | Size | Tracking | Where |
+| --- | --- | --- | --- |
+| Hero headline | `clamp(2.75rem, 7.6vw, 7rem)`, line-height 0.95 | `-0.045em` | `app/page.module.scss` |
+| Page title (case study) | `clamp(2.75rem, 7vw, 6rem)` | `-0.05em` | `app/projects/[slug]/page.module.scss` |
+| Statement (about) | `clamp(2.5rem, 6.4vw, 5.5rem)` | `-0.05em` | `app/about/page.module.scss` |
+| Lead quote | `clamp(1.75rem, 4.2vw, 3.5rem)`, weight 500 | `-0.035em` | `components/Testimonials` |
+| Next-link title | `clamp(2rem, 5vw, 4rem)` | `-0.05em` | `app/projects/[slug]/page.module.scss` |
+| Section heading | `SectionHeader` h2 | global | `components/ui/SectionHeader` |
+| Lede and summaries | `clamp(1.125rem, 1.6vw, 1.5rem)`, max 44 to 46ch | `-0.01em` to `-0.015em` | page modules |
+| Body and row text | `0.9375rem` to `1.0625rem`, line-height 1.5 to 1.7, max 65ch | default | page modules |
+| Labels, years, counts | `0.8125rem` to `0.9375rem`, tertiary, `tabular-nums` | default | page modules |
+
+Tight tracking also shrinks word spaces; display text built from word spans adds `word-spacing: 0.1em` back.
+
+### Structure
+
 - No card containers for lists of content. Separate items with a 1px rule (`--color-border-strong` above a group, `--color-border` between rows) and whitespace.
-- Display headings are large and tight: weight 600, letter-spacing around `-0.05em`, line-height under 1. Body copy stays around 46 to 65ch.
-- Index sections use a 4fr/7fr split: a sticky intro (heading, count, one-line description) on the left, the list on the right. Below 860px it stacks and the intro stops sticking.
+- Section headings stand alone. Do not add a one-line description under every heading; it restates the heading and reads as generated. If a fact matters (the group is university work, the clips are bareknuckle karate), put it in the heading itself.
+- Index sections use a 4fr/7fr split: a sticky intro (heading and a two-digit count) on the left, the list on the right. Below 860px it stacks and the intro stops sticking.
+- The hero, page titles and statements are left-aligned, with a rule underneath that splits into supporting text on the left and one action on the right. Never repeat the header navigation as hero buttons.
 - Facts and metadata are ruled `dl` columns (label in tertiary text, value below), not grey boxes or tag pills.
-- Large tight headings built from inline-block word spans need `text-indent: 0` on the spans; the paragraph's indent is inherited and shifts every word.
 - Every long page ends somewhere: the case study closes with a "Next case study" link, the home and about pages with the availability block.
 
 ## Components
 
 - `Section`: `default`, `subtle`, `hero`; widths `wide`, `content`, `prose`.
-- `SectionHeader`: `stacked`, `split`, `centered`.
+- `SectionHeader`: `stacked`, `split`, `centered`. Title only by default.
 - `ActionLink`: `inline`, `back`, `external`.
-- `Button`: `primary`, `secondary`.
+- `Button`: `primary`, `secondary`. Rarely needed now; prefer a text link with an arrow circle.
 - `Reveal` (`components/Reveal`): scroll reveal wrapper; children opt in with `.reveal-item` and `stagger(i)`.
 - `ProjectRowList` (`components/FeaturedWork`): big numbered case-study rows with cover reveal and cursor label, used on the home and projects pages.
 - `LogoMarquee`: two linear rows of client logos, replacing the static logo grid.
@@ -44,17 +74,57 @@ The portfolio is an editorial expression of YADL's design language. It keeps YAD
 
 Do not add a variant until a real screen needs it.
 
-## Icons and motion
+## Motion
 
-- Use Animate UI icons for interaction feedback and Lucide for static gaps. Animate on hover, activation, success, or progress, not merely because an icon exists.
-- Easing: `--ease-out-strong` (`cubic-bezier(0.23, 1, 0.32, 1)`) for entrances and hover responses, `--ease-in-out-strong` for on-screen movement, `linear` only for constant motion (marquee).
-- Scroll reveal: items fade up 18px from a 6px blur over 700 to 800ms, staggered by `--i`, triggered once when 12% into the viewport. It is gated on `scripting: enabled` so readers without JavaScript see everything.
-- Lead statements (about hero, lead testimonial) blur in word by word with a 28 to 40ms per-word delay so the sentence reads as one gesture.
-- Hover: rows get a soft background wash that settles from `scale(0.98)`; arrow circles fill near-black and may nudge a few pixels; text links draw an underline in from the left; images zoom to about 1.04 to 1.06 over 700 to 900ms. Rows and controls themselves do not move.
-- Press: pressable controls scale to `0.97` to `0.99` on `:active`.
-- State swaps (Copy to Copied) cross-fade labels in one grid cell with a small blur. Keep the swapped labels close in length so the control does not size itself for a label the user rarely sees.
-- Hover effects sit behind `@media (hover: hover) and (pointer: fine)`.
-- Respect `prefers-reduced-motion`: drop transforms and blur, keep a short opacity fade, stop pulsing dots.
+Motion follows Emil Kowalski's approach: it confirms an action, explains a change or lets content arrive. It is never there because a thing could move.
+
+### Easing
+
+| Token | Curve | Use |
+| --- | --- | --- |
+| `--ease-out-strong` | `cubic-bezier(0.23, 1, 0.32, 1)` | Entrances, hover responses, press |
+| `--ease-in-out-strong` | `cubic-bezier(0.77, 0, 0.175, 1)` | Things moving across the screen (tab indicator, cover clip) |
+| `ease` | browser default | Color, background and opacity-only changes |
+| `linear` | | Constant motion only (marquee) |
+
+Never use `ease-in` for UI.
+
+### Patterns
+
+| Pattern | Trigger | Properties | Duration | Easing | Reduced motion | Where |
+| --- | --- | --- | --- | --- | --- | --- |
+| Scroll reveal | Block 12% into view, once | opacity, translateY 18px, blur 6px | 700 to 800ms, +70ms per item | out-strong | Opacity only, 300ms | `styles/globals.scss`, `components/Reveal` |
+| Hero words | Page load | opacity, translateY 0.25em, blur 8px | 800ms, +45ms per word | out-strong | None | `app/page.module.scss` |
+| Lead statement words | Reveal | same as hero words | 600 to 800ms, +28 to 40ms per word | out-strong | Opacity only | `components/Testimonials`, `app/about/page.module.scss` |
+| Row hover wash | Hover (fine pointer) | background opacity, scale 0.98 to 1 | 200 / 300ms | ease / out-strong | No scale | `components/WritingSection`, `app/projects/page.module.scss` |
+| Arrow circle | Hover on its row or link | fill near-black, nudge 4 to 6px right | 200ms color, 300ms move | ease / out-strong | Not handled yet: the nudge still eases | hero, guides, projects index, next case study |
+| Underline draw | Hover or focus | `background-size` 0 to 100% | 300 to 450ms | out-strong | Kept (no movement) | case-study links, CTA links, email |
+| Image zoom | Hover on its row | scale 1.04 to 1.06 | 700 to 900ms | out-strong | Instant (no transition) | project rows, prints, next case study |
+| Cover reveal | Row hover | `clip-path` inset to 0, image scale 1.16 to 1 | 1100 / 1400ms | in-out-strong / out-strong | Shown fully, no transition | `components/FeaturedWork` |
+| Cursor label | Pointer over featured rows | position, scale 0.6 to 1 | spring (stiffness 500, damping 40, mass 0.5) | spring | Hidden | `components/FeaturedWork` |
+| Press | `:active` | scale 0.97 to 0.99 (whole control), 0.92 to 0.94 (arrow circles, tab icons) | 160ms | out-strong | Kept | buttons, prints, rows, tab bar |
+| Label swap | State change (Copy to Copied) | opacity, blur 4px, translateY 6px in one grid cell | 200 to 250ms | ease / out-strong | Cross-fade only, no blur or move | `components/AvailabilityCTA` |
+| Marquee | Always | translateX, hover slows to 0.15x | row length x 3.2s | linear | Static rows, no mask | `components/LogoMarquee` |
+| Status ping | Always | ring scale 1 to 2.6, fade | 2.4s loop | out-strong | Stopped | availability dot, current role |
+| Hero props | Always, plus pointer | idle drift 7px, pointer parallax | 7s loop | ease-in-out | Static pose | `app/page.module.scss`, `components/PointerParallax` |
+| Tab bar (phones) | Load, route change | bar rises in; indicator slides | 500ms / 420ms | out-strong / in-out-strong | Opacity only | `components/SiteHeader` |
+| Case-study list marker | Section scroll | marker scaleY 0 to 1 | 300ms | out-strong | Instant | `app/projects/[slug]` |
+
+### Do not animate
+
+- Anything triggered from the keyboard, or anything a visitor repeats many times in a row.
+- Layout properties (`width`, `height`, `margin`, `top`). Animate `transform`, `opacity`, `filter`, `clip-path` and `background-size` only.
+- Rows, cards or buttons moving on hover. The decoration inside them (wash, arrow, image) responds; the thing itself stays put.
+- New constant motion. The marquee, status ping and hero props are the only loops on the site.
+- Above-the-fold content on scroll reveal. The hero animates on load instead.
+- Hover effects without `@media (hover: hover) and (pointer: fine)`; touch screens get the press state only.
+- Blur over 8px, or blur on large moving areas.
+
+### Gotchas
+
+- Inline-block word spans inherit `text-indent`; set `text-indent: 0` on them or a hanging indent shifts every word into its neighbour.
+- Swapped labels share one grid cell, so the widest label sets the control's width. Keep them close in length.
+- Scroll reveal only fires on scroll; content skipped by a long jump stays hidden until it is scrolled back into view.
 
 ## Phones
 
@@ -66,4 +136,4 @@ Do not add a variant until a real screen needs it.
 
 - Canonical baseline: `/home/jonatan/projects/Yet-Another-Design-Linter`, `origin/main` at `dd51730`.
 - Portfolio adaptation approved 2026-07-15: shared YADL language, editorial layout preserved, Animate UI and Lucide used site-wide.
-- Editorial redesign 2026-11-15 (commit `5c029fa`, branch `redesign/home-sections`): card grids removed from home, projects, case study and about pages after Jonatan rejected them as generic; motion follows Emil Kowalski's restrained approach.
+- Editorial redesign 2026-11-15 (branch `redesign/home-sections`): card grids removed from home, projects, case study and about pages after Jonatan rejected them as generic. Section subtitles were removed on the same day for the same reason.
