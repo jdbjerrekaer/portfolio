@@ -419,10 +419,3 @@ a {
   }
 }
 
-
-// Lift the third-party cookie-settings button above the phone tab bar (SiteHeader).
-@media (max-width: 640px) {
-  #silktide-cookie-icon {
-    bottom: calc(env(safe-area-inset-bottom) + 92px) !important;
-  }
-}
