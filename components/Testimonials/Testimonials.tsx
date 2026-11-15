@@ -104,10 +104,7 @@ export function Testimonials({ testimonials = sourcedTestimonials }: { testimoni
 
   return (
     <Section variant="subtle" className={styles.testimonials}>
-      <SectionHeader
-        title="What people say"
-        description="Feedback from the developers, designers and partners I have built the platform with."
-      />
+      <SectionHeader title="What people say" />
 
       <Reveal as="figure" className={styles.lead}>
         <blockquote className={styles.leadQuote}>

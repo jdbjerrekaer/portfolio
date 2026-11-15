@@ -55,13 +55,13 @@ export default function AboutPage() {
       </Section>
 
       <Section className={styles.contentSection}>
-        <SectionHeader title="Background" description="Where I come from, and what I do when I am not designing." />
+        <SectionHeader title="Background" />
         <BackgroundCards />
         <KarateClips />
       </Section>
 
       <Section variant="subtle" className={styles.contentSection}>
-        <SectionHeader title="How I work" description="How I take a feature from a messy problem to something shipped." />
+        <SectionHeader title="How I work" />
         <ApproachList />
       </Section>
 

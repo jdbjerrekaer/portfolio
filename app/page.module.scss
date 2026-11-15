@@ -54,36 +54,58 @@
   z-index: 2;
   display: grid;
   grid-template-columns: minmax(0, 1fr); // keeps percentage/fit-content children
-  justify-items: center; // constrained to the track instead of the grid's max-content
-  justify-self: center;
-  width: min(100%, 1080px);
+  justify-items: start;
+  width: 100%;
   margin: 0 auto;
-  text-align: center;
 }
 
+// Editorial headline: big, tight, left-aligned, blurring in word by word like the about statement.
 .heroTitle {
-  width: 100%; // grid item with justify-self:center would shrink-to-fit and
-  max-width: 960px; // overflow once text-wrap:balance widens the box past the viewport
-  margin-bottom: var(--space-lg);
-  font-size: 4rem;
-  letter-spacing: 0;
-  opacity: 0;
-  transform: translate3d(0, 12px, 0) scale(0.985);
-  animation: heroEnter 560ms var(--ease-out) 120ms both;
+  width: 100%;
+  max-width: 15ch;
+  margin: 0 0 clamp(2rem, 4vw, 3.5rem);
+  font-size: clamp(2.75rem, 7.6vw, 7rem);
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  // Tight tracking also shrinks the spaces between the inline-block words; give them back.
+  word-spacing: 0.1em;
+}
+
+.heroWord {
+  display: inline-block;
+  text-indent: 0;
+  animation: heroWordIn 800ms var(--ease-out-strong) calc(var(--w, 0) * 45ms + 100ms) both;
+}
+
+@keyframes heroWordIn {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(0.25em);
+  }
+}
+
+// Rule under the headline: subtitle on the left, the one call to action on the right.
+.heroMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-lg) var(--space-2xl);
+  width: 100%;
+  padding-top: clamp(1.25rem, 2.5vw, 2rem);
+  border-top: 1px solid var(--color-border-strong);
+  animation: heroEnter 800ms var(--ease-out-strong) 520ms both;
 }
 
 .heroSubtitle {
-  width: 100%; // same shrink-to-fit guard as .heroTitle
-  max-width: 760px;
-  font-size: 1.5rem;
-  line-height: 1.4;
+  max-width: 44ch;
+  margin: 0;
+  font-size: clamp(1.125rem, 1.6vw, 1.375rem);
+  line-height: 1.5;
   color: var(--color-text-secondary);
-  margin-bottom: var(--space-lg);
   font-weight: 400;
-  letter-spacing: 0;
-  opacity: 0;
-  transform: translate3d(0, 12px, 0) scale(0.985);
-  animation: heroEnter 560ms var(--ease-out) 220ms both;
+  letter-spacing: -0.01em;
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -91,20 +113,58 @@
 }
 
 .heroCta {
-  display: flex;
-  width: 100%; // same shrink-to-fit guard; buttons wrap inside the container
-  gap: var(--space-md);
-  justify-content: center;
-  flex-wrap: wrap;
-  opacity: 0;
-  transform: translate3d(0, 12px, 0) scale(0.985);
-  animation: heroEnter 520ms var(--ease-out) 340ms both;
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--color-text-primary);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 6px;
+    border-radius: var(--radius-full);
+  }
+}
+
+// Same arrow circle as the guides and next-case-study links: fills dark and nudges on hover.
+.heroArrow {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px var(--color-border-strong);
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    box-shadow 200ms ease,
+    transform 300ms var(--ease-out-strong);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .heroCta:hover .heroArrow {
+    background: var(--color-text-primary);
+    color: #fff;
+    box-shadow: none;
+    transform: translateX(4px);
+  }
+}
+
+.heroCta:active .heroArrow {
+  transform: scale(0.94);
 }
 
 @keyframes heroEnter {
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
+  from {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(18px);
   }
 }
 
@@ -114,6 +174,7 @@
   z-index: 1;
   width: min(820px, 100%);
   aspect-ratio: 2532 / 1424;
+  justify-self: center;
   margin-top: var(--hero-air); // same air as above the title, set on .hero
   margin-bottom: -2px; // hide the photo's straight cut edge under the section edge
   opacity: 0;
@@ -293,24 +354,8 @@
     border-radius: 0 0 48px 48px;
   }
 
-  .heroContent {
-    justify-items: center;
-    text-align: center;
-  }
-
-  .heroSubtitle {
-    margin-bottom: var(--space-md);
-    font-size: 1.0625rem;
-  }
-
   .heroTitle {
-    margin-bottom: var(--space-md);
-    font-size: 2.75rem;
-    line-height: 1.08;
-  }
-
-  .heroCta {
-    justify-content: center;
+    margin-bottom: var(--space-lg);
   }
 
   .heroStage {
@@ -326,16 +371,6 @@
 // Phones: the side cards shrink to unreadable crumbs and the CTA buttons
 // overflow the row, so go full-width stacked and keep only the scene photo.
 @media (max-width: 640px) {
-  .heroTitle {
-    font-size: 2.25rem;
-  }
-
-  .heroCta {
-    flex-direction: column;
-    align-items: stretch;
-    max-width: 22rem;
-  }
-
   .heroPanel,
   .heroShipped {
     display: none;
@@ -347,13 +382,17 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .heroTitle,
-  .heroSubtitle,
-  .heroCta,
+  .heroWord,
+  .heroMeta,
   .heroStage {
     opacity: 1;
     transform: none;
+    filter: none;
     animation: none;
+  }
+
+  .heroArrow {
+    transition: background-color 200ms ease, color 200ms ease;
   }
 
   .heroHand,

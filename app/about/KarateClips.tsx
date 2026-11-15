@@ -34,8 +34,7 @@ export function KarateClips() {
   return (
     <Reveal id="karate" className={styles.karate}>
       <div className={`${styles.subhead} reveal-item`}>
-        <h3>On the mat</h3>
-        <p>Bareknuckle full-contact karate: a few moments from tournaments I&apos;ve fought in.</p>
+        <h3>Bareknuckle full-contact karate</h3>
       </div>
       <div className={styles.karateGrid}>
         {clips.map((clip, index) => (

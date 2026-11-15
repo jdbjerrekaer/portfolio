@@ -1,5 +1,7 @@
 import Link from "next/link";
-import { Button, Section, Tooltip } from "@/components/ui";
+import type { CSSProperties } from "react";
+import { Icon, Section, Tooltip } from "@/components/ui";
+import { AnimatedLink } from "@/components/AnimatedLink";
 import { FeaturedWork } from "@/components/FeaturedWork";
 import { DesignCarousel } from "@/components/DesignCarousel";
 import { LogoMarquee } from "@/components/LogoMarquee";
@@ -14,6 +16,8 @@ import { PointerParallax } from "@/components/PointerParallax";
 import { HeroGrid } from "@/components/HeroGrid";
 import { withBasePath } from "@/lib/utils/paths";
 import styles from "./page.module.scss";
+
+const HEADLINE = "I design interfaces that developers actually want to build.".split(" ");
 
 export default async function HomePage() {
   // Get featured projects from actual project files
@@ -36,8 +40,13 @@ export default async function HomePage() {
     <div className={styles.page}>
       <Section variant="hero" className={styles.hero} innerClassName={styles.heroContent} prepend={<HeroGrid />}>
           <h1 className={styles.heroTitle}>
-            I design interfaces that developers actually want to build.
+            {HEADLINE.map((word, index) => (
+              <span key={index}>
+                <span className={styles.heroWord} style={{ "--w": index } as CSSProperties}>{word}</span>{" "}
+              </span>
+            ))}
           </h1>
+          <div className={styles.heroMeta}>
           <p className={styles.heroSubtitle}>
             10+ years of{" "}
             <Tooltip
@@ -50,23 +59,12 @@ export default async function HomePage() {
             </Tooltip>{" "}
             discipline applied to product design, bridging the gap between Figma and the codebase.
           </p>
-          <div className={styles.heroCta}>
-            <Button href="/projects/" variant="primary" size="lg" icon="folder" iconPosition="right">
-              View Projects
-            </Button>
-            <Button href="/about/" variant="secondary" size="lg" icon="user" iconPosition="right">
-              About Me
-            </Button>
-            <Button
-              href="https://github.com/jdbjerrekaer"
-              target="_blank"
-              rel="noopener noreferrer"
-              variant="secondary"
-              size="lg"
-              icon="arrow-up-right"
-            >
-              GitHub
-            </Button>
+          <AnimatedLink href="/projects/" className={styles.heroCta}>
+            View projects
+            <span className={styles.heroArrow} aria-hidden="true">
+              <Icon name="arrow-right" size={18} />
+            </span>
+          </AnimatedLink>
           </div>
           <PointerParallax className={styles.heroStage}>
             <a
@@ -108,7 +106,6 @@ export default async function HomePage() {
       <LogoMarquee
         logos={clientLogos}
         title="Who I’ve worked with"
-        description="From large international brands to local Danish, Swedish, Norwegian and Finnish companies, across the Nordic region and beyond."
       />
 
       {/* Availability CTA Section */}

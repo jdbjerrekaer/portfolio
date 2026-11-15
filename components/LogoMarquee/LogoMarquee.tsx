@@ -10,7 +10,6 @@ import styles from "./LogoMarquee.module.scss";
 interface LogoMarqueeProps {
   logos: ClientLogo[];
   title: string;
-  description: string;
 }
 
 function LogoList({ logos, hidden = false }: { logos: ClientLogo[]; hidden?: boolean }) {
@@ -37,7 +36,7 @@ function LogoList({ logos, hidden = false }: { logos: ClientLogo[]; hidden?: boo
   );
 }
 
-export function LogoMarquee({ logos, title, description }: LogoMarqueeProps) {
+export function LogoMarquee({ logos, title }: LogoMarqueeProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const tweenRef = useRef(0);
 
@@ -64,7 +63,7 @@ export function LogoMarquee({ logos, title, description }: LogoMarqueeProps) {
     <Section className={styles.section}>
       <Reveal className={styles.header}>
         <div className="reveal-item">
-          <SectionHeader title={title} description={description} />
+          <SectionHeader title={title} />
         </div>
         <p className={`${styles.stat} reveal-item`} style={stagger(1)}>
           <span className={styles.statNumber}>{logos.length}</span>

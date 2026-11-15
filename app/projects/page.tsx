@@ -22,17 +22,14 @@ const GROUPS = [
   {
     key: "product",
     title: "Product and client work",
-    description: "Product design at Adtraction, from design systems and motion to AI interfaces, plus a UX redesign for a client.",
   },
   {
     key: "ai",
-    title: "AI and automation",
-    description: "Personal AI agents I built and run for myself.",
+    title: "Personal AI agents",
   },
   {
     key: "earlier",
-    title: "Earlier work",
-    description: "University projects, kept for context.",
+    title: "University projects",
   },
 ] as const;
 
@@ -97,10 +94,7 @@ export default async function ProjectsPage() {
 
       {start.length > 0 && (
         <Section variant="subtle" className={styles.start}>
-          <SectionHeader
-            title="Start here"
-            description="The quickest way in: a design-system plugin for Figma and two mobile apps."
-          />
+          <SectionHeader title="Start here" />
           <ProjectRowList projects={start} />
         </Section>
       )}
@@ -116,7 +110,6 @@ export default async function ProjectsPage() {
                   {group.title}
                   <span className={styles.count}>{pad(items.length)}</span>
                 </h2>
-                <p className="reveal-item" style={stagger(1)}>{group.description}</p>
               </header>
               <ul className={styles.items} aria-labelledby={`group-${group.key}`}>
                 {items.map((project, index) => (
@@ -131,7 +124,6 @@ export default async function ProjectsPage() {
       <LogoMarquee
         logos={clientLogos}
         title="Clients and collaborators"
-        description="From large international brands to local Danish, Swedish, Norwegian and Finnish companies, across the Nordic region and beyond."
       />
     </div>
   );

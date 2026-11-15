@@ -44,7 +44,7 @@ const projectSchema = z.object({
   demoAnchor: z.string().optional().default("live-demo"),
   // Interactive demo hoisted straight under the case study header, before the
   // video and gallery. Props map onto CramerDemoFrame; src is relative to the
-  // case study page URL (e.g. "../../demos/yadl/").
+  // case study page URL (e.g. "../../demos/yadl/index.html"; name the file, next dev does not serve folder indexes).
   heroDemo: z
     .object({
       src: z.string(),

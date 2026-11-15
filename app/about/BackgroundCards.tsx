@@ -59,7 +59,6 @@ export function BackgroundCards() {
       <Reveal className={styles.prints}>
         <div className={`${styles.subhead} reveal-item`}>
           <h3>Things I have 3D printed</h3>
-          <p>Small fixes for small annoyances at home.</p>
         </div>
         <ul className={styles.printStrip}>
           {galleryImages.map((image, index) => (

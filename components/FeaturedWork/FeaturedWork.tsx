@@ -140,7 +140,6 @@ export function FeaturedWork({ projects }: { projects: FeaturedWorkItem[] }) {
     <Section variant="subtle" className={styles.featured}>
       <SectionHeader
         title="Featured projects"
-        description="Selected work showing how I connect UX, design systems, implementation and product quality."
         variant="split"
         action={<ActionLink href="/projects/" icon="folder">View all projects</ActionLink>}
       />

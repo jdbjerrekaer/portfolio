@@ -16,10 +16,7 @@ export function WritingSection() {
   return (
     <Section className={styles.writing} innerClassName={styles.layout}>
       <div className={styles.intro}>
-        <SectionHeader
-          title="Technical guides I wrote for Adservice partners"
-          description="Implementation guides for tracking, integrations and campaign tooling, written for partners wiring the platform up themselves."
-        />
+        <SectionHeader title="Technical guides I wrote for Adservice partners" />
       </div>
 
       <div className={styles.groups}>

@@ -8,7 +8,7 @@ export function RolesCards() {
   return (
     <div className={styles.split}>
       <div className={styles.splitIntro}>
-        <SectionHeader title="Recent roles" description="From UX audits at an agency to owning product design at Adtraction." />
+        <SectionHeader title="Recent roles" />
       </div>
       <Reveal as="ol" className={styles.roles}>
         {roleCards.map((card, index) => {

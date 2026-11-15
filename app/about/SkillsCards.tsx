@@ -8,7 +8,7 @@ export function SkillsCards() {
   return (
     <div className={styles.split}>
       <div className={styles.splitIntro}>
-        <SectionHeader title="Skills" description="Design, code and the product work in between." />
+        <SectionHeader title="Skills" />
       </div>
       <Reveal className={styles.ledger}>
         {skillCards.map((card, index) => (
