@@ -143,6 +143,18 @@
 .toc {
   position: sticky;
   top: calc(var(--header-height) + 2rem);
+  transition:
+    opacity 200ms ease,
+    visibility 0s;
+
+  // A wide demo is passing under the list: fade out, then drop it from the tab order.
+  &[data-covered] {
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 200ms ease,
+      visibility 0s 200ms;
+  }
 
   ol {
     list-style: none;
