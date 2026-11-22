@@ -9,6 +9,7 @@ export function useCenteredWide(ref: RefObject<HTMLElement | null>, maxWidth: nu
   useLayoutEffect(() => {
     const el = ref.current;
     if (!enabled || !el) return;
+    el.dataset.wide = ""; // CaseStudyToc hides while a wide block passes under it
     const fit = () => {
       el.style.width = "";
       el.style.marginLeft = "";
@@ -20,6 +21,9 @@ export function useCenteredWide(ref: RefObject<HTMLElement | null>, maxWidth: nu
     };
     fit();
     window.addEventListener("resize", fit);
-    return () => window.removeEventListener("resize", fit);
+    return () => {
+      window.removeEventListener("resize", fit);
+      delete el.dataset.wide;
+    };
   }, [ref, maxWidth, enabled]);
 }
